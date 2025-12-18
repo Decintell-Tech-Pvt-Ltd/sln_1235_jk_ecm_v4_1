@@ -1,0 +1,349 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.ItemMaster
+@{
+	ViewData["Title"] = "Requests";
+	Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+	<section class="content-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-4">
+					<h5>
+						Recycle
+
+					</h5>
+				</div>
+				<div class="col-lg-8">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+						<li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+						<li class="breadcrumb-item active">Item Master</li>
+					</ol>
+				</div>
+				<div class="col-lg-12">
+
+
+					<div class="btnwidth50 float-right mr-1">
+
+						<a  id="btnBack"
+								class="btn btn-block bg-gradient-danger btn-xs"
+								onClick="history.back()"
+								title="Go back to the previous page">
+							Back
+						</a>
+
+					</div>
+					<div class="btnwidth60 float-right mr-1">
+						<a
+								class="btn btn-primary btn-xs"
+						   id="btnNewSet" href="@Url.Action("Newsetproductiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), Status = "SET" })"
+								title="Go to the next page">
+							New SET
+						</a>
+
+
+					</div>
+					<div class="btnwidth60 float-right mr-1">
+						<a 
+								class="btn btn-primary btn-xs"
+						   id="btnNewSKU" href="@Url.Action("Productiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), Status = "SKU" })"
+								title="Go to the next page">
+							New SKU
+						</a>
+
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div><!-- /.container-fluid -->
+	</section>
+
+	<section class="content">
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card card-primary card-tabs p-a-2" style="height: 100%;">
+						<div class="card-header p-0 pt-1">
+							<ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+								<li class="nav-item">
+									<a href="@Url.Action("ItemMasterIndex", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" class="nav-link">
+										Item Master
+
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="@Url.Action("SKUMastersearch", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" class="nav-link">
+										SKU Master Search
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="@Url.Action("comingsoon", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" class="nav-link">
+										Coming Soon
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="@Url.Action("Rawmaterial", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" class="nav-link">
+										Raw Material
+									</a>
+								</li>
+								<li class="nav-item">
+									<a href="@Url.Action("Requests", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" class="nav-link active">
+										Recycle
+									</a>
+								</li>
+
+							</ul>
+
+						</div>
+
+						<div class="card-body">
+
+
+
+							<div class="table-responsive">
+								<table class="table table-bordered example1">
+									<thead>
+										<tr>
+											<th><div align="center">Request No.</div></th>
+											<th><div align="left">Created by</div></th>
+											<th><div align="center">Request Creation Date</div></th>
+											<th><div align="left">Status</div></th>
+											<th><div align="center">Copy</div></th>
+										</tr>
+									</thead>
+									<tbody>
+										@if (Model.WithdrawnRequestsList != null)
+										{
+											@foreach (var item in Model.WithdrawnRequestsList)
+											{
+												<tr>
+													<td class="text-center">
+														 <a href="#" onclick="RedirectToViewRequest(@item.Id);" style="color: blue; cursor: pointer;">
+															@item.RequestNo
+														</a>
+													</td>
+													<td class="text-center">@item.CreatedBy</td>
+													<td class="text-center">@item.CreationDate</td>
+													<td class="text-center">@item.RequestStatusName</td>
+													<td>
+														<div class="td-center">
+															<a onclick="AddCloneAndAmendRequest(@item.Id,'@item.RequestNo')" href="#"
+														class="btn btn-primary btn-xs btnwidth50" title="Copy the selected item">Copy</a></div></td>
+												</tr>
+											}
+										}
+									</tbody>
+									@* <tbody>
+										<tr>
+											<td class="text-center"><div align="center">S-003282</div></td>
+											<td class="text-center"><div align="left">sangita@brainlines.net</div></td>
+											<td class="text-center"><div align="center">14-10-2024</div></td>
+											<td class="text-center"><div align="left">WithDrawn</div></td>
+											<td>
+												<center>
+													<button type="button"
+															class="btn btn-primary btn-xs btnwidth50"
+															title="Copy the selected item"
+															onclick="location.href='Change-Notes.html'">
+														Copy
+													</button>
+
+												</center>
+											</td>
+										</tr>
+										<tr>
+											<td class="text-center"><div align="center">N-003299</div></td>
+											<td class="text-center"><div align="left">sangita@brainlines.net</div></td>
+											<td class="text-center"><div align="center">24-10-2024</div></td>
+											<td class="text-center"><div align="left">WithDrawn</div></td>
+											<td>
+												<center>
+													<button type="button"
+															class="btn btn-primary btn-xs btnwidth50"
+															title="Copy the selected item"
+															onclick="location.href='Change-Notes.html'">
+														Copy
+													</button>
+												</center>
+											</td>
+										</tr>
+										<tr>
+											<td class="text-center"><div align="center">N-003380</div></td>
+											<td class="text-center"><div align="left">sangita@brainlines.net</div></td>
+											<td class="text-center"><div align="center">15-05-2025</div></td>
+											<td class="text-center"><div align="left">WithDrawn</div></td>
+											<td>
+												<center>
+													<button type="button"
+															class="btn btn-primary btn-xs btnwidth50"
+															title="Copy the selected item"
+															onclick="location.href='Change-Notes.html'">
+														Copy
+													</button>
+												</center>
+											</td>
+										</tr>
+										<tr>
+											<td class="text-center"><div align="center">N-003388</div></td>
+											<td class="text-center"><div align="left">sangita@brainlines.net</div></td>
+											<td class="text-center"><div align="center">06-12-2024</div></td>
+											<td class="text-center"><div align="left">WithDrawn</div></td>
+											<td>
+												<center>
+													<button type="button"
+															class="btn btn-primary btn-xs btnwidth50"
+															title="Copy the selected item"
+															onclick="location.href='Change-Notes.html'">
+														Copy
+													</button>
+												</center>
+											</td>
+										</tr>
+										<tr>
+											<td class="text-center"><div align="center">A-003417</div></td>
+											<td class="text-center"><div align="left">sangita@brainlines.net</div></td>
+											<td class="text-center"><div align="center">06-01-2025</div></td>
+											<td class="text-center"><div align="left">WithDrawn</div></td>
+											<td>
+												<center>
+													<button type="button"
+															class="btn btn-primary btn-xs btnwidth50"
+															title="Copy the selected item"
+															onclick="location.href='Change-Notes.html'">
+														Copy
+													</button>
+												</center>
+											</td>
+										</tr>
+									</tbody> *@
+								</table>
+
+							</div>
+						</div>
+						<!-- /.card -->
+					</div>
+
+
+
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+<script>
+	  var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+	var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+	var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+	var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+	 function RedirectToViewRequest(Id) {
+	   // var url = '@Url.Action("Changenoteproductiondetails", "ChangeNotes")' + '?ReqValue=' + RequestId;
+		  url = '@Url.Action("Changenoteproductiondetails", "ChangeNotes")' +
+				'?PageID=' + pageID +
+				'&ParentID=' + parentID +
+				'&ModuleID=' + moduleID +
+				'&ModulePageID=' + modulePageID +
+				'&ReqValue=' + Id;
+		window.location.href = url;
+	}
+
+	function AddCloneAndAmendRequest(Id,RequestID) {
+			let input = RequestID;
+	let parts = input.split("-");
+	
+		var JsonData = {
+			TxnRequestId:Id,
+			Requesttype:parts[0],
+			Type: 'Copy'
+		};
+		var JsonData = JSON.stringify(JsonData);
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("AddCloneAndAmendRequest", "ItemMaster")',
+			data: { JsonData: JsonData },
+			datatype: 'json',
+			success: function (data1) {
+
+				var NewTxnRequestId = data1.newTxnRequestId;
+				var JsonData1 = {
+					NewTxnRequestId: NewTxnRequestId,
+					TxnRequestId: Id
+						};
+				var JsonData1 = JSON.stringify(JsonData1);
+				$.ajax({
+					type: 'POST',
+					url: '@Url.Action("AddCloneAndAmendImagesRequest", "ItemMaster")',
+					data: { JsonData1: JsonData1 },
+					datatype: 'json',
+					success: function (data) {
+
+						// Loop through SampleImageCopy
+						if(data.cloneAllImagesLists.Sample!=undefined && data.cloneAllImagesLists.Sample!=null){
+						data.cloneAllImagesLists.Sample.forEach(function (item) {
+							copyFile(item.ImageFileName, item.Source_Path, item.Destination_Path);
+						});
+						}
+
+						// Loop through Artwork
+						if(data.cloneAllImagesLists.Artwork!=undefined && data.cloneAllImagesLists.Artwork!=null){
+						data.cloneAllImagesLists.Artwork.forEach(function (item) {
+							copyFile(item.ImageFileName, item.Source_Path, item.Destination_Path);
+						});
+						}
+
+						// Loop through LabelImage
+						if(data.cloneAllImagesLists.LabelImage!=undefined && data.cloneAllImagesLists.LabelImage!=null){
+						data.cloneAllImagesLists.LabelImage.forEach(function (item) {
+							copyFile(item.ImageFileName, item.Source_Path, item.Destination_Path);
+						});
+						}
+
+						alert(data1.response);
+						redirectUrl = '@Url.Action("ChangeNote", "ChangeNotes")' +
+							'?PageID=' + pageID +
+							'&ParentID=' + parentID +
+							'&ModuleID=' + moduleID +
+							'&ModulePageID=' + modulePageID;
+						window.location.href = redirectUrl;
+
+					}
+				});
+			}
+		});
+	}
+	  function copyFile(selectedImageName, selectedPath, targetPath,) {
+		var formData = new FormData();
+
+		formData.append('SourceFilePath', selectedPath + selectedImageName);
+
+		formData.append('TargetFilePath', targetPath + selectedImageName);
+		var JwToken = '@ViewBag.JWTToken';
+		var url1 = '@ViewBag.ApiUrl';
+		$.ajax({
+			url: url1 + 'UploadAndDownLoadFile/copy',
+			headers: {
+				Authorization: 'Bearer ' + JwToken
+			},
+			type: 'POST',
+			data: formData,
+			contentType: false,
+			processData: false,
+			success: function (response) {
+				if (response.success) {
+					console.log('File copied successfully.');
+				} else {
+					console.error('Failed to copy file:', response.error);
+				}
+			},
+			error: function (xhr, status, error) {
+				console.error('AJAX error:', error);
+			}
+		});
+	}
+
+</script>

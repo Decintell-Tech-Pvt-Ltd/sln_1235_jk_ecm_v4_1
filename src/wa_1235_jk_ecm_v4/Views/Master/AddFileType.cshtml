@@ -1,0 +1,545 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.Master
+@{
+    ViewData["Title"] = "AddFileType";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5> File Type</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item active">Master</li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("FileType", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">File Type</a></li>
+                        <li class="breadcrumb-item active">Add</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        @{
+                            var url = Url.Action("FileType", "Master", new
+                            {
+                                PageID = Context.Request.Query["PageID"].ToString(),
+                                ParentID = Context.Request.Query["ParentID"].ToString(),
+                                ModuleID = Context.Request.Query["ModuleID"].ToString(),
+                                ModulePageID = Context.Request.Query["ModulePageID"].ToString()
+                            });
+                        }
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs float-left"
+                                onclick="location.href='@url'"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+            </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline p-a-2" style="height: 100%;">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+
+                            <div class="col-md-12 mr-1">
+
+                                <div class="row">
+                                    <div class="form-group col-md-2">
+                                        <label>File Type</label>
+                                       @*  <input id="txtCustomerCode" type="text" maxlength="2" class="form-control" />
+                                        <span id="sptxtCustomerCode" class="text-danger"></span> *@ 
+                                         <input type="text" class="form-control" id="TxtFileType">
+                                        <span id="spTxtFileType" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <label>File Type Code</label>
+                                       @*  <input id="txtCustomer" maxlength="50" name="" type="text" class="form-control" />
+                                        <span id="sptxtCustomer" class="text-danger"></span> *@
+                                        <input type="text" class="form-control" id="TxtFileTypeCode" oninput="validateInputCode()">
+                                        <span id="spTxtFileTypeCode" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label class="control-label padd0">Upload Images</label> &nbsp;
+                                        <div class="input-group">
+                                            <div class="custom-file">
+
+                                                <input name="" type="file" class="custom-file-input" id="FileUploadIMG">
+                                                <label class="custom-file-label" for="FileUploadIMG">Choose file</label>
+                                            
+                                              @*   <input type="file" class="custom-file-input">
+                                                <label class="custom-file-label" for="exampleInputFile">Choose file</label> *@
+                                            </div>
+                                        </div>
+                                        <span id="spTxtFileUploadIMG" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label class="control-label padd0">Upload CSV</label> &nbsp;
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input name="" type="file" id="FileUploadCSV" class="custom-file-input">
+                                                <label class="custom-file-label" for="FileUploadCSV">Choose file</label>
+                                              
+                                               @*  <input type="file" class="custom-file-input" id="exampleInputFile">
+                                                <label class="custom-file-label" for="exampleInputFile">Choose file</label> *@
+                                            </div>
+                                        </div>
+                                        <span id="spTxtFileUploadCSV" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="btnwidth50 float-right mr-1 " style="margin-top:35px;">
+                                        <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                                                onClick="SaveData()" title="Go to the next page">
+                                            Submit
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group row">
+
+                                    <div class="col-md-4">
+                                        <label>Download Reference CSV File Type Code</label>
+                                        @Html.DropDownListFor(m => m.valcode, new SelectList(Model.FileTypeMasters, "ID", "FileTypeNamecode"), "Select", new { @class = "form-control select2", @id = "ddlFileTypeCVS" })
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <button type="button"
+                                                class="btn btn-primary btn-xs " id="downloadButton" onclick="convertJSONToCSV()"
+                                                title="Download the file" style="margin-top:35px;">
+                                            Download
+                                        </button>
+                                    </div>
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- InstanceEndEditable -->
+</div>
+
+<script>
+    
+      function validateInputCode() {
+        var inputElement = document.getElementById('TxtFileTypeCode');
+        var inputValue = inputElement.value.trim();
+
+        if (inputValue.length === 2 || inputValue === '') {
+            // Clear previous error message
+            document.getElementById('spTxtFileTypeCode').innerText = '';
+        } else {
+            // Display error message for invalid input
+            document.getElementById('spTxtFileTypeCode').innerText = 'Only two characters/digits are allowed.';
+            // Trim input value to ensure only two characters are retained
+            inputElement.value = inputValue.substring(0, 2);
+        }
+    }
+    function CutSideTabledata() {
+        // Get selected values from dropdowns
+        var selectedCutSides = $("#TxtCutSide").val();
+        var selectedCutOnSides = $("#TxtCutonside").val();
+
+        // Clear existing table rows
+        $("#TableCutSide tbody").empty();
+
+        // Check if at least one option is selected from both dropdowns
+        if (selectedCutSides.length > 0 && selectedCutOnSides.length > 0) {
+            // Loop through each selected Cut Side
+            selectedCutSides.forEach(function (cutSideID) {
+                var cutSideName = $("#TxtCutSide option[value='" + cutSideID + "']").text();
+
+                // Loop through each selected Cut On Side
+                selectedCutOnSides.forEach(function (cutOnSideID) {
+                    var cutOnSideName = $("#TxtCutonside option[value='" + cutOnSideID + "']").text();
+
+                    var row = "<tr>";
+                    row += "<td>" + cutSideName + "</td>";
+                    row += "<td style='display:none;'>" + cutSideID + "</td>";
+                    row += "<td>" + cutOnSideName + "</td>";
+                    row += "<td style='display:none;'>" + cutOnSideID + "</td>";
+
+                    // Create delete button icon
+                    var deleteIconLink = $('<a></a>').attr('href', '#').addClass('fa-i-small redbt top10');
+                    deleteIconLink.append($('<img>').attr('src', '../decintell/icons/delete.png').addClass('img-responsive'));
+                    var deleteIconDiv = $('<div></div>').css({ 'margin-left': 'auto', 'margin-right': 'auto', 'float': 'none', 'display': 'table' });
+                    deleteIconDiv.append(deleteIconLink);
+                    var deleteButtonCell = $('<td align="center"></td>').append(deleteIconDiv);
+                    row += deleteButtonCell.prop('outerHTML'); // Append delete button cell HTML to the row
+
+                    row += "</tr>";
+
+                    $("#TableCutSide tbody").append(row);
+                });
+            });
+        } else {
+            alert("Please select at least one option from both dropdowns.");
+        }
+    }
+
+</script>
+
+<script>
+
+    async function SaveData() {
+        var FileType = $('#TxtFileType').val();
+        var FileTypeCode = $('#TxtFileTypeCode').val();
+      
+        var filenameCSV = ($('#FileUploadCSV')[0].files[0]) ? $('#FileUploadCSV')[0].files[0].name : '';
+        var filenameIMG = ($('#FileUploadIMG')[0].files[0]) ? $('#FileUploadIMG')[0].files[0].name : '';
+
+        var ValidationFlag = false;
+
+        // Validate FileType
+        if (FileType === "") {
+            $("#spTxtFileType").html("Enter FileType");
+            $("#spTxtFileType").css("display", "block");
+            ValidationFlag = true;
+        } else {
+            $("#spTxtFileType").html("");
+        }
+
+        // Validate FileTypeCode
+        if (FileTypeCode === "") {
+            $("#spTxtFileTypeCode").html("Enter FileTypeCode");
+            $("#spTxtFileTypeCode").css("display", "block");
+            ValidationFlag = true;
+        } else {
+            $("#spTxtFileTypeCode").html("");
+        }
+
+        // Validate image file
+        if (!filenameIMG) {
+            $("#spTxtFileUploadIMG").html("Select Image");
+            $("#spTxtFileUploadIMG").css("display", "block");
+            ValidationFlag = true;
+        } else {
+            $("#spTxtFileUploadIMG").html("");
+        }
+
+        // Validate CSV file
+        if (!filenameCSV) {
+            $("#spTxtFileUploadCSV").html("Select CSV File");
+            $("#spTxtFileUploadCSV").css("display", "block");
+            ValidationFlag = true;
+        } else {
+            $("#spTxtFileUploadCSV").html("");
+        }
+
+
+
+        if (ValidationFlag) {
+            return; // Don't proceed further if any validation fails
+        }
+
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+        var CreatedDate = moment.utc(new Date()).format();
+
+
+        var fileInput = document.getElementById('FileUploadCSV');
+        if (fileInput.files.length === 0) {
+            alert('Please select a file!');
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+
+
+        // Ensure a file has been selected
+        if (fileInput.files.length === 0) {
+            alert('Please select a CSV file.');
+            return;
+        }
+
+        var file = fileInput.files[0];
+        var reader = new FileReader();
+        var jsonArrayObj = [];
+
+        // When file is loaded, process its content
+        reader.onload = function (event) {
+            var csvContent = event.target.result;
+            var  jsonArray = csvToJson(csvContent);
+            jsonArrayObj = jsonArray;
+            console.log("CSV to JSON Array:", jsonArray);
+
+            // Now you can do something with the jsonArray, such as displaying it in a table
+
+            var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+            var FileTypeJobj = {
+                FileTypeProfileImage: filenameIMG,
+                FileTypeName: FileType,
+                FileTypeCode: FileTypeCode,
+                CreatedBy: iLoggedInUserID,
+                CreatedDate: moment.utc(new Date()).format(),
+                ParameterJarr: jsonArrayObj
+            };
+
+            var jsonData = JSON.stringify({
+                FileTypeJobj: FileTypeJobj
+            });
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SaveFileType", "Master")',
+                data: { JsonData: jsonData },
+                dataType: 'json',
+                beforeSend: function () { $('#loader').show(); },
+                complete: function () { $('#loader').hide(); },
+                success: async function (data) {
+                    if (data && data.response === "Insert Successfully") {
+
+
+                        var selectedImageNameSample = cleanFileName(filenameIMG);
+                        var targetPathSample = 'others\\filetypes\\';
+                        var uploadedFileSample = document.getElementById('FileUploadIMG').files[0];
+
+                        //copyFile(selectedImageNameSample, targetPathSample, uploadedFileSample);
+                           await copyFile(uploadedFileSample, targetPathSample, selectedImageNameSample);
+                        alert("File Type added successfully.");
+                       var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+                       var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+                       var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+                       var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+                       // Construct the full URL
+                       var url = '@Url.Action("FileType", "Master")' +
+                           '?PageID=' + pageID +
+                           '&ParentID=' + parentID +
+                           '&ModuleID=' + moduleID +
+                           '&ModulePageID=' + modulePageID;
+
+                       // Redirect
+                       window.location.href = url;
+                    } else {
+                        alert("File Type Code already exist");
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Error occurred while saving file type.");
+                    console.error(xhr.responseText);
+                }
+            });
+        };
+
+        // Read the file as text
+        reader.readAsText(file);
+
+
+    }
+
+
+      // Function to convert CSV to JSON
+    function csvToJson(csv) {
+        // Split the CSV by newlines to get each row
+        var lines = csv.split("\n");
+
+        // Get the headers from the first row
+        var headers = lines[0].split(",");
+
+        var jsonArray = [];
+
+        // Loop through the remaining lines to convert each to a JSON object
+        for (var i = 1; i < lines.length; i++) {
+            var line = lines[i].trim();
+
+            // Skip empty lines
+            if (line === "") continue;
+
+            var values = line.split(",");
+            var jsonObject = {};
+
+            // Assign the values to the appropriate headers
+            for (var j = 0; j < headers.length; j++) {
+                jsonObject[headers[j].trim()] = values[j] ? values[j].trim() : null;
+            }
+
+            // Push the JSON object to the array
+            jsonArray.push(jsonObject);
+        }
+
+        return jsonArray;
+    }
+
+
+    // function copyFile(selectedImageNameSample, targetPath, uploadedFile) {
+    //     var formData = new FormData();
+
+    //     if (uploadedFile) {
+    //         formData.append('UploadedFile', uploadedFile);
+    //     } else {
+    //         formData.append('SourceFilePath', '');
+    //     }
+
+    //     formData.append('TargetFilePath', targetPath + selectedImageNameSample);
+    //     var JwToken = '@ViewBag.JWTToken';
+    //     var url1 = '@ViewBag.ApiUrl';
+    //     $.ajax({
+    //         url: url1 + 'UploadAndDownLoadFile/copy',
+    //         headers: {
+    //             Authorization: 'Bearer ' + JwToken
+    //         },
+    //         type: 'POST',
+    //         data: formData,
+    //         contentType: false,
+    //         processData: false,
+    //         success: function (response) {
+    //             if (response.success) {
+    //                 console.log('File copied successfully.');
+    //             } else {
+    //                 console.error('Failed to copy file:', response.error);
+    //             }
+    //         },
+    //         error: function (xhr, status, error) {
+    //             console.error('AJAX error:', error);
+    //         }
+    //     });
+    // }
+      async function copyFile(fileInput, path, imageName) {
+        var JwToken = '@ViewBag.JWTToken';
+      var blobStorageUrl = '@ViewBag.ApiUrl';
+      let blobPathPrefix = '@ViewBag.BaseBlobPath';
+        var formdata = new FormData();
+        // ✅ Append file correctly
+        formdata.append("files", fileInput, imageName); // << change 'files' → 'file'
+
+       // let blobPathPrefix = '@ViewBag.BaseBlobPath';
+        blobPathPrefix = (blobPathPrefix || "").replace(/\\/g, "/").trim();
+        if (blobPathPrefix.length > 0 && !blobPathPrefix.endsWith("/")) {
+            blobPathPrefix += "/";
+        }
+        //    normalizePathPrefix(path)
+        var Patths = blobPathPrefix + normalizePathPrefix(path.toLowerCase());
+        formdata.append("blobPathPrefix", Patths);
+        formdata.append("Policy", 0);
+
+
+        $.ajax({
+            url: blobStorageUrl + 'Files/upload',
+            headers: {
+                Authorization: 'Bearer ' + JwToken
+            },
+            method: "POST",
+            contentType: false, // Not to set any content header
+            processData: false, // Not to process data
+            mimeType: "multipart/form-data",
+            data: formdata,
+            //async: false,
+            success: function (result) {
+                let jsonResult = JSON.parse(result); // serialize into JSON string
+                if (jsonResult && jsonResult.length > 0) {
+                    let json = {
+                      //  UserId: parseInt(CreatedBy),
+                        ImageName: imageName,
+                        BlobJson: result,
+                    };
+
+                    var Jsons = JSON.stringify(json);
+                    console.log(`uploading: ${Jsons}`);
+
+
+
+                }
+
+            },
+            error: function (err) {
+                alert(err.message);
+            }
+        });
+
+
+    }
+        function convertJSONToCSV() {
+        var FileTypeId = $('#ddlFileTypeCVS').val();
+        var FileTypeName = $('#ddlFileTypeCVS option:selected').text().trim(); // Get text for filename
+
+        var JsonData = JSON.stringify({
+            ID: FileTypeId
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetParametersList", "Master")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                var JsonData1 = data.parametersLists;
+                var JsonData = JSON.stringify({
+                    JsonData: JsonData1
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DownloadExcel", "Master")',
+                    data: { JsonData: JsonData },
+                    xhrFields: {
+                        responseType: 'blob'
+                    },
+                    success: function (response) {
+                        const blob = new Blob([response], { type: 'text/csv' });
+                        const url = window.URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+
+                        // Set filename based on dropdown text (sanitize if needed)
+                        const fileName = FileTypeName.replace(/[^\w\-]/g, '_') + '.csv';
+
+                        link.href = url;
+                        link.setAttribute('download', fileName);
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        window.URL.revokeObjectURL(url); // Clean up blob URL
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error occurred:", error);
+                        alert("An error occurred while downloading the file.");
+                    }
+                });
+            },
+            error: function () {
+                alert('Error occurred while fetching data.');
+            }
+        });
+    }
+
+</script>

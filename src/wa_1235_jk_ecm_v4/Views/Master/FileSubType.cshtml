@@ -1,0 +1,832 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.Master
+@{
+    ViewData["Title"] = "FileSubType";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+    <div class="modal fade" id="view">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Header with title and logo -->
+                <div class="modal-header">
+                    <h5 class="modal-title">View File Sub Type</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Dynamic info section -->
+                <div class="modal-body">
+                    <input type="hidden" id="txtID">
+                    <b>Request No.: </b><span id="txtRequest"></span>,&nbsp;&nbsp;
+                    <b>File Size (inch): </b><span id="txtFileSize"></span>,&nbsp;&nbsp;
+                    <b>File Type: </b><span id="txtFileType"></span>,&nbsp;&nbsp;
+                    <b>Sub Type: </b><span id="txtFileSubType"></span>,&nbsp;&nbsp;
+                    <b>Existing Sub Type: </b><span id="txtExistingSubType"></span>
+                </div>
+
+                <!-- Table -->
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table width="100%" class="table table-bordered example1" id="tblshowAddedFileSubTypeParameters">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%; text-align: center;">Sq.No.</th>
+                                    <th style="width: 25%; text-align: left;">Category</th>
+                                    <th style="width: 35%; text-align: left;">Name</th>
+                                    <th style="width: 15%; text-align: center;">Value</th>
+                                    <th style="width: 15%; text-align: center;">Tolerance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="showAddedFileSubTypeParameters">
+                                <!-- Dynamic rows will be injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="approval">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Logo Header -->
+               
+
+                <!-- Title Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Approval</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <b>Request No.:</b> <span id="RequestNo"></span>,&nbsp;&nbsp;
+                    <b>File Size (inch):</b> <span id="FileSize"></span>,&nbsp;&nbsp;
+                    <b>File Type:</b> <span id="FileType"></span>,&nbsp;&nbsp;
+                    <b>Sub Type:</b> <span id="SubType"></span>,&nbsp;&nbsp;
+                    <b>Existing Sub Type:</b> <span id="ExistingSubType"></span>
+
+                    <div style="clear:both;"></div>
+                    <p style="display:none">ID: <span id="approveItemId"></span></p>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered example1" width="100%" id="tblshowAddedFileSubTypeParametersGrid2">
+                            <thead>
+                                <tr>
+                                    <th style="width:2%; text-align: center;">Sq.No.</th>
+                                    <th><div align="left">Category</div></th>
+                                    <th><div align="left">Name</div></th>
+                                    <th><div align="left">Value</div></th>
+                                    <th><div align="left">Tolerance</div></th>
+                                </tr>
+                            </thead>
+                            <tbody id="showAddedFileSubTypeParametersGrid2">
+                                <!-- Dynamic rows added via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <div class="col-lg-4 form-group">
+                        <div class="float-right text-right" style="margin-top: 10px;">
+                            <button type="button"
+                                    class="btn btn-danger btn-xs btnwidth50"
+                                    onclick="ApproveSubFileType(document.getElementById('approveItemId').value, 4)"
+                                    title="Reject the selected item"
+                                    data-dismiss="modal">
+                                Reject
+                            </button>
+
+                            <button type="button"
+                                    class="btn btn-success btn-xs btnwidth60"
+                                    onclick="ApproveSubFileType(document.getElementById('approveItemId').value, 3)"
+                                    title="Approve the selected item"
+                                    data-dismiss="modal">
+                                Approve
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+   @*  <div class="modal fade" id="approval">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">View File Sub Type</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Modal Body with Details -->
+                <div class="modal-body">
+                    <input type="hidden" id="approveItemId" value="" />
+                    <b>Request No.:</b> <span id="RequestNo">10</span>,&nbsp;&nbsp;
+                    <b>File Size (inch):</b> <span id="FileSize">4</span>,&nbsp;&nbsp;
+                    <b>File Type:</b> <span id="FileType">FL</span>,&nbsp;&nbsp;
+                    <b>Sub Type:</b> <span id="SubType">F</span>,&nbsp;&nbsp;
+                    <b>Existing Sub Type:</b> <span id="ExistingSubType">Regular</span>
+                </div>
+
+                <!-- Table -->
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered example1" width="100%">
+                            <thead>
+                                <tr>
+                                    <th style="width:2%; text-align: center;">Sq.No.</th>
+                                    <th style="width:30%; text-align: left;">Category</th>
+                                    <th style="width:35%; text-align: left;">Name</th>
+                                    <th style="width:15%; text-align: center;">Value</th>
+                                    <th style="width:8%; text-align: center;">Tolerance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="showAddedFileSubTypeParametersGrid2">
+                                <!-- Rows injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Footer with Buttons (from nonstandard1) -->
+                <div class="modal-footer">
+                    <div class="col-lg-2 form-group">
+                        <div class="float-left text-right" style="margin-top: 10px;">
+                            <button type="button"
+                                    class="btn btn-danger btn-xs btnwidth50"
+                                    onclick="ApproveSubFileType(document.getElementById('approveItemId').value, 4)"
+                                    title="Reject the selected item"
+                                    data-dismiss="modal">
+                                Reject
+                            </button>
+
+                            <button type="button"
+                                    class="btn btn-success btn-xs btnwidth60"
+                                    onclick="ApproveSubFileType(document.getElementById('approveItemId').value, 3)"
+                                    title="Approve the selected item"
+                                    data-dismiss="modal">
+                                Approve
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div> *@
+
+    <div class="modal fade" id="nonstandard2">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View File Sub Type</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="txtID" value="68">
+                    <b>Request No.: </b><span>10</span> ,&nbsp;&nbsp;
+                    <b>File Size (inch): </b><span>4</span>,&nbsp;&nbsp;
+                    <b>File Type: </b><span>FL</span>,&nbsp;&nbsp;
+                    <b>Sub Type: </b><span>F</span>,&nbsp;&nbsp;
+                    <b>Existing Sub Type: </b><span>Regular</span>
+
+                </div>
+                <div class="modal-body">
+                    <table width="100%" class="table table-bordered example1">
+                        <thead>
+                            <tr>
+                                <th style="width:2%; text-align: center;">Sq.No.</th>
+                                <th style="width:30%; text-align: Left;">Category</th>
+                                <th style="width:35%;  text-align: Left;">Name</th>
+                                <th style="width:15%;  text-align: center;">Value</th>
+                                <th style="width:8%;  text-align: center;">Tolerance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="text-align: center;">1</td>
+                                <td style="text-align: Left;">RAW MATERIAL</td>
+                                <td style="text-align: Left;">Width</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">1</td>
+                                <td style="text-align: Left;">RAW MATERIAL</td>
+                                <td style="text-align: Left;">Thickness</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">2</td>
+                                <td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+                                <td style="text-align: Left;">Tang Thickness at Shoulder</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">2</td>
+                                <td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+                                <td style="text-align: Left;">Tang Width at Shoulder</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">2</td>
+                                <td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+                                <td style="text-align: Left;">#NOTE# - Grinding Blank Shall be free from decarburization</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">3</td>
+                                <td style="text-align: Left;">GRINDING</td>
+                                <td style="text-align: Left;">Taper Length</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">3</td>
+                                <td style="text-align: Left;">GRINDING</td>
+                                <td style="text-align: Left;">Body Thickness</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">4</td>
+                                <td style="text-align: Left;">CUTTING</td>
+                                <td style="text-align: Left;">Upcut</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">4</td>
+                                <td style="text-align: Left;">CUTTING</td>
+                                <td style="text-align: Left;">Upcut Inclination</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">5</td>
+                                <td style="text-align: Left;">FINISH</td>
+                                <td style="text-align: Left;">Finished Body Length</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">6</td>
+                                <td style="text-align: Left;">HARDNESS</td>
+                                <td style="text-align: Left;">Hardness (HRC)</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">7</td>
+                                <td style="text-align: Left;">REMARKS</td>
+                                <td style="text-align: Left;">REMARKS</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>File Sub Type</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item active">Master</li>
+                        <li class="breadcrumb-item active">File Sub Type</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs"
+                                onclick="window.history.back()"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+                    <div class="btnwidth50 float-right mr-1">
+                      @*   <button type="button" 
+                                onclick="location.href='Add-File-Sub-Type.html'" title="Add new record">
+                            Add
+                        </button> *@
+                        @* <a href="@Url.Action("AddFileSubType", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })" class="btn btn-block bg-gradient-primary   btn-xs float-left">
+                            Add
+                        </a> *@
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">New Requests</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th><div align="center">Request No.</div></th>
+                                            <th><div align="center">File Size (Inch)</div></th>
+                                            <th><div align="center">File Type</div></th>
+                                            <th><div align="center">Sub Type</div></th>
+                                            <th><div align="center">File Type-Sub Type Code</div></th>
+                                            <th><div align="center">Action</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.FileSubType_List.Where(x => x.GridNo == 1))
+                                        {
+                                            <tr>
+                                                <td class="text-center"> <a href="#" title="Edit" onclick="EditDetails(@item.Id,'@item.RequestNo','@item.FileSize','@item.FileType','@item.SubType','@item.SubTypeCode');">@item.RequestNo</a></td>
+                                                <td class="text-center">@item.FileSize</td>
+                                                <td class="text-center">@item.FileType</td>
+                                                <td class="text-center"><a href="#" title="View" onclick="ModelFileSize(@item.Id ,'@item.RequestNo','@item.FileSize','@item.FileType','@item.SubType','@item.SubTypeCode');">@item.SubType</a></td>
+                                                <td class="text-center">@item.FileSubtypeCode</td>
+                                                <td class="text-center">
+                                                  @*   <a href="#" title="View" onclick="ModelFileSize(@item.Id ,'@item.RequestNo','@item.FileSize','@item.FileType','@item.SubType','@item.SubTypeCode');" class="btn btn-info btn-xs">View</a>
+                                                    <a href="#" title="Edit" onclick="EditDetails(@item.Id,'@item.RequestNo','@item.FileSize','@item.FileType','@item.SubType','@item.SubTypeCode');" class="btn btn-warning btn-xs">Edit</a> *@
+                                                    <a href="#" title="Submit" onclick="ApproveSubFileType(@item.Id,2); return false;" class="btn btn-primary btn-xs btnwidth95">Submit for Approval</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-warning collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Requests for Approval</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th><div align="center">Request No.</div></th>
+                                            <th><div align="center">File Size (Inch)</div></th>
+                                            <th><div align="center">File Type</div></th>
+                                            <th><div align="center">Sub Type</div></th>
+                                            <th><div align="center">File Type-Sub Type Code</div></th>
+                                 @*            <th><div align="center">Action</div></th> *@
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.FileSubType_List.Where(x => x.GridNo == 2))
+                                        {
+                                            <tr>
+                                                <td class="text-center">@item.RequestNo</td>
+                                                <td class="text-center">@item.FileSize</td>
+                                                <td class="text-center">@item.FileType</td>
+                                                <td class="text-center"><a href="#" data-toggle="modal" data-target="#approval" onclick="setApproveItems(@item.Id,'@item.RequestNo','@item.FileSize','@item.FileType','@item.SubTypeCode','@item.SubType')">@item.SubType</a></td>
+                                                <td class="text-center">@item.FileSubtypeCode</td>
+                                               
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-primary collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Requests for Approval (ECN)</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th><div align="center">Request No.</div></th>
+                                            <th><div align="center">File Size (Inch)</div></th>
+                                            <th><div align="center">File Type</div></th>
+                                            <th><div align="center">Sub Type</div></th>
+                                            <th><div align="center">File Type-Sub Type Code</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                      
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-success collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">File Sub Type Master</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th><div align="center">Request No.</div></th>
+                                            <th><div align="center">File Size (Inch)</div></th>
+                                            <th><div align="center">File Type</div></th>
+                                            <th><div align="center">Sub Type</div></th>
+                                            <th><div align="center">File Type-Sub Type Code</div></th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.FileSubType_List.Where(x => x.GridNo ==3))
+                                        {
+                                            <tr>
+                                                <td class="text-center">@item.RequestNo</td>
+                                                <td class="text-center">@item.FileSize</td>
+                                                <td class="text-center">@item.FileType</td>
+                                                <td class="text-center"> <a href="#" data-toggle="modal" onclick="ModelFileSize(@item.Id,'@item.RequestNo','@item.FileSize','@item.FileType','@item.SubType','@item.SubTypeCode');">@item.SubType</a></td>
+                                                <td class="text-center">@item.FileSubtypeCode</td>
+                                               
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+
+    </section>
+
+    <!-- InstanceEndEditable -->
+</div>
+<script>
+
+    function setApproveItems(Id, RequestNo, FileSize, FileType,SubTypeCode, SubType) {
+
+        document.getElementById('RequestNo').textContent = RequestNo;
+        document.getElementById('FileSize').textContent = FileSize;
+        document.getElementById('FileType').textContent = FileType;
+        document.getElementById('SubType').textContent = SubType;
+        document.getElementById('approveItemId').textContent = Id;
+        ModelFileSubTypeGrid2(Id, RequestNo, FileSize, FileType, SubTypeCode, SubType);
+    }
+
+    $(document).ready(function () {
+
+        $("#txtRemark").val("@ViewBag.Remark");
+
+    });
+
+    function ModelFileSize(ID, RequestNo, FileSize, FileType, SubTypeCode, SubType) {
+        $('#txtID').val(ID);
+        $('#txtRequest').text(RequestNo);
+        $('#txtFileSize').text(FileSize);
+        $('#txtFileType').text(FileType);
+        $('#txtFileSubType').text(SubType);
+        $('#txtExistingSubType').text(SubTypeCode);
+
+        var JsonData = JSON.stringify({
+            ID: ID
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetFileSubTypeParameters", "Master")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                var html = '';
+                $("#tblshowAddedFileSubTypeParameters").dataTable().fnClearTable();
+                $("#tblshowAddedFileSubTypeParameters").dataTable().fnDestroy()
+                var dtParameter = $('#tblshowAddedFileSubTypeParameters').DataTable({
+                    "columnDefs": [
+                        { "className": "dt-left", "targets": [1, 2] },
+                        { "className": "dt-center", "targets": "_all" }
+                    ],
+                });
+
+                var rows = [];
+                for (var i = 0; i < data.getFileSubTypeParametersList.length; i++) {
+                    // html += '<tr>';
+                    // html += '<td>' + data.getFileSubTypeParametersList[i].sequence + '</td>';
+                    // html += '<td>' + data.getFileSubTypeParametersList[i].category + '</td>';
+                    // html += '<td>' + data.getFileSubTypeParametersList[i].name + '</td>';
+                    // html += '<td>' + data.getFileSubTypeParametersList[i].value + '</td>';
+                    // html += '<td>' + data.getFileSubTypeParametersList[i].tolerance + '</td>';
+                    // html += '</tr>';
+                    rows = [
+                        data.getFileSubTypeParametersList[i].sequence,
+                        data.getFileSubTypeParametersList[i].category,
+                        data.getFileSubTypeParametersList[i].name,
+                        data.getFileSubTypeParametersList[i].value,
+                        data.getFileSubTypeParametersList[i].tolerance
+                    ];
+                    dtParameter.row.add(rows).draw(false);
+                }
+
+                // $('#showAddedFileSubTypeParameters').html(html);
+
+
+                $('#view').modal('show');
+            },
+            error: function () {
+                alert('Error occurred while fetching data.');
+            }
+        });
+
+    }
+
+    //  function ModelFileSubTypeGrid2(Id, RequestNo, FileSize, FileType, SubTypeCode, SubType) {
+    //     $('#approveItemId').val(Id);
+    //     $('#RequestNo').text(RequestNo);
+    //     $('#FileSize').text(FileSize);
+    //     $('#FileType').text(FileType);
+    //     $('#SubType').text(SubType);
+    //     $('#ExistingSubType').text(SubTypeCode);
+
+    //     var JsonData = JSON.stringify({
+    //         ID: Id
+    //     });
+
+    //     $.ajax({
+    //         type: "POST",
+    //         url: '@Url.Action("GetFileSubTypeParameters", "Master")',
+    //         data: { JsonData: JsonData },
+    //         dataType: 'json',
+    //         beforeSend: function () { $('#loader').show(); },
+    //         complete: function () { $('#loader').hide(); },
+    //         success: function (data) {
+    //             var html = '';
+
+    //             for (var i = 0; i < data.getFileSubTypeParametersList.length; i++) {
+    //                 html += '<tr>';
+    //                 html += '<td style="text-align:center;">' + (i + 1) + '</td>'; // Sequence No.
+    //                 html += '<td style="text-align:left;">' + data.getFileSubTypeParametersList[i].category + '</td>';
+    //                 html += '<td style="text-align:left;">' + data.getFileSubTypeParametersList[i].name + '</td>';
+    //                 html += '<td style="text-align:center;">' + data.getFileSubTypeParametersList[i].value + '</td>';
+    //                 html += '<td style="text-align:center;">' + (data.getFileSubTypeParametersList[i].tolerance || '') + '</td>';
+    //                 html += '</tr>';
+    //             }
+
+    //             $('#showAddedFileSubTypeParametersGrid2').html(html);
+
+    //             // Optionally show modal if needed:
+    //             // $('#approval').modal('show');
+    //         },
+    //         error: function () {
+    //             alert('Error occurred while fetching data.');
+    //         }
+    //     });
+    // }
+        function ModelFileSubTypeGrid2(Id, RequestNo, FileSize, FileType, SubTypeCode, SubType) {
+        $('#approveItemId').val(Id);
+        $('#RequestNo').text(RequestNo);
+        $('#FileSize').text(FileSize);
+        $('#FileType').text(FileType);
+        $('#SubType').text(SubType);
+        $('#ExistingSubType').text(SubTypeCode);
+
+        var JsonData = JSON.stringify({ ID: Id });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetFileSubTypeParameters", "Master")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                // Clear & destroy if already initialized
+                if ($.fn.DataTable.isDataTable("#tblshowAddedFileSubTypeParametersGrid2")) {
+                    $('#tblshowAddedFileSubTypeParametersGrid2').DataTable().clear().destroy();
+                }
+
+                // Initialize DataTable
+                   var dt = $('#tblshowAddedFileSubTypeParametersGrid2').DataTable({
+        "columnDefs": [
+            { "className": "dt-left", "targets": [1, 2] },
+            { "className": "dt-center", "targets": "_all" }
+        ],
+        "paging": true,
+        "searching": true,
+        "ordering": true,
+        "info": true
+    });
+
+                // Add rows
+                for (var i = 0; i < data.getFileSubTypeParametersList.length; i++) {
+                    dt.row.add([
+                        i + 1,
+                        data.getFileSubTypeParametersList[i].category,
+                        data.getFileSubTypeParametersList[i].name,
+                        data.getFileSubTypeParametersList[i].value,
+                        data.getFileSubTypeParametersList[i].tolerance || ''
+                    ]).draw(false);
+                }
+
+                // Optional: show modal after loading
+                $('#approval').modal('show');
+            },
+            error: function () {
+                alert('Error occurred while fetching data.');
+            }
+        });
+    }
+
+
+    function EditDetails(Id, RequestNo, FileSize, FileType, SubType, SubTypeCode) {
+        // Encode parameters if necessary
+        var encodedRequestNo = encodeURIComponent(RequestNo);
+        var encodedFileSize = encodeURIComponent(FileSize);
+        var encodedFileType = encodeURIComponent(FileType);
+        var encodedSubType = encodeURIComponent(SubType);
+        var encodedSubTypeCode = encodeURIComponent(SubTypeCode);
+                var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+                var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+                var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+                var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+        // Concatenate parameters to the URL string
+          var url = "@Url.Action("EditFileSubType", "Master")" +
+        "?Id=" + encodeURIComponent(Id) +
+        "&FileSize=" + encodeURIComponent(encodedFileSize) +
+        "&FileType=" + encodeURIComponent(encodedFileType) +
+        "&SubType=" + encodeURIComponent(encodedSubType) +
+        "&SubTypeCode=" + encodeURIComponent(encodedSubTypeCode) +
+        "&RequestNo=" + encodeURIComponent(encodedRequestNo) +
+        "&PageID=" + pageID +
+        "&ParentID=" + parentID +
+        "&ModuleID=" + moduleID +
+        "&ModulePageID=" + modulePageID;
+
+    // Redirect to the generated URL
+    window.location.href = url;
+    }
+    function ApproveSubFileType(Id,StatusId) {
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+        var json = {
+            Id: Id,
+            StatusId: StatusId,
+            CreatedDate: moment.utc(new Date()).format(),
+            CreatedBy: iLoggedInUserID
+        };
+        var JsonData = JSON.stringify(json);
+
+        // First Ajax request
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ApproveSubFileType", "Master")',
+            data: { JsonData: JsonData },
+            datatype: 'json',
+            beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                alert(data.response);
+                location.reload();
+            }
+        });
+    }
+
+
+
+    function EditFileSubType(RequestNo, FileSize, FileType, SubType, SubTypeCode) {
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+        var CreatedDate = moment.utc(new Date()).format();
+
+        var FileSubTypeDetailsJobj = {
+            ftCode: FileType,
+            sftCode: SubTypeCode,
+            sftSzCode: FileSize,
+            subTypeSizeInInches: FileSize,
+            subTypeFullFileCode: FileSize + SubTypeCode + FileType,
+            createdBy: iLoggedInUserID,
+            createdDate: CreatedDate,
+            statusId: 1,
+            remarks: '',
+            effStartDate: '',
+            effEndDate: '',
+
+        };
+
+        var json = {
+
+            RequestNo: RequestNo,
+            FileSize: FileSize,
+            FileType: FileType,
+            SubType: SubType,
+            SubTypeCode: SubTypeCode,
+            FileSubTypeDetailsJobj: FileSubTypeDetailsJobj,
+        };
+        var JsonData = JSON.stringify(json);
+
+        // First Ajax request
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("EditFileSubType", "Master")',
+            data: { JsonData: JsonData },
+            datatype: 'json',
+            beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                alert(data.response);
+                location.reload();
+            }
+        });
+
+
+
+
+    }
+
+
+</script>

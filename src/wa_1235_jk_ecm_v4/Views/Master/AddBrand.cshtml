@@ -1,0 +1,312 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "AddBrand";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                <h5>Brand</h5>
+            </div>
+            <div class="col-lg-9">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                    <li class="breadcrumb-item active">Master</li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("BrandList", "Master", new { PageID = Context.Request.Query["PageID"], ParentID = Context.Request.Query["ParentID"], ModuleID = Context.Request.Query["ModuleID"] })">Brand</a></li>
+
+                    <li class="breadcrumb-item active">Add</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="btnwidth50 float-right ">
+                    @{
+                        var url = Url.Action("BrandList", "Master", new
+                        {
+                            PageID = Context.Request.Query["PageID"].ToString(),
+                            ParentID = Context.Request.Query["ParentID"].ToString(),
+                            ModuleID = Context.Request.Query["ModuleID"].ToString(),
+                            ModulePageID = Context.Request.Query["ModulePageID"].ToString()
+                        });
+                    }
+                    <button type="button"
+                            class="btn btn-block bg-gradient-danger btn-xs float-left"
+                            onclick="location.href='@url'"
+                            title="Go back to the previous page">
+                        Back
+                    </button>
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary card-outline p-a-2" style="height: 100%;">
+
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="col-md-12">
+
+                            <div class="row">
+                                <div class="form-group col-md-2">
+                                    <label>Brand Code  </label>
+                                    @* <input id="txtCustomerCode" type="text" maxlength="2" class="form-control" />
+                                    <span id="sptxtCustomerCode" class="text-danger"></span> *@
+                                    <input id="txtBrandCode" type="text" class="form-control" maxlength="2" oninput="validateInputCode()">
+                                    <span id="spBrandCode" class="text-danger" style="display:none;"></span>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Brand Name  </label>
+                                  @*   <input id="txtCustomer" maxlength="50" name="" type="text" class="form-control" />
+                                    <span id="sptxtCustomer" class="text-danger"></span> *@
+                                    <input id="txtBrandName" type="text" class="form-control" oninput="validateInput(event)">
+                                    <span id="spBrandName" class="text-danger"></span>
+                                </div>
+
+                                <div class="btnwidth50 float-right mr-1 " style="margin-top:35px;">
+                                    <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                                            onClick="AddBrandData()" title="Go to the next page">
+                                        Submit
+                                    </button>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+
+</section>
+
+
+<script>
+     function validateInputCode() {
+        var inputElement = document.getElementById('txtBrandCode');
+        var errorElement = document.getElementById('spBrandCode');
+        var inputValue = inputElement.value;
+
+        // Allow only letters and digits
+        var filteredInput = inputValue.replace(/[^a-zA-Z0-9]/g, '');
+
+        // Update the input field
+        inputElement.value = filteredInput;
+
+        // Validation logic
+        if (filteredInput.length === 2 || filteredInput === '') {
+            errorElement.innerText = '';
+            errorElement.style.display = 'none';
+        } else {
+            errorElement.innerText = 'Only two characters/digits are allowed.';
+            errorElement.style.display = 'inline';
+        }
+    }
+
+
+    var ValidationFlag = true;
+
+    $(document).ready(function () {
+        $('#txtBrandCode').on('input', function () {
+            var inputValue = $(this).val();
+
+            if (/\s/.test(inputValue)) {
+                $("#spBrandCode").html("Spaces not allowed in Brand Code");
+                $("#spBrandCode").css("display", "block");
+                ValidationFlag = true;
+                return;
+            }
+            else {
+                $("#spBrandCode").html("");
+                //  ValidationFlag = false;
+            }
+
+            // Perform your check here, for example, check if the input value is not empty
+            if (inputValue.trim() !== '') {
+                // Data exists in the textbox
+                // You can perform an AJAX call here
+                $.ajax({
+                    url: '@Url.Action("GetExistingBrandList", "Master")',
+                    type: 'GET', // Or 'GET', depending on your requirement
+                    data: { term: inputValue }, // Pass data to the server
+                    success: function (response) {
+                        if (response != null && response.length > 0) {
+                            if (response[0].label != null) {
+                               alert("Brand Code already exists");
+                                ValidationFlag = true;
+                                return;
+                            }
+                            else {
+                                $("#spBrandCode").html("");
+                                //   ValidationFlag = false;
+                            }
+                        }
+                        else {
+                            $("#spBrandCode").html("");
+                            // ValidationFlag = false;
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle errors here
+                        alert('Error occurred:', error);
+                    }
+                });
+            } else {
+                // Data doesn't exist in the textbox
+                $("#spBrandCode").html("Enter Brand Code");
+                $("#spBrandCode").css("display", "block");
+                ValidationFlag = true;
+                return;
+            }
+        });
+    });
+
+
+
+
+    txtBrandName.addEventListener("input", function (event) {
+        // Get the current value of the input field
+        var inputValue = event.target.value;
+
+        // Check if the entered value is a blank
+        if (inputValue.trim() == '') {
+            $("#spBrandName").html("Enter Brand Name");
+            $("#spBrandName").css("display", "block");
+            ValidationFlag = true;
+            return;
+        }
+
+        else {
+            $("#spBrandName").html("");
+            //  ValidationFlag = false;
+        }
+    });
+
+
+
+    function AddBrandData() {
+        var BrandName = $("#txtBrandName").val();
+        var BrandCode = $("#txtBrandCode").val();
+        //alert(BrandName + "," + BrandCode);
+
+        var OperationFlag = 1;
+        ValidationFlag = false;
+
+
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+        if (BrandName == "") {
+            $("#spBrandName").html("Enter Brand Name");
+            $("#spBrandName").css("display", "block");
+            ValidationFlag = true;
+        }
+        else {
+            $("#spBrandName").html("");
+        }
+
+        if (BrandCode == "") {
+            $("#spBrandCode").html("Enter Brand Code");
+            $("#spBrandCode").css("display", "block");
+            ValidationFlag = true;
+        }
+        else {
+            if ($("#spBrandCode").html() == "")
+                $("#spBrandCode").html("");
+        }
+
+
+
+        if ($("#spBrandName").text() == "" && $("#spBrandCode").text() == "") {
+
+            let BrandDetailsJson = {
+
+                CreatedBy: iLoggedInUserID,
+                CreatedDate: moment.utc(new Date()).format()
+
+            };
+
+
+
+            let json = {
+                BrandName: BrandName.trim(),
+                BrandCode: BrandCode.trim().toUpperCase(),
+                BrandDetailsJson: BrandDetailsJson,
+                OperationFlag: OperationFlag
+                //CustomerDetailsJarr: DiscountSlabsJson
+            };
+
+            var JsonData = JSON.stringify(json);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AddBrand", "Master")',
+                data: { JsonData: JsonData },
+                datatype: 'json',
+                beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+                success: function (data) {
+                    alert(data.response);
+
+                    var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+    // Construct the full URL
+    var url = '@Url.Action("BrandList", "Master")' +
+        '?PageID=' + pageID +
+        '&ParentID=' + parentID +
+        '&ModuleID=' + moduleID +
+        '&ModulePageID=' + modulePageID;
+
+    // Redirect to the URL
+    window.location.href = url;
+                }
+
+
+            });
+
+        }
+    }
+
+</script>
+<script>
+    function validateInput(event) {
+        const input = event.target.value;
+        const regex = /^[a-zA-Z\s]*$/; // Only letters and spaces allowed
+
+        if (!regex.test(input)) {
+            // Display error message using jQuery if jQuery is available
+            if (typeof $ !== 'undefined') {
+                $("#sptxtCustomer").html("Enter Brand Name");
+                $("#sptxtCustomer").css("display", "block");
+            } else {
+                // If jQuery is not available, use vanilla JavaScript to display error message
+                const errorElement = document.getElementById("sptxtCustomer");
+                if (errorElement) {
+                    errorElement.textContent = "Enter Brand Name";
+                    errorElement.style.display = "block";
+                }
+            }
+
+            // Remove invalid characters from the input
+            event.target.value = input.replace(/[^a-zA-Z\s]/g, '');
+        }
+    }
+</script>
+
+
+<!-- InstanceEndEditable --> 

@@ -1,0 +1,49 @@
+﻿@using System.Text.Json
+@using wa_1235_jk_ecm_v4.Models.DecintellCommon
+@model List<MenuDataModel>
+
+@if (Model != null && Model.Any())
+{
+    @foreach (var subItem in Model)
+    {
+        <li class="dropdown-submenu dropdown-hover">
+            <a id="dropdownSubMenu2"
+               href="@subItem.href"
+               role="button"
+               class="dropdown-item @(subItem.ul != null && subItem.ul.Any() ? "dropdown-toggle" : "")"
+               aria-haspopup="true"
+               aria-expanded="false"
+               title="@subItem.label"
+            @(subItem.ul != null && subItem.ul.Any() ? "data-toggle=dropdown" : "")
+               onclick="if(!this.hasAttribute('data-toggle')) window.location.href=this.href;">
+                @subItem.label
+            </a>
+
+            @if (subItem.ul != null && subItem.ul.Any())
+            {
+                <ul class="dropdown-menu border-0 shadow">
+                    @* Convert object[] to List<MenuDataModel> *@
+                    @foreach (var sub in subItem.ul)
+                    {
+                        if (sub is JsonElement jsonElement)
+                        {
+                            // Deserialize the JsonElement into MenuDataModel
+                            MenuDataModel subMenu = JsonSerializer.Deserialize<MenuDataModel>(jsonElement.GetRawText());
+
+                            if (subMenu != null)
+                            {
+                                @Html.Partial("_DropdownMenu", new List<MenuDataModel> { subMenu })
+                            }
+                        }
+                        else if (sub is MenuDataModel validSubMenu)
+                        {
+                            // Handle if it's already a valid MenuDataModel
+                            @Html.Partial("_DropdownMenu", new List<MenuDataModel> { validSubMenu })
+                        }
+                    }
+                </ul>
+            }
+        </li>
+    }
+
+}

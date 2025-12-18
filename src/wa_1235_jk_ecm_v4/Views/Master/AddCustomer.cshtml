@@ -1,0 +1,426 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.Master
+@{
+    ViewData["Title"] = "AddCustomer";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                <h5>Add Customer</h5>
+            </div>
+            <div class="col-lg-9">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                    <li class="breadcrumb-item active">Master</li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("CustomerList", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Customer</a></li>
+                    <li class="breadcrumb-item active">Add</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="btnwidth50 float-right ">
+                    @{
+                        var url = Url.Action("CustomerList", "Master", new
+                        {
+                            PageID = Context.Request.Query["PageID"].ToString(),
+                            ParentID = Context.Request.Query["ParentID"].ToString(),
+                            ModuleID = Context.Request.Query["ModuleID"].ToString(),
+                            ModulePageID = Context.Request.Query["ModulePageID"].ToString()
+                        });
+                    }
+                    <button type="button"
+                            class="btn btn-block bg-gradient-danger btn-xs float-left"
+                            onclick="location.href='@url'"
+                            title="Go back to the previous page">
+                        Back
+                    </button>
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary card-outline p-a-2" style="height: 100%;">
+
+                    <div class="card-body">
+                        <div class="col-md-12">
+                            <input type="hidden" id="URLGroupName" value="@ViewBag.CustomerId" />
+                            <div class="row">
+                                <div class="form-group col-md-2">
+                                    <label>Customer Code  </label>
+                                   @*  <input id="txtCustomerCode" type="text" maxlength="2" class="form-control" />
+                                    <span id="sptxtCustomerCode" class="text-danger"></span> *@
+                                    <input id="txtCustomerCode" type="text" class="form-control" oninput="validateInputCode()" />
+                                    <span id="sptxtCustomerCode" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Customer Name  </label>
+                                  @*   <input id="txtCustomer" maxlength="50" name="" type="text" class="form-control" />
+                                    <span id="sptxtCustomer" class="text-danger"></span> *@
+                                    <input id="txtCustomer" maxlength="100" name="" type="text" class="form-control" />
+                                    <span id="sptxtCustomer" class="text-danger"></span>
+                                </div>
+
+
+
+                                <div class="form-group col-md-2">
+                                    <label>Customer Rejection %</label>
+                                    @* <input id="txtCustomerRejectionPercent" maxlength="7" name="" type="text" class="form-control" />
+                                    <span id="sptxtCustomerRejectionPercent" class="text-danger"></span> *@
+                                    <input id="txtCustomerRejectionPercent" maxlength="7" name="" type="text" class="form-control" />
+                                    <span id="sptxtCustomerRejectionPercent" class="text-danger"></span>
+                                </div>
+
+
+
+                                <div class="form-group col-md-2">
+                                    <label>Customer Packing Days</label>
+                                   @*  <input id="txtCustomerPackingDays" maxlength="3" name="" type="text" class="form-control" />
+                                    <span id="sptxtCustomerPackingDays" class="text-danger"></span>
+ *@                                  <input id="txtCustomerPackingDays" maxlength="3" name="" type="text" class="form-control" />
+                                    <span id="sptxtCustomerPackingDays" class="text-danger"></span>
+                                </div>
+
+                                <div class="btnwidth50 float-right mr-1 " style="margin-top:35px;">
+                                    <button type="button" id="btnSubmit" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                                            onclick="AddCustomerData();">
+                                        Submit
+                                    </button>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+</section>
+
+
+
+
+@* <script>
+
+    var ValidationFlag = false;
+      $(document).ready(function () {
+        $('#txtCustomerCode').on('input', function () {
+            var inputValue = $(this).val();
+
+            if (/\s/.test(inputValue)) {
+                $("#sptxtCustomerCode").html("Spaces not allowed in Customer Code");
+                $("#sptxtCustomerCode").css("display", "block");
+                ValidationFlag = true;
+                return;
+            }
+            else {
+                $("#sptxtCustomerCode").html("");
+              //  ValidationFlag = false;
+            }
+
+            // Perform your check here, for example, check if the input value is not empty
+            if (inputValue.trim() !== '') {
+                // Data exists in the textbox
+                // You can perform an AJAX call here
+                $.ajax({
+                    url: '@Url.Action("GetCustomerCodeList", "Master")',
+                    type: 'GET', // Or 'GET', depending on your requirement
+                    data: { term: inputValue }, // Pass data to the server
+                    success: function (response) {
+                        if (response != null && response.length > 0) {
+                            if (response[0].label != null) {
+                                $("#sptxtCustomerCode").html("Customer Code already exists");
+                                $("#sptxtCustomerCode").css("display", "block");
+                                ValidationFlag = true;
+                                return;
+                            }
+                            else {
+                                $("#sptxtCustomerCode").html("");
+                             //   ValidationFlag = false;
+                            }
+                        }
+                        else {
+                            $("#sptxtCustomerCode").html("");
+                           // ValidationFlag = false;
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle errors here
+                        alert('Error occurred:', error);
+                    }
+                });
+            } else {
+                // Data doesn't exist in the textbox
+                $("#sptxtCustomerCode").html("Enter Customer Code");
+                $("#sptxtCustomerCode").css("display", "block");
+                ValidationFlag = true;
+                return;
+            }
+        });
+    });
+
+</script> *@
+
+<script>
+       function validateInputCode() {
+        var inputElement = document.getElementById('txtCustomerCode');
+        var inputValue = inputElement.value.trim();
+
+        // Allow only letters
+        var onlyLetters = inputValue.replace(/[^a-zA-Z]/g, '');
+
+        // Trim to 2 characters max
+        if (onlyLetters.length > 2) {
+            onlyLetters = onlyLetters.substring(0, 2);
+        }
+
+        inputElement.value = onlyLetters;
+
+        // Validation messages
+        if (onlyLetters.length === 2 || onlyLetters === '') {
+            document.getElementById('sptxtCustomerCode').innerText = '';
+        } else {
+            document.getElementById('sptxtCustomerCode').innerText = 'Only two alphabet characters are allowed.';
+        }
+    }
+    function validateInput(event) {
+        const input = event.target.value;
+        const regex = /^[a-zA-Z\s]*$/; // Only letters and spaces allowed
+
+        if (!regex.test(input)) {
+            // Display error message using jQuery if jQuery is available
+            if (typeof $ !== 'undefined') {
+                $("#sptxtCustomer").html("Enter Customer Name");
+                $("#sptxtCustomer").css("display", "block");
+            } else {
+                // If jQuery is not available, use vanilla JavaScript to display error message
+                const errorElement = document.getElementById("sptxtCustomer");
+                if (errorElement) {
+                    errorElement.textContent = "Enter Customer Name";
+                    errorElement.style.display = "block";
+                }
+            }
+
+            // Remove invalid characters from the input
+            event.target.value = input.replace(/[^a-zA-Z\s]/g, '');
+        }
+    }
+</script>
+
+<script>
+
+    function Cancel() {
+        window.location.reload();
+    }
+
+    txtCustomer.addEventListener("input", function (event) {
+        // Get the current value of the input field
+        var inputValue = event.target.value;
+
+        // Check if the entered value is a blank
+        if (inputValue.trim() == '') {
+            $("#sptxtCustomer").html("Enter Customer Name");
+            $("#sptxtCustomer").css("display", "block");
+            ValidationFlag = true;
+            return;
+        }
+
+        else {
+            $("#sptxtCustomer").html("");
+          //  ValidationFlag = false;
+        }
+    });
+
+
+
+    txtCustomerRejectionPercent.addEventListener("input", function (event) {
+        // Get the current value of the input field
+        var inputValue = event.target.value;
+
+        // Check if the entered value is a valid decimal
+        if (!isValidDecimal(inputValue)) {
+            $("#sptxtCustomerRejectionPercent").html("Customer Rejection % is invalid");
+            $("#sptxtCustomerRejectionPercent").css("display", "block");
+            ValidationFlag = true;
+            return;
+        }
+
+        else {
+            $("#sptxtCustomerRejectionPercent").html("");
+           // ValidationFlag = false;
+        }
+    });
+
+    // Function to check if a string is a valid decimal
+    function isValidDecimal(value) {
+        // Regular expression to match decimal numbers
+        var decimalPattern = /^-?\d*\.?\d*$/;
+        return decimalPattern.test(value);
+    }
+
+
+
+    // Add an event listener to the input field to listen for input events
+    txtCustomerPackingDays.addEventListener("input", function (event) {
+        // Get the current value of the input field
+        var inputValue = event.target.value;
+
+        // Check if the entered value is a valid integer
+        if (!isValidInteger(inputValue)) {
+
+            $("#sptxtCustomerPackingDays").html("Customer Packing Day is invalid");
+            $("#sptxtCustomerPackingDays").css("display", "block");
+            ValidationFlag = true;
+            return;
+        }
+
+        else {
+            $("#sptxtCustomerPackingDays").html("");
+           // ValidationFlag = false;
+        }
+
+    });
+
+    // Function to check if a string is a valid integer
+    function isValidInteger(value) {
+        // Regular expression to match integers
+        var integerPattern = /^-?\d*$/;
+        return integerPattern.test(value);
+    }
+
+
+    function AddCustomerData() {
+        var CustomerName = $("#txtCustomer").val();
+        var CustomerCode = $("#txtCustomerCode").val();
+
+        var CustomerRejectionPercent = parseFloat($("#txtCustomerRejectionPercent").val().replace(/,/g, ''));
+        var CustomerPackingDays = parseInt($("#txtCustomerPackingDays").val());
+
+
+
+        if (CustomerName == "") {
+            $("#sptxtCustomer").html("Enter Customer Name");
+            $("#sptxtCustomer").css("display", "block");
+            ValidationFlag = true;
+
+        }
+        else {
+            $("#sptxtCustomer").html("");
+          //  ValidationFlag = false;
+        }
+
+        if (CustomerCode == "") {
+            $("#sptxtCustomerCode").html("Enter Customer Code");
+            $("#sptxtCustomerCode").css("display", "block");
+            ValidationFlag = true;
+
+        }
+        else {
+            if($("#sptxtCustomerCode").html()=="")
+                $("#sptxtCustomerCode").html("");
+           // ValidationFlag = false;
+        }
+
+        if (CustomerRejectionPercent == "" || isNaN(CustomerRejectionPercent)) {
+            $("#sptxtCustomerRejectionPercent").html("Enter Customer Rejection %");
+            $("#sptxtCustomerRejectionPercent").css("display", "block");
+            ValidationFlag = true;
+
+        }
+        else {
+            if ($("#sptxtCustomerRejectionPercent").html() == "")
+                $("#sptxtCustomerRejectionPercent").html("");
+           // ValidationFlag = false;
+        }
+
+
+        if (CustomerPackingDays == "" || isNaN(CustomerPackingDays)) {
+            $("#sptxtCustomerPackingDays").html("Enter Customer Packing Days");
+            $("#sptxtCustomerPackingDays").css("display", "block");
+            ValidationFlag = true;
+
+        }
+        else {
+            if ($("#sptxtCustomerPackingDays").html() == "")
+                $("#sptxtCustomerPackingDays").html("");
+            //ValidationFlag = false;
+        }
+
+
+
+
+
+
+
+        if ($("#sptxtCustomer").text() == "" && $("#sptxtCustomerCode").text() == "" && $("#sptxtCustomerRejectionPercent").text() == "" && $("#sptxtCustomerPackingDays").text() == "") {
+
+            var OperationFlag = 1;
+            var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+
+            let CustomerDetailsJson = {
+                CustomerPct: CustomerRejectionPercent,
+                PackingDays: CustomerPackingDays,
+                CreatedBy: iLoggedInUserID,
+                CreatedDate: moment.utc(new Date()).format()
+
+            };
+
+
+
+            let json = {
+                CustomerName: CustomerName.trim(),
+                CustomerCode: CustomerCode.trim().toUpperCase(),
+                CustomerDetailsJobj: CustomerDetailsJson,
+                OperationFlag: OperationFlag
+
+            };
+
+            var JsonData = JSON.stringify(json);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AddCustomerData", "Master")',
+                data: { JsonData: JsonData },
+                datatype: 'json',
+                beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+                success: function (data) {
+                    alert(data.response);
+                   
+                        var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+    // Construct the full URL
+    var url = '@Url.Action("CustomerList", "Master")' +
+        '?PageID=' + pageID +
+        '&ParentID=' + parentID +
+        '&ModuleID=' + moduleID +
+        '&ModulePageID=' + modulePageID;
+
+    // Redirect
+    window.location.href = url;
+                }
+
+
+            });
+        }
+    }
+
+
+</script>

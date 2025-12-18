@@ -1,0 +1,535 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.Master
+@{
+    ViewData["Title"] = "StampMaster";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+    <div class="modal fade" id="approve">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title">View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <b>Request No.:</b> <span id="RequestNo"></span>,&nbsp;&nbsp;
+                    <b>Brand:</b> <span id="BrandName"></span>,&nbsp;&nbsp;
+                    <b>Chart No:</b> <span id="StampChartNo"></span>
+                    <div class="mt-3">
+                        <img id="displayImage1" class="img-fluid" src="" alt="Stamp Preview" />
+                    </div>
+
+                    <!-- Hidden Data -->
+                    <label id="modalId" style="display:none"></label>
+                    <p style="display:none">ID: <span id="approveItemId"></span></p>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <div class="float-right">
+                        <button type="button"
+                                class="btn btn-danger btn-xs btnwidth50"
+                                onclick="ApprovalStamp(document.getElementById('approveItemId').textContent, 4)"
+                                data-dismiss="modal"
+                                title="Reject the selected item">
+                            Reject
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-success btn-xs btnwidth60"
+                                onclick="ApprovalStamp(document.getElementById('approveItemId').textContent, 3)"
+                                data-dismiss="modal"
+                                title="Approve the selected item">
+                            Approve
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="preview">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title">View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+               @*  document.getElementById('RequestNo').textContent = RequestNo;
+                document.getElementById('BrandName').textContent = BrandName;
+                document.getElementById('StampChartNo').textContent = StampChartNo; *@
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <!-- Hidden input for ID (if needed) -->
+                    <input type="hidden" id="txtID" />
+
+                    <!-- Dynamic content placeholders -->
+                    <b>Request No.:</b> <span id="PreviewRequestNo"></span>,&nbsp;&nbsp;
+                    <b>Brand:</b> <span id="PreviewBrandName"></span>,&nbsp;&nbsp;
+                    <b>Chart No:</b> <span id="PreviewStampChartNo"></span>
+
+                    <!-- Image section -->
+                    <div class="mt-3">
+                        <img id="displayImage2" class="img-fluid" src="" alt="Stamp Image" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="view">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title">View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <!-- Hidden input for ID (if needed) -->
+                    <input type="hidden" id="txtID1" />
+
+                    <!-- Dynamic content placeholders -->
+                    <b>Request No.:</b> <span id="ApprovedRequestNo"></span>,&nbsp;&nbsp;
+                    <b>Brand:</b> <span id="ApprovedBrandName"></span>,&nbsp;&nbsp;
+                    <b>Chart No:</b> <span id="ApprovedStampChartNo"></span>
+
+                    <!-- Image section -->
+                    <div class="mt-3">
+                        <img id="displayImage" class="img-fluid" src="" alt="Stamp Image" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>Stamp</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item active">Master</li>
+                        <li class="breadcrumb-item active">Stamp</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs"
+                                onclick="window.history.back()"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+
+                    </div>
+                    <div class="btnwidth50 float-right mr-1">
+                        <a href="@Url.Action("AddStampMaster", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })" class="btn btn-block bg-gradient-primary   btn-xs float-left">
+                            Add
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+
+        <div class="container-fluid">
+
+            @* New Requests *@
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">New Requests</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%"><div align="center">Request No.</div></th>
+                                            <th width="40%"><div align="left">Brand</div></th>
+                                            <th width="15%"><div align="center">Chart No.</div></th>
+                                            <th width="15%"><div align="center">Delete</div></th>
+                                            <th width="15%"><div align="center">Action</div></th>
+                                        </tr>
+                                    </thead>
+                                       
+                                    <tbody>
+                                        @if (Model.Stamp_List != null)
+                                        {
+                                            foreach (var item in Model.Stamp_List)
+                                            {
+                                                if (item.GridNo == 1)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <div align="center">
+                                                                <a href="#" title="Edit" onclick="EditStampMaster('@item.Id');">@item.Id</a>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div align="left">
+                                                                <a href="#" data-toggle="modal" data-target="#preview"
+                                                                   onclick="ViewpreviewDetails(@item.Id,'@item.BrandName','@item.StampChartNo','@item.BrandCode','@item.ImageFile')"
+                                                                   title="View">
+                                                                    @item.BrandName
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                        <td><div align="center">@item.StampChartNo</div></td>
+                                                        <td>
+                                                            <div align="center">
+                                                                <button type="button" class="btn btn-danger btn-xs btnwidth50"
+                                                                        onclick="DeleteStamp(@item.Id);"
+                                                                        title="Delete the selected record">
+                                                                    Delete
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div align="center">
+                                                                <button type="button" class="btn btn-primary btn-xs btnwidth95"
+                                                                        onclick="ApprovalStamp(@item.Id,2);"
+                                                                        title="Submit for Approval">
+                                                                    Submit for Approval
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* Requests for Approval *@
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-warning collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Requests for Approval</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th width="10%"><div align="center">Request No.</div></th>
+                                        <th width="75%"><div align="left">Brand</div></th>
+                                        <th width="15%"><div align="center">Chart No.</div></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.StampRequestApproval_List != null)
+                                    {
+                                        foreach (var item in Model.StampRequestApproval_List)
+                                        {
+                                            if (item.GridNo == 2)
+                                            {
+                                                <tr>
+
+                                                    <td><div align="center">@item.Id</div></td>
+                                                    <td>
+
+                                                        <div align="left">
+                                                            <a href="#" data-toggle="modal" data-target="#approve"
+                                                               onclick="setApproveItems(@item.Id,'@item.Id','@item.BrandName','@item.StampChartNo','@item.BrandCode','@item.ImageFile')"
+                                                               title="View">
+                                                                @item.BrandName
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                    <td><div align="center">@item.StampChartNo</div></td>
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* Stamp Master *@
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-success collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Stamp Master</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th width="10%"><div align="center">Request No.</div></th>
+                                        <th width="75%"><div align="left">Brand</div></th>
+                                        <th width="15%"><div align="center">Chart No.</div></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.StampRequestApproved_List != null)
+                                    {
+                                        foreach (var item in Model.StampRequestApproved_List)
+                                        {
+                                            if (item.GridNo == 3)
+                                            {
+                                                <tr>
+                                                    <td><div align="center">@item.Id</div></td>
+                                                    <td>
+                                                        <div align="left">
+                                                            <a href="#" data-toggle="modal" data-target="#view"
+                                                               onclick="ViewApprovedDetails(@item.Id,'@item.BrandName','@item.StampChartNo','@item.BrandCode','@item.ImageFile')"
+                                                               title="View">
+                                                                @item.BrandName
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                    <td><div align="center">@item.StampChartNo</div></td>
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- InstanceEndEditable -->
+</div>
+
+<script>
+    function ViewApprovedDetails(RequestNo, BrandName, StampChartNo, BrandCode, ImageFile) {
+        document.getElementById('ApprovedRequestNo').textContent = RequestNo;
+        document.getElementById('ApprovedBrandName').textContent = BrandName;
+        document.getElementById('ApprovedStampChartNo').textContent = StampChartNo;
+        OpenDocument(BrandCode, ImageFile, 'displayImage');
+    }
+</script>
+<script>
+    function setApproveItems(itemId, RequestNo, BrandName, StampChartNo, BrandCode, ImageFile) {
+        document.getElementById('approveItemId').textContent = itemId;
+        document.getElementById('RequestNo').textContent = RequestNo;
+        document.getElementById('BrandName').textContent = BrandName;
+        document.getElementById('StampChartNo').textContent = StampChartNo;
+        OpenDocument(BrandCode, ImageFile,'displayImage1');
+    }
+</script>
+<script>
+    function ViewpreviewDetails(RequestNo, BrandName, StampChartNo, BrandCode, ImageFile) {
+       
+        document.getElementById('PreviewRequestNo').textContent = RequestNo;
+        document.getElementById('PreviewBrandName').textContent = BrandName;
+        document.getElementById('PreviewStampChartNo').textContent = StampChartNo;
+        OpenDocument(BrandCode, ImageFile,'displayImage2');
+    }
+</script>
+<script type="text/javascript">
+    function EditStampMaster(Id) {
+
+        // Constructing the URL using JavaScript
+         var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+    // Construct the full URL
+    var url = '@Url.Action("EditStampMaster", "Master")' +
+        '?Id=' + encodeURIComponent(Id) +
+        '&PageID=' + pageID +
+        '&ParentID=' + parentID +
+        '&ModuleID=' + moduleID +
+        '&ModulePageID=' + modulePageID;
+
+    // Redirect
+    window.location.href = url;
+    }
+
+
+
+    function DeleteStamp(Id) {
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+        let JsonData = {
+            Id: Id,
+            CreatedDate: moment.utc(new Date()).format(),
+            CreatedBy: iLoggedInUserID
+        };
+
+        var jsonData = JSON.stringify(JsonData);
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("DeleteStamp", "Master")',
+            data: { JsonData: jsonData },
+            dataType: 'json',
+            success: function (data) {
+                alert(data.response);
+                window.location.reload();
+            },
+            error: function (xhr, status, error) {
+                console.error('Error occurred:', error);
+            }
+        });
+    }
+
+
+    function ApprovalStamp(Id, StatusId) {
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+        var json = {
+            Id: Id,
+            StatusId: StatusId,
+            CreatedDate: moment.utc(new Date()).format(),
+            CreatedBy: iLoggedInUserID
+        };
+        var JsonData = JSON.stringify(json);
+
+        // First Ajax request
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ApprovalStamp", "Master")',
+            data: { JsonData: JsonData },
+            datatype: 'json',
+            beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                alert(data.response);
+                location.reload();
+            }
+        });
+
+
+
+
+    }
+
+
+    async function OpenDocument(BrandCode, FileName, DivId) {
+       var JwToken = '@ViewBag.JWTToken';
+       var blobStorageUrl = '@ViewBag.ApiUrl';
+       let blobPathPrefix = '@ViewBag.BaseBlobPath';
+        var path = 'others\\stamps' + '\\' + BrandCode.toLowerCase() + '\\';
+         const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
+
+            const JSONData = {
+                blobPath: blobpath,
+                asSas: false,
+                downloadFileName: FileName
+            };
+
+            try {
+                $('#loader').show();
+
+                const response = await $.ajax({
+                    url: blobStorageUrl + 'Files/get',
+                    headers: { Authorization: 'Bearer ' + JwToken },
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(JSONData),
+                    xhrFields: { responseType: 'blob' }
+                });
+
+                if (response && response.size > 0) {
+                    const objectURL = URL.createObjectURL(response);
+                    // Display the image in the img tag
+                    const imgElement = document.getElementById(DivId);
+                imgElement.src = objectURL;
+                }
+            }
+            catch (error) {
+                console.error("Error:", error);
+                const imgElement = document.getElementById(DivId);
+                imgElement.src = '';
+
+            }
+            finally {
+             $('#loader').hide();
+            }
+        // var path = Folder;
+
+        // const request = {
+        //     FileName: path + FileName
+        // };
+
+        // try {
+        //     const response = await fetch(apiUrl, {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //             Authorization: 'Bearer ' + JwToken
+        //         },
+        //         body: JSON.stringify(request),
+        //     });
+
+        //     if (!response.ok) {
+        //         console.error("Network response was not ok");
+        //       const imgElement = document.getElementById(DivId);
+        //     imgElement.src = "";
+        //         return;
+        //     }
+
+        //     // Open the downloaded file in a new tab.
+        //     const blob = await response.blob();
+        //     const objectURL = URL.createObjectURL(blob);
+        //     // Display the image in the img tag
+        //     const imgElement = document.getElementById(DivId);
+        //     imgElement.src = objectURL;
+
+
+        // } catch (error) {
+        //     console.error("Error:", error);
+        // }
+    }
+
+</script>

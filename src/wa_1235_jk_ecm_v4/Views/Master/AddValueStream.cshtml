@@ -1,0 +1,164 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "AddValueStream";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>Value Stream</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="../login/marketing-page.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="index.html">ECM</a></li>
+                        <li class="breadcrumb-item"><a href="#">Masters</a></li>
+                        <li class="breadcrumb-item active">
+                            Value Stream
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs"
+                                onclick="window.history.back()"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+
+        <div class="container-fluid">
+
+
+
+
+
+
+            <div class="row equal">
+                <div class="col-md-6">
+                    <div class="card card-outline card-primary p-a-2" style="height: 100%;">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row">
+
+
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>Value Stream Code </label>
+                                        <input name="" type="text" class="form-control">
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>Value Stream Name </label>
+                                        <input name="" type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>Add Operations</label>
+                                        <select class="form-control select2" multiple>
+                                            <option value="">Select</option>
+                                            <option value="34">Balancia Grinding </option>
+                                            <option value="33">Belt Grinding</option>
+                                            <option value="80">Bending</option>
+                                            <option value="100">Blackodizing</option>
+                                            <option value="36">Centreless Grinding</option>
+                                            <option value="39">Centreless Grinding  Point </option>
+                                            <option value="37">Centreless Grinding Finish </option>
+                                            <option value="35">Centreless Grinding Rough</option>
+                                            <option value="38">Centreless Point Grinding</option>
+                                            <option value="51">Chain Saw Cutting</option>
+                                            <option value="50">Chain Saw Cutting-Over Cut</option>
+                                            <option value="49">Chain Saw Cutting-Up Cut</option>
+                                            <option value="42">Corner Setting</option>
+                                            <option value="40">Cross Grinding</option>
+                                            <option value="141">D Test</option>
+                                            <option value="145">DataTest13</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+                            </div>
+                            <div class="row">
+
+
+
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>Sequence </label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" disabled>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-8" style="margin-top: 35px;">
+
+
+
+
+
+                                    <div class="btnwidth120 float-left mr-2">
+                                        <a href="" class="btn btn-block  bg-gradient-danger  btn-xs float-right">
+                                            Delete
+                                        </a>
+                                    </div>
+                                    <div class="btnwidth120 float-left mr-2">
+                                        <a href="value-stream.html" class="btn btn-block  bg-gradient-primary  btn-xs float-right">
+                                            Save
+                                        </a>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+
+
+                <!-- /.card -->
+            </div>
+
+        </div>
+
+
+
+    </section>
+
+    <!-- InstanceEndEditable -->
+</div>

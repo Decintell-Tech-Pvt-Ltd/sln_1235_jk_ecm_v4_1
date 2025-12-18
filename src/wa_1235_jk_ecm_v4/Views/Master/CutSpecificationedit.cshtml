@@ -1,0 +1,308 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.Master
+@{
+    ViewData["Title"] = "Cutspecificationedit";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5> Cut Specification</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item active">Master</li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Cutspecification", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Cut Specification</a></li>
+                        <li class="breadcrumb-item active">Add</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        @{
+                            var url = Url.Action("Cutspecification", "Master", new
+                            {
+                                PageID = Context.Request.Query["PageID"].ToString(),
+                                ParentID = Context.Request.Query["ParentID"].ToString(),
+                                ModuleID = Context.Request.Query["ModuleID"].ToString(),
+                                ModulePageID = Context.Request.Query["ModulePageID"].ToString()
+                            });
+                        }
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs float-left"
+                                onclick="location.href='@url'"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+
+                </div>
+
+            </div><!-- /.container-fluid -->
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline p-a-2" style="height: 100%;">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="col-md-12">
+
+                                @* <b>Request No.: </b>3780,&nbsp;&nbsp;
+                                <b>File Size: </b>64, &nbsp;&nbsp;<b>
+                                    File Type Code:
+                                </b>NZ, &nbsp;&nbsp;
+                                <b>Cut Type: </b>1,	&nbsp;&nbsp;
+                                <b>Cut Standard:</b> *@
+                                <b>Request No.:</b>@ViewBag.RequestNo,&nbsp;&nbsp; <b>File Size:</b>@ViewBag.FileSize, &nbsp;&nbsp;<b>File Type Code:</b>@ViewBag.FileTypeCode, &nbsp;&nbsp;<b>Cut Type:</b>@ViewBag.CutType,	&nbsp;&nbsp;<b>Cut Standard:</b>@ViewBag.CutSpecCode
+
+                                <div class="row top10 mt-3">
+
+                                    <div class="col-md-12">
+                                        <table class="table table-bordered" width="100%" cellspacing="1" cellpadding="1" id="TableCutSpec1">
+                                            <thead>
+                                                <tr>
+                                                    <th style="line-height: 2.6; width: 20%;">Cutspec Name:</th>
+                                                    <th style="width: 40%;">
+                                                        <input type="text" value="@ViewBag.CutSpecName" id="txtCutSpecName" class="form-control" />
+                                                    </th>
+                                                    <th style="line-height: 2.6; width: 15%;">Cutspec Code:</th>
+                                                    <th style="width: 25%;">
+                                                        <input type="text" value="@ViewBag.CutSpecCode" id="txtCutSpecCode" class="form-control" />
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <th>CutSides</th>
+                                                    <th>CutOnSides</th>
+                                                    <th style="display:none;">CutSidesID</th>
+                                                    <th style="display:none;">CutOnSidesID</th>
+                                                    <th>Value</th>
+                                                    <th>UOM</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="TablebodyCutSpec">
+                                                @if (Model.CutSpecificationEdit_List != null)
+                                                {
+                                                    foreach (var item in Model.CutSpecificationEdit_List)
+                                                    {
+                                                        <tr>
+                                                            <td class="text-left">@item.CutSides</td>
+                                                            <td class="text-left">@item.CutOnSides</td>
+                                                            <td class="text-left" style="display:none;">@item.CutSideId</td>
+                                                            <td class="text-left" style="display:none;">@item.CutOnsideId</td>
+                                                            <td class="text-left">
+                                                                <input type="text" value="@item.Value" class="form-control" name="value" id="CutSpecification_@item.Id" />
+                                                            </td>
+                                                            <td class="text-left">@item.UOM</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                       @*  <table width="100%" border="0" cellspacing="1" cellpadding="1" class="table table-bordered" id="TableCutSpec">
+                                            <thead>
+                                                <tr>
+                                                    <th valign="middle" style="line-height: 2.6; width: 20%;">Cutspec Name:</th>
+                                                    <th valign="middle" style="width: 40%;"><input name="" type="text" value="" id="txtCutSpecName" class="form-control"></th>
+                                                    <th valign="middle" style="line-height: 2.6; width: 15%;">Cutspec Code:</th>
+                                                    <th valign="middle" style="width: 15%;"><input name="" type="text" value="" id="txtCutSpecCode" class="form-control"></th>
+                                                </tr>
+                                                <tr>
+                                                    <th>CutSides</th>
+                                                    <th>CutOnSides</th>
+                                                    <th style="display:none">CutSidesID</th>
+                                                    <th style="display:none">CutOnSidesID</th>
+                                                    <th>Value </th>
+                                                    <th>UOM</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="TablebodyCutSpec">
+                                                <tr>
+                                                    <td class="text-left">Overcut</td>
+                                                    <td class="text-left">Cutting</td>
+                                                    <td class="text-center" style="display:none"></td>
+                                                    <td class="text-center" style="display:none"></td>
+                                                    <td class="text-center">
+                                                        <input type="text" value="0" class="form-control" name="value">
+                                                    </td>
+                                                    <td class="left">tpi</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-left">OverCut</td>
+                                                    <td class="text-left">2ST SIDE CUTTING  (Double cut)</td>
+                                                    <td class="text-center" style="display:none"></td>
+                                                    <td class="text-center" style="display:none"></td>
+                                                    <td class="text-center">
+                                                        <input type="text" value="0" class="form-control" name="value">
+                                                    </td>
+
+                                                    <td class="left">tpi</td>
+
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-left">OverCut(rows)</td>
+                                                    <td class="text-left">Rows</td>
+                                                    <td class="text-center" style="display:none"></td>
+                                                    <td class="text-center" style="display:none"></td>
+                                                    <td class="text-center">
+                                                        <input type="text" value="0" class="form-control" name="value" id="CutSpecification_0">
+                                                    </td>
+
+                                                    <td class="left">tpi</td>
+
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-left">Edgecut</td>
+                                                    <td class="text-left">Cutting</td>
+                                                    <td class="text-center" style="display:none"></td>
+                                                    <td class="text-center" style="display:none"></td>
+                                                    <td class="text-center">
+                                                        <input type="text" value="0" class="form-control" name="value">
+                                                    </td>
+
+                                                    <td class="left">tpi</td>
+
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-left">No of Edge /Inch</td>
+                                                    <td class="text-left">RASP SIDE CUTTING</td>
+                                                    <td class="text-center" style="display:none"></td>
+                                                    <td class="text-center" style="display:none"></td>
+                                                    <td class="text-center">
+                                                        <input type="text" value="0" class="form-control" name="value">
+                                                    </td>
+
+                                                    <td class="left">tpi</td>
+
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-left">Upcut</td>
+                                                    <td class="text-left">Cutting</td>
+                                                    <td class="text-center" style="display:none"></td>
+                                                    <td class="text-center" style="display:none"></td>
+                                                    <td class="text-center">
+                                                        <input type="text" value="0" class="form-control" name="value" id="CutSpecification_0">
+                                                    </td>
+
+                                                    <td class="left">tpi</td>
+
+
+
+                                                </tr>
+
+                                            </tbody>
+                                        </table> *@
+
+                                    </div>
+                                </div>
+
+
+                                <div class="btnwidth50 float-right mr-1">
+                                    <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                                            onClick="EditCutSpecification();" title="Add new record">
+                                        Submit
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- InstanceEndEditable -->
+</div>
+
+<Script>
+    function EditCutSpecification() {
+        var ID = @ViewBag.ID;
+
+        var CutSpecName = $("#txtCutSpecName").val();
+        var CutSpecCode = $("#txtCutSpecCode").val();
+
+        var formData = [];
+
+        // Iterate through each row in the table body
+        $('#TablebodyCutSpec tr').each(function () {
+            var rowData = {};
+
+            // Get the values from the input fields in the current row
+            // rowData.cutSideId = $(this).find('.text-center:eq(2)').text();
+            // rowData.cutOnsideId = $(this).find('.text-center:eq(3)').text();
+            rowData.cutSide = $(this).find('.text-left:eq(0)').text();
+            rowData.cutOnSide = $(this).find('.text-left:eq(1)').text();
+            rowData.paramValue = $(this).find('.text-left:eq(4) input').val();
+            rowData.uom = $(this).find('.text-left:eq(5)').text();
+
+            // Add the rowData object to the formData array
+            if (rowData.paramValue != null && rowData.paramValue != '') {
+                formData.push(rowData);
+            }
+        });
+
+        var JsonData = {
+            ID: ID,
+            CutSpecName: CutSpecName,
+            CutSpecCode: CutSpecCode,
+            CutSpecJarr: formData
+        };
+
+        var JSONInsert = JSON.stringify(JsonData);
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("EditCutSpecification", "Master")',
+            data: { JsonData: JSONInsert },
+            datatype: 'json',
+            success: function (data) {
+                alert(data.response);
+                var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+    // Construct the full URL
+    var url = '@Url.Action("Cutspecification", "Master")' +
+        '?PageID=' + pageID +
+        '&ParentID=' + parentID +
+        '&ModuleID=' + moduleID +
+        '&ModulePageID=' + modulePageID;
+
+    // Redirect
+    window.location.href = url;
+            },
+            error: function () {
+                alert('Error occurred while processing your request.');
+            }
+        });
+    }
+
+</Script>

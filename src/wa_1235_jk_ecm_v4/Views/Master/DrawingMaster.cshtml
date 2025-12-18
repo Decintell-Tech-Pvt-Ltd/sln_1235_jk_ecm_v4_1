@@ -1,0 +1,1189 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+	ViewData["Title"] = "DrawingMaster";
+	Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+	<!-- InstanceBeginEditable name="EditRegion1" -->
+	<div class="modal fade" id="parameter">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<!-- Optional Branding Row -->
+				@*  <div class="col-md-12 pt-2 pb-2">
+                    <div class="row">
+                        <div class="col-md-4 pad0">
+                            <img src="../decintell/dist/img/logo-popup.png" class="pull-left popup-logo img-responsive">
+                        </div>
+                        <div class="col-md-6"></div>
+                        <div class="col-md-2 pad0">
+                            <img src="../decintell/icons/falco-popup.png" class="pull-right popup-logo img-responsive">
+                        </div>
+                    </div>
+                </div> *@
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h5 class="modal-title">View File Sub Type</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<!-- Modal Body -->
+				<div class="modal-body">
+					<input type="hidden" id="txtID" />
+					<div class="table-responsive">
+						<table class="table table-bordered example1" id="tblshowAddedFileSubTypeParameters2" width="100%">
+							<thead>
+								<tr>
+									<th style="width: 20%; text-align: left;">Process</th>
+									<th style="width: 35%; text-align: left;">Parameter Name</th>
+									<th style="width: 15%; text-align: center;">Screen Value</th>
+									<th style="width: 10%; text-align: center;">Display On Drawing</th>
+								</tr>
+							</thead>
+							<tbody id="showAddedFileSubTypeParameters">
+								<!-- Rows dynamically filled via JS -->
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="nonstandard3">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Add Operation</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<table width="100%" class="table table-bordered example1">
+						<thead>
+							<tr>
+								<th style="width:10%; text-align: center;">Seq.No</th>
+								<th style="width:80%;  text-align: Left;">Operation ID-Name</th>
+								<th style="width:10%;  text-align: center;"></th>
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+
+								<td style="text-align: center;">10</td>
+								<td style="text-align: Left;">10 - Cropping</td>
+								<td>
+									<div align="center">
+										<button type="button"
+												class="btn btn-danger btn-xs btnwidth50"
+												onclick="location.href=''"
+												title="Delete the selected record">
+											Delete
+										</button>
+									</div>
+								</td>
+
+							</tr>
+							<tr>
+
+								<td style="text-align: center;">50</td>
+								<td style="text-align: Left;">50 - Annealing</td>
+								<td>
+									<div align="center">
+										<button type="button"
+												class="btn btn-danger btn-xs btnwidth50"
+												onclick="location.href=''"
+												title="Delete the selected record">
+											Delete
+										</button>
+									</div>
+								</td>
+							</tr>
+							<tr>
+
+								<td style="text-align: center;">60</td>
+								<td style="text-align: Left;">60 - Tang Punching</td>
+								<td>
+									<div align="center">
+										<button type="button"
+												class="btn btn-danger btn-xs btnwidth50"
+												onclick="location.href=''"
+												title="Delete the selected record">
+											Delete
+										</button>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td style="text-align: center;">80</td>
+								<td style="text-align: Left;">80 - Tang Pressing</td>
+								<td>
+									<div align="center">
+										<button type="button"
+												class="btn btn-danger btn-xs btnwidth50"
+												onclick="location.href=''"
+												title="Delete the selected record">
+											Delete
+										</button>
+									</div>
+								</td>
+							</tr>
+
+
+						</tbody>
+					</table>
+
+					<div class="btnwidth50 float-right mr-1 " style="margin-top:35px;">
+						<button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+								onclick="location.href='Drawing.html'" title="Go to the next page">
+							Submit
+						</button>
+					</div>
+
+
+				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+			</div>
+
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="nonstandard1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">View Cut Specification</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+
+
+				<div class="modal-footer">
+					<div class="col-lg-2form-group">
+						<div class="">
+							<div class="float-left text-right">
+								<button type="button"
+										class="btn btn-danger btn-xs btnwidth50"
+										onclick="location.href=''"
+										title="Reject the selected item">
+									Reject
+								</button>
+
+								<button type="button"
+										class="btn btn-success btn-xs btnwidth60"
+										onclick="location.href=''"
+										title="Approve the selected item">
+									Approve
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+			</div>
+
+		</div>
+	</div>
+	<div class="modal fade" id="approval">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+
+				<!-- Header -->
+				<div class="modal-header">
+					<h5 class="modal-title">Approval</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<!-- Body -->
+				<div class="modal-body">
+					<input type="hidden" id="txtID">
+
+					<!-- Information Section -->
+					<p>
+						<b>Request No.:</b> <span id="txtRequestNo"></span>&nbsp;&nbsp;
+						<b>File Size:</b> <span id="txtFilesizeCode"></span>&nbsp;&nbsp;
+						<b>File Type Code:</b> <span id="txtFileTypeCode"></span>&nbsp;&nbsp;
+						<b>Cut Type:</b> <span id="txtCutType"></span>&nbsp;&nbsp;
+						<b>Cut Standard:</b> <span id="txtCutSpecCode"></span>
+					</p>
+
+					<!-- Image -->
+					<div class="text-center mb-3">
+						<img id="displayImage1" class="img-fluid" />
+					</div>
+
+					<!-- Table -->
+					<table class="table table-bordered example1" width="100%" id="tblSecondGrid">
+						<thead>
+							<tr>
+								<th style="width: 5%; text-align: center;">Sq.No.</th>
+								<th style="width: 25%; text-align: left;">Category</th>
+								<th style="width: 30%; text-align: left;">Name</th>
+								<th style="width: 20%; text-align: center;">Value</th>
+								<th style="width: 20%; text-align: center;">Tolerance</th>
+							</tr>
+						</thead>
+						<tbody id="showAddedFileSubTypeParameters_SecondGrid">
+							<!-- Dynamic rows will be injected here -->
+						</tbody>
+					</table>
+
+					<!-- Remark -->
+					<div class="form-group">
+						<label>Remark</label>
+						<textarea id="txtRemark" class="form-control" rows="5"></textarea>
+					</div>
+				</div>
+
+				<!-- Footer -->
+				<div class="modal-footer">
+					<button type="button"
+							class="btn btn-danger btn-xs btnwidth50"
+							onclick="RequestApprovalRejection(0);"
+							title="Reject the selected item">
+						Reject
+					</button>
+					<button type="button"
+							class="btn btn-success btn-xs btnwidth60"
+							onclick="RequestApprovalRejection(1);"
+							title="Approve the selected item">
+						Approve
+					</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="modal fade" id="view">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h5 class="modal-title">View File Sub Type</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<!-- Modal Body -->
+				<div class="modal-body">
+					<input type="hidden" id="txtID">
+					<b>Request No.:</b><Span id="txtRequest"></Span> ,&nbsp;&nbsp; <b>File Size (inch):</b><Span id="txtFileSize"></Span>,&nbsp;&nbsp;<b>File Type:</b><Span id="txtFileType1"></Span>
+
+
+					<br><br>
+					<!-- Table -->
+					<div class="table-responsive top10">
+						<table width="100%" class="table table-bordered example1" id="tblshowAddedFileSubTypeParameters1">
+							<thead>
+								<tr>
+									<th style="width:5%; text-align: center;">Sq.No.</th>
+									<th style="width:25%; text-align: left;">Category</th>
+									<th style="width:35%; text-align: left;">Name</th>
+									<th style="width:20%; text-align: center;">Value</th>
+									<th style="width:15%; text-align: center;">Tolerance</th>
+								</tr>
+							</thead>
+							<tbody id="showAddedFileSubTypeParameters1">
+								<!-- Dynamic rows will be inserted here via JS -->
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="tpi">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<!-- Branding Header -->
+				@*  <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4 pad0">
+                            <img src="~/decintell/dist/img/logo-popup.png" class="pull-left popup-logo img-responsive">
+                        </div>
+                        <div class="col-md-6"></div>
+                        <div class="col-md-2 pad0">
+                            <img src="~/decintell/icons/falco-popup.png" class="pull-right popup-logo img-responsive">
+                        </div>
+                    </div>
+                </div> *@
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">View Cut Specification</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<!-- Modal Body -->
+				<div class="modal-body">
+					<input type="text" id="txtID" style="display:none;">
+					<b>Request No.:</b><span id="txtReqNo"></span>,&nbsp;&nbsp; <b>File Size:</b><span id="txtFilesize"></span>, &nbsp;&nbsp;<b>File Type Code:</b><span id="txtFileType"></span>
+					<p style="display:none">ID: <span id="approveItemId"></span></p>
+
+					<div class="table-responsive top10">
+						<table width="100%" class="table table-bordered example1" id="TableCutSpecParams">
+							<thead>
+								<tr>
+									<th style="width:20%; text-align: left;">Cut Sides</th>
+									<th style="width:30%; text-align: left;">Cut On Sides</th>
+									<th style="width:20%; text-align: center;">Values</th>
+									<th style="width:15%; text-align: center;">UOM</th>
+								</tr>
+							</thead>
+							<tbody id="bodyCutSpecParams">
+								<!-- Rows inserted dynamically -->
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<section class="content-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-3">
+					<h5>Drawing</h5>
+				</div>
+				<div class="col-lg-9">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+						<li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+						<li class="breadcrumb-item active">Master</li>
+						<li class="breadcrumb-item active">Drawing</li>
+					</ol>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="btnwidth50 float-right ">
+						<button type="button" class="btn btn-block bg-gradient-danger btn-xs float-left"
+								onclick="window.history.back();" title="Go back to the previous page">
+							Back
+						</button>
+					</div>
+
+				</div>
+			</div>
+		</div><!-- /.container-fluid -->
+
+	</section>
+
+	<section class="content">
+
+		<div class="container-fluid">
+
+			<!-- New Requests -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card card-outline card-primary">
+						<div class="card-header">
+							<h3 class="card-title">New Requests</h3>
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool" data-card-widget="collapse">
+									<i class="fas fa-minus"></i>
+								</button>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered example1 nowrap" style="width:100%;">
+									<thead>
+										<tr>
+											<th width="10%"><div align="center">Request No.</div></th>
+											<th width="22.5%"><div align="center">Production SKU</div></th>
+											@*    <th width="22.5%"><div align="center">Display Parameter</div></th> *@
+											<th width="22.5%"><div align="center">Generate Drawing</div></th>
+											<th width="22.5%"><div align="center">Add Operation</div></th>
+											<th width="10%"><div align="center">Action</div></th>
+										</tr>
+									</thead>
+									<tbody>
+										@if (Model.Drawing_List != null)
+										{
+											foreach (var item in Model.Drawing_List)
+											{
+												if (item.GridNo == 1)
+												{
+													<tr>
+														<td class="text-center"><div align="center">@item.RequestNo</div></td>
+														<td class="text-center">
+															<div align="center">
+																<a href="" onclick="FileSubtypeParams(@item.FileSubTypeDetailsRowId,'@item.FileTypeImage');"
+																   data-toggle="modal" data-target="#parameter">
+																	@item.SKUKey
+																</a>
+															</div>
+														</td>
+
+														<td class="text-center">
+															<div align="center">
+																<a onclick="URLReport(@item.RequestNo)"
+																   class="btn btn-primary btn-xs">Generate</a>
+															</div>
+														</td>
+														<td class="text-center">
+															<div align="center">
+																<a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#operation">Add</a>
+															</div>
+														</td>
+														<td class="text-center">
+															<div align="center">
+																<a href="#" onclick="UpdateDrawingStatus(@item.DrawingId,2,'@item.SKUKey');"
+																   class="btn btn-primary btn-xs">Submit For Approval</a>
+															</div>
+														</td>
+													</tr>
+												}
+											}
+										}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Requests for Approval -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card card-outline card-warning collapsed-card">
+						<div class="card-header">
+							<h3 class="card-title">Requests for Approval</h3>
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool" data-card-widget="collapse">
+									<i class="fas fa-plus"></i>
+								</button>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered example1 nowrap" style="width:100%;">
+									<thead>
+										<tr>
+											<th width="10%"><div align="center">Request No.</div></th>
+											<th width="45%"><div align="center">Production SKU</div></th>
+											<th width="45%"><div align="center">TPI</div></th>
+											@*     <th width="10%"><div align="center">Approval</div></th> *@
+										</tr>
+									</thead>
+									<tbody>
+										@if (Model.Drawing_List != null)
+										{
+											foreach (var item in Model.Drawing_List)
+											{
+												if (item.GridNo == 2)
+												{
+													<tr>
+														<td class="text-center">
+															<a href="#" onclick="FileSubtypeParamsSecondGrid(@item.FileSubTypeDetailsRowId,'@item.FileTypeImage','@item.RequestNo','@item.FileSizeCode','@item.FileTypeCode','@item.CutTypeCode','@item.CutSpecCode');" data-toggle="modal" data-target="#approval" data-drawing-id="@item.DrawingId">@item.RequestNo</a>
+														</td>
+														<td class="text-center">
+															<a href="#" onclick="ModelFileSize(@item.FileSubTypeDetailsRowId,'@item.RequestNo','@item.FileSizeCode','@item.FileTypeCode');">
+																@item.SKUKey
+															</a>
+														</td>
+														<td class="text-center">
+															<a href="#" class="btn btn-primary btn-xs" onclick="ModelCutSpecification('@item.CutSpecDetailsRowId','@item.RequestNo','@item.FileSizeCode','@item.FileTypeCode')" data-toggle="modal" data-target="#tpi">View</a>
+														</td>
+														@*  <td class="text-center">
+                                                            <a href="#" onclick="FileSubtypeParamsSecondGrid(@item.FileSubTypeDetailsRowId,'@item.FileTypeImage');"
+                                                               data-toggle="modal" data-target="#approval"
+                                                               class="btn btn-success btn-xs"
+                                                               data-drawing-id="@item.DrawingId">Approve</a>
+                                                        </td> *@
+													</tr>
+												}
+											}
+										}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Drawing Master -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card card-outline card-success collapsed-card">
+						<div class="card-header">
+							<h3 class="card-title">Drawing Master</h3>
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool" data-card-widget="collapse">
+									<i class="fas fa-plus"></i>
+								</button>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered example1 nowrap" style="width:100%;">
+									<thead>
+										<tr>
+											<th width="10%"><div align="center">Request No.</div></th>
+											<th width="20%"><div align="center">Production SKU</div></th>
+											<th width="20%"><div align="center">Drawing PDF</div></th>
+											<th width="60%"><div align="left">Drawing Description</div></th>
+										</tr>
+									</thead>
+									<tbody>
+										@if (Model.Drawing_List != null)
+										{
+											foreach (var item in Model.Drawing_List)
+											{
+												if (item.GridNo == 3)
+												{
+													<tr>
+														<td class="text-center">@item.RequestNo</td>
+														<td class="text-center">@item.SKUKey</td>
+														<td class="text-center">
+															<button type="button"
+																	class="btn btn-primary btn-xs"
+																	onclick="OpenDocument('@item.SKUKey'+'.pdf')"
+																	title="Download the file">
+																Download
+															</button>
+														</td>
+														<td class="text-left">@item.Description</td>
+													</tr>
+												}
+											}
+										}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+	</section>
+
+</div>
+
+<script>
+	   var JwToken = '@ViewBag.JWTToken';
+	   var blobStorageUrl = '@ViewBag.ApiUrl';
+	   var url1 = '@ViewBag.API_ECM_1231';
+	   let blobPathPrefix = '@ViewBag.BaseBlobPath';
+	function ModelFileSize(ID, RequestNo, FileSize, FileType) {
+		$('#txtID').val(ID);
+		$('#txtRequest').text(RequestNo);
+		$('#txtFileSize').text(FileSize);
+		$('#txtFileType1').text(FileType);
+		// $('#txtFileSubType').text(SubType);
+		// $('#txtExistingSubType').text(SubTypeCode);
+
+		var JsonData = JSON.stringify({
+			ID: ID
+		});
+
+		$.ajax({
+			type: "POST",
+			url: '@Url.Action("GetFileSubTypeParameters", "Master")',
+			data: { JsonData: JsonData },
+			dataType: 'json',
+			beforeSend: function () { $('#loader').show(); },
+			complete: function () { $('#loader').hide(); },
+			success: function (data) {
+				var html = '';
+
+				$("#tblshowAddedFileSubTypeParameters1").dataTable().fnClearTable();
+				$("#tblshowAddedFileSubTypeParameters1").dataTable().fnDestroy()
+				var dtParameter = $('#tblshowAddedFileSubTypeParameters1').DataTable({
+					"columnDefs": [
+						{ "className": "dt-center", "targets": "_all" }
+					],
+				});
+
+				var rows = [];
+				for (var i = 0; i < data.getFileSubTypeParametersList.length; i++) {
+					// html += '<tr>';
+					// html += '<td>' + data.getFileSubTypeParametersList[i].sequence + '</td>';
+					// html += '<td>' + data.getFileSubTypeParametersList[i].category + '</td>';
+					// html += '<td>' + data.getFileSubTypeParametersList[i].name + '</td>';
+					// html += '<td>' + data.getFileSubTypeParametersList[i].value + '</td>';
+					// html += '<td>' + data.getFileSubTypeParametersList[i].tolerance + '</td>';
+					// html += '</tr>';
+					rows = [
+						data.getFileSubTypeParametersList[i].sequence,
+						data.getFileSubTypeParametersList[i].category,
+						data.getFileSubTypeParametersList[i].name,
+						data.getFileSubTypeParametersList[i].value,
+						data.getFileSubTypeParametersList[i].tolerance
+					];
+					dtParameter.row.add(rows).draw(false);
+				}
+
+			   // $('#showAddedFileSubTypeParameters1').html(html);
+
+
+				$('#view').modal('show');
+			},
+			error: function () {
+				alert('Error occurred while fetching data.');
+			}
+		});
+
+	}
+
+
+	function ModelCutSpecification(Id, RequestNo, FileSizeCode, FileTypeCode) {
+		$('#txtID').val(Id);
+		$('#txtReqNo').text(RequestNo);
+		$('#txtFilesize').text(FileSizeCode);
+		$('#txtFileType').text(FileTypeCode);
+		//$('#txtCutStandard').text(CutSpecCode);
+
+		var JsonData = JSON.stringify({ ID: Id });
+
+		$.ajax({
+			type: "POST",
+			url: '@Url.Action("GetCutSpecification", "Master")',
+			data: { JsonData: JsonData },
+			dataType: 'json',
+			beforeSend: function () { $('#loader').show(); },
+			complete: function () { $('#loader').hide(); },
+			success: function (data) {
+				var html = '';
+
+				var CutSpecification = data.objList.cutSpecificationEdit_List;
+
+				for (var i = 0; i < CutSpecification.length; i++) {
+					html += '<tr>';
+					html += '<td align="left">' + CutSpecification[i].cutSides + '</td>';
+					html += '<td align="left">' + CutSpecification[i].cutOnSides + '</td>';
+					html += '<td align="center">' + CutSpecification[i].value + '</td>';
+					html += '<td align="center">' + CutSpecification[i].uom + '</td>';
+					html += '</tr>';
+				}
+				$('#bodyCutSpecParams').html(html);
+				$('#tpi').modal('show');
+			},
+			error: function () {
+				alert('Error occurred while fetching data.');
+			}
+		});
+	}
+
+	// 	async function OpenDocument(FileName) {
+		
+	// 	const apiUrl = url1 + 'UploadAndDownLoadFile/DownloadAsync';
+
+	// 	var Folder = 'drawings' + '\\';
+	// 	var path = Folder;
+
+	// 	const request = {
+	// 		FileName: path + FileName
+	// 	};
+
+	// 	try {
+	// 		const response = await fetch(apiUrl, {
+	// 			method: "POST",
+	// 			headers: {
+	// 				"Content-Type": "application/json",
+	// 				Authorization: 'Bearer ' + JwToken
+	// 			},
+	// 			body: JSON.stringify(request),
+	// 		});
+
+	// 		if (!response.ok) {
+	// 			console.error("Network response was not ok");
+	// 			return;
+	// 		}
+
+	// 		// Open PDF in a new tab
+	// 		const blob = await response.blob();
+	// 		const objectURL = URL.createObjectURL(blob);
+
+	// 		// Open the object URL in a new tab
+			// const newTab = window.open(objectURL, '_blank');
+
+			// // Add a download button in the new tab
+			// if (newTab) {
+			// 	newTab.onload = () => {
+			// 		const downloadButton = newTab.document.createElement('a');
+			// 		downloadButton.href = objectURL;
+			// 		downloadButton.download = FileName; Set the original file name
+			// 		downloadButton.innerText = "Download PDF";
+			// 		downloadButton.style.cssText = "position: fixed; top: 10px; right: 10px; background: #007bff; color: #fff; padding: 10px; text-decoration: none; border-radius: 5px;";
+			// 		newTab.document.body.appendChild(downloadButton);
+			// 	};
+			// }
+
+			// Revoke the object URL after some time (optional cleanup)
+			// setTimeout(() => URL.revokeObjectURL(objectURL), 60000); 60 seconds
+	// 	} catch (error) {
+	// 		console.error("Error:", error);
+	// 	}
+	// }
+
+	async function OpenDocument(FileName) {
+		var path = 'drawings' + '\\';
+		
+		 const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
+
+			const JSONData = {
+				blobPath: blobpath,
+				asSas: false,
+				downloadFileName: FileName
+			};
+
+			try {
+				$('#loader').show();
+
+				const response = await $.ajax({
+					url: blobStorageUrl + 'Files/get',
+					headers: { Authorization: 'Bearer ' + JwToken },
+					type: "POST",
+					contentType: "application/json",
+					data: JSON.stringify(JSONData),
+					xhrFields: { responseType: 'blob' }
+				});
+
+				if (response && response.size > 0) {
+  //  const blob = new Blob([response], { type: 'application/pdf' });
+  //const blob = await response.blob();
+  const objectURL = URL.createObjectURL(response);
+   
+
+    // Open the PDF in a new tab
+    const newTab = window.open(objectURL, '_blank');
+			//	const newTab = window.open(objectURL, '_blank');
+
+			// Add a download button in the new tab
+			if (newTab) {
+				newTab.onload = () => {
+					const downloadButton = newTab.document.createElement('a');
+					downloadButton.href = objectURL;
+					downloadButton.download = FileName; //Set the original file name
+					downloadButton.innerText = "Download PDF";
+					downloadButton.style.cssText = "position: fixed; top: 10px; right: 10px; background: #007bff; color: #fff; padding: 10px; text-decoration: none; border-radius: 5px;";
+					newTab.document.body.appendChild(downloadButton);
+				};
+			}
+
+			//Revoke the object URL after some time (optional cleanup)
+			setTimeout(() => URL.revokeObjectURL(objectURL), 60000); 
+    // Force the browser's "Save As" name when user clicks download in viewer
+    // (This works in Chrome, Edge, and most modern browsers)
+    // if (newTab) {
+    //     newTab.document.title = FileName;
+    //     const a = document.createElement('a');
+    //     a.href = objectURL;
+    //     a.download = FileName; // Sets the default filename for download
+    //     newTab.document.body.appendChild(a);
+    // }
+
+    // // Cleanup after some time
+    // setTimeout(() => URL.revokeObjectURL(objectURL), 60000);
+}
+
+			// Revoke the object URL after some time (optional cleanup)
+			//setTimeout(() => URL.revokeObjectURL(objectURL), 60000); // 60 seconds
+				
+			}
+			catch (error) {
+				console.error("Error:", error);			
+			}
+			finally {
+			 $('#loader').hide();
+			}
+	}
+
+
+	
+
+	async function OpenImageDocumentSecondGrid(FileName) {
+		
+		var path = 'others\\filetypes' + '\\';
+		//var path = Folder;
+
+		// const request = {
+		// 	FileName: path + FileName
+		// };
+
+		// try {
+		// 	const response = await fetch(apiUrl, {
+		// 		method: "POST",
+		// 		headers: {
+		// 			"Content-Type": "application/json",
+		// 			Authorization: 'Bearer ' + JwToken
+		// 		},
+		// 		body: JSON.stringify(request),
+		// 	});
+
+		// 	if (!response.ok) {
+		// 		console.error("Network response was not ok");
+		// 		return;
+		// 	}
+
+		// 	// Open the downloaded file in a new tab.
+		// 	const blob = await response.blob();
+		// 	const objectURL = URL.createObjectURL(blob);
+		// 	// Display the image in the img tag
+		// 	const imgElement = document.getElementById('displayImage1');
+		// 	imgElement.src = objectURL;
+
+		// } catch (error) {
+		// 	console.error("Error:", error);
+		// }
+		 const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
+
+			const JSONData = {
+				blobPath: blobpath,
+				asSas: false,
+				downloadFileName: FileName
+			};
+
+			try {
+				$('#loader').show();
+
+				const response = await $.ajax({
+					url: blobStorageUrl + 'Files/get',
+					headers: { Authorization: 'Bearer ' + JwToken },
+					type: "POST",
+					contentType: "application/json",
+					data: JSON.stringify(JSONData),
+					xhrFields: { responseType: 'blob' }
+				});
+
+				if (response && response.size > 0) {
+					const objectURL = URL.createObjectURL(response);
+					// Display the image in the img tag
+					const imgElement = document.getElementById('displayImage1');
+				imgElement.src = objectURL;
+				}
+			}
+			catch (error) {
+				console.error("Error:", error);
+				const imgElement = document.getElementById('displayImage1');
+				imgElement.src = '';
+
+			}
+			finally {
+			 $('#loader').hide();
+			}
+
+
+	}
+
+
+
+	 async function OpenImageDocument(FileName) {
+		
+		var path = 'others\\filetypes' + '\\';
+		 const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
+
+			const JSONData = {
+				blobPath: blobpath,
+				asSas: false,
+				downloadFileName: FileName
+			};
+
+			try {
+				$('#loader').show();
+
+				const response = await $.ajax({
+					url: blobStorageUrl + 'Files/get',
+					headers: { Authorization: 'Bearer ' + JwToken },
+					type: "POST",
+					contentType: "application/json",
+					data: JSON.stringify(JSONData),
+					xhrFields: { responseType: 'blob' }
+				});
+
+				if (response && response.size > 0) {
+					const objectURL = URL.createObjectURL(response);
+					// Display the image in the img tag
+					const imgElement = document.getElementById('displayImage');
+				imgElement.src = objectURL;
+				}
+			}
+			catch (error) {
+				console.error("Error:", error);
+				const imgElement = document.getElementById('displayImage');
+				imgElement.src = '';
+
+			}
+			finally {
+			 $('#loader').hide();
+			}
+		// 	const request = {
+		// 	FileName: path + FileName
+		// };
+
+		// try {
+		// 	const response = await fetch(apiUrl, {
+		// 		method: "POST",
+		// 		headers: {
+		// 			"Content-Type": "application/json",
+		// 			Authorization: 'Bearer ' + JwToken
+		// 		},
+		// 		body: JSON.stringify(request),
+		// 	});
+
+		// 	if (!response.ok) {
+		// 		console.error("Network response was not ok");
+		// 		return;
+		// 	}
+
+		// 	// Open the downloaded file in a new tab.
+		// 	const blob = await response.blob();
+		// 	const objectURL = URL.createObjectURL(blob);
+		// 	// Display the image in the img tag
+		// 	const imgElement = document.getElementById('displayImage');
+		// 	imgElement.src = objectURL;
+
+		// } catch (error) {
+		// 	const imgElement = document.getElementById('displayImage');
+		// 	imgElement.src = '';
+		// 	console.error("Error:", error);
+		// }
+	}
+
+
+	var currentDrawingId;
+	var currentColumn;
+
+	$('#approval').on('show.bs.modal', function (event) {
+		var button = $(event.relatedTarget); // Button that triggered the modal
+		currentDrawingId = button.data('drawing-id'); // Extract info from data-* attributes
+		currentColumn = button.data('column');
+		var modal = $(this);
+		//modal.find('.modal-title').text('Approval for Request No. ' + currentRequestNumber + ' (' + currentColumn + ')');
+	});
+
+
+
+	function RequestApprovalRejection(flag) {
+		var Remark = $("#txtRemark").val();
+
+		var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+		var StatusID ;
+
+		if (flag == 0)
+			StatusID = 4;
+		else
+			StatusID = 3;
+
+		var json = { ID: currentDrawingId, StatusID: StatusID, CreatedBy: iLoggedInUserID, Remark: Remark };
+
+		var JSONInsert = JSON.stringify(json);
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("UpdateDrawingStatus", "Master")',
+			data: { JsonData: JSONInsert },
+			datatype: 'json',
+			success: function (data) {
+				alert(data.response);
+				window.location.reload();
+			},
+			error: function () {
+				alert('Error occurred while processing your request.');
+			}
+		});
+
+
+
+	}
+
+	function UpdateDrawingStatus(DrawingId, StatusID, SKUKey) {
+
+
+
+
+
+		var Remark = $('#textRemark').val();
+		var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+		let jsonData = { ID: DrawingId, StatusID: StatusID, CreatedBy: iLoggedInUserID, Remark: Remark };
+		var JSONInformation = JSON.stringify(jsonData);
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("UpdateDrawingStatus", "Master")',
+			data: { JSONData: JSONInformation },
+			dataType: 'json',
+			success: function (data) {
+				alert(data.response);
+				window.location.reload();
+			},
+			error: function (err) {
+				alert(err.statusText);
+			}
+		});
+	}
+
+	function FileSubtypeParams(ID, FileName) {
+		$('#txtID').val(ID);
+
+		OpenImageDocument(FileName);
+
+		var JsonData = JSON.stringify({
+			ID: ID
+		});
+
+		$.ajax({
+			type: "POST",
+			url: '@Url.Action("GetFileSubTypeParameters", "Master")',
+			data: { JsonData: JsonData },
+			dataType: 'json',
+			beforeSend: function () { $('#loader').show(); },
+			complete: function () { $('#loader').hide(); },
+			success: function (data) {
+				var html = '';
+
+				$("#tblshowAddedFileSubTypeParameters2").dataTable().fnClearTable();
+				$("#tblshowAddedFileSubTypeParameters2").dataTable().fnDestroy()
+				var dtParameter = $('#tblshowAddedFileSubTypeParameters2').DataTable({
+					"columnDefs": [
+						{ "className": "dt-center", "targets": "_all" }
+					],
+				});
+				var rows = [];
+
+				for (var i = 0; i < data.getFileSubTypeParametersList.length; i++) {
+					// html += '<tr>';
+					// html += '<td>' + data.getFileSubTypeParametersList[i].category + '</td>';
+					// html += '<td>' + data.getFileSubTypeParametersList[i].name + '</td>';
+					// html += '<td>' + data.getFileSubTypeParametersList[i].value + '</td>';
+					// html += '<td>' + data.getFileSubTypeParametersList[i].isDisplay + '</td>';
+					// html += '</tr>';
+					rows = [
+
+						data.getFileSubTypeParametersList[i].category,
+						data.getFileSubTypeParametersList[i].name,
+						data.getFileSubTypeParametersList[i].value,
+						data.getFileSubTypeParametersList[i].isDisplay
+					];
+					dtParameter.row.add(rows).draw(false);
+				}
+
+			 //   $('#showAddedFileSubTypeParameters').html(html);
+
+				$('#parameter').modal('show');
+			},
+			error: function () {
+				alert('Error occurred while fetching data.');
+			}
+		});
+
+	}
+
+		function FileSubtypeParamsSecondGrid(ID, FileName, RequestNo, FileSizeCode, FileTypeCode, CutTypeCode, CutSpecCode) {
+		$('#txtID').val(ID);
+		$('#txtRequestNo').text(RequestNo);
+		$('#txtFilesizeCode').text(FileSizeCode);
+		$('#txtFileTypeCode').text(FileTypeCode);
+		$('#txtCutType').text(CutTypeCode);
+		$('#txtCutSpecCode').text(CutSpecCode);
+
+		OpenImageDocumentSecondGrid(FileName);
+
+		var JsonData = JSON.stringify({ ID: ID });
+
+		$.ajax({
+			type: "POST",
+			url: '@Url.Action("GetFileSubTypeParameters", "Master")',
+			data: { JsonData: JsonData },
+			dataType: 'json',
+			beforeSend: function () { $('#loader').show(); },
+			complete: function () { $('#loader').hide(); },
+			success: function (data) {
+				// Only destroy the DataTable on this specific table
+				if ($.fn.DataTable.isDataTable("#tblSecondGrid")) {
+					$("#tblSecondGrid").DataTable().clear().destroy();
+				}
+
+				// Build new rows
+				var html = '';
+				for (var i = 0; i < data.getFileSubTypeParametersList.length; i++) {
+					html += '<tr>';
+					html += '<td>' + data.getFileSubTypeParametersList[i].sequence + '</td>';
+					html += '<td>' + data.getFileSubTypeParametersList[i].category + '</td>';
+					html += '<td>' + data.getFileSubTypeParametersList[i].name + '</td>';
+					html += '<td>' + data.getFileSubTypeParametersList[i].value + '</td>';
+					html += '<td>' + data.getFileSubTypeParametersList[i].tolerance + '</td>';
+					html += '</tr>';
+				}
+
+				// Inject new HTML into the specific tbody
+				$('#showAddedFileSubTypeParameters_SecondGrid').html(html);
+
+				// Initialize DataTable only on this specific table
+				$('#tblSecondGrid').DataTable({
+					pageLength: 5,
+					lengthChange: false,
+					searching: false,
+					info: true
+				});
+
+				// Show the modal
+				$('#approval').modal('show');
+			},
+			error: function () {
+				alert('Error occurred while fetching data.');
+			}
+		});
+	}
+
+
+	 function URLReport(RequestId) {
+		var ReportBasePath = '@ViewBag.ReportBasePath';
+		var url1 = 'DrawingGeneration_ecm.aspx?';
+		var url = 'ID=';
+		var fullUrl = ReportBasePath + url1 + url + RequestId;
+		window.open(fullUrl, '_blank');
+	}
+
+
+</script>

@@ -1,0 +1,299 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "EditCustomer";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                <h5>Add Customer</h5>
+            </div>
+            <div class="col-lg-9">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                    <li class="breadcrumb-item active">Master</li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("CustomerList", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Customer</a></li>
+                    <li class="breadcrumb-item active">Add</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="btnwidth50 float-right ">
+                    @{
+                        var url = Url.Action("CustomerList", "Master", new
+                        {
+                            PageID = Context.Request.Query["PageID"].ToString(),
+                            ParentID = Context.Request.Query["ParentID"].ToString(),
+                            ModuleID = Context.Request.Query["ModuleID"].ToString(),
+                            ModulePageID = Context.Request.Query["ModulePageID"].ToString()
+                        });
+                    }
+                    <button type="button"
+                            class="btn btn-block bg-gradient-danger btn-xs float-left"
+                            onclick="location.href='@url'"
+                            title="Go back to the previous page">
+                        Back
+                    </button>
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
+    </div>
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary card-outline p-a-2" style="height: 100%;">
+                    <div class="card-body">
+
+                        <div class="col-md-12">
+
+                            <div class="row">
+                                <div class="form-group col-md-2 mt-2">
+                                    <label>Customer Code  </label>
+                                  @*   <input type="text" maxlength="2" value="AB" class="form-control" disabled />
+                                    <span class="text-danger"></span> *@
+                                    <input id="txtCustomerCode" maxlength="2" name="" value="@ViewBag.CustomerCode" type="text" class="form-control" disabled>
+                                    <span id="sptxtCustomerCode" class="text-danger"></span>
+                                </div>
+                                <div class="form-group col-md-4 mt-2">
+                                    <label>Customer Name  </label>
+                                  @*   <input maxlength="50" name="" type="text" value="AHLBORN EQUIPMENT INC." class="form-control" disabled />
+                                    <span class="text-danger"></span> *@
+                                    <input id="txtCustomer" maxlength="50" name="" value="@ViewBag.CustomerName" type="text" class="form-control" disabled>
+                                    <span id="sptxtCustomer" class="text-danger"></span>
+                                </div>
+
+
+
+                                <div class="form-group col-md-2 mt-2">
+                                    <label>Customer Rejection %</label>
+                                   @*  <input maxlength="7" name="" type="text" class="form-control" />
+                                    <span class="text-danger"></span> *@
+                                    <input id="txtCustomerRejectionPercent" name="" value="@ViewBag.CustomerRejectionPercentage" type="text" class="form-control">
+                                    <span id="sptxtCustomerRejectionPercent" class="text-danger"></span>
+                                </div>
+
+                                <input id="hdCustomerId" name="" type="hidden" value="@ViewBag.CustomerId" type="text" class="form-control">
+                            
+
+
+                                <div class="form-group col-md-2 mt-2">
+                                    <label>Customer Packing Days</label>
+                                   @*  <input maxlength="3" name="" type="text" class="form-control" />
+                                    <span class="text-danger"></span> *@
+                                    <input id="txtCustomerPackingDays" name="" value="@ViewBag.PackingDays" type="text" class="form-control">
+                                    <span id="sptxtCustomerPackingDays" class="text-danger"></span>
+                                </div>
+
+                                <div class="btnwidth50 float-right mr-1 " style="margin-top:45px;">
+                                    <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                                            onclick="AddCustomerData();" title="Add new record">
+                                        Submit
+                                    </button>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+</section>
+
+
+<script>
+
+    function Cancel() {
+        window.location.reload();
+    }
+
+
+    var ValidationFlag = true;
+
+    txtCustomerRejectionPercent.addEventListener("input", function (event) {
+        // Get the current value of the input field
+        var inputValue = event.target.value;
+
+        // Check if the entered value is a valid decimal
+        if (!isValidDecimal(inputValue)) {
+            $("#sptxtCustomerRejectionPercent").html("Customer Rejection Percent is invalid");
+            $("#sptxtCustomerRejectionPercent").css("display", "block");
+            ValidationFlag = true;
+        }
+
+        else {
+            $("#sptxtCustomerRejectionPercent").html("");
+            ValidationFlag = false;
+        }
+    });
+
+    // Function to check if a string is a valid decimal
+    function isValidDecimal(value) {
+        // Regular expression to match decimal numbers
+        var decimalPattern = /^-?\d*\.?\d*$/;
+        return decimalPattern.test(value);
+    }
+
+
+
+    // Add an event listener to the input field to listen for input events
+    txtCustomerPackingDays.addEventListener("input", function (event) {
+        // Get the current value of the input field
+        var inputValue = event.target.value;
+
+        // Check if the entered value is a valid integer
+        if (!isValidInteger(inputValue)) {
+
+            $("#sptxtCustomerPackingDays").html("Customer Packing Day is invalid");
+            $("#sptxtCustomerPackingDays").css("display", "block");
+            ValidationFlag = true;
+        }
+
+        else {
+            $("#sptxtCustomerPackingDays").html("");
+            ValidationFlag = false;
+        }
+
+    });
+
+    // Function to check if a string is a valid integer
+    function isValidInteger(value) {
+        // Regular expression to match integers
+        var integerPattern = /^-?\d*$/;
+        return integerPattern.test(value);
+    }
+
+
+
+
+
+    function AddCustomerData() {
+        var CustomerName = $("#txtCustomer").val();
+        var CustomerCode = $("#txtCustomerCode").val();
+
+        var CustomerRejectionPercent = parseFloat($("#txtCustomerRejectionPercent").val().replace(/,/g, ''));
+        var CustomerPackingDays = parseInt($("#txtCustomerPackingDays").val());
+
+        var hdCustomerId = $("#hdCustomerId").val();
+
+
+        ValidationFlag = false;
+
+        // if (CustomerName == "") {
+        //     $("#sptxtCustomer").html("Please enter Customer Name");
+        //     $("#sptxtCustomer").css("display", "block");
+        //     ValidationFlag = true;
+        // }
+        // else {
+        //     $("#sptxtCustomer").html("");
+        // }
+
+        // if (CustomerCode == "") {
+        //     $("#sptxtCustomerCode").html("Please enter Customer Code");
+        //     $("#sptxtCustomerCode").css("display", "block");
+        //     ValidationFlag = true;
+        // }
+        // else {
+        //     $("#sptxtCustomerCode").html("");
+        // }
+
+        // if (CustomerRejectionPercent == "" || isNaN(CustomerRejectionPercent)) {
+        //     $("#sptxtCustomerRejectionPercent").html("Enter Customer Rejection %");
+        //     $("#sptxtCustomerRejectionPercent").css("display", "block");
+        //     ValidationFlag = true;
+
+        // }
+        // else {
+        //     if ($("#sptxtCustomerRejectionPercent").html() == "")
+        //         $("#sptxtCustomerRejectionPercent").html("");
+        //     // ValidationFlag = false;
+        // }
+
+
+        // if (CustomerPackingDays == "" || isNaN(CustomerPackingDays)) {
+        //     $("#sptxtCustomerPackingDays").html("Enter Customer Packing Days");
+        //     $("#sptxtCustomerPackingDays").css("display", "block");
+        //     ValidationFlag = true;
+
+        // }
+        // else {
+        //     if ($("#sptxtCustomerPackingDays").html() == "")
+        //         $("#sptxtCustomerPackingDays").html("");
+        //     //ValidationFlag = false;
+        // }
+
+
+        if ($("#sptxtCustomerRejectionPercent").text() == "" && $("#sptxtCustomerPackingDays").text() == "") {
+
+            var OperationFlag = 2;
+            var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+
+            let CustomerDetailsJson = {
+                CustomerPct: CustomerRejectionPercent,
+                PackingDays: CustomerPackingDays,
+                CreatedBy: iLoggedInUserID,
+                CreatedDate: moment.utc(new Date()).format()
+                //  AdditionalMarkupPercent: parseFloat($("#txtAdditionamlMarkup").val().replace(/,/g, '')),
+
+            };
+
+
+
+            let json = {
+                CustomerId: hdCustomerId,
+                CustomerName: CustomerName,
+                CustomerCode: CustomerCode,
+                CustomerDetailsJobj: CustomerDetailsJson,
+                OperationFlag: OperationFlag
+                //CustomerDetailsJarr: DiscountSlabsJson
+            };
+
+
+
+            var JsonData = JSON.stringify(json);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AddCustomerData", "Master")',
+                data: { JsonData: JsonData },
+                datatype: 'json',
+                beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+                success: function (data) {
+                    alert(data.response);
+           var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+    // Construct the full URL
+    var url = '@Url.Action("CustomerList", "Master")' +
+        '?PageID=' + pageID +
+        '&ParentID=' + parentID +
+        '&ModuleID=' + moduleID +
+        '&ModulePageID=' + modulePageID;
+
+    // Redirect
+    window.location.href = url;
+                }
+
+
+            });
+        }
+    }
+
+
+</script>

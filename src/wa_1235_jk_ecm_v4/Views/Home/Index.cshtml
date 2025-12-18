@@ -1,0 +1,78 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+@inject IConfiguration Configuration
+@{
+    var uiRepository = Configuration["Decintell:UIRepository"];
+}
+   
+
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4">
+                    <h5>
+                        ECM-Engineering Change Management
+                    </h5>
+                </div>
+                <div class="col-lg-8">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item">ECM</li>
+                    </ol>
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <!-- /.col-md-6 -->
+                    <div class="col-lg-12">
+                        <div class="card card-primary card-outline p-a-2">
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <img src="@($"{uiRepository}dist/img/ecm.png")" class="img-fluid">
+                                    </div>
+                                    <div class="col-md-9">
+                                        <ul style="font-size: 15px;">
+                                            <li>Managing Engineering Change is very critical.Engineering Changes have serious Cost and Quality implications</li>
+                                            <li>Create and maintain directory for Product Specifications.</li>
+                                            <li>Create and maintain directory for Product Specifications.</li>
+                                            <li>Control spec changes.</li>
+                                            <li>Unique Part Number Generation.</li>
+                                            <li>Manage Engineering Change Control Flow.</li>
+                                            <li>Drawing Library, Old Part History.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- /.col-md-6 -->
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+    </section>
+
+
+    <!-- InstanceEndEditable -->
+</div>

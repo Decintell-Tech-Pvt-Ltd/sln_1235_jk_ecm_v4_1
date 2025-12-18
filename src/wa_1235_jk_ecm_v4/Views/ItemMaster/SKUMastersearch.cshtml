@@ -1,0 +1,165 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "SKUMastersearch";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+   
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4">
+                    <h5>
+                        SKU Master Search
+                    </h5>
+                </div>
+                <div class="col-lg-8">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item active">Item Master</li>
+                    </ol>
+                </div>
+                <div class="col-lg-12">
+
+
+                    <div class="btnwidth50 float-right mr-1">
+
+                        <a  id="btnBack"
+                                class="btn btn-block bg-gradient-danger btn-xs"
+                                onClick="history.back()"
+                                title="Go back to the previous page">
+                            Back
+                        </a>
+
+                    </div>
+
+                    @* <div class=" float-right mr-1">
+                        <a 
+                                class="btn btn-primary btn-xs" id="btnbulkUpload"
+                                href="@Url.Action("BulkUpload", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })"
+                                title="Upload files">
+                            Bulk Upload
+                        </a>
+
+
+
+                    </div> *@
+                    <div class="btnwidth60 float-right mr-1">
+                        <a  id="btnNewSet"
+                                class="btn btn-primary btn-xs"
+                           href="@Url.Action("Newsetproductiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), Status = "SET" })"
+                                title="Go to the next page">
+                            New SET
+                        </a>
+
+
+                    </div>
+                    <div class="btnwidth60 float-right mr-1">
+                        <a type="button" id="btnNewSKU"
+                                class="btn btn-primary btn-xs"
+                           href="@Url.Action("Productiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), Status = "SKU" })"
+                                title="Go to the next page">
+                            New SKU
+                        </a>
+
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card card-primary card-tabs p-a-2" style="height: 100%;">
+                        <div class="card-header p-0 pt-1">
+                            <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("ItemMasterIndex", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" class="nav-link">
+                                        Item Master
+
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("SKUMastersearch", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" class="nav-link active">
+                                        SKU Master Search
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("comingsoon", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" class="nav-link">
+                                        Coming Soon
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Rawmaterial", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" class="nav-link">
+                                        Raw Material
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Requests", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" class="nav-link">
+                                        Recycle
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <div class="card-body">
+
+
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:110px;"><div align="center">Request No.</div></th>
+                                            <th style="width:150px;"><div align="left">SKU key</div></th>
+                                            <th style="width:150px;"><div align="left">SAP Falco</div></th>
+                                            <th style="width:150px;"><div align="left">SAP JK</div></th>
+                                            <th style="width:200px;"><div align="left">Item Description</div></th>
+                                            <th style="width:50px;"><div align="left">Visible in</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><div align="center">A21493</div></td>
+                                            <td><div align="left">ST08RDF1GNSI3</div></td>
+                                            <td><div align="left">ST08RDF1GNSI	</div></td>
+                                            <td><div align="left"></div></td>
+                                            <td>08,Round File,Regular, Basterd Cut,General,STARRETT INDUSTRIA E COMERCIO LTD.,STARRETTE	&nbsp;</td>
+                                            <td><div align="left">Approval</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td><div align="center">A21494</div></td>
+                                            <td><div align="left">ST08RDF3GNSI2</div></td>
+                                            <td><div align="left">ST08RDF3GNSI</div></td>
+                                            <td><div align="left"></div></td>
+                                            <td>08,Round File,Regular, Smooth Cut,General,STARRETT INDUSTRIA E COMERCIO LTD.,STARRETTE	&nbsp;</td>
+                                            <td><div align="left">Approval</div></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+
+
+
+                </div>
+            </div>
+            </div>
+    </section>
+</div>

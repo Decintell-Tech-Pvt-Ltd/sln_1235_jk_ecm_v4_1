@@ -1,0 +1,420 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.Master
+@{
+    ViewData["Title"] = "FileSize";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="modal fade" id="approve">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <!-- Optional header with logos from first modal -->
+          
+            <!-- Modal Header (from second modal for cleaner UI) -->
+            <div class="modal-header">
+                <h5 class="modal-title">Remark</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <input type="hidden" id="txtID">
+                <b>Request No.:</b><span id="txtRequest"></span>,&nbsp;&nbsp;
+                <b>File Size (inch):</b><span id="txtFileSize"></span>,&nbsp;&nbsp;
+                <b>File Size Code:</b><span id="txtFileSizeCode"></span>
+
+                <textarea rows="5" class="form-control" id="textRemark"></textarea>
+            </div>
+
+            <!-- Modal Footer: Buttons styled like second modal, functions from first -->
+            <div class="modal-footer">
+                <div class="text-right w-100">
+                    <button type="button"
+                            class="btn btn-danger btn-xs btnwidth50"
+                            onclick="RejectFileSize(); $('#approve').modal('hide');"
+                            title="Reject the selected item">
+                        Reject
+                    </button>
+
+                    <button type="button"
+                            class="btn btn-success btn-xs btnwidth60"
+                            onclick="ApproveFileSize(); $('#approve').modal('hide');"
+                            title="Approve the selected item">
+                        Approve
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* <div class="modal fade" id="nonstandard">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Remark</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" id="txtID" value="68">
+                <b>Request No.:</b><span>10</span> ,&nbsp;&nbsp;
+                <b>File Size (inch):</b><span>4</span>,&nbsp;&nbsp;
+                <b>File Size Code:</b><span>04</span>
+
+                <textarea name="" cols="" rows="5" class="form-control" id="textRemark"></textarea>
+            </div>
+
+            <div class="modal-footer">
+                <div class="col-lg-2form-group">
+                    <div class="">
+                        <div class="float-left text-right">
+                            <button type="button"
+                                    class="btn btn-danger btn-xs btnwidth50"
+                                    onclick="location.href=''"
+                                    title="Reject the selected item">
+                                Reject
+                            </button>
+
+                            <button type="button"
+                                    class="btn btn-success btn-xs btnwidth60"
+                                    onclick="location.href=''"
+                                    title="Approve the selected item">
+                                Approve
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+        </div>
+
+    </div>
+</div>
+ *@
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                <h5>File Size </h5>
+            </div>
+            <div class="col-lg-9">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                    <li class="breadcrumb-item active">Master</li>
+                    <li class="breadcrumb-item active">File Size </li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="btnwidth50 float-right ">
+                    <button type="button"
+                            class="btn btn-block bg-gradient-danger btn-xs"
+                            onclick="window.history.back()"
+                            title="Go back to the previous page">
+                        Back
+                    </button>
+                </div>
+                <div class="btnwidth50 float-right mr-1">
+                    <a href="@Url.Action("AddFileSize", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })" class="btn btn-block bg-gradient-primary   btn-xs float-left">
+                        Add
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+
+</section>
+
+<section class="content">
+
+    <div class="container-fluid">
+
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-outline card-primary">
+            <div class="card-header">
+                <h3 class="card-title">New Requests</h3>
+                <div class="card-tools">
+                    <a href="@Url.Action("AddFileSize", "Master", new {
+                        PageID = Context.Request.Query["PageID"].ToString(),
+                        ParentID = Context.Request.Query["ParentID"].ToString(),
+                        ModuleID = Context.Request.Query["ModuleID"].ToString(),
+                        ModulePageID = Context.Request.Query["ModulePageID"].ToString(),
+                        ReqValue = Context.Request.Query["ReqValue"].ToString()
+                    })" >
+                      
+                    </a>
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered example1 nowrap" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th><div align="center">ID</div></th>
+                                <th><div align="center">Request No.</div></th>
+                                <th><div align="center">File Size (inch)</div></th>
+                                <th><div align="center">File Size Code</div></th>
+                            @*     <th><div align="center">Edit</div></th> *@
+                                <th><div align="center">Action</div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.FileSize_List.Where(x => x.GridNo == 1))
+                            {
+                                <tr>
+                                    <td><div align="center">@item.Id</div></td>
+                                    <td><div align="center"><a href='@Url.Action("EditFileSize", "Master", new {
+        fileid = item.Id,
+        fileSizeInch = item.FileSizeInch,
+        fileSizeCode = item.FileSizeCode,
+        NewOrExisting = item.NewOrExisting,
+        Remarks = item.Remarks,
+        PageID = Context.Request.Query["PageID"].ToString(),
+        ParentID = Context.Request.Query["ParentID"].ToString(),
+        ModuleID = Context.Request.Query["ModuleID"].ToString(),
+        ModulePageID = Context.Request.Query["ModulePageID"].ToString()
+    })' title="Edit">
+    @item.RequestId
+</a> @* <a href='@Url.Action("EditFileSize", "Master", new {
+            fileid = item.Id,
+            fileSizeInch = item.FileSizeInch,
+            fileSizeCode = item.FileSizeCode,
+            NewOrExisting = item.NewOrExisting,
+            Remarks = item.Remarks
+        })' title="Edit">
+            @item.RequestId
+        </a> *@</div></td>
+                                    <td><div align="center">@item.FileSizeInch</div></td>
+                                    <td><div align="center">@item.FileSizeCode</div></td>
+                                   @*  <td>
+                                        <div align="center">
+                                            <a href='@Url.Action("EditFileSize", "Master", new {
+                                                fileid = item.Id,
+                                                fileSizeInch = item.FileSizeInch,
+                                                fileSizeCode = item.FileSizeCode,
+                                                NewOrExisting = item.NewOrExisting,
+                                                Remarks = item.Remarks
+                                            })'>
+                                               
+                                            </a>
+                                        </div>
+                                    </td> *@
+                                    <td>
+                                        <div align="center">
+                                            <a href="#"   class="btn btn-primary btn-xs btnwidth95"   onclick="ApprovesFileSize(@item.Id); return false;">
+                                              Submit for Approval
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+       <div class="row">
+    <div class="col-md-12">
+        <div class="card card-outline card-warning collapsed-card">
+            <div class="card-header">
+                <h3 class="card-title">Requests for Approval</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered example1 nowrap" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th><div align="center">ID</div></th>
+                                <th><div align="center">Request No.</div></th>
+                                <th><div align="center">File Size (inch)</div></th>
+                                <th><div align="center">File Size Code</div></th>
+                             @*    <th><div align="center">Action</div></th> *@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.FileSize_List.Where(x => x.GridNo == 2))
+                            {
+                                <tr>
+                                    <td><div align="center">@item.Id</div></td>
+                                    <td>
+                                        <div align="center">
+                                            <a href="#" title="View" data-toggle="modal" onclick="ModelFileSize(@item.Id,@item.RequestId,'@item.FileSizeInch','@item.FileSizeCode');" data-target="#nonstandard">
+                                                @item.RequestId
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td><div align="center">@item.FileSizeInch</div></td>
+                                    <td><div align="center">@item.FileSizeCode</div></td>
+                                   @*  <td>
+                                        <div align="center">
+                                            <a href="#" class="fa-i-small cyanbt" title="View" data-toggle="modal"
+                                               onclick="ModelFileSize(@item.Id,@item.RequestId,'@item.FileSizeInch','@item.FileSizeCode');">
+                                                <img src="../decintell/icons/view.png" class="img-responsive" />
+                                            </a>
+                                        </div>
+                                    </td> *@
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+     <div class="row">
+    <div class="col-md-12">
+        <div class="card card-outline card-success collapsed-card">
+            <div class="card-header">
+                <h3 class="card-title">File Size Master</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered example1 nowrap" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th><div align="center">File Size Code</div></th>
+                                <th><div align="center">File Size (Inch)</div></th>
+                                <th><div align="center">File Size (mm)</div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.FileSize_List.Where(x => x.GridNo == 3))
+                            {
+                                <tr>
+                                    <td><div align="center">@item.FileSizeCode</div></td>
+                                    <td><div align="center">@item.FileSizeInch</div></td>
+                                    <td><div align="center">@item.MM</div></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</section>
+<Script>
+
+    function ApprovesFileSize(ID) {
+        var Remark = $('#textRemark').val();
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+        
+        let jsonData = { ID: ID, StatusID: 2, CreatedBy: iLoggedInUserID, Remark: Remark };
+        var JSONInformation = JSON.stringify(jsonData);
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("ApproveFileSize", "Master")',
+            data: { JSONData: JSONInformation },
+            dataType: 'json',
+            success: function (data) {
+                alert(data.response);
+                window.location.reload();
+            },
+            error: function (err) {
+                alert(err.statusText);
+            }
+        });
+    }
+
+
+    function ApproveFileSize() {
+        var Remark = $('#textRemark').val();
+        var FileStatus = $('#txtID').val();
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+         
+
+        var jsonData = { ID: FileStatus, StatusID: 3, CreatedBy: iLoggedInUserID, Remark: Remark };
+        var JSONInformation = JSON.stringify(jsonData);
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("ApproveFileSize", "Master")', // Assuming this URL is correctly configured in your application
+            data: { JSONData: JSONInformation },
+            dataType: 'json',
+            success: function (data) {
+                alert(data.response);
+                window.location.reload();
+            },
+            error: function (err) {
+                alert(err.statusText);
+            }
+        });
+    }
+    //RejectFileSize
+    function RejectFileSize() {
+        //textRemark
+        var Remark = $('#textRemark').val();
+
+        var FileStatus = $('#txtID').val();
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+         
+
+        var jsonData = { ID: FileStatus, StatusID: 4, CreatedBy: iLoggedInUserID, Remark: Remark };
+        var JSONInformation = JSON.stringify(jsonData);
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("ApproveFileSize", "Master")', // Assuming this URL is correctly configured in your application
+            data: { JSONData: JSONInformation },
+            dataType: 'json',
+            success: function (data) {
+                alert(data.response);
+                window.location.reload();
+            },
+            error: function (err) {
+                alert(err.statusText);
+            }
+        });
+    }
+
+
+    function ModelFileSize(ID, RequestId, FileSizeInch, FileSizeCode) {
+        $('#txtID').val(ID);
+        $('#txtRequest').text(RequestId);
+        $('#txtFileSize').text(FileSizeInch);
+        $('#txtFileSizeCode').text(FileSizeCode);
+        $('#approve').modal('show');
+    }
+</Script>

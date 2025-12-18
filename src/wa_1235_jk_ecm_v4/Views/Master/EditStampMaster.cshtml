@@ -1,0 +1,333 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.Master
+@{
+    ViewData["Title"] = "EditStampMaster";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5> Stamp</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item active">Master</li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("StampMaster", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Stamp</a></li>
+
+
+                        <li class="breadcrumb-item active">Add</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        @{
+                            var url = Url.Action("StampMaster", "Master", new
+                            {
+                                PageID = Context.Request.Query["PageID"].ToString(),
+                                ParentID = Context.Request.Query["ParentID"].ToString(),
+                                ModuleID = Context.Request.Query["ModuleID"].ToString(),
+                                ModulePageID = Context.Request.Query["ModulePageID"].ToString()
+                            });
+                        }
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs float-left"
+                                onclick="location.href='@url'"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+
+                </div>
+
+            </div><!-- /.container-fluid -->
+
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline p-a-2" style="height: 100%;">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+
+                            <div class="col-md-12 mr-1">
+
+                                <div class="row">
+                                    <div class="form-group col-md-2">
+                                        <label>Brand</label>
+                                        <select name="" class="form-control select2" disabled>
+
+                                            @foreach (var option in Model.ddBrandList)
+                                            {
+                                                @if (ViewBag.BrandId == option.BrandId)
+                                                {
+                                                    <option selected value="@option.BrandId">@option.BrandName</option>
+                                                }
+                                                <option value="@option.BrandId">@option.BrandName</option>
+                                            }
+                                        </select>
+                                        <span id="spBrandName" class="text-danger"></span>
+
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <label>Stamp Chart No.</label>
+                                      @*   <input id="txtCustomer" maxlength="50" name="" type="text" class="form-control" />
+                                        <span id="sptxtCustomer" class="text-danger"></span> *@ 
+                                         <input type="text" class="form-control" id="txtStampChartNo" value="@ViewBag.StampChartNo" text="@ViewBag.StampChartNo">
+                                        <span id="spStampChartNo" class="text-danger"></span>
+                                    </div>
+
+
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label padd0">Insert Stamp Chart</label> &nbsp;
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input name="" type="file" id="FileUploadIMG" class="custom-file-input">
+                                                <label class="custom-file-label" for="FileUploadIMG" id="FileUploadIMG1">Choose file</label>
+                                               
+                                            @*     <input type="file" class="custom-file-input" id="exampleInputFile">
+                                                <label class="custom-file-label" for="exampleInputFile">Choose file</label> *@
+                                            </div>
+                                        </div>
+                                        <span id="spfilename">
+                                            @if (!string.IsNullOrEmpty(ViewBag.StampChartImage))
+                                            {
+                                                <text>@ViewBag.StampChartImage</text>
+                                            }
+                                        </span>
+                                    </div>
+                                    <div class="form-group col-md-2" style="display: none;">
+                                        <input name="" type="text" id="txtFileUploadIMG" value="@ViewBag.StampChartImage" text="@ViewBag.StampChartImage">
+                                        <span id="sptxtfilename"></span>
+                                    </div>
+                                    <div class="btnwidth50 float-right mr-1 " style="margin-top:36px;">
+                                        <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                                                onClick="SaveData()" title="Go to the next page">
+                                            Submit
+                                        </button>
+                                    </div>
+
+                                </div>
+
+
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- InstanceEndEditable -->
+</div>
+<script>
+    $(document).ready(function () {
+        $("#txtStampChartNo").val("@ViewBag.StampChartNo");
+        $("#FileUploadIMG1").text("@ViewBag.StampChartImage");
+    });
+
+
+    async function SaveData() {
+        var BrandCode = $('#ddlBrand').val();
+        var StampChartNo = $('#txtStampChartNo').val();
+
+
+        var fileInput = document.getElementById('FileUploadIMG');
+        if (fileInput.files.length > 0) {
+            var filename = fileInput.files[0].name.trim();
+
+            console.log('File Name:', filename);
+        }
+        else {
+            console.log('No file selected.');
+        }
+
+        if (BrandCode == "" || StampChartNo == "" || filename == undefined) {
+
+            if (BrandCode == "") {
+                $("#spBrandName").html("Please Select Brand");
+                $("#spBrandName").css("display", "block");
+            }
+            if (StampChartNo == "") {
+                $("#spStampChartNo").html("Please Select stamp Chart No");
+                $("#spStampChartNo").css("display", "block");
+            }
+            if (filename == undefined) {
+                $("#spfilename").html("Please select file");
+                $("#spfilename").css("display", "block");
+            }
+        }
+        else {
+            var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+            let StampDetailsObj = {
+                StampChartNo: StampChartNo,
+                StampChartImage: cleanFileName(filename),
+                CreatedDate: moment.utc(new Date()).format(),
+                CreatedBy: iLoggedInUserID,
+
+            };
+
+            var json = {
+                Id: encodeURIComponent(@Context.Request.Query["Id"]),
+                BrandCode: BrandCode,
+                StampDetailsObj: StampDetailsObj
+            };
+            var JsonData = JSON.stringify(json);
+
+            // First Ajax request
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SaveStamp", "Master")',
+                data: { JsonData: JsonData },
+                datatype: 'json',
+                beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+                success: async function (data) {
+                    var StampId = data.response;
+                    if (StampId != '') {
+                        if (filename.length != 0) {
+                            var selectedImageNameSample = cleanFileName(filename);
+                            var targetPathSample = 'others\\stamps\\' + BrandCode.toLowerCase() + '\\';
+                            var uploadedFileSample = document.getElementById('FileUploadIMG').files[0];
+
+                          //  copyFile(selectedImageNameSample, targetPathSample, uploadedFileSample);
+                               await copyFile(uploadedFileSample, targetPathSample, selectedImageNameSample);
+                        }
+                        alert('Stamp Added Successfully')
+                        var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+                        var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+                        var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+                        var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+                        // Construct the full URL
+                        url = "@Url.Action("StampMaster", "Master")" +
+                            "?PageID=" + pageID +
+                            "&ParentID=" + parentID +
+                            "&ModuleID=" + moduleID +
+                            "&ModulePageID=" + modulePageID;
+
+                        // Redirect
+                        window.location.href = url;
+                        window.location.href = url;
+                    }
+
+                }
+            });
+
+        }
+
+
+    }
+      async function copyFile(fileInput, path, imageName) {
+        var JwToken = '@ViewBag.JWTToken';
+      var blobStorageUrl = '@ViewBag.ApiUrl';
+      let blobPathPrefix = '@ViewBag.BaseBlobPath';
+        var formdata = new FormData();
+        // ✅ Append file correctly
+        formdata.append("files", fileInput, imageName); // << change 'files' → 'file'
+
+       // let blobPathPrefix = '@ViewBag.BaseBlobPath';
+        blobPathPrefix = (blobPathPrefix || "").replace(/\\/g, "/").trim();
+        if (blobPathPrefix.length > 0 && !blobPathPrefix.endsWith("/")) {
+            blobPathPrefix += "/";
+        }
+        //    normalizePathPrefix(path)
+        var Patths = blobPathPrefix + normalizePathPrefix(path.toLowerCase());
+        formdata.append("blobPathPrefix", Patths);
+        formdata.append("Policy", 0);
+
+
+        $.ajax({
+            url: blobStorageUrl + 'Files/upload',
+            headers: {
+                Authorization: 'Bearer ' + JwToken
+            },
+            method: "POST",
+            contentType: false, // Not to set any content header
+            processData: false, // Not to process data
+            mimeType: "multipart/form-data",
+            data: formdata,
+            //async: false,
+            success: function (result) {
+                let jsonResult = JSON.parse(result); // serialize into JSON string
+                if (jsonResult && jsonResult.length > 0) {
+                    let json = {
+                      //  UserId: parseInt(CreatedBy),
+                        ImageName: imageName,
+                        BlobJson: result,
+                    };
+
+                    var Jsons = JSON.stringify(json);
+                    console.log(`uploading: ${Jsons}`);
+
+
+
+                }
+
+            },
+            error: function (err) {
+                alert(err.message);
+            }
+        });
+
+
+    }
+
+    // function copyFile(selectedImageNameSample, targetPath, uploadedFile) {
+    //     var formData = new FormData();
+
+    //     if (uploadedFile) {
+    //         formData.append('UploadedFile', uploadedFile);
+    //     } else {
+    //         formData.append('SourceFilePath', '');
+    //     }
+
+    //     formData.append('TargetFilePath', targetPath + selectedImageNameSample);
+    //     var JwToken = '@ViewBag.JWTToken';
+    //     var url1 = '@ViewBag.ApiUrl';
+    //     $.ajax({
+    //         url: url1 + 'UploadAndDownLoadFile/copy',
+    //         headers: {
+    //             Authorization: 'Bearer ' + JwToken
+    //         },
+    //         type: 'POST',
+    //         data: formData,
+    //         contentType: false,
+    //         processData: false,
+    //         success: function (response) {
+    //             if (response.success) {
+    //                 console.log('File copied successfully.');
+    //             } else {
+    //                 console.error('Failed to copy file:', response.error);
+    //             }
+    //         },
+    //         error: function (xhr, status, error) {
+    //             console.error('AJAX error:', error);
+    //         }
+    //     });
+    // }
+</script>

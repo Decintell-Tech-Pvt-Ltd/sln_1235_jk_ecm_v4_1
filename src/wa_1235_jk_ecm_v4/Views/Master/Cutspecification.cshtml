@@ -1,0 +1,600 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.Master
+@{
+    ViewData["Title"] = "Cutspecification";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+    <div class="modal fade" id="nonstandard">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View Cut Specification</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="txtID" value="68">
+                    <b>Request No.: </b><span>10</span> ,&nbsp;&nbsp;
+                    <b>File Size: </b><span>4</span>,&nbsp;&nbsp;
+                    <b>File Type Code: </b><span>FL</span>,&nbsp;&nbsp;
+                    <b>Cut Type: </b><span>1</span>,&nbsp;&nbsp;
+                    <b>Cut Standard: </b><span>GN</span>
+                    <br> <br>
+                    <table width="100%" class="table table-bordered example1">
+                        <thead>
+                            <tr>
+                                <th style="width:20%; text-align: Left;">Cut Sides</th>
+                                <th style="width:30%; text-align: Left;">Cut On Sides</th>
+                                <th style="width:10%;  text-align: center;">Values</th>
+                                <th style="width:8%;  text-align: Left;">UOM</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="text-align: Left;">Edge cut</td>
+                                <td style="text-align: Left;">EDGE Cutting</td>
+                                <td style="text-align: center;">10-20</td>
+                                <td style="text-align: Left;">tpi</td>
+
+                            </tr>
+                            <tr>
+                                <td style="text-align: Left;">Overcut</td>
+                                <td style="text-align: Left;">Cutting</td>
+                                <td style="text-align: center;">10 10-50</td>
+                                <td style="text-align: Left;">tpi</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: Left;">Upcut</td>
+                                <td style="text-align: Left;">Cutting</td>
+                                <td style="text-align: center;">20</td>
+                                <td style="text-align: Left;">tpi</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="view">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">View Cut Specification</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="txtID">
+                    <b>Request No.:</b><span id="txtReqNo"></span>,&nbsp;&nbsp; 
+                    <b>File Size:</b><span id="txtFilesize"></span>, &nbsp;&nbsp;
+                    <b>File Type Code:</b><span id="txtFileType"></span>, &nbsp;&nbsp;
+                    <b>Cut Type:</b><span id="txtCutType"></span>, &nbsp;&nbsp;
+                    <b>Cut Standard:</b><span id="txtCutStandard"></span>
+
+                    <p style="display:none">ID: <span id="approveItemId"></span></p>
+                    <div style="clear: both;"></div>
+                    <br />
+
+                    <div class="table-responsive top10">
+                        <table width="100%" class="table table-bordered example1" id="TableCutSpecParams">
+                            <thead>
+                                <tr>
+                                    <th style="width:20%; text-align: left;">Cut Sides</th>
+                                    <th style="width:30%; text-align: left;">Cut On Sides</th>
+                                    <th style="width:10%; text-align: center;">Value</th>
+                                    <th style="width:8%; text-align: left;">UOM</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bodyCutSpecParams">
+                                <!-- Dynamic rows inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="form-group top10" id="divRemark" style="display: none;">
+                        <label>Remark</label><br>
+                        <textarea rows="5" class="form-control" id="txtRemark"></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-footer " id="ModelCutSpecification" style="display: none;">
+                    <div class="col-lg-4 form-group ">
+                        <div class="float-right text-right">
+                            <button type="button"
+                                    class="btn btn-danger btn-xs btnwidth50"
+                                    onclick="ApproveCutSpecification(document.getElementById('approveItemId').textContent, 4);"
+                                    title="Reject the selected item"
+                                    data-dismiss="modal">
+                                Reject
+                            </button>
+
+                            <button type="button"
+                                    class="btn btn-success btn-xs btnwidth60"
+                                    onclick="ApproveCutSpecification(document.getElementById('approveItemId').textContent, 3);"
+                                    title="Approve the selected item"
+                                    data-dismiss="modal">
+                                Approve
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="nonstandard2">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View Cut Specification</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="txtID" value="68">
+                    <b>Request No.: </b><span>10</span> ,&nbsp;&nbsp;
+                    <b>File Size: </b><span>4</span>,&nbsp;&nbsp;
+                    <b>File Type Code: </b><span>FL</span>,&nbsp;&nbsp;
+                    <b>Cut Type: </b><span>1</span>,&nbsp;&nbsp;
+                    <b>Cut Standard: </b><span>GN</span>
+                    <br><br>
+                    <table width="100%" class="table table-bordered example1">
+                        <thead>
+                            <tr>
+                                <th style="width:20%; text-align: Left;">Cut Sides</th>
+                                <th style="width:30%; text-align: Left;">Cut On Sides</th>
+                                <th style="width:10%;  text-align: center;">Values</th>
+                                <th style="width:8%;  text-align: Left;">UOM</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="text-align: Left;">Edge cut</td>
+                                <td style="text-align: Left;">EDGE Cutting</td>
+                                <td style="text-align: center;">10-20</td>
+                                <td style="text-align: Left;">tpi</td>
+
+                            </tr>
+                            <tr>
+                                <td style="text-align: Left;">Overcut</td>
+                                <td style="text-align: Left;">Cutting</td>
+                                <td style="text-align: center;">10 10-50</td>
+                                <td style="text-align: Left;">tpi</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: Left;">Upcut</td>
+                                <td style="text-align: Left;">Cutting</td>
+                                <td style="text-align: center;">20</td>
+                                <td style="text-align: Left;">tpi</td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>Cut Specification </h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item active">Master</li>
+                        <li class="breadcrumb-item active">Cut Specification</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs"
+                                onclick="window.history.back()"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">New Requests</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered nowrap" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%"><div align="center">Request No.</div></th>
+                                            <th width="16.25%"><div align="center">File Size (Inch)</div></th>
+                                            <th width="16.25%"><div align="center">File Type Code</div></th>
+                                            <th width="16.25%"><div align="center">Cut Type</div></th>
+                                            <th width="16.25%"><div align="center">Cut Standard</div></th>
+                                            <th width="15%"><div align="center">Action</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.CutSpecificationsLists != null)
+                                        {
+                                            foreach (var item in Model.CutSpecificationsLists)
+                                            {
+                                                if (item.GridNo == 1)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            <a href="@Url.Action("CutSpecificationedit", "Master", new { PageID = @Context.Request.Query["PageID"], ParentID = @Context.Request.Query["ParentID"], ModuleID = @Context.Request.Query["ModuleID"], ModulePageID = @Context.Request.Query["ModulePageID"], id = item.Id })" title="Edit">
+                                                                @item.RequestNo
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-center">@item.FileSizeCode</td>
+                                                        <td class="text-center">@item.FileTypeCode</td>
+                                                        <td class="text-center">
+                                                            <a href="#" data-toggle="modal" onclick="ModelCutSpecification('@item.Id','@item.RequestNo','@item.FileSizeCode','@item.FileTypeCode','@item.CutSpecCode',1);" title="View">
+                                                                @item.CutType
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-center">@item.CutSpecCode</td>
+                                                      @*   <td class="text-center">
+                                                            <a href="#" data-toggle="modal" onclick="ModelCutSpecification('@item.Id','@item.RequestNo','@item.FileSizeCode','@item.FileTypeCode','@item.CutSpecCode',1);" title="View">
+                                                                <img src="~/decintell/icons/view.png" class="img-responsive">
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a href="@Url.Action("CutSpecificationedit", "Master", new { PageID = @Context.Request.Query["PageID"], ParentID = @Context.Request.Query["ParentID"], ModuleID = @Context.Request.Query["ModuleID"], ModulePageID = @Context.Request.Query["ModulePageID"], id = item.Id })" title="Edit">
+                                                                <img src="~/decintell/icons/edit.png" class="img-responsive">
+                                                            </a>
+                                                        </td> *@
+                                                        <td class="text-center">
+                                                            <button type="button"
+                                                                    class="btn btn-primary btn-xs btnwidth95"
+                                                                    onclick="ApproveCutSpecification('@item.Id',2);"
+                                                                    title="Go to the next page">
+                                                                Submit for Approval
+                                                            </button>
+                                                          @*   <a href="#" title="Send for Approval" >
+                                                                <img src="~/decintell/icons/submit.png" class="img-responsive" alt="Submit">
+                                                            </a> *@
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Requests for Approval -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-warning collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Requests for Approval</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered nowrap" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%"><div align="center">Request No.</div></th>
+                                            <th width="20%"><div align="center">File Size (Inch)</div></th>
+                                            <th width="20%"><div align="center">File Type Code</div></th>
+                                            <th width="20%"><div align="center">Cut Type</div></th>
+                                            <th width="20%"><div align="center">Cut Standard</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.CutSpecificationsLists != null)
+                                        {
+                                            foreach (var item in Model.CutSpecificationsLists)
+                                            {
+                                                if (item.GridNo == 2)
+                                                {
+                                                    <tr>
+
+                                                        <td class="text-center">@item.RequestNo</td>
+                                                        <td class="text-center">@item.FileSizeCode</td>
+                                                        <td class="text-center">@item.FileTypeCode</td>
+                                                        <td class="text-center">
+                                                            <a href="#" data-toggle="modal" onclick="setApproveItems('@item.Id','@item.RequestNo','@item.FileSizeCode','@item.FileTypeCode','@item.CutSpecCode');" title="View">
+                                                                @item.CutType
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-center">@item.CutSpecCode</td>
+                                                       @*  <td class="text-center">
+                                                            <a href="#" data-toggle="modal" onclick="setApproveItems('@item.Id','@item.RequestNo','@item.FileSizeCode','@item.FileTypeCode','@item.CutSpecCode');" title="View">
+                                                                <img src="~/decintell/icons/view.png" class="img-responsive">
+                                                            </a>
+                                                        </td> *@
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ECN Request -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-primary collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Requests for Approval (ECN)</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                   <table class="table table-bordered nowrap" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%"><div align="center">Request No.</div></th>
+                                            <th width="20%"><div align="center">File Size (Inch)</div></th>
+                                            <th width="20%"><div align="center">File Type Code</div></th>
+                                            <th width="20%"><div align="center">Cut Type</div></th>
+                                            <th width="20%"><div align="center">Cut Standard</div></th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                       
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cut Specification Master -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-success collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Cut Specification Master</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%"><div align="center">Request No.</div></th>
+                                            <th width="20%"><div align="center">File Size (Inch)</div></th>
+                                            <th width="20%"><div align="center">File Type Code</div></th>
+                                            <th width="20%"><div align="center">Cut Type</div></th>
+                                            <th width="20%"><div align="center">Cut Standard</div></th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.CutSpecificationsLists != null)
+                                        {
+                                            foreach (var item in Model.CutSpecificationsLists)
+                                            {
+                                                if (item.GridNo == 3)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center">@item.RequestNo</td>
+                                                        <td class="text-center">@item.FileSizeCode</td>
+                                                        <td class="text-center">@item.FileTypeCode</td>
+                                                        <td class="text-center">
+                                                            <a href="#" data-toggle="modal" onclick="ModelCutSpecification('@item.Id','@item.RequestNo','@item.FileSizeCode','@item.FileTypeCode','@item.CutSpecCode',1);" title="View">
+                                                                @item.CutType
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-center">@item.CutSpecCode</td>
+                                                       @*  <td class="text-center">
+                                                            <a href="#" data-toggle="modal" onclick="ModelCutSpecification('@item.Id','@item.RequestNo','@item.FileSizeCode','@item.FileTypeCode','@item.CutSpecCode',1);" title="View">
+                                                                <img src="~/decintell/icons/view.png" class="img-responsive">
+                                                            </a>
+                                                        </td> *@
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- InstanceEndEditable -->
+</div>
+
+<script>
+
+
+
+    function ModelCutSpecification(Id, RequestNo, FileSizeCode, FileTypeCode, CutSpecCode, statusId) {
+        $('#txtID').val(Id);
+        $('#txtReqNo').text(RequestNo);
+        $('#txtFilesize').text(FileSizeCode);
+        $('#txtFileType').text(FileTypeCode);
+        $('#txtCutStandard').text(CutSpecCode);
+
+        var JsonData = JSON.stringify({ ID: Id });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetCutSpecification", "Master")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                var html = '';
+                $("#TableCutSpecParams").dataTable().fnClearTable();
+                $("#TableCutSpecParams").dataTable().fnDestroy()
+                var dtParameter = $('#TableCutSpecParams').DataTable({
+                    "columnDefs": [
+                        { "className": "dt-center", "targets": "_all" }
+                    ],
+                });
+
+                var CutSpecification = data.objList.cutSpecificationEdit_List;
+
+
+
+
+    var rows = [];
+
+
+                for (var i = 0; i < CutSpecification.length; i++) {
+                    // html += '<tr>';
+                    // html += '<td align="left">' + CutSpecification[i].cutSides + '</td>';
+                    // html += '<td align="left">' + CutSpecification[i].cutOnSides + '</td>';
+                    // html += '<td align="center">' + CutSpecification[i].value + '</td>';
+                    // html += '<td align="center">' + CutSpecification[i].uom + '</td>';
+                    // html += '</tr>';
+                    rows=[
+                        CutSpecification[i].cutSides,
+                        CutSpecification[i].cutOnSides,
+                        CutSpecification[i].value,
+                        CutSpecification[i].uom
+                    ];
+                    dtParameter.row.add(rows).draw(false);
+                }
+
+
+
+               // $('#bodyCutSpecParams').html(html);
+                var CutType = CutSpecification[0].cutType;
+
+                if (statusId == 2) {
+                    $('#ModelCutSpecification').show();
+                    $('#divRemark').show();
+                }else{
+                      $('#ModelCutSpecification').hide();
+                       $('#divRemark').hide();
+                }
+
+                $('#txtCutType').text(CutType);
+                $('#view').modal('show');
+            },
+            error: function () {
+                alert('Error occurred while fetching data.');
+            }
+        });
+    }
+
+    function ApproveCutSpecification(Id, StatusId) {
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+        var json = {
+            Id: Id,
+            StatusId: StatusId,
+            CreatedDate: moment.utc(new Date()).format(),
+            CreatedBy: iLoggedInUserID
+        };
+
+
+        var JsonData = JSON.stringify(json);
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ApproveCutSpecification", "Master")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                alert(data.response);
+                window.location.reload();
+            },
+            error: function () {
+                alert('Error occurred while fetching data.');
+            }
+        });
+    }
+
+    function setApproveItems(itemId, RequestNo, FileSizeCode, FileTypeCode, CutSpecCode) {
+        document.getElementById('approveItemId').textContent = itemId;
+         ModelCutSpecification(itemId, RequestNo, FileSizeCode, FileTypeCode, CutSpecCode, 2);
+    }
+
+
+
+
+
+</script>

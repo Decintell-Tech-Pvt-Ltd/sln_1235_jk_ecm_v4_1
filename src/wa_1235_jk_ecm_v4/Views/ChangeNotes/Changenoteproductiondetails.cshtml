@@ -1,0 +1,1078 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.ItemMaster
+@{
+	ViewData["Title"] = "Changenoteproductiondetails";
+	Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+    <div class="modal fade" id="sub">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View File Sub Type</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="txtID" />
+
+                    <table width="100%" class="table table-bordered example1" id="tableFileSubTypeParameters">
+                        <thead>
+                            <tr>
+                                <th style="width:5%; text-align: center;">Sq.No.</th>
+                                <th style="width:25%; text-align: left;">Category</th>
+                                <th style="width:30%; text-align: left;">Name</th>
+                                <th style="width:20%; text-align: center;">Value</th>
+                                <th style="width:20%; text-align: center;">Tolerance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="showAddedFileSubTypeParameters">
+                            <!-- Dynamic rows inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="skuDetails">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Set Drawing Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                   
+                    @if (Model.SKUSetList != null)
+                    {
+
+                        <div class="table-responsive top5">
+                            <table width="100%" class="table table-bordered example1">
+                                <thead>
+                                    <tr>
+
+                                        <th style="width:10%; text-align:center;"> Drawing </th>
+                                        <th style="width:10%; text-align:center;">File Size </th>
+                                        <th style="width:15%; text-align:left;">File Type</th>
+                                        <th style="width:15%; text-align:left;">File Subtype </th>
+                                        <th style="width:15%; text-align:left;">Cut Type </th>
+                                        <th style="width:15%; text-align:left;">Cut Specification </th>
+                                        @* <th style="text-align:center;">View Drawing</th> *@
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align:center;">
+                                    @if (Model.SKUSetList != null)
+                                    {
+                                        @foreach (var item in Model.SKUSetList)
+                                        {
+
+                                            <tr>
+                                                <td style="text-align: center;"><a onclick="OpenDocument('@item.Drawing');" title="Show Drawing" href="#">@item.Drawing</a></td>
+                                                <td style="text-align: center;">@item.FileSizeCode</td>
+                                                <td style="text-align: Left;">@item.FileTypeName</td>
+                                                <td style="text-align: Left;">@item.FileSubTypeName</td>
+                                                <td style ="text-align: Left;">@item.CutTypeName</td>
+                                                <td style="text-align: Left;">@item.CutSpecName</td>
+                                               @*  <td align="center"><a onclick="OpenDocument('@item.Drawing'+'.pdf');" title="Show Drawing" class="fa-i-big cyanbt"><img src="~/decintell/icons/pdf.png" class="img-responsive" /></a></td>
+ *@
+                                            </tr>
+
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    }
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="modal fade" id="setCutSpecDetails">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Set Cut Specifications Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                 
+                    @if (Model.SKUSetList != null)
+                    {
+
+                       
+                            <table width="100%" class="table table-bordered example1">
+                                <thead>
+                                    <tr>
+                                    <th style="width:15%; text-align:center;"> Drawing </th>
+                                    <th style="width:15%; text-align:center;">File Size </th>
+                                    <th style="width:15%; text-align:left;">File Type</th>
+                                    <th style="width:15%; text-align:left;">File Subtype </th>
+                                    <th style="width:15%; text-align:left;">Cut Type </th>
+                                    <th style="width:15%; text-align:left;">Cut Specification </th>
+                                        @* <th style="text-align:center;">View Cut Specification </th> *@
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align:center;">
+                                    @if (Model.SKUSetList != null)
+                                    {
+                                        @foreach (var item in Model.SKUSetList)
+                                        {
+
+                                            <tr>
+                                            <td style="text-align: center;">@item.Drawing</td>
+                                            <td style="text-align: center;">@item.FileSizeCode</td>
+                                            <td style="text-align: Left;">@item.FileTypeName</td>
+                                            <td style="text-align: Left;">@item.FileSubTypeName</td>
+                                            <td style="text-align: Left;"><a href="#" data-toggle="modal" onclick="GetCutSpecDetails(@item.CutStandard);" data-target="#cutSpecChart" title="View Cut Specification">@item.CutTypeName</a></td>
+                                            <td style="text-align: Left;">@item.CutSpecName</td>
+                                               @*  <td><a href="#" data-toggle="modal" onclick="GetCutSpecDetails(@item.CutStandard);" data-target="#cutSpecChart" class="fa-i-big cyanbt" title="View Cut Specification"><img src="~/decintell/icons/view.png" class="img-responsive"></a> </td>
+ *@
+                                            </tr>
+
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        
+
+                    }
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="modal fade" id="cutSpecChart">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View Cut Specification</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <table width="100%" class="table table-bordered example1">
+                        <thead>
+                            <tr>
+                                <th style="width:20%; text-align: Left;">Side/Edge</th>
+                                <th style="width:20%; text-align: Left;">Desc</th>
+                                <th style="width:10%;  text-align: center;">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody id="Modal_bodyCutSides">
+                        </tbody>
+
+                    </table>
+                  
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="handleDetails">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Set SKU Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    @if (Model.SKUSetList != null)
+                    {
+                        <table width="100%" class="table table-bordered example1">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center;"> Drawing </th>
+                                    <th style="text-align:left;">Handle Type </th>
+                                    <th style="text-align:left;">Handle Presence </th>
+                                    <th style="text-align:center;">Handle Chart No.</th>
+                                
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.SKUSetList != null)
+                                {
+                                    @foreach (var item in Model.SKUSetList)
+                                    {
+
+                                        <tr>
+                                            <td style="text-align:center;">@item.Drawing</td>
+                                            <td style="text-align:left;">@item.HandleType</td>
+                                            <td style="text-align:left;">@item.HandlePresence</td>
+                                            <td style="text-align:center;"><a href="#" data-toggle="modal" data-target="#view" onclick="OpenDocument_SetHandle('@item.HandleChartNo')">@item.HandleChartNo</a></td>
+                                            
+                                        </tr>
+
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="stampDetails">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Stamp Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <table width="100%" class="table table-bordered example1">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center;"> Drawing </th>
+                                <th style="text-align:Left;">Stamp Process</th>
+                                <th style="text-align:center;"> Stamp Chart No.</th>
+                            
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.SKUSetList != null)
+                            {
+                                @foreach (var item in Model.SKUSetList)
+                                {
+
+                                    <tr>
+                                        <td style="text-align:center;">@item.Drawing</td>
+                                        <td style="text-align:Left;">@item.StampProcess</td>
+                                        <td style="text-align:center;"><a href="#" data-toggle="modal" data-target="#viewStamp" onclick="OpenDocument_SetStamp('@item.BrandCode','@item.StampChartNo')">@item.StampChartNo</a></td>
+                                     
+                                    </tr>
+
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8">
+                   @*  <h6>SKU:@Html.Raw(Context.Request.Query["SKU"])</h6>
+                    <h6>Description:@Html.Raw(Context.Request.Query["Desc"])</h6> *@
+                </div>
+                <div class="col-lg-4">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item">
+                            <a href="@Url.Action("ItemMasterIndex", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Item Master</a>
+                        </li>
+                        <li class="breadcrumb-item active">View</li>
+                    </ol>
+                </div>
+               
+                   
+            </div>
+            <div class="row">
+                <div class="col-lg-9">
+                    <b>SKU:</b> @Html.Raw(Context.Request.Query["SKU"])
+                    <b>Description:</b> @Html.Raw(Context.Request.Query["Desc"])
+                </div>
+
+                <div class="col-lg-3">
+
+
+                    <div class="btnwidth50 float-right mr-1">
+
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs"
+                                onclick="window.history.back()"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+
+                    </div>
+                    <div class="btnwidth60 float-right mr-1">
+                        <button type="button"
+                                class="btn btn-primary btn-xs"
+                                onclick="AddCloneAndAmendRequest('Clone')" id="btnClone"
+                                title="Clone Request">
+                            Clone
+                        </button>
+                    </div>
+
+                    <div class="btnwidth60 float-right mr-1">
+                        @if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R"){
+                        <button type="button"
+                                class="btn btn-primary btn-xs"
+                                onclick="AddCloneAndAmendRequest('Amend')" id="btnAmend"
+                                title="Amend Request">
+                            Amend
+                        </button>
+                        }else{
+                       
+                            <button type="button"
+                                    class="btn btn-primary btn-xs"
+                                    onclick="AddCloneAndAmendRequest('AmendSet')" id="btnAmend"
+                                    title="Amend Request">
+                                Amend
+                            </button>
+                        }
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
+    </section>
+
+
+    <script>
+        function customAlert() {
+          alert("Request No.- A-3435 is Created Successfully!");
+          window.location.href = "Change-Notes.html"; // Replace with your desired URL or page
+        }
+    </script>
+
+    <section class="content">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-primary card-tabs p-a-2" style="height: 100%;">
+                            <div class="card-header p-0 pt-1">
+                                <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="@Url.Action("Changenoteproductiondetails", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">
+                                            Production Details
+
+                                        </a>
+                                    </li>
+                                    @* <li class="nav-item">
+                                     
+                                        <a class="nav-link" href="@Url.Action("Changenotedispatchdetails", "ChangeNotes", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString(), ReqValue = ViewBag.ReqValue })">
+                                            Dispatch Details
+                                        </a>
+                                    </li>*@
+                                    @if (Context.Request.Query["Mode"] == "Edit" && (Context.Request.Query["ReqType"] == "A" || Context.Request.Query["ReqType"] == "N"))
+                                    {
+                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = ViewBag.ReqValue,  Mode = "Edit", Display = "View", Status = "SKU" })">Dispatch Details</a> </li>
+                                    }
+
+                                    else
+                                    {
+                                        @if (Model.ProductionDetails_List.ReqType != "S" &&  Model.ProductionDetails_List.ReqType != "R")
+                                        {
+                                            <li class="nav-item"> <a class="nav-link" href="@Url.Action("Changenotedispatchdetails", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), ReqValue = ViewBag.ReqValue, Mode = "Edit", Display = "View", Status = "SKU" })">Dispatch Details</a> </li>
+                                        }
+                                        else
+                                        {
+                                            @if (Context.Request.Query["Mode"] == "Edit" && (Context.Request.Query["Display"] == "LabelLayout"))
+                                            {
+                                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "LabelLayout", Status = "SET" })">Dispatch Details</a> </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "View", Status = "SET", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString() })">Dispatch Details</a> </li>
+                                            }
+                                        }
+                                    }
+                                </ul>
+
+                            </div>
+
+                            <div class="card-body">
+
+
+                                <div class="col-md-12">
+                                    <div class="col-md-10 col-centered">
+
+                                        <div class="row">
+
+                                            <div class="col-md-6 rightbd">
+                                                <h5 style="font-weight:600;" class="top10">Customer Details</h5>
+                                                <br />
+                                                <table width="100%" class="tabledata top10">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td width="55%"><strong>Customer</strong></td>
+                                                            <td width="55%">@Model.ProductionDetails_List.CustomerName</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Customer Code</strong></td>
+                                                            <td>@Model.ProductionDetails_List.CustomerCode</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Brand</strong></td>
+                                                            <td>@Model.ProductionDetails_List.BrandName</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Brand Code</strong></td>
+                                                            <td>@Model.ProductionDetails_List.BrandCode</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Ship to Country</strong></td>
+                                                            <td>@Model.ProductionDetails_List.CountryName</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Continent</strong></td>
+                                                            <td>@Model.ProductionDetails_List.Continent</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Customer Part No.</strong></td>
+                                                            <td>@Model.ProductionDetails_List.CustomerPartNumber</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Sales</strong></td>
+                                                            <td>@Model.ProductionDetails_List.Sales</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Drawing</strong></td>
+                                                              @if (Model.ProductionDetails_List.ReqType != "S" &&  Model.ProductionDetails_List.ReqType != "R")
+                                                            {
+                                                                <td>@Model.ProductionDetails_List.ProdSKU</td>
+                                                                <td align="center">
+                                                                    <div class="btnwidth80 float-right">
+                                                                        <button type="button" class="btn btn-primary btn-xs"
+                                                                                onclick="OpenDocument('@Model.ProductionDetails_List.ProdSKU')"
+                                                                                title="Show Drawing">
+                                                                            Drawing
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            }
+                                                            else
+                                                            {
+                                                          
+                                                                <td>
+                                                                    <a href="#" data-toggle="modal" data-target="#skuDetails" class="btn btn-primary btn-xs" title="SKU Details">
+                                                                        View
+                                                                    </a>
+                                                                </td>
+                                                            }
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+
+
+                                            <div class="col-md-6 ">
+                                                <h5 style="font-weight:600;" class="top10">File & Cut Specs</h5>
+                                                <br />
+                                                <table width="100%" class="tabledata top10">
+                                                    <tbody>
+                                                        @if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
+                                                        {
+                                                            <tr>
+                                                                <td><strong>File Size(Inch)</strong></td>
+                                                                <td>@Model.ProductionDetails_List.FileSizeInch</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>File Type</strong></td>
+                                                                <td>@Model.ProductionDetails_List.FileTypeName</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>File Sub Type</strong></td>
+                                                                <td>@Model.ProductionDetails_List.FileSubTypeName</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>File Code</strong></td>
+                                                                <td>@Model.ProductionDetails_List.FileCode</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="51%"><strong>View</strong></td>
+                                                                <td>
+                                                                    <div align="left">
+                                                                        <button type="button"
+                                                                                class="btn btn-primary btn-xs btnwidth95"
+                                                                                data-toggle="modal" data-target="#sub"
+                                                                                onclick="GetFileSubTypeParams(@Model.ProductionDetails_List.FileSubType)"
+                                                                                title="View File SubType Parameters">
+                                                                            View
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="51%"><strong>Cut Type</strong></td>
+                                                                <td width="49%">@Model.ProductionDetails_List.CutTypeName</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="51%"><strong>Cut Specification</strong></td>
+                                                                <td width="49%">@Model.ProductionDetails_List.CutSpecName</td>
+                                                            </tr>
+                                                        }
+                                                        else
+                                                        {
+                                                            <tr>
+                                                                <td><strong>Cut Spec Details</strong></td>
+                                                                <td>
+                                                                    <a href="#" data-toggle="modal" data-target="#setCutSpecDetails" class="btn btn-primary btn-xs" title="View">
+                                                                     View
+                                                                    </a>
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Stamp Details</strong></td>
+                                                                <td>
+                                                                    <a href="#" data-toggle="modal" data-target="#stampDetails" class="btn btn-primary btn-xs" title="View">
+                                                                        View
+                                                                    </a>
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Handel Details</strong></td>
+                                                                <td>
+                                                                    <a href="#" data-toggle="modal" data-target="#handleDetails" class="btn btn-primary btn-xs" title="View">
+                                                                        View
+                                                                    </a>
+                                                                </td>
+
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                                <br />
+
+                                                <div style="clear:both;"></div>
+                                                @if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
+                                                {
+                                                    <br />
+                                                    <div style="clear:both;"></div>
+                                                    <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th><div align="Left">Side/Edge</div></th>
+                                                                <th><div align="left">Desc</div></th>
+                                                                <th><div align="center">Value</div></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="bodyCutSides">
+                                                            <!-- Dynamic rows to be populated here -->
+                                                        </tbody>
+                                                    </table>
+                                                }
+                                            </div>
+
+
+
+                                        </div>
+
+
+
+
+
+                                        <!-- /.card -->
+                                    </div>
+
+
+
+                                </div>
+                                <!-- /.col-md-6 -->
+                                <!-- /.row -->
+                            </div><!-- /.container-fluid -->
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- InstanceEndEditable -->
+</div>
+<script>
+         var JwToken = '@ViewBag.JWTToken';
+         var blobStorageUrl = '@ViewBag.ApiUrl';
+         let blobPathPrefix = '@ViewBag.BaseBlobPath';
+
+        async function OpenDocument_SetStamp(BrandCode, FileName) {
+          
+            // G: \static\falco_co_in\1235_jk\ecm_v3\others\stamps\ca
+            var path = 'others\\stamps' + '\\' + BrandCode.toLowerCase() + '\\';
+
+                const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path)).toLowerCase() + FileName+ '.jpg';
+
+            const JSONData = {
+                blobPath: blobpath,
+                asSas: false,
+                downloadFileName: FileName
+            };
+
+            try {
+                $('#loader').show();
+
+                const response = await $.ajax({
+                    url: blobStorageUrl + 'Files/get',
+                    headers: { Authorization: 'Bearer ' + JwToken },
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(JSONData),
+                    xhrFields: { responseType: 'blob' }
+                });
+
+                if (response && response.size > 0) {
+                    const objectURL = URL.createObjectURL(response);
+                    // Display the image in the img tag
+                       window.open(objectURL, '_blank');
+                }
+            }
+                catch (error) {
+                    console.error("Error:", error);
+                }
+                finally {
+             $('#loader').hide();
+            }
+        }
+
+            async function OpenDocument_SetHandle(FileName) {
+           
+            // G: \static\falco_co_in\1235_jk\ecm_v3\others\handle_inserts\
+            var path = 'others\\handle_inserts' + '\\';
+
+                const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path)).toLowerCase()+ FileName+ '.jpg';
+
+            const JSONData = {
+                blobPath: blobpath,
+                asSas: false,
+                downloadFileName: FileName
+            };
+
+            try {
+                $('#loader').show();
+
+                const response = await $.ajax({
+                    url: blobStorageUrl + 'Files/get',
+                    headers: { Authorization: 'Bearer ' + JwToken },
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(JSONData),
+                    xhrFields: { responseType: 'blob' }
+                });
+
+                if (response && response.size > 0) {
+                    const objectURL = URL.createObjectURL(response);
+                    // Display the image in the img tag
+                       window.open(objectURL, '_blank');
+                }
+            }
+                catch (error) {
+                    console.error("Error:", error);
+                }
+                finally {
+             $('#loader').hide();
+            }
+        }
+    async function OpenDocument(Name) {
+        
+        var Folder = 'drawings' + '\\';
+        var path = Folder;
+        var FileName = Name + '.pdf';
+        
+        
+         const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path)).toLowerCase()+ FileName;
+
+            const JSONData = {
+                blobPath: blobpath,
+                asSas: false,
+                downloadFileName: FileName
+            };
+
+            try {
+                $('#loader').show();
+
+                const response = await $.ajax({
+                    url: blobStorageUrl + 'Files/get',
+                    headers: { Authorization: 'Bearer ' + JwToken },
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(JSONData),
+                    xhrFields: { responseType: 'blob' }
+                });
+
+                if (response && response.size > 0) {
+                    const objectURL = URL.createObjectURL(response);
+   
+
+    // Open the PDF in a new tab
+    const newTab = window.open(objectURL, '_blank');
+			//	const newTab = window.open(objectURL, '_blank');
+
+			// Add a download button in the new tab
+			if (newTab) {
+				newTab.onload = () => {
+					const downloadButton = newTab.document.createElement('a');
+					downloadButton.href = objectURL;
+					downloadButton.download = FileName; //Set the original file name
+					downloadButton.innerText = "Download PDF";
+					downloadButton.style.cssText = "position: fixed; top: 10px; right: 10px; background: #007bff; color: #fff; padding: 10px; text-decoration: none; border-radius: 5px;";
+					newTab.document.body.appendChild(downloadButton);
+				};
+			}
+
+			//Revoke the object URL after some time (optional cleanup)
+			setTimeout(() => URL.revokeObjectURL(objectURL), 60000); 
+                }
+            }
+            catch (error) {
+                console.error("Error:", error);
+
+            }
+            finally {
+             $('#loader').hide();
+            }
+    }
+@* 
+  async function OpenDocument(FileName) {
+      
+        var url1 = '@ViewBag.API_ECM_1231';
+
+        const apiUrl = url1 + 'UploadAndDownLoadFile/DownloadAsync';
+
+        var Folder = 'drawings' + '\\';
+        var path = Folder;
+
+        const request = {
+            FileName: path + FileName+ '.pdf'
+        };
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: 'Bearer ' + JwToken
+                },
+                body: JSON.stringify(request),
+            });
+
+            if (!response.ok) {
+                console.error("Network response was not ok");
+                return;
+            }
+
+            // Open the downloaded file in a new tab.
+            const blob = await response.blob();
+            const objectURL = URL.createObjectURL(blob);
+            window.open(objectURL, '_blank');
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    } *@
+
+    function GetFileSubTypeParams(ID) {
+        $('#txtID').val(ID);
+
+
+        var JsonData = JSON.stringify({
+            ID: ID
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetFileSubTypeParameters", "Master")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                // var html = '';
+
+                // for (var i = 0; i < data.getFileSubTypeParametersList.length; i++) {
+                //     html += '<tr>';
+                //     html += '<td>' + data.getFileSubTypeParametersList[i].sequence + '</td>';
+                //     html += '<td>' + data.getFileSubTypeParametersList[i].category + '</td>';
+                //     html += '<td>' + data.getFileSubTypeParametersList[i].name + '</td>';
+                //     html += '<td>' + data.getFileSubTypeParametersList[i].value + '</td>';
+                //     html += '<td>' + data.getFileSubTypeParametersList[i].tolerance + '</td>';
+                //     html += '</tr>';
+
+                // }
+
+                // $('#showAddedFileSubTypeParameters').html(html);
+
+
+                var table = $('#tableFileSubTypeParameters').DataTable();
+                // Clear previous rows to avoid duplicates
+                table.clear().draw();
+
+                var html = '';
+                for (var i = 0; i < data.getFileSubTypeParametersList.length; i++) {
+                    // Append new data as a row
+                    table.row.add([
+                        data.getFileSubTypeParametersList[i].sequence,
+                        data.getFileSubTypeParametersList[i].category,
+                        data.getFileSubTypeParametersList[i].name,
+                        data.getFileSubTypeParametersList[i].value,
+                        data.getFileSubTypeParametersList[i].tolerance
+                    ]).draw();  // Draw the table to display new rows
+                }
+
+                var remark = data.remark;
+                $('#textRemark').val(remark);
+
+                $('#view').modal('show');
+            },
+            error: function () {
+                alert('Error occurred while fetching data.');
+            }
+        });
+
+    }
+
+
+
+
+     $(document).ready(function () {
+        var CutStandard = @Model.ProductionDetails_List.CutStandard;
+
+        var JsonData = { ID: CutStandard };
+        var JSONInsert = JSON.stringify(JsonData);
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetCutSideStandard", "ItemMaster")',
+            data: { JsonData: JSONInsert },
+            dataType: 'json',
+            success: function (data) {
+                var Cutdata = data.objList.cutSpecificationEdit_List;
+                var tbody = $('#bodyCutSides');
+                tbody.empty(); // Clear existing content
+
+                Cutdata.forEach(function (item) {
+                    var row = $('<tr>');
+                    row.append($('<td>').text(item.cutSides));
+                    row.append($('<td>').text(item.cutOnSides));
+                    row.append($('<td>').text(item.value));
+                    tbody.append(row);
+                });
+
+                // Initialize or reinitialize DataTable
+                if ($.fn.DataTable.isDataTable('#cutSpecTable')) {
+                    $('#cutSpecTable').DataTable().clear().destroy();
+                }
+                $('#cutSpecTable').DataTable({
+                    paging: true,
+                    searching: false,
+                    ordering: false,
+                    lengthChange: false,
+                    pageLength: 5,
+                    info: false
+                });
+            },
+            error: function () {
+                alert('Error occurred while processing your request.');
+            }
+        });
+    });
+
+
+    var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+
+
+    function GetCutSpecDetails(CutStandard) {
+        var JsonData = {
+            ID: CutStandard
+        };
+        var JSONInsert = JSON.stringify(JsonData);
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetCutSideStandard", "ItemMaster")',
+            data: { JsonData: JSONInsert },
+            datatype: 'json',
+            success: function (data) {
+
+                var Cutdata = data.objList.cutSpecificationEdit_List;
+                var tbody = $('#Modal_bodyCutSides');
+                tbody.empty(); // Clear existing content if any
+
+                Cutdata.forEach(function (item) {
+                    var row = $('<tr>');
+                    row.append($('<td>').text(item.cutSides));
+                    row.append($('<td>').text(item.cutOnSides));
+                    row.append($('<td>').text(item.value));
+                    tbody.append(row);
+                });
+
+            },
+            error: function () {
+                alert('Error occurred while processing your request.');
+            }
+        });
+
+
+    }
+
+
+
+    async function AddCloneAndAmendRequest(type) {
+        var JsonData = {
+            TxnRequestId: @Context.Request.Query["ReqValue"],
+            Type: type
+        };
+        var JsonData = JSON.stringify(JsonData);
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("AddCloneAndAmendRequest", "ItemMaster")',
+            data: { JsonData: JsonData },
+            datatype: 'json',
+            success: function (data1) {
+
+                var NewTxnRequestId = data1.newTxnRequestId;
+                var JsonData1 = {
+                    NewTxnRequestId: NewTxnRequestId,
+                    TxnRequestId: @Context.Request.Query["ReqValue"]
+                        };
+                var JsonData1 = JSON.stringify(JsonData1);
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("AddCloneAndAmendImagesRequest", "ItemMaster")',
+                    data: { JsonData1: JsonData1 },
+                    datatype: 'json',
+                    success: async function (data) {
+
+                            if (data.cloneAllImagesLists.Sample) {
+                                for (const item of data.cloneAllImagesLists.Sample) {
+                                    await copyOneToAnotherFile(item.Source_Path + item.ImageFileName, item.Destination_Path + item.ImageFileName);
+                                }
+                            }
+
+                            if (data.cloneAllImagesLists.Artwork) {
+                                for (const item of data.cloneAllImagesLists.Artwork) {
+                                    await copyOneToAnotherFile(item.Source_Path + item.ImageFileName, item.Destination_Path + item.ImageFileName);
+                                }
+                            }
+
+                            if (data.cloneAllImagesLists.LabelImage) {
+                                for (const item of data.cloneAllImagesLists.LabelImage) {
+                                    await copyOneToAnotherFile(item.Source_Path + item.ImageFileName, item.Destination_Path + item.ImageFileName);
+                                }
+                            }
+
+                        alert(data1.response);
+                        redirectUrl = '@Url.Action("ItemMasterIndex", "ItemMaster")' +
+                            '?PageID=' + pageID +
+                            '&ParentID=' + parentID +
+                            '&ModuleID=' + moduleID +
+                            '&ModulePageID=' + modulePageID;
+                        window.location.href = redirectUrl;
+
+                    }
+                });
+            }
+        });
+    }
+
+
+
+
+     async function copyOneToAnotherFile(sourcePath, destinationPath) {
+
+        const apiUrl11 = '@ViewBag.ApiUrl' + 'Files/copy';
+             blobPathPrefix = (blobPathPrefix || "").replace(/\\/g, "/").trim();
+            if (blobPathPrefix.length > 0 && !blobPathPrefix.endsWith("/")) {
+                blobPathPrefix += "/";
+            }
+            //    normalizePathPrefix(path)
+                           var sourcePatths =blobPathPrefix+ sourcePath.toLowerCase().replace(/\\/g, '/');
+                           var destPath =blobPathPrefix+ destinationPath.toLowerCase().replace(/\\/g, '/');
+        const data = {
+                    sourceBlobPath:sourcePatths,
+                destinationBlobPath: destPath
+        };
+
+        try {
+                const response = await fetch(apiUrl11, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + JwToken
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) throw new Error('Copy failed: ' + response.statusText);
+
+            const result = await response.json();
+            console.log(result.Message);
+           // alert('✅ File copied successfully!');
+        } catch (err) {
+            console.error(err);
+          //  alert('❌ Error copying file.');
+        }
+    }
+
+
+</script>

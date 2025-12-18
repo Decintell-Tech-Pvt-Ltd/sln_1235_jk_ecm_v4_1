@@ -1,0 +1,554 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "HandleMaster";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5> Handle</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item active">Master</li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Handlemaster", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Handle</a></li>
+
+
+                        <li class="breadcrumb-item active">Add</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        @{
+                            var url = Url.Action("Handlemaster", "Master", new
+                            {
+                                PageID = Context.Request.Query["PageID"].ToString(),
+                                ParentID = Context.Request.Query["ParentID"].ToString(),
+                                ModuleID = Context.Request.Query["ModuleID"].ToString(),
+                                ModulePageID = Context.Request.Query["ModulePageID"].ToString()
+                            });
+                        }
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs float-left"
+                                onclick="location.href='@url'"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+
+                </div>
+
+            </div><!-- /.container-fluid -->
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline p-a-2" style="height: 100%;">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+
+                            <div class="col-md-12 mr-1">
+
+                                <div class="row">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th width="20%">Parameter Name</td>
+                                                <th width="30%">Parameter Value</th>
+                                                <th width="20%">Parameter Name</th>
+                                                <th width="30%">Parameter Value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="line-height: 31.9px;">Handle Type</td>
+                                                <td>
+
+                                                    <select name="" class="form-control select2" id="ddlHandleType" disabled>
+
+                                                        @foreach (var option in Model.EditHandleList)
+                                                        {
+                                                            @if (ViewBag.HandleType == option.HandleType)
+                                                            {
+                                                                <option selected value="@option.HandleType">@option.HandleType</option>
+                                                            }
+                                                            <option value="@option.HandleType">@option.HandleType</option>
+                                                        }
+                                                    </select>
+                                                  
+                                                </td>
+
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="line-height: 25px;">Handle Chart No.</td>
+                                                <td>
+                                                   @*  <input name="" type="text" class="form-control" value="dual_handle" id="txtHandleChartNo">
+                                                    <span id="spHandleChartNo" class="text-danger"></span> *@
+                                                    <input name="" type="text" class="form-control" id="txtHandleChartNo" value="@ViewBag.HandleChartNo" text="@ViewBag.HandleChartNo">
+                                                    <span id="spHandleChartNo" class="text-danger"></span>
+                                                </td>
+                                                <td style="line-height: 31.2px;">Handle Chart</td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <div class="custom-file">
+                                                          @*   <input type="file" class="custom-file-input">
+                                                            *@
+                                                            <input name="" type="file" id="HandleChartImg" class="custom-file-input" value="@ViewBag.handleChart" text="@ViewBag.handleChart">
+                                                            <label class="custom-file-label" for="HandleChartImg">Choose file</label>
+                                                  
+                                                        </div>
+                                                    </div>
+                                                    <span id="spHandleChart" class="text-danger"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="line-height: 31.2px;">Insert Type</td>
+                                                <td>
+
+                                                    <select name="" class="form-control select2" id="ddlHandleInsertType" disabled>
+
+                                                        @foreach (var option in Model.EditHandleList)
+                                                        {
+                                                            @if (ViewBag.InsertType == option.InsertType)
+                                                            {
+                                                                <option selected value="@option.InsertType">@option.InsertType</option>
+                                                            }
+                                                            <option value="@option.InsertType">@option.InsertType</option>
+                                                        }
+                                                    </select>
+                                                    <span id="spInsertType" class="text-danger"></span>
+                                                </td>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="line-height: 31.2px;">Insert Chart No.</td>
+                                                <td>
+                                                    @* <input name="" type="text" class="form-control" value="hdl_dual" id="txtHandleInsertChartNo">
+                                                    <span id="spInsertChartNo" class="text-danger"></span> *@
+                                                    <input name="" type="text" class="form-control" id="txtHandleInsertChartNo" value="@ViewBag.insertChartNo" text="@ViewBag.insertChartNo">
+                                                    @* <span id="spInsertChartNo" class="text-danger"></span> *@
+                                                </td>
+                                                <td style="line-height: 31.2px;">Insert Chart</td>
+                                                <td>
+                                                    <div class="input-group">
+                                                        <div class="custom-file">
+                                                           @*  <input type="file" class="custom-file-input">
+                                                            <label class="custom-file-label" for="exampleInputFile">Choose file</label> *@
+                                                            <input name="" type="file" id="HandleInsertImg" class="custom-file-input" value="@ViewBag.insertChart" text="@ViewBag.insertChart">
+                                                            <label class="custom-file-label" for="HandleInsertImg">Choose file</label>
+                                                            <span id="spInsertChart" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+                                <div class="btnwidth50 float-right">
+                                    <button type="button"
+                                            class="btn btn-primary btn-xs btnwidth50"
+                                            onclick="SaveData()"
+                                            title="Go to the next page">
+                                        Submit
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- InstanceEndEditable -->
+</div>
+<script>
+   async function SaveData() {
+        var HandleType = $('#ddlHandleType').val();
+        var HandleInsertType = $('#ddlHandleInsertType').val();
+        var HandleChartNo = $('#txtHandleChartNo').val();
+      //  var HandleDrawingNo = $('#txtHandleDrawingNo').val();
+        var InsertChartNo = $('#txtHandleInsertChartNo').val();
+        var HandleId = @ViewBag.Id;
+
+        var fileInputChart = document.getElementById('HandleChartImg');
+        if (fileInputChart.files.length > 0) {
+            var Chartfilename = fileInputChart.files[0].name;
+
+            console.log('File Name:', Chartfilename);
+        }
+        else {
+            console.log('No file selected.');
+        }
+        // var fileInputDrawing = document.getElementById('HandleDrawingImg');
+        // if (fileInputDrawing.files.length > 0) {
+        //     var Drawingfilename = fileInputDrawing.files[0].name;
+
+        //     console.log('File Name:', Drawingfilename);
+        // }
+        // else {
+        //     console.log('No file selected.');
+        // }
+        var fileInputInsert = document.getElementById('HandleInsertImg');
+        if (fileInputInsert.files.length > 0) {
+            var Insertfilename = fileInputInsert.files[0].name;
+
+            console.log('File Name:', Insertfilename);
+        }
+        else {
+            console.log('No file selected.');
+        }
+        if ($("#ddlHandleType").val() === "") {
+            // If no option is selected, set the text and display the dropdown
+            $("#ddlHandleType").html("<option value=''>Please Select Insert Chart No</option>");
+            $("#ddlHandleType").css("display", "block");
+        }
+        if (HandleChartNo == "" || Chartfilename == undefined) {
+
+            if (HandleChartNo == "") {
+                $("#spHandleChartNo").html("Please Enter Handle Chart No");
+                $("#spHandleChartNo").css("display", "block");
+            }
+            if (Chartfilename == undefined) {
+                $("#spHandleChart").html("Please Select file");
+                $("#spHandleChart").css("display", "block");
+
+                // $("#spInsertChartNo").html("Please Enter Insert Chart No");
+                // $("#spInsertChartNo").css("display", "block");
+
+
+
+                $("#spInsertChart").html("Please Select File");
+                $("#spInsertChart").css("display", "block");
+            }
+
+
+            // Check if the string contains an SQL INSERT statement
+            if (HandleType.indexOf("WITH INSERT") !== -1) {
+                // Display alert message using jQuery
+                // if (InsertChartNo == "" || Insertfilename == undefined) {
+
+                //     if (InsertChartNo == "") {
+                //         $("#spInsertChartNo").html("Please Enter Insert Chart No");
+                //         $("#spInsertChartNo").css("display", "block");
+                //     }
+                //     if (Insertfilename == undefined) {
+                //         $("#spInsertChart").html("Please Enter file");
+                //         $("#spInsertChart").css("display", "block");
+                //     }
+                // }
+            }
+
+        }
+        else {
+
+
+            var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+            var json = {
+                HandleId: HandleId,
+                HandleType: HandleType,
+                HandleChartImage: cleanFileName(Chartfilename),
+                HandleChartNo: HandleChartNo,
+                InsertType: HandleInsertType,
+                InsertChartImage: cleanFileName(Insertfilename),
+                InsertChartNo: InsertChartNo,
+                createdDate: moment.utc(new Date()).format(),
+                createdBy: iLoggedInUserID
+            };
+
+
+            var JsonData = JSON.stringify(json);
+
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SaveHandle", "Master")',
+                data: { JsonData: JsonData },
+                datatype: 'json',
+                beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+                success: async function (data) {
+                    var result = data.response;
+                    if (result == 'success') {
+                     //   if (Chartfilename.length != 0) {
+                        var selectedImageNameSample = cleanFileName(Chartfilename);
+                        var targetPathSample = 'others\\handle_inserts\\';
+                        var uploadedFileSample = document.getElementById('HandleChartImg').files[0];
+
+                        //copyFile(selectedImageNameSample, targetPathSample, uploadedFileSample);
+                         await copyFile(uploadedFileSample, targetPathSample, selectedImageNameSample);
+                        if (Insertfilename != null) {
+                            var selectedImageNameSample = cleanFileName(Insertfilename);
+                            var targetPathSample = 'others\\handle_inserts\\';
+                            var uploadedFileSampleInsert = document.getElementById('HandleInsertImg').files[0];
+                               await copyFile(uploadedFileSampleInsert, targetPathSample, selectedImageNameSample);
+                           // copyFile(selectedImageNameSample, targetPathSample, uploadedFileSampleInsert);
+
+                          //  }
+                          //  UploadFaultChara(HandleId);
+                        }
+                        alert('Handle Updated Successfully')
+                    }
+                      var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+    // Update the URL with the additional parameters
+    url = "@Url.Action("Handlemaster", "Master")" +
+        "?PageID=" + pageID +
+        "&ParentID=" + parentID +
+        "&ModuleID=" + moduleID +
+        "&ModulePageID=" + modulePageID;
+
+    // Redirect
+    window.location.href = url;
+                }
+            });
+        }
+
+
+
+    }
+
+       async function copyFile(fileInput, path, imageName) {
+        var JwToken = '@ViewBag.JWTToken';
+      var blobStorageUrl = '@ViewBag.ApiUrl';
+      let blobPathPrefix = '@ViewBag.BaseBlobPath';
+        var formdata = new FormData();
+        // ✅ Append file correctly
+        formdata.append("files", fileInput, imageName); // << change 'files' → 'file'
+
+       // let blobPathPrefix = '@ViewBag.BaseBlobPath';
+        blobPathPrefix = (blobPathPrefix || "").replace(/\\/g, "/").trim();
+        if (blobPathPrefix.length > 0 && !blobPathPrefix.endsWith("/")) {
+            blobPathPrefix += "/";
+        }
+        //    normalizePathPrefix(path)
+        var Patths = blobPathPrefix + normalizePathPrefix(path.toLowerCase());
+        formdata.append("blobPathPrefix", Patths);
+        formdata.append("Policy", 0);
+
+
+        $.ajax({
+            url: blobStorageUrl + 'Files/upload',
+            headers: {
+                Authorization: 'Bearer ' + JwToken
+            },
+            method: "POST",
+            contentType: false, // Not to set any content header
+            processData: false, // Not to process data
+            mimeType: "multipart/form-data",
+            data: formdata,
+            //async: false,
+            success: function (result) {
+                let jsonResult = JSON.parse(result); // serialize into JSON string
+                if (jsonResult && jsonResult.length > 0) {
+                    let json = {
+                      //  UserId: parseInt(CreatedBy),
+                        ImageName: imageName,
+                        BlobJson: result,
+                    };
+
+                    var Jsons = JSON.stringify(json);
+                    console.log(`uploading: ${Jsons}`);
+
+
+
+                }
+
+            },
+            error: function (err) {
+                alert(err.message);
+            }
+        });
+
+
+    }
+    // function copyFile(selectedImageNameSample, targetPath, uploadedFile) {
+    //     var formData = new FormData();
+
+    //     if (uploadedFile) {
+    //         formData.append('UploadedFile', uploadedFile);
+    //     } else {
+    //         formData.append('SourceFilePath', '');
+    //     }
+
+    //     formData.append('TargetFilePath', targetPath + selectedImageNameSample);
+    //     var JwToken = '@ViewBag.JWTToken';
+    //     var url1 = '@ViewBag.ApiUrl';
+    //     $.ajax({
+    //         url: url1 + 'UploadAndDownLoadFile/copy',
+    //         headers: {
+    //             Authorization: 'Bearer ' + JwToken
+    //         },
+    //         type: 'POST',
+    //         data: formData,
+    //         contentType: false,
+    //         processData: false,
+    //         success: function (response) {
+    //             if (response.success) {
+    //                 console.log('File copied successfully.');
+    //             } else {
+    //                 console.error('Failed to copy file:', response.error);
+    //             }
+    //         },
+    //         error: function (xhr, status, error) {
+    //             console.error('AJAX error:', error);
+    //         }
+    //     });
+    // }
+
+
+    function UploadFaultChara(HandleId) {
+        //var ServiceEngg = '@Context.Session.GetString("CreatedBy")';
+        var path = 'Handle\\HM' + HandleId;
+
+        var sfilename = "";
+        var formdata = new FormData();
+        var fileInput = document.getElementById('HandleChartImg');
+        var fileType = fileInput.files[0].name.split('.');
+        if (fileType[1] == "pdf" || fileType[1] == "png" || fileType[1] == "jpg" || fileType[1] == "jpeg") {
+            for (i = 0; i < fileInput.files.length; i++) {
+                sfilename = fileInput.files[i].name;
+                let srandomid = Math.random().toString(36).substring(7);
+                formdata.append(sfilename, fileInput.files[i]);
+            }
+            formdata.append("FilePath", path);
+            var flag = "";
+
+            if (flag != "Yes") {
+                var JwToken = '@ViewBag.JWTToken';
+                var url1 = '@ViewBag.ApiUrl';
+                $.ajax({
+                    url: url1 + 'UploadAndDownLoadFile/UploadAsync',
+                    headers: {
+                        Authorization: 'Bearer ' + JwToken
+                    },
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: formdata,
+                    async: false,
+                    beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+                    success: function (result) {
+
+                        // let DocumentJarr = {
+                        //     CreatedBy: '@Context.Session.GetString("CreatedBy")',
+                        //     Remarks: null,
+                        //     UserFileName: sfilename,
+                        //     SysFileName: "",
+                        //     MobileFileUrl: "",
+                        //     CreatedDate: moment.utc(new Date()).format()
+                        // }
+                        // let json = {
+                        //     OemId: '@Context.Session.GetString("OEMID")',
+                        //     UserId: '@Context.Session.GetString("CreatedBy")',
+                        //     ServiceCallId: ServiceCallID,
+                        //     DocumentJarr: DocumentJarr
+                        // };
+                        // var JsonData = JSON.stringify(json);
+                        // $.ajax({
+                        //     type: 'POST',
+                        //     url: '@Url.Action("UploadServiceCallDocuments", "ServiceCalls")',
+                        //     data: { JsonData: JsonData },
+                        //     dataType: "json",
+                        //     beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+                        //     success: function (data) {
+                        //         alert(data.responce);
+                        //         window.locaton.reload();
+                        //     }
+                        // });
+                    },
+                    error: function (err) {
+                        alert(err.message);
+                    }
+                });
+
+
+            }
+        }
+        else {
+            alert('System only allows .pdf and img files. ');
+        }
+    }
+    function ApprovalHandle(Id) {
+        var Id = Id;
+
+
+        var json = {
+
+            Id: Id,
+
+        };
+        var JsonData = JSON.stringify(json);
+
+        // First Ajax request
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ApprovalHandle", "Master")',
+            data: { JsonData: JsonData },
+            datatype: 'json',
+            beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                location.reload();
+            }
+        });
+
+
+
+
+    }
+    function ApprovedHandle(itemId, StatusId) {
+
+        var Id = itemId;
+        var Remark = $('#txtRemark').val();
+
+        var json = {
+            Remark: Remark,
+            Id: Id,
+            StatusId: StatusId
+
+        };
+        var JsonData = JSON.stringify(json);
+
+        // First Ajax request
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ApprovedHandle", "Master")',
+            data: { JsonData: JsonData },
+            datatype: 'json',
+            beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                location.reload();
+            }
+        });
+
+
+    }
+</script>

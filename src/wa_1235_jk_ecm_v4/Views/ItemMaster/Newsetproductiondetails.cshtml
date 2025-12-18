@@ -1,0 +1,1349 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.ItemMaster
+@{
+	ViewData["Title"] = "Newsetproductiondetails";
+	Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+
+<div class="content-wrapper">
+	<!-- InstanceBeginEditable name="EditRegion1" -->
+	<div class="modal fade" id="nonstandard">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">View File Sub Type</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<table width="100%" class="table table-bordered example1">
+						<thead>
+							<tr>
+								<th style="width:2%; text-align: center;">Sq.No.</th>
+								<th style="width:30%; text-align: Left;">Category</th>
+								<th style="width:35%;  text-align: Left;">Name</th>
+								<th style="width:15%;  text-align: center;">Value</th>
+								<th style="width:8%;  text-align: center;">Tolerance</th>
+							</tr>
+						</thead>
+
+					</table>
+
+				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+			</div>
+
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="chart">
+		<div class="modal-dialog modal-md">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Chart</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<table width="100%" class="table table-bordered example1">
+						<thead>
+							<tr>
+								<th style="width:30%; text-align: Left;">SAP No.</th>
+								<th style="width:8%;  text-align: center;">&nbsp;</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>08CH10PHBC</td>
+								<td>
+									<div align="center">
+										<div class="custom-control custom-radio">
+											<input class="custom-control-input" type="radio" id="customRadio1" name="customRadio">
+											<label for="customRadio1" class="custom-control-label">                                                            </label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>08CH12PHBC&nbsp;</td>
+								<td>
+									<div align="center">
+										<div class="custom-control custom-radio">
+											<input class="custom-control-input" type="radio" id="customRadio2" name="customRadio">
+											<label for="customRadio2" class="custom-control-label">                                                            </label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>08CH14PHBC&nbsp;</td>
+								<td>
+									<div align="center">
+										<div class="custom-control custom-radio">
+											<input class="custom-control-input" type="radio" id="customRadio3" name="customRadio">
+											<label for="customRadio3" class="custom-control-label">                                                            </label>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+
+
+
+				<div class="modal-footer">
+
+					<button type="button"
+							class="btn btn-primary btn-xs btnwidth50"
+							title="Go to the next page">
+						Submit
+					</button>
+				</div>
+
+
+
+
+
+
+
+
+			</div>
+
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="selectchart">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Chart</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<table width="100%" class="table table-bordered example1" id="TableHandleChart">
+						<thead>
+							<tr>
+								<th style="width:10%; text-align: center;">Select Chart</th>
+								<th style="width:30%; text-align: Left;">Chart</th>
+								@* <th width="111">View Chart</th> *@
+
+							</tr>
+						</thead>
+						<tbody id="TableHandleChartBody">
+						</tbody>
+
+
+					</table>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<section class="content-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-4">
+					<h5>New SET</h5>
+				</div>
+				<div class="col-lg-8">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+						<li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+						<li class="breadcrumb-item active"><a href="@Url.Action("ItemMasterIndex", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Item Master</a></li>						
+						<li class="breadcrumb-item active">New SET</li>
+					</ol>
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="btnwidth50 float-right ">
+						<a id="btnBack" class="btn btn-block bg-gradient-danger btn-xs float-left"
+						   onClick="history.back()" title="Go back to the previous page">
+							Back
+						</a>
+					</div>
+
+				</div>
+			</div>
+
+		</div><!-- /.container-fluid -->
+	</section>
+
+	<section class="content">
+		<div class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="card card-primary card-tabs p-a-2" style="height: 100%;">
+							<div class="card-header p-0 pt-1">
+								<ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+									@{
+										bool isView = false;
+										if (Context.Request.Query["Mode"].ToString() == "Edit")
+										{
+											//  cssClass = "disabledApprovebutton"; // Reset cssClass if the condition is met
+											isView = Context.Request.Query["Mode"].ToString() == "Edit";
+										}
+										if (Context.Request.Query["Display"].ToString() == "Approval")
+										{
+											<li class="nav-item">
+												<a href="@Url.Action("Newsetproductiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval", Status = "SET" })" class="nav-link active">
+													Production Details
+
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval", Status = "SET" })" class="nav-link">
+													Dispatch Details
+												</a>
+											</li>
+
+										}
+										else if (Context.Request.Query["Mode"].ToString() != null && Context.Request.Query["Mode"].ToString() != "")
+										{
+											
+													<li class="nav-item">
+												<a href="@Url.Action("Newsetproductiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Status = "SET" })" class="nav-link active">
+													Production Details
+
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Status = "SET" })" class="nav-link">
+													Dispatch Details
+												</a>
+											</li>
+											
+										}
+										else
+										{
+
+											<li class="nav-item">
+												<a href="@Url.Action("Newsetproductiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), IsSet = "1", Status = "SET" })" class="nav-link active">
+													Production Details
+
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), IsSet = "1", Status = "SET" })" class="nav-link">
+													Dispatch Details
+												</a>
+											</li>
+										}
+									}
+
+								</ul>
+
+							</div>
+
+
+
+
+							<div class="card-body">
+
+
+
+
+
+								<div>
+									<div class="col-md-3">
+										<h5 style="font-weight:600;" class="top10">Customer Details</h5>
+									</div>
+								</div>
+								<br />
+								<div class="col-md-12">
+									<div class="row">
+
+										<div class="form-group col-md-3">
+											<label>Customer</label>
+											<select class="form-control select2 select2-hidden-accessible" @(isView ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllCustomer" onchange="CustomerCode();">
+												<option value="0">Select</option>
+												@foreach (var item in Model.ecm_CustomerMaster)
+												{
+													@if (Model.ProductionDetails_List != null && item.CustomerCode == Model.ProductionDetails_List.CustomerCode)
+													{
+														<option selected="selected" value="@item.CustomerCode">@item.CustomerName</option>
+													}
+													else
+													{
+														<option value="@item.CustomerCode">@item.CustomerName</option>
+													}
+												}
+											</select>
+											<span id="spdllCustomer" class="text-danger" style="display:none;"></span>
+										</div>
+										<div class="form-group col-md-2" style="display:none">
+
+											@Html.TextBoxFor(m => m.ProductionDetails_List.CustomerCode, new { @class = "form-control", id = "txtcustId" })
+
+
+										</div>
+										<div class="form-group col-md-2">
+											<label>Customer Code</label>
+											<input name="" type="text" id="txtCustomer" class="form-control" disabled>
+										</div>
+
+										<div class="form-group col-md-3">
+											<label>Brand</label>
+											<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" @(isView ? "disabled" : "") tabindex="-1" aria-hidden="true" id="dllBrand" onchange="BrandCode();">
+												<option value="0">Select</option>
+												@foreach (var item in Model.ecm_BrandMaster)
+												{
+													@if (Model.ProductionDetails_List != null && item.BrandCode == Model.ProductionDetails_List.BrandCode)
+													{
+														<option selected="selected" value="@item.BrandCode">@item.BrandName</option>
+													}
+													else
+													{
+														<option value="@item.BrandCode">@item.BrandName</option>
+													}
+												}
+											</select>
+											<span id="spdllBrand" class="text-danger" style="display:none;"></span>
+										</div>
+
+										<div class="form-group col-md-2">
+											<label>Brand Code</label>
+											<input name="" type="text" class="form-control" id="txtBrand" disabled>
+										</div>
+										<div class="form-group col-md-3">
+											<label>Ship to Country </label>
+											<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" @(isView ? "disabled" : "") tabindex="-1" aria-hidden="true" id="dllCountryName" onchange="CountryContinent();">
+												<option value="0">Select</option>
+												@foreach (var item in Model.ShipToCountry_List)
+												{
+													@if (Model.ProductionDetails_List != null && item.CountryCode == Model.ProductionDetails_List.CountryCode)
+													{
+														<option selected="selected" value="@item.CountryCode">@item.CountryName</option>
+													}
+													else
+													{
+														<option value="@item.CountryCode">@item.CountryName</option>
+													}
+												}
+											</select>
+											<span id="spdllCountryName" class="text-danger" style="display:none;"></span>
+										</div>
+
+										<div class="form-group col-md-2">
+											<label>Continent</label>
+												@Html.TextBoxFor(m => m.ProductionDetails_List.Continent, new { @class = "form-control", id = "txtContinent", @disabled = "disabled" })
+										</div>
+
+
+										<div class="form-group col-md-2">
+											<label>SAP No.</label>
+
+											<input name="" type="text" id="txtSAPNo" class="form-control" disabled>
+
+										</div>
+
+
+										<div style="margin-top:36px;">
+											<button type="button" class="btn btn-primary btn-xs btnwidth50" data-toggle="modal" data-target="#chart" title="View details">
+												View
+											</button>
+
+										</div>
+
+									</div>
+
+									<div class="row">
+										<div class="form-group col-md-3">
+											<label>Customer Part No.</label>
+
+											@Html.TextBoxFor(m => m.ProductionDetails_List.CustomerPartNumber, new { @class = "form-control", id = "txtCustomerPart" })
+
+										</div>
+
+										<div class="form-group col-md-2">
+											<label>Sales  </label>
+											<select name="" class="form-control select2" id="dllSales" @(isView ? "disabled" : "")>
+												<option value="0">Select</option>
+												@if (Model.ProductionDetails_List != null && "Export Sales" == Model.ProductionDetails_List.Sales)
+												{
+													<option selected="selected" value="Export Sales">Export Sales</option>
+													<option value="Domestic Sales">Domestic Sales</option>
+												}
+												else if (Model.ProductionDetails_List != null && "Domestic Sales" == Model.ProductionDetails_List.Sales)
+												{
+													<option selected="selected" value="Domestic Sales">Domestic Sales</option>
+													<option value="Export Sales">Export Sales</option>
+												}
+												else
+												{
+													<option value="Export Sales">Export Sales</option>
+													<option value="Domestic Sales">Domestic Sales</option>
+												}
+											</select>
+											<span id="spdllSales" class="text-danger" style="display:none;"></span>
+										</div>
+
+									</div>
+
+
+								</div>
+
+
+								<div class="col-md-12">
+
+									<h5 style="font-weight:600;" class="top10">Drawing</h5>
+									<br />
+									<div class="row top10">
+
+										<div class="form-group col-md-5">
+											<label>Drawing No. </label>
+											<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dlldrawing">
+												<option value="0">Select</option>
+												@foreach (var item in Model.DrawingNewSetList)
+												{
+													<option value="@item.PrdSKUNumber">@item.ProdSku</option>
+												}
+											</select>
+										</div>
+
+
+
+
+
+
+										<div style="margin-top:36px;">
+											<button type="button" id="addButton"
+													class="btn btn-primary btn-xs btnwidth50"
+													title="Add new record">
+												Add
+											</button>
+
+										</div>
+
+										@* <div class="form-group col-md-3 text-center" style="margin-top: 38px;">
+											<a href="#">Drawing is not available</a>
+
+										</div>
+ *@
+									</div>
+@* 
+									@if (Model.SKUSetList != null)
+									{
+
+										<div class="table-responsive">
+											<table id="tbldrawingDetails" class="table table-bordered example1">
+												<thead>
+													<tr>
+
+														<th style="text-align:center;"> Drawing </th>
+														<th style="text-align:center;">Stamp Process </th>
+														<th style="text-align:center;"> Stamp Chart No  </th>
+														<th style="text-align:center;">Handle Presence </th>
+														<th style="text-align:center;">Handle Chart No </th>
+														<th width="8%"><div align="center">Delete</div></th>
+													</tr>
+												</thead>
+												<tbody style="text-align:center;">
+													@if (Model.SKUSetList != null)
+													{
+														@foreach (var item in Model.SKUSetList)
+														{
+
+															<tr>
+																<td>@item.Drawing</td>
+																<td>@item.StampProcess</td>
+																<td>@item.StampChartNo</td>
+																<td>@item.HandlePresence</td>
+																<td>@item.HandleChartNo</td>
+																<td class="text-center">
+
+																	<button type="button"
+																			class="btn btn-danger btn-xs btnwidth50"
+																			title="Delete the selected record" onclick="DeleteNewSetrecord(@item.DrawingDetailsRowId, '@item.SetSKU', @ViewBag.NewReqNo)">
+																		Delete
+																	</button>
+																</td>
+															</tr>
+
+														}
+													}
+												</tbody>
+											</table>
+										</div>
+
+									}
+ *@
+
+
+
+
+									<div class="table-responsive">
+										<table id="tblStampDetails" class="table table-bordered example1">
+											<thead>
+
+												<tr>
+													<th width="15%"><div align="center">Drawing No.</div></th>
+													<th width="50%"><div align="left">Stamp Process</div></th>
+													<th width="18%" class="text-center"><div align="left">Stamp Chart Ref No.</div></th>
+													<th width="8%"><div align="center">Quantity</div></th>
+													<th width="8%"><div align="center">Delete</div></th>
+												</tr>
+											</thead>
+											<tbody>
+												
+											</tbody>
+										</table>
+									</div>
+									<br />
+
+
+
+									<div class="form-group col-md-12">
+										<h5 style="font-weight:600;" class="top10">Handle</h5>
+									</div>
+
+
+									&nbsp;
+									<div class="col-md-12">
+										<div>
+
+											<table id="tblHandleDetails" class="table table-bordered example1">
+												<thead>
+													<tr>														
+														<th width="10%"><div align="center">Drawing No.	</div></th>
+														<th width="25%"><div align="left">Handle Presence</div></th>
+														<th width="25%"><div align="left">Handle Type</div></th>
+														<th width="15%"><div align="left">Handle Chart No.</div></th>
+														<th width="8%"><div align="center">Delete</div></th>
+													</tr>
+												</thead>
+											@* 	<tbody>
+												</tbody> *@
+												<tbody>
+													
+												</tbody>
+											</table>
+
+
+											<div class="row mt-2">
+
+												<div class="form-group col-md-12">
+													<label>Remark</label>
+													<textarea class="form-control" id="txtremark"></textarea>
+												</div>
+												<div style="clear: both;"></div>
+											</div>
+											<div class="btnwidth50 float-right col-md-2">
+												<button type="button"
+														class="btn btn-primary btn-xs btnwidth50"
+														onclick="SaveNewProduct();" id="btnsave"
+														title="Save the current record">
+													Save
+												</button>
+											</div>											
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</section>
+</div>
+
+<script type="text/javascript">
+// 	$(document).ready(function () {
+//     $('#addButton').on('click', function () {
+//         AddDrawingSKU(); // Calls your custom function to add a row
+//     });
+// });
+
+		function AddDrawingSKU() {
+		var drawingSKU = $('#dlldrawing option:selected').val();
+		var StampTable = $('#tblStampDetails').DataTable();
+		var HandleTable = $('#tblHandleDetails').DataTable();
+		var uniqueId = Date.now(); // Unique ID for this row
+			// Get all existing drawing numbers from both tables
+		var stampDrawings = StampTable
+			.column(0)
+			.data()
+			.toArray()
+			.map(x => $('<div>').html(x).text().trim()); // Remove HTML wrapping if any
+
+		var handleDrawings = HandleTable
+			.column(0)
+			.data()
+			.toArray()
+			.map(x => $('<div>').html(x).text().trim()); // Same here
+
+		// Combine both lists and check for duplicate
+		var allDrawings = stampDrawings.concat(handleDrawings);
+		if (allDrawings.includes(drawingSKU)) {
+			alert("This drawing already exists in either Stamp or Handle table. Please select a different one.");
+			return;
+		}
+
+		// --- Stamp Dropdowns ---
+		var stampProcessDropdown = `@Html.Raw("<select class='form-control select2 ddlStampProcess' style='width: 100%;'>" +
+						"<option value='0'>Select</option>" +
+						string.Join("", Model.StampProcesslist.Select(item => $"<option value='{item.LookupId}'>{item.LookupValue}</option>")) +
+						"</select>")`;
+
+		var newStampRow = [
+			'<div align="center">' + drawingSKU + '</div>',
+			stampProcessDropdown,			
+			`<div class="row">
+				<div class="col-lg-8">
+					@Html.Raw("<select class='form-control select2 ddlStampChart' style='width: 100%;'>" +
+				"<option value='0'>Select</option>" +
+				string.Join("", Model.StampMaster_List.Select(item =>
+						$"<option value='{item.Id}' data-brandcode='{item.BrandCode}' data-chartno='{item.ChartNo}' data-image='{item.StampChartImage}'>{item.ChartNo}</option>"
+				)) +
+		"</select>")
+
+
+				</div>
+				<div class="col-lg-4" style="margin-top:6px;">
+					<button type="button" class="btn btn-primary btn-xs btnwidth50 btn-view-chart" title="View details" data-uid="${uniqueId}">View</button>
+				</div>
+			</div>`
+			,
+			'<input type="number" class="form-control" value="0" />',
+			'<div class="text-center"><a href="#" class="deleteRow btn btn-danger btn-xs btnwidth50">Delete</a></div>'
+		];
+
+		StampTable.row.add(newStampRow).draw();
+
+		// --- Reinitialize Select2 for Stamp table ---
+		setTimeout(function () {
+			$('#tblStampDetails tbody select.select2').each(function () {
+				if ($(this).hasClass("select2-hidden-accessible")) {
+					$(this).select2('destroy');
+				}
+			}).select2({ width: '100%' });
+		}, 0);
+
+		// --- Handle Dropdowns ---
+		var handlePresenceDropdown = `@Html.Raw("<select class='form-control select2 ddlHandlePresence' onchange='OnChangeHandlePresence(this);' style='width: 100%;'>" +
+						"<option value='0'>Select</option>" +
+						string.Join("", Model.HandlePresencelist.Select(item => $"<option value='{item.LookupId}'>{item.LookupValue}</option>")) +
+						"</select>")`;
+
+		var handleTypeDropdown = `@Html.Raw("<select class='form-control select2 ddlHandleType' id='dllHandleType_${uniqueId}' onchange='chartData(${uniqueId});' style='width: 100%;'>" +
+						"<option value='0'>Select</option>" +
+						string.Join("", Model.HandleTypeList.Select(item => $"<option value='{item.Id}'>{item.HandleType}</option>")) +
+						"</select>")`;
+
+		var newHandleRow = [
+			`<div class="text-center">${drawingSKU}</div>`,
+			handlePresenceDropdown,
+			handleTypeDropdown,
+			`<div class="row">
+				<div class="col-lg-8">
+					<input type="text" id="inputChartNo_${uniqueId}" class="form-control input-chart-number" data-uid="${uniqueId}" />
+				</div>
+				<div class="col-lg-4" style="margin-top:6px;">
+						<button type="button" class="btn btn-primary btn-xs btnwidth50" data-toggle="modal" id="btnHandle_${uniqueId}" data-target="#selectchart" title="View details" data-uid="${uniqueId}">View</button>
+				</div>
+			</div>`,
+				'<div class="text-center"><a href="#" class="deleteRow1 btn btn-danger btn-xs btnwidth50">Delete</a></div>'
+		];
+
+		HandleTable.row.add(newHandleRow).draw(false);
+
+		// --- Reinitialize Select2 for Handle table ---
+		setTimeout(function () {
+			$('#tblHandleDetails tbody select.select2').each(function () {
+				if ($(this).hasClass("select2-hidden-accessible")) {
+					$(this).select2('destroy');
+				}
+			}).select2({ width: '100%' });
+		}, 0);
+	}
+
+		$(document).on('click', '.btn-view-chart', function () {
+		const $row = $(this).closest('tr');
+		const $select = $row.find('.ddlStampChart');
+
+		if ($select.length === 0) {
+			alert("Stamp Chart dropdown not found.");
+			return;
+		}
+
+		const selectedOption = $select.find('option:selected');
+		const stampId = selectedOption.val(); // This is StampMaster.Id
+		const brandCode = selectedOption.data('brandcode');
+		const chartNo = selectedOption.data('chartno');
+		const stampChartImage = selectedOption.data('image');
+
+		if (!brandCode || !chartNo || !stampChartImage || brandCode === "0") {
+			alert("Please select a valid chart before viewing.");
+			return;
+		}
+
+		const fileName = stampChartImage.split('|')[0]; // take the first file
+
+		// Optional: if you want to pass Id as well, change the function
+		StampOpenDocument(brandCode, fileName, chartNo);
+		// Or: OpenDocument(stampId, brandCode, fileName, chartNo); if updated
+	});
+
+
+
+	//	window.AddDrawingSKU = AddDrawingSKU;
+
+		// Event listener for the delete button
+		$('#tblStampDetails tbody').on('click', '.deleteRow', function () {
+			var table = $('#tblStampDetails').DataTable();
+			table.row($(this).parents('tr')).remove().draw();
+		});
+
+				$('#tblHandleDetails tbody').on('click', '.deleteRow1', function () {
+				var table = $('#tblHandleDetails').DataTable();
+			table.row($(this).parents('tr')).remove().draw();
+		});
+
+
+					function OnChangeHandlePresence(selectElement) {
+		var $row = $(selectElement).closest('tr'); // Get parent row of the dropdown
+		var handlePresenceText = $(selectElement).find("option:selected").text().trim();
+
+		var $handleType = $row.find("select.ddlHandleType");
+		var $chartInput = $row.find("input.input-chart-number");
+		var uid = $chartInput.data("uid"); // Get unique ID from input
+		var $viewButton = $(`#btnHandle_${uid}`); // Get the correct View button by ID
+
+		if (handlePresenceText === "Without handle") {
+			$handleType.prop("disabled", true);
+			$chartInput.prop("disabled", true);
+			$viewButton.prop("disabled", true); // Disable the View button
+		} else {
+			$handleType.prop("disabled", false);
+			$chartInput.prop("disabled", false);
+					$viewButton.prop("disabled", false); // Disable the View button
+			// Enable View button only if ChartNo is filled
+			const chartNo = $chartInput.val()?.trim();
+				//$viewButton.prop("disabled", false);
+		}
+	}
+
+		function validateFormInputs() {
+			let isValid = true; // moved inside
+
+			// Reset all error spans
+			$(".text-danger").hide().text("");
+
+			function checkDropdown(id, spanId, message) {
+				const value = $("#" + id).val();
+				if (!value || value === "0") {
+					$("#" + spanId).text(message).show();
+					isValid = false;
+				}
+			}
+
+			// Validate dropdowns
+			checkDropdown("dllCustomer", "spdllCustomer", "Please select a Customer.");
+			checkDropdown("dllBrand", "spdllBrand", "Please select a Brand.");
+			checkDropdown("dllCountryName", "spdllCountryName", "Please select a Country.");
+			checkDropdown("dllSales", "spdllSales", "Please select Sales.");
+	
+			return isValid;
+		}
+
+	function SaveNewProduct() {
+	var Customerid = $("#dllCustomer").val();
+	var Brandid = $("#dllBrand").val();
+	var CountryName = $("#dllCountryName").val();
+	var CustomerPart = $("#txtCustomerPart").val();
+	var Sales = $("#dllSales").val();
+
+	var table = $('#tblStampDetails').DataTable();
+	var Htable = $('#tblHandleDetails').DataTable();
+	var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+	var txtcustId = $("#txtcustId").val();
+	var iOperationalFlag = txtcustId ? 2 : 1;
+		if (validateFormInputs()) {
+	//var RequestNumber = iOperationalFlag === 2 ? encodeURIComponent('@Context.Request.Query["ReqValue"]') : '0';
+		var RequestNumber = iOperationalFlag === 2
+		? parseInt('@Context.Request.Query["ReqValue"]')
+		: 0;
+
+	let NewRequestDetailsJobj = {
+		CreatedBy: iLoggedInUserID,
+		CreatedDate: moment.utc(new Date()).format()
+	};
+		if (table.rows().count() === 0) {
+		alert("Please add at least one Stamp Drawing entry.");
+		return;
+	}
+	if (Htable.rows().count() === 0) {
+		alert("Please add at least one Handle Drawing entry.");
+		return;
+	}
+	var ProdSKU = [];
+
+	table.rows().every(function () {
+		var row = $(this.node());
+		var drawingNo = row.find('td:eq(0)').text().trim();
+		var stampProcess = row.find('td:eq(1) select').val();
+
+		// Capture selected option from Stamp dropdown
+		var $stampSelect = row.find('td:eq(2) select option:selected');
+		var stampChartRef = $stampSelect.val();
+		var brandCode = $stampSelect.data('brandcode') || '';
+		var chartNo = $stampSelect.data('chartno') || '';
+		var stampChartImage = $stampSelect.data('image') || '';
+
+		var quantity = row.find('td:eq(3) input').val();
+
+		var DrawingJson = {
+			DrawingNo: drawingNo,
+			Qty: quantity
+		};
+
+		var StampJson = {
+			StampProcessLookupId: stampProcess,
+				stampChartRef: stampChartRef,
+			BrandCode: brandCode,
+			ChartNo: chartNo,
+			StampChartImage: stampChartImage
+		};
+
+		// Handle Table Logic
+		
+		Htable.rows().every(function () {
+			var Hrow = $(this.node());
+			var HdrawingNo = Hrow.find('td:eq(0)').text().trim(); // Corrected: index 0 is drawing
+
+			if (drawingNo === HdrawingNo) {
+				var HandleProcess = Hrow.find('td:eq(1) select').val();
+				var HandleType = Hrow.find('td:eq(2) select').val();
+				var HandleChartNo = Hrow.find('td:eq(3) input').val();
+
+				var HandleJson = {
+					HandlePresenceLookupId: HandleProcess,
+					HandleTypeId: HandleType,
+					HandleColor: "PMS 101",
+					HandleChartNo: HandleChartNo,
+					HandlesInserts_InsertChartRowId: 0,
+					InsertColor: "PMS 102"
+				};
+
+				ProdSKU.push({
+					Drawing: DrawingJson,
+					Stamp: StampJson,
+					Handle: HandleJson
+				});
+			}
+		});
+	});
+			
+	// Final combined JSON for request
+	var JsonData = {
+		TxnRequestId: RequestNumber,
+		SetSKU: "",
+		ProdSKUs: ProdSKU,
+		Customerid: Customerid,
+		Brandid: Brandid,
+		CountryName: CountryName,
+		CustomerPart: CustomerPart,
+		Sales: Sales,
+		iOperationalFlag: iOperationalFlag,
+		NewRequestDetailsJobj: NewRequestDetailsJobj
+	};
+
+	// Submit via AJAX
+	$.ajax({
+		type: 'POST',
+		url: '@Url.Action("SaveNewSetRequest", "ItemMaster")',
+		data: { JsonData: JSON.stringify(JsonData) },
+		datatype: 'json',
+		success: function (data) {
+			var Insertdata = data.response;
+			var intValue = Insertdata.match(/\d+/)[0];
+
+			var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+			var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+			var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+			var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+			var Status = encodeURIComponent('@Context.Request.Query["Status"]');
+
+			var redirectUrl = '';
+			if (iOperationalFlag === 1) {
+				alert("Request S-" + intValue + " created successfully");
+				redirectUrl = '@Url.Action("PackingMaterialDetails", "ItemMaster")' +
+					'?PageID=' + pageID + '&ParentID=' + parentID + '&ModuleID=' + moduleID +
+						'&ModulePageID=' + modulePageID + '&IsSet=1&Mode=Edit&ReqValue=' + intValue+'&Status=' + Status;
+			} else {
+				alert("Set Request updated successfully");
+					redirectUrl = '@Url.Action("PackingMaterialDetails", "ItemMaster")' +
+					'?PageID=' + pageID + '&ParentID=' + parentID + '&ModuleID=' + moduleID +
+							'&ModulePageID=' + modulePageID + '&ReqValue=' + intValue + '&Mode=Edit&Status=' + Status;
+			}
+			window.location.href = redirectUrl;
+		},
+		error: function () {
+			alert('Error occurred while processing your request.');
+		}
+	});
+	}
+	else
+	{
+				alert('Please fill all required fields.');
+							return ;
+	}
+}
+
+		var selectedInputUID = null;
+
+		// Set UID when View button is clicked
+	$(document).on('click', 'button[data-target="#selectchart"]', function () {
+		selectedInputUID = $(this).data('uid');
+	});
+
+	// Handle radio change (dynamically bound)
+					$(document).on('change', '#TableHandleChartBody input.handle-radio', function () {
+		var selectedValue = $(this).val();
+
+		if (selectedInputUID !== null) {
+			var inputSelector = '#inputChartNo_' + selectedInputUID;
+			var $input = $(inputSelector);
+
+			if ($input.length > 0) {
+				$input.val(selectedValue);
+			} else {
+				console.warn("Input not found for UID:", selectedInputUID);
+			}
+		} else {
+			console.warn("selectedInputUID is null — no target input identified.");
+		}
+	});
+
+			  function chartData(uid) {
+				  var HandleType = $('#dllHandleType_' + uid + ' option:selected').text();
+			let JsonData = { HandleTypeId: HandleType };
+			var JSONInsert = JSON.stringify(JsonData);
+
+			$.ajax({
+				type: 'POST',
+				url: '@Url.Action("GetHandleChartData", "ItemMaster")',
+				data: { JsonData: JSONInsert },
+				dataType: 'json', // FIXED: was 'datatype'
+				success: function (data) {
+					var Chartdata = data.handleTypeList;
+
+					// Destroy DataTable if already exists
+					if ($.fn.DataTable.isDataTable('#TableHandleChart')) {
+						$('#TableHandleChart').DataTable().clear().destroy();
+					}
+
+					// Clear tbody content
+					var tbody1 = $('#TableHandleChartBody');
+					tbody1.empty();
+
+					$.each(Chartdata, function (index, item) {
+						var radioId = 'handleRadio_' + index;
+						var row = '<tr>' +
+							'<td>' +
+								'<div class="custom-control custom-radio" align="center">' +
+										'<input type="radio" class="custom-control-input  handle-radio" id="' + radioId + '" name="chartRadio" value="' + item.handleChartNo + '">' +
+									'<label class="custom-control-label" for="' + radioId + '"></label>' +
+								'</div>' +
+							'</td>' +
+							'<td style="text-align: left;">' +
+								'<a href="#" data-toggle="modal" data-target="#view" onclick="OpenDocument(\'' + item.handleChart + '\')">' + item.handleChartNo + '</a>' +
+							'</td>' +
+						'</tr>';
+						tbody1.append(row);
+					});
+
+					// Re-initialize DataTable with pagination
+					$('#TableHandleChart').DataTable({
+						paging: true,
+						searching: true,
+						ordering: false,
+						info: false,
+						pageLength: 5
+					});
+				},
+				error: function () {
+					alert('Error occurred while processing your request.');
+				}
+			});
+		}
+
+
+			function chartData(uid, selectedHandleChartNo = null) {
+		var HandleType = $('#dllHandleType_' + uid + ' option:selected').text();
+		let JsonData = { HandleTypeId: HandleType };
+		var JSONInsert = JSON.stringify(JsonData);
+
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("GetHandleChartData", "ItemMaster")',
+			data: { JsonData: JSONInsert },
+			dataType: 'json',
+			success: function (data) {
+				var Chartdata = data.handleTypeList;
+
+				if ($.fn.DataTable.isDataTable('#TableHandleChart')) {
+					$('#TableHandleChart').DataTable().clear().destroy();
+				}
+
+				var tbody1 = $('#TableHandleChartBody');
+				tbody1.empty();
+
+				$.each(Chartdata, function (index, item) {
+					var radioId = 'handleRadio_' + index + '_' + uid;
+					var isChecked = selectedHandleChartNo && selectedHandleChartNo.trim().toLowerCase() === item.handleChartNo.trim().toLowerCase();
+
+					var row = '<tr>' +
+						'<td>' +
+							'<div class="custom-control custom-radio" align="center">' +
+								'<input type="radio" class="custom-control-input handle-radio" ' +
+								'id="' + radioId + '" name="chartRadio_' + uid + '" value="' + item.handleChartNo + '" ' +
+								(isChecked ? 'checked' : '') + '>' +
+								'<label class="custom-control-label" for="' + radioId + '"></label>' +
+							'</div>' +
+						'</td>' +
+						'<td style="text-align: left;">' +
+							'<a href="#" data-toggle="modal" data-target="#view" onclick="OpenDocument(\'' + item.handleChartNo + '.jpg\')">' + item.handleChartNo + '</a>' +
+						'</td>' +
+					'</tr>';
+
+					tbody1.append(row);
+				});
+
+				$('#TableHandleChart').DataTable({
+					paging: true,
+					searching: true,
+					ordering: false,
+					info: false,
+					pageLength: 5
+				});
+
+				// Optional: set the chartNo text input immediately (if chart already selected)
+				if (selectedHandleChartNo) {
+					var inputSelector = '#inputChartNo_' + uid;
+					$(inputSelector).val(selectedHandleChartNo);
+				}
+			},
+			error: function () {
+				alert('Error occurred while processing your request.');
+			}
+		});
+	}
+
+
+	function CountryContinent() {
+		var CountryCode = $("#dllCountryName").val();
+		var JsonData = {
+			CountryCode: CountryCode,
+
+		};
+
+		var JSONInsert = JSON.stringify(JsonData);
+
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("GetCountryContinent", "ItemMaster")',
+			data: { JsonData: JSONInsert },
+			datatype: 'json',
+			success: function (data) {
+
+				var CountryContinent = data.countryContinent[0].result;
+				$("#txtContinent").val(CountryContinent);
+
+			},
+			error: function () {
+				alert('Error occurred while processing your request.');
+			}
+		});
+
+	}
+		function DeleteNewSetrecord(DrawingDetailsRowId,DrawingSKU,RequestNo) {
+		
+		var JsonData = {
+				RequestNo: RequestNo,
+				SetSKU:DrawingSKU,
+				DrawingDetailsRowId:DrawingDetailsRowId
+		};
+
+		var JSONInsert = JSON.stringify(JsonData);
+
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("DeleteDrawingFromSet", "ItemMaster")',
+			data: { JsonData: JSONInsert },
+			datatype: 'json',
+			success: function (data) {
+
+					alert('Record deleted successfully.');
+						window.location.reload();
+			},
+			error: function () {
+				alert('Error occurred while processing your request.');
+			}
+		});
+
+	}
+
+
+	function CustomerCode() {
+		var Custome = $("#dllCustomer").val();
+		$("#txtCustomer").val(Custome);
+
+	}
+	function BrandCode() {
+		var Custome = $("#dllBrand").val();
+		$("#txtBrand").val(Custome);
+
+	}
+		$(document).ready(function () {
+		$('#addButton').on('click', function () {
+			AddDrawingSKU();
+		});
+
+		// === Call on page load if Mode is "Edit" ===
+		var mode = '@Context.Request.Query["Mode"]';
+		var reqValue = '@Context.Request.Query["ReqValue"]';
+
+		if (mode === "Edit" && reqValue) {
+			LoadSetSKUDetails(reqValue);
+		}
+	});
+
+
+
+		function LoadSetSKUDetails(reqValue) {
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("GetDetailsForSet", "ItemMaster")',
+			data: { ReqValue: reqValue },
+			dataType: 'json',
+			success: function (response) {
+				if (response.success && response.skuSetList && response.skuSetList.length > 0) {
+					response.skuSetList.forEach(function (item) {
+							AddDrawingSKUWithValues(item); // Use the unified row add function
+					});
+				} else {
+					alert("No data found for the specified request.");
+				}
+			},
+			error: function () {
+				alert('Failed to fetch Set SKU details.');
+			}
+		});
+	}
+
+		
+		function AddDrawingSKUWithValues(item) {
+		var StampTable = $('#tblStampDetails').DataTable();
+		var HandleTable = $('#tblHandleDetails').DataTable();
+		var uniqueId = Date.now();
+
+		// Dropdowns as usual
+		var stampProcessDropdown = `@Html.Raw("<select class='form-control select2 ddlStampProcess' style='width: 100%;'>" +
+						"<option value='0'>Select</option>" +
+						string.Join("", Model.StampProcesslist.Select(item => $"<option value='{item.LookupId}'>{item.LookupValue}</option>")) +
+						"</select>")`;
+
+		var stampChartDropdown = `@Html.Raw("<select class='form-control select2 ddlStampChart' style='width: 100%;'>" +
+						"<option value='0'>Select</option>" +
+						string.Join("", Model.StampMaster_List.Select(item =>
+								$"<option value='{item.Id}' data-brandcode='{item.BrandCode}' data-chartno='{item.ChartNo}' data-image='{item.StampChartImage}'>{item.ChartNo}</option>"
+						)) +
+				"</select>")`;
+
+		var newStampRow = [
+			`<div align="center">${item.drawing}</div>`,
+			stampProcessDropdown,
+			`<div class="row"><div class="col-lg-8">${stampChartDropdown}</div>
+			 <div class="col-lg-4" style="margin-top:6px;">
+			 <button type="button" class="btn btn-primary btn-xs btnwidth50 btn-view-chart"  title="View details" data-uid="${uniqueId}">View</button></div></div>`,
+			`<input type="number" class="form-control" value="${item.qty}" />`,
+			'<div class="text-center"><a href="#" class="deleteRow btn btn-danger btn-xs btnwidth50">Delete</a></div>'
+		];
+		StampTable.row.add(newStampRow).draw();
+
+		// Set dropdown selected values
+			setTimeout(function () {
+		const $rows = $('#tblStampDetails tbody tr');
+		$rows.each(function () {
+			const $row = $(this);
+			const drawingText = $row.find('td:eq(0)').text().trim();
+
+			if (drawingText === item.drawing.trim()) {
+				$row.find('.select2').select2({ width: '100%' });
+
+				$row.find('.ddlStampProcess option').filter(function () {
+					return $(this).text().trim() === item.stampProcess.trim();
+				}).prop('selected', true);
+				$row.find('.ddlStampProcess').trigger('change');
+
+				$row.find('.ddlStampChart option').filter(function () {
+					return $(this).text().trim() === item.stampChartNo.trim();
+				}).prop('selected', true);
+				$row.find('.ddlStampChart').trigger('change');
+			}
+		});
+	}, 100);
+
+
+		// ---- Handle Table ----
+		var handlePresenceDropdown = `@Html.Raw("<select class='form-control select2 ddlHandlePresence' onchange='OnChangeHandlePresence(this);' style='width: 100%;'>" +
+						"<option value='0'>Select</option>" +
+						string.Join("", Model.HandlePresencelist.Select(item => $"<option value='{item.LookupId}'>{item.LookupValue}</option>")) +
+						"</select>")`;
+
+		var handleTypeDropdown = `@Html.Raw("<select class='form-control select2 ddlHandleType' id='dllHandleType_${uniqueId}' onchange='chartData(${uniqueId});' style='width: 100%;'>" +
+						"<option value='0'>Select</option>" +
+						string.Join("", Model.HandleTypeList.Select(item => $"<option value='{item.Id}'>{item.HandleType}</option>")) +
+						"</select>")`;
+	
+	var newHandleRow = [
+		`<div class="text-center">${item.drawing}</div>`,
+		handlePresenceDropdown,
+		handleTypeDropdown,
+		`<div class="row">
+			<div class="col-lg-8">
+				<input type="text" id="inputChartNo_${uniqueId}" class="form-control input-chart-number" data-uid="${uniqueId}" value="${item.handleChartNo ?? ''}" />
+			</div>
+			<div class="col-lg-4" style="margin-top:6px;">
+					<button type="button" class="btn btn-primary btn-xs btnwidth50" data-toggle="modal" id="btnHandle_${uniqueId}"  data-target="#selectchart" title="View details" data-uid="${uniqueId}">View</button>
+			</div>
+		</div>`,
+		'<div class="text-center"><a href="#" class="deleteRow1 btn btn-danger btn-xs btnwidth50">Delete</a></div>'
+	];
+
+		HandleTable.row.add(newHandleRow).draw(false);
+
+		setTimeout(function () {
+		const $rows = $('#tblHandleDetails tbody tr');
+		$rows.each(function () {
+			const $hrow = $(this);
+			const drawingText = $hrow.find('td:eq(0)').text().trim();
+
+			if (drawingText === item.drawing.trim()) {
+				$hrow.find('.select2').select2({ width: '100%' });
+
+				$hrow.find('.ddlHandlePresence option').filter(function () {
+					return $(this).text().trim() === item.handlePresence.trim();
+				}).prop('selected', true);
+				$hrow.find('.ddlHandlePresence').trigger('change');
+
+				$hrow.find('.ddlHandleType option').filter(function () {
+					return $(this).text().trim() === item.handleType.trim();
+				}).prop('selected', true);
+				$hrow.find('.ddlHandleType').trigger('change');
+			}
+		});
+	}, 100);
+	}
+	
+</script>
+
+
+<script>
+		 var JwToken = '@ViewBag.JWTToken';
+	     var blobStorageUrl = '@ViewBag.ApiUrl';
+	     let blobPathPrefix = '@ViewBag.BaseBlobPath';
+	async function StampOpenDocument(BrandCode, FileName, ChartNo) {	
+		// G: \static\falco_co_in\1235_jk\ecm_v3\others\stamps\ca
+		var path = 'others\\stamps' + '\\' + BrandCode.toLowerCase() + '\\';
+		
+		 const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
+
+			const JSONData = {
+				blobPath: blobpath,
+				asSas: false,
+				downloadFileName: FileName
+			};
+
+			try {
+				$('#loader').show();
+
+				const response = await $.ajax({
+					url: blobStorageUrl + 'Files/get',
+					headers: { Authorization: 'Bearer ' + JwToken },
+					type: "POST",
+					contentType: "application/json",
+					data: JSON.stringify(JSONData),
+					xhrFields: { responseType: 'blob' }
+				});
+
+				if (response && response.size > 0) {
+					const objectURL = URL.createObjectURL(response);
+					// Display the image in the img tag
+						window.open(objectURL, '_blank');
+				}
+			}
+			catch (error) {
+				console.error("Error:", error);
+
+			}
+			finally {
+			 $('#loader').hide();
+			}
+	}
+	 async function OpenDocument(FileName) {
+		// G: \static\falco_co_in\1235_jk\ecm_v3\others\stamps\ag\ca\34
+		var path = 'others\\handle_inserts' + '\\';
+		
+		 const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
+
+			const JSONData = {
+				blobPath: blobpath,
+				asSas: false,
+				downloadFileName: FileName
+			};
+
+			try {
+				$('#loader').show();
+
+				const response = await $.ajax({
+					url: blobStorageUrl + 'Files/get',
+					headers: { Authorization: 'Bearer ' + JwToken },
+					type: "POST",
+					contentType: "application/json",
+					data: JSON.stringify(JSONData),
+					xhrFields: { responseType: 'blob' }
+				});
+
+				if (response && response.size > 0) {
+					const objectURL = URL.createObjectURL(response);
+					// Display the image in the img tag
+						window.open(objectURL, '_blank');
+				}
+			}
+			catch (error) {
+				console.error("Error:", error);
+
+			}
+			finally {
+			 $('#loader').hide();
+			}
+	}
+</script>

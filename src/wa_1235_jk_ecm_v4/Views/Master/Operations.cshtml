@@ -1,0 +1,187 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Operations";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>Operations</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="../login/marketing-page.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="index.html">ECM</a></li>
+                        <li class="breadcrumb-item"><a href="#">Masters</a></li>
+                        <li class="breadcrumb-item active">
+                            Operations
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs"
+                                onclick="window.history.back()"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+                    <div class="btnwidth50 float-right mr-1">
+                     @*    <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                                onclick="location.href='Add-operations.html'" title="Add new record">
+                            Add
+                        </button> *@
+                        <a href="@Url.Action("AddOperations", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })" class="btn btn-block bg-gradient-primary   btn-xs float-left">
+                            Add
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="card card-outline card-primary">
+                        <!-- /.card-header -->
+                        <div class="card-body">
+
+
+                            <div class="row">
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                        <thead>
+
+                                            <tr>
+                                                <th width="2%" style="text-align:center;">Sr.No.</th>
+
+                                                <th width="30%"><div align="left">Operation Name</div></th>
+                                                <th width="5%"><div align="left">Restriction&nbsp;</div></th>
+                                                <th width="5%"><div align="left">Norms Required</div></th>
+                                                <th width="4%"><div align="left">Customer Defined Operation</div></th>
+                                                <th width="4%"><div align="center">Delete</div></th>
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><div align="center">1</div></td>
+
+                                                <td>
+                                                    <div align="left">
+                                                        <a href="@Url.Action("AddOperations", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })" >
+                                                            
+                                                        TestOpration12 </a>
+                                                    </div>
+                                                </td>
+                                                <td>Yes</td>
+                                                <td>No</td>
+                                                <td>Yes</td>
+                                                <td>
+                                                    <div style="margin-left:auto; margin-right:auto; float:none; display:table;">
+                                                        <div align="center">
+                                                            <a href="#" class="btn btn-block  bg-gradient-danger mt-1  btn-xs float-none">
+                                                                Delete
+                                                            </a>
+                                                        </div>
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+
+            <div class="modal fade" id="ApprovalList">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"> View Approval List </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                    <thead>
+
+                                        <tr>
+                                            <th width="2%" style="text-align:center;">Sr.No.</th>
+
+                                            <th width="103"><div align="center">Stage ID</div></th>
+                                            <th width="314"><div align="left">Stage Name</div></th>
+                                            <th width="335"><div align="left">Approval Name</div></th>
+                                            <th width="184"><div align="left">Role</div></th>
+                                            <th width="184"><div align="center">Approval Type</div></th>
+                                            <th width="66"><div align="center">Sequence</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><div align="center">1</div></td>
+                                            <td><div align="center">0</div></td>
+
+                                            <td><div align="left">stage 1</div></td>
+                                            <td><div align="left">	Akhil Kulkarni(Admin2)</div></td>
+                                            <td><div align="left">Admin2</div></td>
+
+                                            <td><div align="center">3</div></td>
+                                            <td><div align="center">1</div></td>
+
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+        </div>
+
+
+        <!-- /.content -->
+
+    </section>
+
+    <!-- InstanceEndEditable -->
+</div>

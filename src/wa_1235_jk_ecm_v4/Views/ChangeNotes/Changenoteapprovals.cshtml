@@ -1,0 +1,434 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.ChangeNote
+@{
+	ViewData["Title"] = "Changenoteapprovals";
+	Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+    <div class="modal fade" id="approve">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Remark</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+
+                    <div class="col-12">
+                        <label>
+                            Remark
+                        </label>
+                        <input class="form-control" id="txtRemark" type="text">
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <div class="float-right mr-1">
+                        <button type="button" onclick="RequestApprovalRejection(0);"
+                                class="btn btn-danger btn-xs btnwidth70"
+                                title="Rejected the selected item">
+                            Reject
+                        </button>
+
+                    </div>
+
+                    <div class="float-right">
+                        <button type="button" onclick="RequestApprovalRejection(1);"
+                                class="btn btn-success btn-xs btnwidth70"
+                                title="Approve the selected item">
+                            Approve
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4">
+                    <h5>Approvals</h5>
+                </div>
+                <div class="col-lg-8">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item active">Change Notes</li>
+                        <li class="breadcrumb-item active">Approvals</li>
+                    </ol>
+                </div>
+                <div class="col-lg-12">
+
+
+                    <div class="btnwidth50 float-right mr-1">
+
+                        <a id="btnBack" class="btn btn-block bg-gradient-danger btn-xs float-left"
+                           onClick="history.back()" title="Go back to the previous page">
+                            Back
+                        </a>
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card card-primary card-tabs p-a-2" style="height: 100%;">
+                        <div class="card-header p-0 pt-1">
+                            <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("ChangeNote", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Requests</a> </li>
+                                <li class="nav-item"> <a class="nav-link active" href="@Url.Action("Changenoteapprovals", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Approvals</a> </li>
+
+                            </ul>
+
+                        </div>
+
+                        <div class="card-body">
+
+
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:120px; text-align:center;"><div align="center">Request No.</div></th>
+                                            <th style="width:120px;"><div align="center">Falco Code</div></th>
+                                            <th style="width:100px;"><div align="center">Sales Approval</div></th>
+                                            <th style="width:70px;"><div align="center">QA Head</div></th>
+                                            <th style="width:130px;"><div align="center">GM Sales and Marketing</div></th>
+                                            <th style="width:130px;"><div align="center">Director-commercial and operations</div></th>
+                                            <th style="width:60px;"> <div align="center">CFO</div></th>
+
+                                            <th style="width:100px;"><div align="center">CEO-Engineering Business</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.ChangeNoteApproval_List != null)
+                                        {
+                                            @foreach (var item in Model.ChangeNoteApproval_List)
+                                            {
+                                                <tr>
+
+                                                    <td>
+                                                        @if (item.RequestStatusName == "Created")
+                                                        {
+                                                            <a href="#" onclick="RedirectToEditRequest(@item.RequestId,'@item.ReqType');" style="color: blue; cursor: pointer;">
+                                                                @Html.DisplayFor(modelItem => item.RequestNo)
+                                                            </a>
+
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="#" onclick="RedirectToViewRequest(@item.RequestId,'@item.ReqType');" style="color: blue; cursor: pointer;">
+                                                                @Html.DisplayFor(modelItem => item.RequestNo)
+                                                            </a>
+                                                        }
+                                                    </td>
+                                                    <td>@item.FalcoCode</td>
+
+                                                    <td>
+                                                        @if (@item.SaleFlag == 2)
+                                                        {
+                                                            <div align="center"><div align="center"><i class="far fa-circle text-success"></i></div></div>
+                                                        }
+                                                        else if (@item.SaleFlag == 3)
+                                                        {
+                                                            <div align="center"><div align="center"><a href="" data-toggle="modal" data-target="#approve" data-request-number="@item.RequestId" data-column="SalesApproval"><i class="far fa-circle text-success" style="color: orange !important; border-radius:10px; background:#fe9106;"></i></a></div></div>
+
+                                                        }
+                                                        else if (@item.SaleFlag == 0)
+                                                        {
+                                                            <div align="center"><div align="center"><i class="far fa-circle text-danger"></i></div></div>
+                                                        }
+
+                                                    </td>
+                                                    <td>
+                                                        @if (@item.QAFlag == 2)
+                                                        {
+                                                            <div align="center"><div align="center"><i class="far fa-circle text-success"></i></div></div>
+                                                        }
+                                                        else if (@item.QAFlag == 3)
+                                                        {
+                                                            <div align="center"><div align="center"><a href="" data-toggle="modal" data-target="#approve" data-request-number="@item.RequestId" data-column="QAApproval"><i class="far fa-circle round-approved" style="color: orange !important; border-radius:10px; background:#fe9106;"></i></a></div></div>
+
+                                                        }
+                                                        else if (@item.QAFlag == 0)
+                                                        {
+                                                            <div align="center"><div align="center"><i class="far fa-circle text-danger"></i></div></div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div align="center"><div align="center"><i class="far fa-circle text-secondary"></i></div></div>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @if (@item.GMFlag == 2)
+                                                        {
+                                                            <div align="center"><div align="center"><i class="far fa-circle text-success"></i></div></div>
+                                                        }
+                                                        else if (@item.GMFlag == 3)
+                                                        {
+                                                            <div align="center"><div align="center"><a href="" data-toggle="modal" data-target="#approve" data-request-number="@item.RequestId" data-column="GMApproval"><i class="far fa-circle round-approved" style="color: orange !important; border-radius:10px; background:#fe9106;"></i></a></div></div>
+
+                                                        }
+                                                        else if (@item.GMFlag == 0)
+                                                        {
+                                                            <div align="center"><div align="center"><i class="far fa-circle text-danger"></i></div></div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div align="center"><div align="center"><i class="far fa-circle text-secondary"></i></div></div>
+                                                        }
+                                                    </td>
+
+                                                    <td>
+                                                        @if (@item.DirectorFlag == 2)
+                                                        {
+                                                            <div align="center"><div align="center"><i class="far fa-circle text-success"></i></div></div>
+                                                        }
+                                                        else if (@item.DirectorFlag == 3)
+                                                        {
+                                                            <div align="center"><div align="center"><a href="" data-toggle="modal" data-target="#approve" data-request-number="@item.RequestId" data-column="DirectorApproval"><i class="far fa-circle round-approved" style="color: orange !important; border-radius:10px; background:#fe9106;"></i></a></div></div>
+
+                                                        }
+                                                        else if (@item.DirectorFlag == 0)
+                                                        {
+                                                            <div align="center"><div align="center"><i class="far fa-circle text-danger"></i></div></div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div align="center"><div align="center"><i class="far fa-circle text-secondary"></i></div></div>
+                                                        }
+
+                                                    </td>
+                                                    <td>
+                                                        @if (@item.CFOFlag == 2)
+                                                        {
+                                                            <div align="center"><div align="center"><i class="far fa-circle text-success"></i></div></div>
+                                                        }
+                                                        else if (@item.CFOFlag == 3)
+                                                        {
+                                                            <div align="center"><div align="center"><a href="" data-toggle="modal" data-target="#approve" data-request-number="@item.RequestId" data-column="CFOApproval"><i class="far fa-circle round-approved" style="color: orange !important; border-radius:10px; background:#fe9106;"></i></a></div></div>
+
+                                                        }
+                                                        else if (@item.CFOFlag == 0)
+                                                        {
+                                                            <div align="center"><div align="center"><i class="far fa-circle text-danger"></i></div></div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div align="center"><div align="center"><i class="far fa-circle text-secondary"></i></div></div>
+                                                        }
+
+                                                    </td>
+                                                    <td>
+                                                        @if (@item.CEOFlag == 2)
+                                                        {
+                                                            <div align="center"><div align="center"><i class="far fa-circle text-success"></i></div></div>
+                                                        }
+                                                        else if (@item.CEOFlag == 3)
+                                                        {
+                                                            <div align="center"><div align="center"><a href="" data-toggle="modal" data-target="#approve" data-request-number="@item.RequestId" data-column="CEOApproval"><i class="far fa-circle round-approved" style="color: orange !important; border-radius:10px; background:#fe9106;"></i></a></div></div>
+
+                                                        }
+                                                        else if (@item.CEOFlag == 0)
+                                                        {
+                                                            <div align="center"><div align="center"><i class="far fa-circle text-danger"></i></div></div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div align="center"><div align="center"><i class="far fa-circle text-secondary"></i></div></div>
+                                                        }
+
+                                                    </td>
+
+                                                </tr>
+                                            }
+
+                                        }
+                                    </tbody>
+                                    
+                                </table>
+
+                            </div>
+
+
+
+                        </div>
+                        <!-- /.card -->
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </section>
+</div>
+<script>
+
+
+    var currentRequestNumber;
+    var currentColumn;
+
+    $('#approve').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        currentRequestNumber = button.data('request-number'); // Extract info from data-* attributes
+        currentColumn = button.data('column');
+        var modal = $(this);
+        modal.find('.modal-title').text('Approval for Request No. ' + currentRequestNumber + ' (' + currentColumn + ')');
+    });
+    function RequestApprovalRejection(flag) {
+        var txtRemark = $("#txtRemark").val();
+
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+        var json = {
+            ReqNo: currentRequestNumber,
+            Flag: flag,//0 or 1
+            Remark: txtRemark,
+            iLoggedInUserID: iLoggedInUserID,
+            HeaderJobj: currentColumn,
+        };
+
+        var JSONInsert = JSON.stringify(json);
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("UpdateSKURequestApprovalStatus", "ChangeNotes")',
+            data: { JsonData: JSONInsert },
+            datatype: 'json',
+            success: function (data) {
+                alert(data.response);
+
+                // var redirectUrl = '@Url.Action("Handle", "ItemMaster")' +
+                //     '?PageID=' + pageID +
+                //     '&ParentID=' + parentID +
+                //     '&ModuleID=' + moduleID +
+                //     '&ModulePageID=' + modulePageID +
+                //     '&ReqValue=' + intValue;
+
+               // window.location.href = redirectUrl;
+                window.location.reload();
+            },
+            error: function () {
+                alert('Error occurred while processing your request.');
+            }
+        });
+
+
+
+    }
+
+
+    var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+       function RedirectToEditRequest(RequestId, ReqType) {
+
+        var url;
+
+        if (ReqType === "N" || ReqType === "A") {
+
+            url = '@Url.Action("Productiondetails", "ItemMaster")' +
+                '?PageID=' + pageID +
+                '&ParentID=' + parentID +
+                '&ModuleID=' + moduleID +
+                '&ModulePageID=' + modulePageID +
+                '&ReqValue=' + RequestId +
+                '&Mode=Edit&Status=SKU';
+        }
+        else if (ReqType === "S" || ReqType === "R") {
+
+            url = '@Url.Action("Newsetproductiondetails", "ItemMaster")' +
+                '?PageID=' + pageID +
+                '&ParentID=' + parentID +
+                '&ModuleID=' + moduleID +
+                '&ModulePageID=' + modulePageID +
+                '&ReqValue=' + RequestId +
+                '&Mode=Edit&Status=SET';
+        }
+        else {
+
+            url = '@Url.Action("Newsetproductiondetails", "ItemMaster")' +
+                '?PageID=' + pageID +
+                '&ParentID=' + parentID +
+                '&ModuleID=' + moduleID +
+                '&ModulePageID=' + modulePageID +
+                '&ReqValue=' + RequestId +
+                '&ReqType=' + ReqType +
+                '&Mode=Edit&Status=SET';
+        }
+
+        window.location.href = url;
+    }
+
+       function RedirectToViewRequest(RequestId, ReqType) {
+
+        var url;
+
+        if (ReqType === "N" || ReqType === "A") {
+
+            url = '@Url.Action("Changenoteproductiondetails", "ChangeNotes")' +
+                '?PageID=' + pageID +
+                '&ParentID=' + parentID +
+                '&ModuleID=' + moduleID +
+                '&ModulePageID=' + modulePageID +
+                '&ReqValue=' + RequestId +
+                '&Status=SKU';
+        }
+        else if (ReqType === "S" || ReqType === "R") {
+
+            url = '@Url.Action("Changenoteproductiondetails", "ChangeNotes")' +
+                '?PageID=' + pageID +
+                '&ParentID=' + parentID +
+                '&ModuleID=' + moduleID +
+                '&ModulePageID=' + modulePageID +
+                '&ReqValue=' + RequestId +
+                '&Status=SET';
+        }
+        else {
+
+            url = '@Url.Action("Changenoteproductiondetails", "ChangeNotes")' +
+                '?PageID=' + pageID +
+                '&ParentID=' + parentID +
+                '&ModuleID=' + moduleID +
+                '&ModulePageID=' + modulePageID +
+                '&ReqValue=' + RequestId +
+                '&Status=SKU';
+        }
+
+        window.location.href = url;
+    }
+
+
+
+
+</script>

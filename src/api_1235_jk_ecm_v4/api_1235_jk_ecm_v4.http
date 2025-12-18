@@ -1,0 +1,6 @@
+@api_1235_jk_ecm_v4_HostAddress = http://localhost:5134
+
+GET {{api_1235_jk_ecm_v4_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

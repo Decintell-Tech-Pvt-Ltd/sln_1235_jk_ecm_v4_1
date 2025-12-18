@@ -1,0 +1,254 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.ChangeNote
+@{
+	ViewData["Title"] = "ChangeNote";
+	Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+
+	<section class="content-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-4">
+					<h5>Requests</h5>
+				</div>
+				<div class="col-lg-8">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+						<li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+						<li class="breadcrumb-item active">Requests</li>
+					</ol>
+				</div>
+				<div class="col-lg-12">
+                     
+
+					<div class="btnwidth50 float-right mr-1">
+
+                        <a id="btnBack" class="btn btn-block bg-gradient-danger btn-xs float-left"
+                           onClick="history.back()" title="Go back to the previous page">
+                            Back
+                        </a>
+
+					</div>
+
+
+
+				</div>
+
+			</div>
+
+		</div><!-- /.container-fluid -->
+	</section>
+
+	<section class="content">
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="card card-primary card-tabs p-a-2" style="height: 100%;">
+						<div class="card-header p-0 pt-1">
+							<ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+								<li class="nav-item"> <a class="nav-link active" href="@Url.Action("ChangeNote", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Requests</a> </li>
+								<li class="nav-item"> <a class="nav-link" href="@Url.Action("Changenoteapprovals", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Approvals</a> </li>
+
+							</ul>
+
+						</div>
+
+						<div class="card-body">
+
+
+
+							<div class="table-responsive">
+								<table class="table table-bordered example1">
+									<thead>
+										<tr>
+											<th style="width:20px; text-align:center;">Sr. No.</th>
+											<th style="width:50px;"><div align="center">Request No.</div></th>
+											<th style="width:50px;"><div align="center">Falco Code</div></th>
+											<th style="width:50px;"><div align="center">Creation Date</div></th>
+											<th style="width:50px;"><div align="center">Aging in days</div></th>
+											<th style="width:200px;"><div align="left">Status</div></th>
+											<th style="width:70px;"><div align="center">Withdraw</div></th>
+										</tr>
+									</thead>
+									<tbody>
+										@if (Model.ChangeNote_List != null)
+										{
+											@foreach (var item in Model.ChangeNote_List)
+											{
+												<tr>
+
+													<td class="text-center">@item.SrNo</td>
+                                                    <td class="text-center">
+														@if (item.RequestStatusName == "Created")
+														{
+															<a href="#" onclick="RedirectToEditRequest(@item.Id,'@item.ReqType');" style="color: blue; cursor: pointer;">
+																@Html.DisplayFor(modelItem => item.RequestNumber)
+															</a>
+
+
+														}
+														else
+														{
+															<a href="#" onclick="RedirectToViewRequest(@item.Id,'@item.ReqType');" style="color: blue; cursor: pointer;">
+																@Html.DisplayFor(modelItem => item.RequestNumber)
+															</a>
+														}
+													</td>
+                                                    <td class="text-center">@item.FalcoCode</td>
+													<td class="text-center">@item.CreationDate</td>
+													<td class="text-center">@item.AgingInDays</td>
+													<td class="text-left">@item.Status</td>													
+                                                    <td>
+                                                        <center>
+                                                            <a href="#" onclick="Withdraw(@item.Id);"
+                                                                    class="btn btn-danger btn-xs"
+                                                                   
+                                                                    title="Withdraw the selected record">
+                                                                Withdraw
+                                                            </a>
+                                                        </center>
+                                                    </td>
+
+												</tr>
+											}
+										}
+									</tbody>
+								</table>
+
+							</div>
+						</div>
+						<!-- /.card -->
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+	</section>
+
+</div>
+<script>
+    var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+    var Status = encodeURIComponent('@Context.Request.Query["Status"]');
+       function RedirectToEditRequest(RequestId, ReqType) {
+
+        var url;
+
+        if (ReqType === "N" || ReqType === "A") {
+
+            url = '@Url.Action("Productiondetails", "ItemMaster")' +
+                '?PageID=' + pageID +
+                '&ParentID=' + parentID +
+                '&ModuleID=' + moduleID +
+                '&ModulePageID=' + modulePageID +
+                '&ReqValue=' + RequestId +
+                '&Mode=Edit&Status=SKU';
+        }
+        else if (ReqType === "S" || ReqType === "R") {
+
+            url = '@Url.Action("Newsetproductiondetails", "ItemMaster")' +
+                '?PageID=' + pageID +
+                '&ParentID=' + parentID +
+                '&ModuleID=' + moduleID +
+                '&ModulePageID=' + modulePageID +
+                '&ReqValue=' + RequestId +
+                '&Mode=Edit&Status=SET';
+        }
+        else {
+
+            url = '@Url.Action("Newsetproductiondetails", "ItemMaster")' +
+                '?PageID=' + pageID +
+                '&ParentID=' + parentID +
+                '&ModuleID=' + moduleID +
+                '&ModulePageID=' + modulePageID +
+                '&ReqValue=' + RequestId +
+                '&ReqType=' + ReqType +
+                '&Mode=Edit&Status=SET';
+        }
+
+        window.location.href = url;
+    }
+
+       function RedirectToViewRequest(RequestId, ReqType) {
+
+        var url;
+
+        if (ReqType === "N" || ReqType === "A") {
+
+            url = '@Url.Action("Changenoteproductiondetails", "ChangeNotes")' +
+                '?PageID=' + pageID +
+                '&ParentID=' + parentID +
+                '&ModuleID=' + moduleID +
+                '&ModulePageID=' + modulePageID +
+                '&ReqValue=' + RequestId +
+                '&Status=SKU';
+        }
+        else if (ReqType === "S" || ReqType === "R") {
+
+            url = '@Url.Action("Changenoteproductiondetails", "ChangeNotes")' +
+                '?PageID=' + pageID +
+                '&ParentID=' + parentID +
+                '&ModuleID=' + moduleID +
+                '&ModulePageID=' + modulePageID +
+                '&ReqValue=' + RequestId +
+                '&Status=SET';
+        }
+        else {
+
+            url = '@Url.Action("Changenoteproductiondetails", "ChangeNotes")' +
+                '?PageID=' + pageID +
+                '&ParentID=' + parentID +
+                '&ModuleID=' + moduleID +
+                '&ModulePageID=' + modulePageID +
+                '&ReqValue=' + RequestId +
+                '&Status=SKU';
+        }
+
+        window.location.href = url;
+    }
+
+
+
+
+
+    function Withdraw(Reqno) {
+
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+        var json = {
+            Reqno: Reqno,
+            iLoggedInUserID: iLoggedInUserID
+        };
+
+        var JSONInsert = JSON.stringify(json);
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("UpdateSKUStatusOnChangeNote", "ChangeNotes")',
+            data: { JsonData: JSONInsert },
+            datatype: 'json',
+            success: function (data) {
+                alert(data.response);
+                 var redirectUrl = '@Url.Action("Requests", "ItemMaster")' +
+                '?PageID=' + pageID +
+                '&ParentID=' + parentID +
+                '&ModuleID=' + moduleID ;
+                window.location.href = redirectUrl;
+              //  window.location.reload();
+            },
+            error: function () {
+                alert('Error occurred while processing your request.');
+            }
+        });
+
+
+
+    }
+
+</script>

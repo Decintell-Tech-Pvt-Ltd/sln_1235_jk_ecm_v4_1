@@ -1,0 +1,1765 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.ItemMaster
+@{
+    ViewData["Title"] = "PackingMaterialDetails";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+    <div class="modal fade" id="dimensions">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Dimensions</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+
+                <div class="modal-body">
+
+                    <div class="row" id="dynamicDimention">
+                      
+                    </div>
+
+
+                    <div id="dynamictableAttributeList">
+                    </div>
+
+                    &nbsp;
+
+                    <div>
+                        <div align="right" >
+                            <button type="button" class="btn btn-primary btn-xs btnwidth50"
+                                     data-dismiss="modal" aria-label="Close"
+                                    title="Go to the next page">
+                                Submit
+                            </button>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="samplepopup">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" > Sample Images</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label>Customer </label>
+                            @Html.DropDownList("Customer", new SelectList(Model.ecm_CustomerMaster, "CustomerId", "CustomerName"), "Select", new { @class = "form-control select2", @id = "ddcustomer" })
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label>Brand </label>
+                            @Html.DropDownList("Brand", new SelectList(Model.ecm_BrandMaster, "BrandId", "BrandName"), "Select", new { @class = "form-control select2", @id = "dllBrand" })
+                        </div>
+
+
+
+
+
+                        <div style="margin-top:36px;">
+                            <button type="button"
+                                    class="btn btn-primary btn-xs btnwidth50"
+                                    onclick="GetSampleImagesList()"
+                                    title="Perform search">
+                                Search
+                            </button>
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label class="control-label padd0">New Sample Image</label> &nbsp;
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" id="filetypeSample" class="custom-file-input">
+                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <table width="100%" class="table table-bordered example1" id="tblSampleImages">
+                        <thead>
+                            <tr>
+                                <th style="width:10%; text-align: center;">Select Chart</th>
+                                <th style="width:10%; text-align: center;">Request Id</th>
+                                <th style="width:30%; text-align: Left;"  >Image</th>
+                                <th style="width:20%;  text-align: Left;" >FIle Name</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                       
+                        </tbody>                  
+                    </table>
+
+                    &nbsp;
+
+                    <div>
+                        <div align="right">
+                            <button type="button"
+                                    class="btn btn-primary btn-xs btnwidth50"
+                                    data-dismiss="modal" aria-label="Close"
+                                    title="Go to the next page">
+                                Submit
+                            </button>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="artworkpopup">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Artwork Images</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label>Customer </label>
+                            @Html.DropDownList("Customer", new SelectList(Model.ecm_CustomerMaster, "CustomerId", "CustomerName"), "Select", new { @class = "form-control select2", @id = "ddcustomerart" })
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label>Brand </label>
+                            @Html.DropDownList("Brand", new SelectList(Model.ecm_BrandMaster, "BrandId", "BrandName"), "Select", new { @class = "form-control select2", @id = "dllBrandart" })
+                        </div>
+
+
+
+
+
+                        <div style="margin-top:36px;">
+                            <button type="button"
+                                    class="btn btn-primary btn-xs btnwidth50"
+                                    onclick="GetArtworkImagesList()"
+                                    title="Perform search">
+                                Search
+                            </button>
+
+
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label class="control-label padd0">New Artwork Image</label> &nbsp;
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="filetypeArtwork">
+                                    <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <table width="100%" class="table table-bordered example1" id="tblArtworkImages">
+                        <thead>
+                            <tr>
+                                <th style="width:10%; text-align: center;">Select Chart</th>
+                                <th style="width:10%; text-align: center;">Request Id</th>
+                                <th style="width:30%; text-align: Left;">Image</th>
+                                <th style="width:20%;  text-align: Left;">File Name</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                        </tbody>
+
+                       
+                    </table>
+
+                    &nbsp;
+
+                    <div>
+                        <div align="right">
+                            <button type="button"
+                                    class="btn btn-primary btn-xs btnwidth50"
+                                    data-dismiss="modal" aria-label="Close"
+                                    title="Go to the next page">
+                                Submit
+                            </button>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="color">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pantone Shade Color's</h5>
+
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                </div>
+                <div class="modal-body">Color Card here </div>
+                <div class="modal-body">
+                    <iframe id="pdfViewer" src="https://decintellai.com/ui/all-Modules/UI_Repository/pdf/PantoneColors.pdf" style="width: 100%; height: 500px;"></iframe>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8">
+                  @*   @if (Context.Request.Query["Status"].ToString() == "SKU")
+                    {
+                        <h6>SKU:@Html.Raw(Context.Request.Query["SKU"])</h6>
+                        <h6>Description:@Html.Raw(Context.Request.Query["Desc"])</h6>
+                    }
+                    else
+                    {
+                        <h5>SET</h5>
+                    } *@
+                </div>
+                <div class="col-lg-4">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item active"><a href="@Url.Action("ItemMasterIndex", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Item Master</a></li>
+                        <li class="breadcrumb-item active">View</li>
+                    </ol>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                      @if (Context.Request.Query["Status"].ToString() == "SKU")
+                    {
+                        <b>SKU:</b> 
+                        @Html.Raw(Context.Request.Query["SKU"])
+                        <b>Description:</b> 
+                        @Html.Raw(Context.Request.Query["Desc"])
+                    }
+                    else
+                    {
+                        <b>SKU:</b>
+                        @Html.Raw(Context.Request.Query["SKU"])
+                        <b>Description:</b>
+                        @Html.Raw(Context.Request.Query["Desc"])
+                    } 
+                </div>
+                <div class="col-lg-4">
+                    <div class="btnwidth50 float-right ">
+                        <a id="btnBack" class="btn btn-block bg-gradient-danger btn-xs float-left"
+                           onClick="history.back()" title="Go back to the previous page">
+                            Back
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-primary card-tabs p-a-2" style="height: 100%;">
+                            <div class="card-header p-0 pt-1">
+                                @{
+                                    string cssClass = ""; // Define the default CSS class variable
+
+                                    if (Context.Request.Query["Display"].ToString() == "View")
+                                    {
+                                        cssClass = "disabledbutton"; // Reset cssClass if the condition is met
+                                    }
+                                }
+                                <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                    @if (Context.Request.Query["Display"].ToString() == "View" && Context.Request.Query["Status"].ToString() == "SKU")
+                                    {
+                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Changenoteproductiondetails", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Display = "View", Status = "SKU", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Production Details</a> </li>
+                                        <li class="nav-item"> <a class="nav-link active" href="@Url.Action("Changenotedispatchdetails", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Display = "View", Status = "SKU", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString() })">Dispatch Details</a> </li>
+                                    }
+                                    else if (Context.Request.Query["Display"].ToString() == "View" && Context.Request.Query["Status"].ToString() == "SET")
+                                    {
+                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Changenoteproductiondetails", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Display = "View", Status = "SET", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Production Details</a> </li>
+                                        <li class="nav-item"> <a class="nav-link active" href="@Url.Action("Changenotedispatchdetails", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Display = "View", Status = "SET", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString() })">Dispatch Details</a> </li>
+                                    }
+                                    else if (Context.Request.Query["Display"].ToString() == "Approval")
+                                    {
+                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Changenoteproductiondetails", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString() })">Production Details</a> </li>
+                                        <li class="nav-item"> <a class="nav-link active" href="@Url.Action("Changenotedispatchdetails", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString() })">Dispatch Details</a> </li>
+                                    }
+                                    else if (Context.Request.Query["Display"].ToString() == "LabelLayout")
+                                    {
+                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Changenoteproductiondetails", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "LabelLayout", Status = "SET" })">Production Details</a> </li>
+                                        <li class="nav-item"> <a class="nav-link active" href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "LabelLayout", Status = "SET" })">Dispatch Details</a> </li>
+                                    }
+                                    else if (Context.Request.Query["Mode"].ToString() != null && Context.Request.Query["Mode"].ToString() != "" && Context.Request.Query["Status"].ToString() == "SKU")
+                                    {
+                                        <li class="nav-item"> <a href="@Url.Action("Productiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Status = "SKU", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString() })" class="nav-link "> Production Details </a> </li>
+                                        <li class="nav-item"> <a href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Status = "SKU", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString() })" class="nav-link active"> Dispatch Details </a> </li>
+                                    }
+                                    else if (Context.Request.Query["Mode"].ToString() != null && Context.Request.Query["Mode"].ToString() != "" && Context.Request.Query["Status"].ToString() == "SET")
+                                    {
+
+                                        <li class="nav-item"> <a href="@Url.Action("Newsetproductiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Status = "SET" })" class="nav-link "> Production Details </a> </li>
+                                        <li class="nav-item"> <a href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit" , Status = "SET"})" class="nav-link active"> Dispatch Details </a> </li>
+                                    }
+                                    else if (Context.Request.Query["Status"].ToString() == "SKU")
+                                    {
+                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Productiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), Status = "SKU", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Production Details</a> </li>
+                                        <li class="nav-item"> <a class="nav-link active" href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), Status = "SKU", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Dispatch Details</a> </li>
+                                    }
+                                   
+                                    else if (Context.Request.Query["Status"].ToString() == "SET")
+                                    {
+                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Newsetproductiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() , Status = "SET"})">Production Details</a> </li>
+                                        <li class="nav-item"> <a class="nav-link active" href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() , Status = "SET"})">Dispatch Details</a> </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Productiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Production Details</a> </li>
+                                        <li class="nav-item"> <a class="nav-link active" href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Dispatch Details</a> </li>
+                                    }
+                                </ul>
+
+                            </div>
+                            <div style="clear:both;"></div>
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="mb-2 col-lg-9">
+                                      <b>Customer:</b>&nbsp;<span id="lblCustomer">@Model.ProductionDetails_List?.CustomerName</span>&nbsp;
+                                      <b>Brand:</b>&nbsp;<span id="lblBrand">@Model.ProductionDetails_List?.BrandName</span>
+                                    </div>
+                                </div>
+
+
+                                <div class="card-header p-2">
+                                    <ul class="nav nav-pills" id="custom-tabs-one-tab" role="tablist">
+                                        @{
+                                            if (Context.Request.Query["Mode"].ToString() != null && Context.Request.Query["Mode"].ToString() != "")
+                                            {
+                                                if (Context.Request.Query["Display"].ToString() == "Approval")
+                                                {
+                                                    @if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
+                                                    {
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Stamp</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Handle", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Handle</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link active" href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval" })">Packing Material Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Labeldetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Label Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Otherpackingdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Display = "Approval" })">Other Packing Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("ShowLabelLayout", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval"  })">View Label Layout</a> </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="nav-item"> <a class="nav-link active" href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Packing Material Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Labeldetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Label Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Otherpackingdetails", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval" })">Other Packing Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("ShowLabelLayout", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval" })">View Label Layout</a> </li>
+                                                    }
+                                                }
+                                                else if (Context.Request.Query["Display"].ToString() == "View")
+                                                {
+                                                    @if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
+                                                    {
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Changenotedispatchdetails", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "View", Status = "SKU", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString() })">Stamp</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Changenotehandle", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "View", Status = "SKU", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString() })">Handle</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link active" href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "View", Status = "SKU", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Packing Material Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Labeldetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "View", Status = "SKU", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString() })">Label Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Otherpackingdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Display = "View", Status = "SKU", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Other Packing Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("ShowLabelLayout", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "View", Status = "SKU", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString() })">View Label Layout</a> </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="nav-item"> <a class="nav-link active" href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "View", Status = "SET", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Packing Material Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Labeldetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "View", Status = "SET", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Label Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Otherpackingdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "View", Status = "SET", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Other Packing Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("ShowLabelLayout", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "View", Status = "SET", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">View Label Layout</a> </li>
+                                                    }
+                                                }
+                                                else if (Context.Request.Query["Display"].ToString() == "LabelLayout")
+                                                {
+                                                    @if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
+                                                    {
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Stamp</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Handle", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Handle</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link active" href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Packing Material Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Labeldetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Label Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Otherpackingdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Other Packing Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("ShowLabelLayout", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">View Label Layout</a> </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="nav-item"> <a class="nav-link active" href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "LabelLayout", Status = "SET", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Packing Material Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Labeldetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "LabelLayout", Status = "SET", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Label Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Otherpackingdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "LabelLayout", Status = "SET", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Other Packing Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("ShowLabelLayout", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "LabelLayout", Status = "SET",SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">View Label Layout</a> </li>
+
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    @if (Context.Request.Query["ReqType"].ToString() == "A")
+                                                    {
+                                                        <li class="nav-item"> <a class="nav-link active" href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", ReqType = Context.Request.Query["ReqType"].ToString() })">Packing Material Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Labeldetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", ReqType = Context.Request.Query["ReqType"].ToString() })">Label Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Otherpackingdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", ReqType = Context.Request.Query["ReqType"].ToString() })">Other Packing Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("ShowLabelLayout", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), ReqType = Context.Request.Query["ReqType"].ToString() })">View Label Layout</a> </li>
+
+                                                    }
+                                                    else if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
+                                                    {
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Stamp</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Handle", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Handle</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link active" href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Packing Material Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Labeldetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Label Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Otherpackingdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit"})">Other Packing Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("ShowLabelLayout", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit" })">View Label Layout</a> </li>
+                                                    }
+                                                    else if (Context.Request.Query["Status"].ToString() == "SET")
+                                                    {
+                                                        <li class="nav-item"> <a class="nav-link active" href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Status = "SET" })">Packing Material Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Labeldetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Status = "SET" })">Label Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Otherpackingdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Status = "SET" })">Other Packing Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("ShowLabelLayout", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit" ,Status = "SET" })">View Label Layout</a> </li>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="nav-item"> <a class="nav-link active" href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", IsSet = "1" })">Packing Material Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Labeldetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", IsSet = "1" })">Label Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Otherpackingdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", IsSet = "1" })">Other Packing Details</a> </li>
+                                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("ShowLabelLayout", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), IsSet = "1" })">View Label Layout</a> </li>
+
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (Context.Request.Query["IsSet"].ToString() == "1")
+                                                {
+                                                    <li class="nav-item"> <a class="nav-link active" href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), IsSet = "1", Status = "SET", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString() })">Packing Material Details</a> </li>
+                                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Labeldetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), IsSet = "1", Status = "SET", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString() })">Label Details</a> </li>
+                                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Otherpackingdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), IsSet = "1", Status = "SET", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString() })">Other Packing Details</a> </li>
+                                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("ShowLabelLayout", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), IsSet = "1", Status = "SET", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString() })">View Label Layout</a> </li>
+
+                                                }
+                                                else
+                                                {
+                                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Status = "SKU", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Stamp</a> </li>
+                                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Handle", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Status = "SKU", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Handle</a> </li>
+                                                    <li class="nav-item"> <a class="nav-link active" href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Status = "SKU", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Packing Material Details</a> </li>
+                                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Labeldetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Status = "SKU", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Label Details</a> </li>
+                                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("Otherpackingdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Status = "SKU", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">Other Packing Details</a> </li>
+                                                    <li class="nav-item"> <a class="nav-link" href="@Url.Action("ShowLabelLayout", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Status = "SKU", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), })">View Label Layout</a> </li>
+
+                                                }
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+
+                                <br />
+                                <div class="col-md-12">
+                                    <div id="disabledclass">
+                                    <div class="row">
+
+                                        <div class="form-group col-md-3">
+                                            <label>Category </label>
+                                            @Html.DropDownListFor(model => model.CategoryId, new SelectList(Model.CategoryList, "CategoryId", "CategoryName"), "Select", new { @class = "form-control select2", @style = "width:100%", @id = "ddlCategory", @onchange = "OnchangeCategory()" })
+                                        </div>
+
+
+                                        &nbsp; &nbsp;
+                                        <div class="form-group col-md-3">
+                                            <label>Material </label>
+                                            @Html.DropDownListFor(model => model.MaterialId, new List<SelectListItem>() { new SelectListItem() { Text = "Select", Value = "Select" } }, new { @class = "form-control select2", @id = "ddlMaterial" })
+                                        </div>
+
+                                        <div class="form-group" style="margin-top:35px;">
+                                            <button type="button"
+                                                    class="btn btn-primary btn-xs btnwidth50 @cssClass"
+                                                    data-toggle="modal" data-target="#nonstandard" onclick="AddDimention()"
+                                                    title="Add new record">
+                                                Add
+                                            </button>
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <div class="row">
+
+                                        <div class="form-group col-md-3">
+                                            <div class="row">
+                                                <div class="form-group col-md-8">
+                                                    <label>Sample</label>
+                                                    <input id="txtSample" name="" type="text" class="form-control" disabled="">
+                                                </div>
+
+
+                                                <div style="margin-top:35px;">
+                                                    <button type="button"
+                                                            class="btn btn-primary btn-xs btnwidth50"
+                                                            data-toggle="modal" onclick="OpenSamplePopup()"
+                                                            title="View details">
+                                                        View
+                                                    </button>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                        &nbsp; &nbsp;
+                                        <div class="form-group col-md-3">
+                                            <div class="row">
+                                                <div class="form-group col-md-8">
+                                                    <label>Artwork</label>
+                                                    <input id="txtArtwork" name="" type="text" class="form-control" disabled="">
+                                                </div>
+
+
+                                                <div style="margin-top:36px;">
+                                                    <button type="button"
+                                                            class="btn btn-primary btn-xs btnwidth50"
+                                                            data-toggle="modal" onclick="OpenArtworkPopup()"
+                                                            title="View details">
+                                                        View
+                                                    </button>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+
+
+
+
+
+
+                                    </div>
+
+
+
+                                    <div class="row">
+
+                                        <div class="form-group col-md-2">
+                                            <div class="row">
+                                                <div class="form-group col-md-8">
+                                                    <label>Pantone Colors</label>
+                                                    <input id="txtPantoneColors" name="" type="text" class="form-control">
+                                                </div>
+
+
+                                                <div style="margin-top:36px;">
+                                                    <button type="button"
+                                                            class="btn btn-primary btn-xs btnwidth50"
+                                                            data-toggle="modal" data-target="#color"
+                                                            title="View details">
+                                                        View
+                                                    </button>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                        &nbsp; &nbsp;
+                                        <div class="form-group col-md-2">
+                                            <div class="row">
+                                                <div class="form-group col-md-10">
+                                                    <label>Quantity(No.)</label>
+                                                    @* <input id="" name="" type="Number" class="form-control" disabled=""> *@
+                                                    <input id="txtQuantity" name="" type="number" min="0" class="form-control">
+                                                </div>
+
+
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                        
+                                    <div class="row form-group float-right" id="disabledclass">
+
+
+                                        <button type="button"
+                                                class="btn btn-primary btn-xs btnwidth50"
+                                                onclick="AddPackingMaterialDetails()"
+                                                title="Save the current record">
+                                            Save
+                                        </button>
+
+
+
+                                    </div>
+
+
+                                    </div>
+
+
+
+                                    <div class="table-responsive">
+                                        <table width="100%" class="table table-bordered example1 mt-2">
+                                            <thead>
+                                                <tr>
+                                                    <th width="2%"><div align="center">Sr No.</div></th>
+                                                    <th width="1%"><div align="left">Category </div></th>
+                                                    <th width="2%"><div align="left">Materia </div></th>
+                                                    <th width="2%"><div align="left">Description </div></th>
+                                                    <th width="3%"><div align="left">Sample </div></th>
+                                                    <th width="2%"><div align="left">Artwork </div></th>
+                                                    <th width="1%"><div align="left">Pantone Colors </div></th>
+                                                    <th width="1%"><div align="center">Quantity No. </div></th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                @if (Model.PackingMaterialLists != null)
+                                                {
+                                                    int srNo = 1;
+                                                    <!-- Serial number starts from 1 -->
+                                                    foreach (var item in Model.PackingMaterialLists)
+                                                    {
+                                                        <tr>
+                                                            <td><div align="center">@srNo</div></td>
+                                                            <td>@item.CategoryName</td>
+                                                            <td>@item.MaterialName</td>
+                                                            <td>@item.MaterialClassName</td>
+                                                            <td><a href="#" onclick="OpenDocument('@item.MaterialSampleBox','@item.CategoryName','sample')">@item.MaterialSampleBox</a></td>
+                                                            <td><a href="#" onclick="OpenDocument('@item.MaterialArtwork','@item.CategoryName','artwork')">@item.MaterialArtwork</a></td>
+                                                            <td>@item.MaterialPantone</td>
+                                                            <td><div align="center">@item.QtyOfContains</div></td>
+                                                        </tr>
+                                                        srNo++;
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                    <div class="row">
+
+                                        <div class="form-group col-md-12">
+                                           @*  <label>Remark</label>
+                                            <textarea class="form-control" data-val="true" data-val-required="The Remark field is required."
+                                                      id="txtRemark" name="OtherPackingForEditDetails.Remark">
+                                            </textarea> *@
+                                        </div>
+                                    </div>
+                                    <div class="btnwidth50 float-right">
+                                        <a onclick="ShowAlert();"
+                                                class="btn btn-primary btn-xs btnwidth50 @cssClass"
+                                                 
+                                                title="Save the Current Record">
+                                            Save
+                                        </a>
+                                    </div>                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+<script>
+      var JwToken = '@ViewBag.JWTToken';
+      var blobStorageUrl = '@ViewBag.ApiUrl';
+      let blobPathPrefix = '@ViewBag.BaseBlobPath';
+     var Display = '@Context.Request.Query["Display"]';
+       $(document).ready(function () {
+        if (Display.toUpperCase() === "VIEW") {
+            $("#disabledclass").hide();
+        }
+    });
+    function ShowAlert()
+    {
+        alert("Packing Material Details Saved successfully!");
+         var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+                var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+                var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+                var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+                var mode = '@Context.Request.Query["Mode"]';
+                var Display = '@Context.Request.Query["Display"]';
+                var Status = encodeURIComponent('@Context.Request.Query["Status"]');
+				var intValue = '@Context.Request.Query["ReqValue"]';
+              
+                var redirectUrl;
+                if (Display == 'Approval') {
+                       redirectUrl = '@Url.Action("Labeldetails", "ItemMaster")' +
+                        '?PageID=' + pageID +
+                        '&ParentID=' + parentID +
+                        '&ModuleID=' + moduleID +
+                        '&ModulePageID=' + modulePageID +
+                        '&ReqValue=' + intValue +
+                        '&Mode=Edit'+
+                        '&Display=Approval&Status=' + Status;
+                }
+                else if(Display == 'LabelLayout'){
+                        redirectUrl = '@Url.Action("Labeldetails", "ItemMaster")' +
+                        '?PageID=' + pageID +
+                        '&ParentID=' + parentID +
+                        '&ModuleID=' + moduleID +
+                        '&ModulePageID=' + modulePageID +
+                        '&ReqValue=' + intValue +
+                        '&Mode=Edit'+
+                        '&Display=LabelLayout&Status=' + Status;
+                }
+                else if (mode == 'Edit') {
+                    redirectUrl = '@Url.Action("Labeldetails", "ItemMaster")' +
+                        '?PageID=' + pageID +
+                        '&ParentID=' + parentID +
+                        '&ModuleID=' + moduleID +
+                        '&ModulePageID=' + modulePageID +
+                        '&ReqValue=' + intValue +
+                        '&Mode=Edit&Status=' + Status;
+                }
+               
+                else {
+                    redirectUrl = '@Url.Action("Labeldetails", "ItemMaster")' +
+                        '?PageID=' + pageID +
+                        '&ParentID=' + parentID +
+                        '&ModuleID=' + moduleID +
+                        '&ModulePageID=' + modulePageID +
+                        '&ReqValue=' + intValue+
+                         '&Mode=Edit&Status=' + Status;
+                }
+                window.location.href = redirectUrl;
+
+    }
+
+
+    </script>
+
+<script>
+      
+      var Display = '@Context.Request.Query["Display"]';
+       $(document).ready(function () {
+        if (Display.toUpperCase() === "VIEW") {
+            $("#disabledclass").hide();
+        }
+    });
+    var dimentionAttribute = '';
+    var SelectedChartId;
+    var RequestedId = '@ViewBag.NewReqNo';
+    var selectedId = null;
+    // var selectedTxnRequestIdSample = null;
+    // var selectedTxnRequestIdArtwork = null;
+    var selectcategoryNameSample = null;
+    var selectcategoryNameArtwork = null;
+
+    var selectedImageFileName = null;
+
+    var selectedTxnRequestIdSample = null;
+    var selectedImageNameSample = null;
+    var selectedCustomerCodeSample = null;
+    var selectedBrandCodeSample = null;
+
+    var selectedTxnRequestIdArtwork = null;
+    var selectedImageNameArtwork = null;
+    var selectedCustomerCodeArtwork = null;
+    var selectedBrandCodeArtwork = null;
+
+    function selectDimention(radio) {
+        SelectedChartId = '';
+        SelectedChartId = $(radio).data('id');
+    }
+
+    function OnchangeCategory() {
+        var CategoryId = $("#ddlCategory :Selected").val();
+
+        let json =
+        {
+            CategoryId
+
+        };
+
+        var JsonData = JSON.stringify(json);
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetMaterialList", "ItemMaster")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                $("#ddlMaterial").empty();
+                $('<option>',
+                    {
+                        value: "Select",
+                        text: "Select"
+                    }).html("Select").appendTo("#ddlMaterial");
+                $.each(data.materialList, function (i, data) {
+                    $('<option>',
+                        {
+                            text: data.materialName,
+                            value: data.materialId
+                        }).html(data.materialName).appendTo("#ddlMaterial");
+                });
+            }
+        });
+    }
+
+
+           $('#samplepopup').on('show.bs.modal', function (event) {
+
+        // Get text values from labels
+        var customer = $("#lblCustomer").text().trim();
+        var brand = $("#lblBrand").text().trim();
+        var ddlMaterial = $("#ddlMaterial option:selected").text().trim();
+        var ddlCategory = $("#ddlCategory option:selected").text().trim();
+
+
+        // Set selected option in Brand dropdown by visible text
+        $("#dllBrand option").filter(function () {
+            return $(this).text().trim() === brand;
+        }).prop("selected", true).trigger("change");
+
+        // Set selected option in Customer dropdown by visible text
+        $("#ddcustomer option").filter(function () {
+            return $(this).text().trim() === customer;
+        }).prop("selected", true).trigger("change");
+
+        // Set modal title
+        var modal = $(this);
+        modal.find('.modal-title').text('Sample Images for ' + ddlCategory + ' - ' + ddlMaterial);
+    });
+
+
+           $('#artworkpopup').on('show.bs.modal', function (event) {
+
+        // Get text values from labels
+        var customer = $("#lblCustomer").text().trim();
+        var brand = $("#lblBrand").text().trim();
+        var ddlMaterial = $("#ddlMaterial option:selected").text().trim();
+        var ddlCategory = $("#ddlCategory option:selected").text().trim();
+
+
+        // Set selected option in Brand dropdown by visible text
+        $("#dllBrandart option").filter(function () {
+            return $(this).text().trim() === brand;
+        }).prop("selected", true).trigger("change");
+
+        // Set selected option in Customer dropdown by visible text
+        $("#ddcustomerart option").filter(function () {
+            return $(this).text().trim() === customer;
+        }).prop("selected", true).trigger("change");
+
+        // Set modal title
+        var modal = $(this);
+        modal.find('.modal-title').text('Artwork Images for ' + ddlCategory + ' - ' + ddlMaterial);
+    });
+
+
+
+
+     function AddDimention() {
+        var CategoryId = $("#ddlCategory :Selected").val();
+        var MaterialId = $("#ddlMaterial :Selected").val();
+        if (CategoryId == '') {
+            alert('Please Select Category');
+            return false;
+        }
+        if (MaterialId == '') {
+            alert('Please Select Material');
+            return false;
+        }
+        else {
+
+            let json =
+            {
+                CategoryId,
+                MaterialId
+            };
+
+            var JsonData = JSON.stringify(json);
+            var row = ''; var row1 = '';
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDimesionsAttribute", "ItemMaster")',
+                data: { JsonData: JsonData },
+                dataType: 'json',
+                beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+                success: function (data) {
+
+                    $("#dimensions").modal("show");
+                    $("#dynamicDimention").empty();
+
+                    dimentionAttribute = data.dimentionAttribute;
+
+                    for (var i = 0; i < data.dimentionAttribute.length; i++) {
+                        var attributeName = data.dimentionAttribute[i].attributeName;
+                        var row = '<div class="col-md-3 form-group">';
+                        row += '<label>' + attributeName + '</label>';
+                        row += '<input id="' + attributeName + '" name="' + attributeName + '" type="number" min="0" class="form-control">';
+                        row += '</div>';
+                        $("#dynamicDimention").append(row);
+                    }
+
+                    row1 = '<div class="col-md-5 form-group">';
+                    row1 += '<label>Description</label>';
+                    row1 += '<input id="txtDescription" name="" type = "text" class="form-control">';
+                    row1 += '</div>';
+                    row1 += '<div class="col-md-1" style="margin-top:35px;"> <button type="button" onclick="AddDimentionData()" id="AddDimention" class="btn btn-primary btn-xs btnwidth50" >Add</button></div >';
+                    $("#dynamicDimention").append(row1);
+
+
+                    GetDimesionsAttributeList();
+                }
+            });
+
+        }
+    }
+
+
+
+
+    function GetDimesionsAttributeList() {
+        var CategoryId = $("#ddlCategory :Selected").val();
+        var MaterialId = $("#ddlMaterial :Selected").val();
+        let json =
+        {
+            CategoryId,
+            MaterialId
+        };
+
+        var JsonData = JSON.stringify(json);
+        var row = '';
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetDimesionsAttributeList", "ItemMaster")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                $("#dynamictableAttributeList").empty();
+
+                var row ='' ;
+                row += '<table id="tblDimentionList" width="100%" class="table table-bordered example1">';
+                row += '<thead>'
+                row += '<tr>'
+                row += '<th style="width:15%; text-align: center;">Select Chart</th>';
+                row += '<th style="width:30%; text-align: Left;">Description</th>'
+                for (var i = 0; i < dimentionAttribute.length; i++) {
+                    row += '<th style="width:10%;  text-align: center;">' + dimentionAttribute[i].attributeName + '</th>';
+                }
+                row += '</tr>'
+                row += '</thead>'
+                row += '<tbody>'
+                for (var i = 0; i < data.dimentionAttribute.length; i++) {
+                    row += '<tr>'
+                    // row += '<td><center><input name="dimensionRadio" type="radio" data-id="' + data.dimentionAttribute[i].Id + '" onchange="selectDimention(this)" value="' + data.dimentionAttribute[i].Id + '"></center></td>';
+                    row += '<td style="width:15%; text-align: center;"> <center><div class="custom-control custom-radio" align="center"> <input class="custom-control-input" type="radio" id="' + data.dimentionAttribute[i].Id + '" name="dimensionRadio" data-id="' + data.dimentionAttribute[i].Id + '" value="' + data.dimentionAttribute[i].Id + '" onchange="selectDimention(this)"> <label for="' + data.dimentionAttribute[i].Id + '"  class="custom-control-label"></label> </div> </center></td>';
+                    row += '<td style="width:30%; text-align: Left;">' + data.dimentionAttribute[i].MaterialClassName + '</td>';
+
+                    // Ensure values array length matches the header columns count
+                    var values = data.dimentionAttribute[i].DimensionsJarr || [];
+                    $.each(dimentionAttribute, function (index, attribute) {
+                        var value = values[index] !== undefined ? values[index] : ''; // Fallback if value is not present
+                        row += '<td style="width:10%;  text-align: center;">' + value + '</td>';
+                    });
+                    row += '</tr>'
+                }
+                row += '</tbody>'
+                row += '</table>';
+
+                $("#dynamictableAttributeList").append(row);
+
+               
+                    // Now initialize DataTable on the newly added .example1 table
+                    var table = $('#tblDimentionList').DataTable({
+                     responsive: true,
+                     autoWidth: true,
+                     lengthChange: false,
+                     scrollX: true,
+                     paging: true,
+                     searching: true,
+                     ordering: false,
+                     buttons: ["csv"],
+                     dom: 'Bfrtip'
+                 });
+
+                 // Ensure layout recalculates correctly
+                 setTimeout(function () {
+                     table.columns.adjust().draw();
+                 }, 100);
+                
+            }
+        });
+
+    }
+   
+    function AddDimentionData() {
+        var CategoryId = $("#ddlCategory :Selected").val();
+        var MaterialId = $("#ddlMaterial :Selected").val();
+        var Description = $("#txtDescription").val();
+        var DimensionsJarr = [];
+        for (var i = 0; i < dimentionAttribute.length; i++) {
+            var Attribute = $("#" + dimentionAttribute[i].attributeName).val();
+            if (Attribute == '') {
+                alert("Please Enter all field.");
+            }
+            else {
+                DimensionsJarr.push(Attribute);
+            }
+        }
+        //var Dimstruniq = CategoryId + ',' + MaterialId + ',' + DimensionsAttributeJobj.join(', ');
+
+        let json =
+        {
+            CategoryId,
+            MaterialId,
+            DimensionsJarr,
+            Description
+        };
+
+        var JsonData = JSON.stringify(json);
+        var row = ''; var row1 = '';
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("AddDimesionsAttribute", "ItemMaster")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                alert(data.response);
+
+                GetDimesionsAttributeList();
+            }
+        });
+    }
+
+
+
+       async function AddPackingMaterialDetails() {
+        var CategoryId = $("#ddlCategory :Selected").val();
+        var MaterialId = $("#ddlMaterial :Selected").val();
+        var CategoryName = $("#ddlCategory :Selected").text();
+        var MaterialName = $("#ddlMaterial :Selected").text();
+        var fileInputSample = document.getElementById('filetypeSample');
+        var fileInputArtwork = document.getElementById('filetypeArtwork');
+        var PantoneColors = $("#txtPantoneColors").val();
+        var Quantity = $("#txtQuantity").val();
+        var fileNamesSample = '';
+        var fileNamesArtwork = '';
+        var selectedRadioSample = $("#tblSampleImages input[type='radio']:checked");
+        var selectedRadioArtwork = $("#tblArtworkImages input[type='radio']:checked");
+        var selectedPathsample = '';
+        var selectedPathartwork = '';
+        // if (fileInputSample.files.length > 0 && selectedRadioSample.length > 0) {
+        //     alert('Please select an image for upload or choose an image from existing images. Both can not be selected');
+        //     return;
+        // }
+
+        if (fileInputSample.files.length > 0) {
+            for (var i = 0; i < fileInputSample.files.length; i++) {
+                fileNamesSample = fileInputSample.files[i].name.trim();;
+            }
+            console.log(fileNamesSample);
+        }
+        else if (selectedCustomerCodeSample != null) {
+            //selectedPath = `sample\\${selectedCustomerCode.toLowerCase()}\\${selectedBrandCode.toLowerCase()}\\${selectedImageId}\\${categoryName.toLowerCase()}\\${selectedFilterPosition.toLowerCase()}\\${selectedFilterLabelType.toLowerCase()}\\`;
+            // selectedPathsample = `sample\\${selectedTxnRequestIdSample}\\${selectcategoryNameSample.toLowerCase()}\\`;
+            selectedPathsample = `dispatch\\${selectedCustomerCodeSample.toLowerCase()}\\${selectedBrandCodeSample.toLowerCase()}\\${selectedTxnRequestIdSample}\\sample\\`;
+            // Check if an image is selected from the table
+            var selectedRadioSample = $("#tblSampleImages input[type='radio']:checked");
+            if (selectedRadioSample.length > 0) {
+                fileNamesSample = selectedRadioSample.attr('data-image').trim();;
+            }
+            // else {
+            //     alert('Please select an image for upload or choose an image from existing images.');
+            //     return;
+            // }
+        }
+
+
+        // if (fileInputArtwork.files.length > 0 && selectedRadioArtwork.length > 0) {
+        //     alert('Please select an image for upload or choose an image from existing images. Both can not be selected');
+        //     return;
+        // }
+
+        if (fileInputArtwork.files.length > 0) {
+            for (var i = 0; i < fileInputArtwork.files.length; i++) {
+                fileNamesArtwork = fileInputArtwork.files[i].name.trim();;
+            }
+            console.log(fileNamesArtwork);
+        }
+        else if (selectedCustomerCodeArtwork != null) {
+            // selectedPath = `artwork\\${selectedCustomerCode.toLowerCase()}\\${selectedBrandCode.toLowerCase()}\\${selectedImageId}\\${categoryName.toLowerCase()}\\${selectedFilterPosition.toLowerCase()}\\${selectedFilterLabelType.toLowerCase()}\\`;
+            // selectedPathartwork = `artwork\\${selectedTxnRequestIdArtwork}\\${selectcategoryNameArtwork.toLowerCase()}\\`;
+            selectedPathartwork = `dispatch\\${selectedCustomerCodeArtwork.toLowerCase()}\\${selectedBrandCodeArtwork.toLowerCase()}\\${selectedTxnRequestIdArtwork}\\artwork\\`;
+            // Check if an image is selected from the table
+            var selectedRadioArtwork = $("#tblArtworkImages input[type='radio']:checked");
+            if (selectedRadioArtwork.length > 0) {
+                fileNamesArtwork = selectedRadioArtwork.attr('data-image').trim();;
+            }
+            // else {
+            //     alert('Please select an image for upload or choose an image from existing images.');
+            //     return;
+            // }
+        }
+
+        let json =
+        {
+            CategoryId,
+            MaterialId,
+            RequestedId,
+            SelectedChartId,
+            fileNamesSample: cleanFileName(fileNamesSample),
+            fileNamesArtwork: cleanFileName(fileNamesArtwork),
+            PantoneColors,
+            Quantity
+        };
+
+        var JsonData = JSON.stringify(json);
+        var row = ''; var row1 = '';
+        var customerCode = '@(Model.ProductionDetails_List?.CustomerCode ?? "")';
+        var brandCode = '@(Model.ProductionDetails_List?.BrandCode ?? "")';
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("AddPackingMaterialDetails", "ItemMaster")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+               success: async function (data) {
+
+                //////Sample Image Upload
+                // Construct the paths for file operations
+                var selectedImageNameSample = cleanFileName(fileNamesSample);
+                var targetPathSample = 'dispatch\\' + customerCode.toLowerCase() + '\\' + brandCode.toLowerCase() + '\\' + RequestedId + '\\sample\\';
+
+                // var targetPathSample = `sample\\${RequestedId}\\${CategoryName.toLowerCase()}\\`;
+                // Assuming there's a file input element with id 'fileInput'
+                var uploadedFileSample = document.getElementById('filetypeSample').files[0];
+                // Copy the file
+                //  copyFile(selectedImageNameSample, selectedPathsample, targetPathSample, uploadedFileSample);
+                      if (typeof uploadedFileSample !== 'undefined' && uploadedFileSample) {
+                        // Case 1: uploadedFile exists — copy it directly
+                                          await copyFile(uploadedFileSample, targetPathSample, selectedImageNameSample);
+                           } else {
+                               // Case 2: uploadedFile not defined — use default path
+                                         await copyOneToAnotherFile(selectedPathsample + selectedImageNameSample, targetPathSample + selectedImageNameSample);
+                           }
+
+                //////Artwork Image Upload
+                // Construct the paths for file operations
+                var selectedImageNameArtwork = cleanFileName(fileNamesArtwork);
+                var targetPathArtwork = 'dispatch\\' + customerCode.toLowerCase() + '\\' + brandCode.toLowerCase() + '\\' + RequestedId + '\\artwork\\';
+
+                //var targetPathArtwork = `artwork\\${RequestedId}\\${CategoryName.toLowerCase()}\\`;
+                // Assuming there's a file input element with id 'fileInput'
+                var uploadedFileArtwork = document.getElementById('filetypeArtwork').files[0];
+                // Copy the file
+              //  copyFile(selectedImageNameArtwork, selectedPathartwork, targetPathArtwork, uploadedFileArtwork);
+                       if (typeof uploadedFileArtwork !== 'undefined' && uploadedFileArtwork) {
+                           // Case 1: uploadedFile exists — copy it directly
+                                await copyFile(uploadedFileArtwork, targetPathArtwork, selectedImageNameArtwork);
+                              } else {
+                                  // Case 2: uploadedFile not defined — use default path
+                                await copyOneToAnotherFile(selectedPathartwork + selectedImageNameArtwork, targetPathArtwork + selectedImageNameArtwork);
+                              }
+                alert(data.response);
+                window.location.reload();
+            }
+        });
+    }
+
+    function AddSampleImage() {
+        const fileInput = document.getElementById('filetypeSample');
+        const fileName = fileInput.files[0].name;
+
+        let json =
+        {
+            CategoryId,
+            MaterialId,
+            SampleImageName: fileName
+        };
+
+        var JsonData = JSON.stringify(json);
+        var row = ''; var row1 = '';
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("AddSampleImage", "ItemMaster")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                alert(data.response);
+            }
+        });
+    }
+
+
+    function UploadImage(ImageType, ImageName) {
+        var ServiceEngg = '@Context.Session.GetString("CreatedBy")';
+        var path = ImageType + '\\' + ImageType;
+
+        var sfilename = "";
+        var formdata = new FormData();
+        var fileInput = document.getElementById('fileUpload');
+        var fileType = fileInput.files[0].name.split('.');
+        if (fileType[1] == "pdf" || fileType[1] == "png" || fileType[1] == "jpg" || fileType[1] == "jpeg") {
+            for (i = 0; i < fileInput.files.length; i++) {
+                sfilename = fileInput.files[i].name;
+                let srandomid = Math.random().toString(36).substring(7);
+                formdata.append(sfilename, fileInput.files[i]);
+            }
+            formdata.append("FilePath", path);
+            var flag = "";
+
+            if (flag != "Yes") {
+                var JwToken = '@ViewBag.JWTToken';
+                var url1 = '@ViewBag.ApiUrl';
+                $.ajax({
+                    url: url1 + 'UploadAndDownLoadFile/UploadAsync',
+                    headers: {
+                        Authorization: 'Bearer ' + JwToken
+                    },
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: formdata,
+                    async: false,
+                    beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+                    success: function (result) {
+
+
+                    },
+                    error: function (err) {
+                        alert(err.message);
+                    }
+                });
+
+
+            }
+        }
+        else {
+            alert('System only allows .pdf and img files. ');
+        }
+    }
+
+    @* function copyFile(selectedImageName, selectedPath, targetPath, uploadedFile) {
+        var formData = new FormData();
+
+        if (uploadedFile) {
+            formData.append('UploadedFile', uploadedFile);
+        } else {
+            formData.append('SourceFilePath', selectedPath + selectedImageName);
+        }
+
+        formData.append('TargetFilePath', targetPath + selectedImageName);
+        var JwToken = '@ViewBag.JWTToken';
+        var url1 = '@ViewBag.ApiUrl';
+        $.ajax({
+            url: url1 + 'UploadAndDownLoadFile/copy',
+            headers: {
+                Authorization: 'Bearer ' + JwToken
+            },
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response.success) {
+                    console.log('File copied successfully.');
+                } else {
+                    console.error('Failed to copy file:', response.error);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX error:', error);
+            }
+        });
+    }
+ *@
+       async function copyOneToAnotherFile(sourcePath, destinationPath) {
+
+        const apiUrl11 = '@ViewBag.ApiUrl' + 'Files/copy';
+             blobPathPrefix = (blobPathPrefix || "").replace(/\\/g, "/").trim();
+            if (blobPathPrefix.length > 0 && !blobPathPrefix.endsWith("/")) {
+                blobPathPrefix += "/";
+            }
+            //    normalizePathPrefix(path)
+                    var sourcePatths = blobPathPrefix + normalizePathPrefix(sourcePath.toLowerCase());
+                    var destPath = blobPathPrefix + normalizePathPrefix(destinationPath.toLowerCase());
+        const data = {
+                    sourceBlobPath:sourcePatths,
+                destinationBlobPath: destPath
+        };
+
+        try {
+                const response = await fetch(apiUrl11, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + JwToken
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) throw new Error('Copy failed: ' + response.statusText);
+
+            const result = await response.json();
+            console.log(result.Message);
+           // alert('✅ File copied successfully!');
+        } catch (err) {
+            console.error(err);
+            //alert('❌ Error copying file.');
+        }
+    }
+
+         async function copyFile(fileInput, path, imageName) {
+        // var sfilename = "";
+        var formdata = new FormData();
+        // ✅ Append file correctly
+        formdata.append("files", fileInput, imageName); // << change 'files' → 'file'
+
+       // let blobPathPrefix = '@ViewBag.BaseBlobPath';
+        blobPathPrefix = (blobPathPrefix || "").replace(/\\/g, "/").trim();
+        if (blobPathPrefix.length > 0 && !blobPathPrefix.endsWith("/")) {
+            blobPathPrefix += "/";
+        }
+        //    normalizePathPrefix(path)
+        var Patths = blobPathPrefix + normalizePathPrefix(path.toLowerCase());
+        formdata.append("blobPathPrefix", Patths);
+        formdata.append("Policy", 0);
+
+
+        $.ajax({
+            url: blobStorageUrl + 'Files/upload',
+            headers: {
+                Authorization: 'Bearer ' + JwToken
+            },
+            method: "POST",
+            contentType: false, // Not to set any content header
+            processData: false, // Not to process data
+            mimeType: "multipart/form-data",
+            data: formdata,
+            //async: false,
+            success: function (result) {
+                let jsonResult = JSON.parse(result); // serialize into JSON string
+                if (jsonResult && jsonResult.length > 0) {
+                    let json = {
+                      //  UserId: parseInt(CreatedBy),
+                        ImageName: imageName,
+                        BlobJson: result,
+                    };
+
+                    var Jsons = JSON.stringify(json);
+                    console.log(`uploading: ${Jsons}`);
+
+
+
+                }
+
+            },
+            error: function (err) {
+                alert(err.message);
+            }
+        });
+
+
+    }
+
+    function OpenSamplePopup() {
+
+        var CategoryName = $("#ddlCategory :Selected").text();
+        var MaterialName = $("#ddlMaterial :Selected").text();
+        var CategoryId = $("#ddlCategory :Selected").val();
+        var MaterialId = $("#ddlMaterial :Selected").val();
+        if (CategoryId == '') {
+            alert('Please Select Category');
+            return false;
+        }
+        if (MaterialId == '') {
+            alert('Please Select Material');
+            return false;
+        }
+        else {
+            $("#samplepopup").modal("show");
+            $("#catnameandmatname").text(CategoryName + '-' + MaterialName);
+
+        }
+    }
+
+    function GetSampleImagesList() {
+        var CategoryId = $("#ddlCategory :Selected").val();
+        var MaterialId = $("#ddlMaterial :Selected").val();
+        var CustomerId = $("#ddcustomer").val();
+        var Brand = $("#dllBrand").val();
+
+        let json =
+        {
+            CategoryId,
+            MaterialId,
+            // RequestedId: RequestedId,
+            CustomerId: CustomerId,
+            BrandId: Brand
+        };
+
+        var JsonData = JSON.stringify(json);
+        var row = '';
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetSampleImagesList", "ItemMaster")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                $("#tblSampleImages").dataTable().fnClearTable();
+                $("#tblSampleImages").dataTable().fnDestroy()
+                var SampleImageList = $('#tblSampleImages').DataTable({
+                    "columnDefs": [
+                        {  "targets": "_all" }
+                    ],
+                });
+                for (var i = 0; i < data.sampleImagesList.length; i++) {
+                    var Id = data.sampleImagesList[i].Id;
+                    var TxnRequestId = data.sampleImagesList[i].TxnRequestId;
+                    var ImageFileName = data.sampleImagesList[i].MaterialSampleBox;
+                    var CategoryName = data.sampleImagesList[i].CategoryName;
+                    var CustomerCode = data.sampleImagesList[i].CustomerCode;
+                    var BrandCode = data.sampleImagesList[i].BrandCode;
+
+                    // var row = [
+                    //     '<input type="radio" name="imageRadiosample" value="" data-id="' + Id + '" data-TxnRequestId="' + TxnRequestId + '" data-image="' + ImageFileName + '" data-customer="' + CustomerCode + '" data-brand="' + BrandCode + '" data-categoryName="' + CategoryName + '" onchange="selectImageSample(this)" />',
+                    //     '<a href="#" style="text-align:center;" onclick="OpenDocumentSelected(\'' + ImageFileName + '\',\'' + CategoryName + '\',\'' + TxnRequestId + '\',\'sample\',\'' + CustomerCode + '\',\'' + BrandCode + '\')">' +
+                    //     ImageFileName +
+                    //     '</a>',
+                    //     ImageFileName
+                    // ];
+                        var radioId = 'sampleRadio_' + i;
+                         var radioHtml =
+                             '<div class="custom-control custom-radio" align="center">' +
+                                 '<input type="radio" class="custom-control-input" id="' + radioId + '" name="imageRadiosample" ' +
+                                     'data-id="' + Id + '" data-TxnRequestId="' + TxnRequestId + '" data-image="' + ImageFileName + '" ' +
+                                     'data-customer="' + CustomerCode + '" data-brand="' + BrandCode + '" data-categoryName="' + CategoryName + '" ' +
+                                     'onchange="selectImageSample(this)">' +
+                                 '<label class="custom-control-label" for="' + radioId + '"></label>' +
+                             '</div>';
+                            var row = [
+                                radioHtml,
+                                '<div style="text-align:center;">' + TxnRequestId + '</div>',
+                                '<a href="#" style="text-align:left;" onclick="OpenDocumentSelected(\'' + ImageFileName + '\',\'' + CategoryName + '\',\'' + TxnRequestId + '\',\'sample\',\'' + CustomerCode + '\',\'' + BrandCode + '\')">' +
+                                    ImageFileName +
+                                '</a>',
+                                '<div style="text-align: left;">' + ImageFileName + '</div>'  // This is correct
+                            ];
+
+
+                    SampleImageList.row.add(row).draw(false);
+                }
+            }
+        });
+    }
+
+        function GetArtworkImagesList() {
+        var CategoryId = $("#ddlCategory :Selected").val();
+        var MaterialId = $("#ddlMaterial :Selected").val();
+        var CustomerId = $("#ddcustomerart").val();
+        var Brand = $("#dllBrandart").val();
+
+        let json = {
+            CategoryId,
+            MaterialId,
+            CustomerId: CustomerId,
+            BrandId: Brand
+        };
+
+        var JsonData = JSON.stringify(json);
+        var row = '';
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("GetArtworkImagesList", "ItemMaster")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                $("#tblArtworkImages").dataTable().fnClearTable();
+                $("#tblArtworkImages").dataTable().fnDestroy();
+
+                var ArtworkImageList = $('#tblArtworkImages').DataTable({
+                    "columnDefs": [
+                        { "targets": "_all" }
+                    ],
+                });
+
+                for (var i = 0; i < data.artworkImagesList.length; i++) {
+                    var Id = data.artworkImagesList[i].Id;
+                    var TxnRequestId = data.artworkImagesList[i].TxnRequestId;
+                    var ImageFileName = data.artworkImagesList[i].MaterialArtwork;
+                    var CategoryName = data.artworkImagesList[i].CategoryName;
+                    var CustomerCode = data.artworkImagesList[i].CustomerCode;
+                    var BrandCode = data.artworkImagesList[i].BrandCode;
+
+                    var radioId = 'artworkRadio_' + i;
+
+                    var radioHtml =
+                        '<div class="custom-control custom-radio" align="center">' +
+                            '<input type="radio" class="custom-control-input" id="' + radioId + '" name="imageRadioartwork" ' +
+                            'data-id="' + Id + '" data-TxnRequestId="' + TxnRequestId + '" data-image="' + ImageFileName + '" ' +
+                            'data-customer="' + CustomerCode + '" data-brand="' + BrandCode + '" data-categoryName="' + CategoryName + '" ' +
+                            'onchange="selectImageArtwork(this)">' +
+                            '<label class="custom-control-label" for="' + radioId + '"></label>' +
+                        '</div>';
+
+                    var row = [
+                        radioHtml,
+                        '<div style="text-align:center;">' + TxnRequestId + '</div>',
+                        '<a href="#" style="text-align:left;" onclick="OpenDocumentSelected(\'' + ImageFileName + '\',\'' + CategoryName + '\',\'' + TxnRequestId + '\',\'artwork\',\'' + CustomerCode + '\',\'' + BrandCode + '\')">' +
+                        ImageFileName +
+                        '</a>'
+                        ,
+                        '<div style="text-align: left;">' + ImageFileName + '</div>'  // This is correct
+                    ];
+
+                    ArtworkImageList.row.add(row).draw(false);
+                }
+            }
+        });
+    }
+
+
+    function OpenArtworkPopup() {
+
+        var CategoryName = $("#ddlCategory :Selected").text();
+        var MaterialName = $("#ddlMaterial :Selected").text();
+        var CategoryId = $("#ddlCategory :Selected").val();
+        var MaterialId = $("#ddlMaterial :Selected").val();
+        if (CategoryId == '') {
+            alert('Please Select Category');
+            return false;
+        }
+        if (MaterialId == '') {
+            alert('Please Select Material');
+            return false;
+        }
+        else {
+            $("#artworkpopup").modal("show");
+            $("#catnameandmatnameart").text(CategoryName + '-' + MaterialName);
+        }
+    }
+
+
+    // JavaScript function to handle radio button change
+    function selectImageSample(radio) {
+        selectedId = $(radio).data('id');
+        selectedTxnRequestIdSample = $(radio).data('txnrequestid');
+        selectedImageFileName = $(radio).data('image');
+        selectcategoryNameSample = $(radio).data('categoryname');
+        selectedCustomerCodeSample = $(radio).data('customer');
+        selectedBrandCodeSample = $(radio).data('brand');
+        $("#txtSample").val(selectedImageFileName);
+    }
+
+
+    function selectImageArtwork(radio) {
+        selectedId = $(radio).data('id');
+        selectedTxnRequestIdArtwork = $(radio).data('txnrequestid');
+        selectedImageFileName = $(radio).data('image');
+        selectcategoryNameArtwork = $(radio).data('categoryname');
+        selectedCustomerCodeArtwork = $(radio).data('customer');
+        selectedBrandCodeArtwork = $(radio).data('brand');
+        $("#txtArtwork").val(selectedImageFileName);
+    }
+
+
+    $(document).ready(function () {
+        $('#filetypeSample').on('change', function () {
+            // Get the file input element
+            var input = $(this);
+
+            // Ensure that a file was selected
+            if (input[0].files && input[0].files[0]) {
+                // Get the file name
+                var fileName = input[0].files[0].name;
+
+                // Display the file name (adjust this part as needed)
+                $('#txtSample').val(fileName);
+            } else {
+                // If no file is selected, clear the display
+                $('#txtSample').val('');
+            }
+        });
+
+
+        $('#filetypeArtwork').on('change', function () {
+            // Get the file input element
+            var input = $(this);
+
+            // Ensure that a file was selected
+            if (input[0].files && input[0].files[0]) {
+                // Get the file name
+                var fileName = input[0].files[0].name;
+
+                // Display the file name (adjust this part as needed)
+                $('#txtArtwork').val(fileName);
+            } else {
+                // If no file is selected, clear the display
+                $('#txtArtwork').val('');
+            }
+        });
+    });
+
+
+    async function OpenDocument(FileName, CategoryName, Type) {
+      
+        //var RequestId = $("#txtrequestId").val();      
+        var customerCode = '@(Model.ProductionDetails_List?.CustomerCode ?? "")';
+        var brandCode = '@(Model.ProductionDetails_List?.BrandCode ?? "")';
+        var newReqNo = '@(ViewBag.NewReqNo ?? "")';
+        //stickers/aa/bc/1234/innerbox/top/barcode/xyz-barcode.jpg
+        //var path = Type + '\\' + newReqNo + '\\' + CategoryName + '\\';
+        var path = 'dispatch\\' + customerCode + '\\' + brandCode + '\\' + newReqNo + '\\' + Type + '\\';
+
+                const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
+
+               const JSONData = {
+                      blobPath: blobpath,
+                   asSas: false,
+                   downloadFileName: FileName
+               };
+
+               try {
+                   $('#loader').show();
+
+                   const response = await $.ajax({
+                       url: blobStorageUrl + 'Files/get',
+                       headers: { Authorization: 'Bearer ' + JwToken },
+                       type: "POST",
+                       contentType: "application/json",
+                       data: JSON.stringify(JSONData),
+                       xhrFields: { responseType: 'blob' }
+                   });
+
+                   if (response && response.size > 0) {
+                       const objectURL = URL.createObjectURL(response);
+                       // Display the image in the img tag
+                           window.open(objectURL, '_blank');
+                   }
+               }
+               catch (error) {
+                   console.error("Error:", error);
+                   $('#loader').hide();
+               }
+               finally {
+                $('#loader').hide();
+               }
+    }
+
+    async function OpenDocumentSelected(FileName, CategoryName, RequestId, Type, CustomerCode, BrandCode) {
+    
+        var customerCode, brandCode, newReqNo;
+        //if (Type == 'sample') {
+        customerCode = CustomerCode;
+        brandCode = BrandCode;
+        newReqNo = RequestId;            
+        //var path = Type + '\\' + RequestId + '\\' + CategoryName + '\\';
+        var path = 'dispatch\\' + customerCode + '\\' + brandCode + '\\' + newReqNo + '\\' + Type + '\\';
+             const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
+
+                  const JSONData = {
+                         blobPath: blobpath,
+                      asSas: false,
+                      downloadFileName: FileName
+                  };
+
+                  try {
+                      $('#loader').show();
+
+                      const response = await $.ajax({
+                          url: blobStorageUrl + 'Files/get',
+                          headers: { Authorization: 'Bearer ' + JwToken },
+                          type: "POST",
+                          contentType: "application/json",
+                          data: JSON.stringify(JSONData),
+                          xhrFields: { responseType: 'blob' }
+                      });
+
+                      if (response && response.size > 0) {
+                          const objectURL = URL.createObjectURL(response);
+                          // Display the image in the img tag
+                              window.open(objectURL, '_blank');
+                      }
+                  }
+                  catch (error) {
+                      console.error("Error:", error);
+                      $('#loader').hide();
+                  }
+                  finally {
+                   $('#loader').hide();
+                  }
+    }
+
+</script>

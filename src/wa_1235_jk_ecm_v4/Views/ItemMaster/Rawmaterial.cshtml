@@ -1,0 +1,161 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Rawmaterial";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4">
+                <h5>
+                    Raw Material
+
+                </h5>
+            </div>
+            <div class="col-lg-8">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item active">Item Master</li>
+                </ol>
+            </div>
+            <div class="col-lg-12">
+
+
+                <div class="btnwidth50 float-right mr-1">
+
+                    <a  id="btnBack"
+                            class="btn btn-block bg-gradient-danger btn-xs"
+                            onClick="history.back()"
+                            title="Go back to the previous page">
+                        Back
+                    </a>
+
+                </div>
+                <div class="btnwidth60 float-right mr-1">
+                    <a
+                            class="btn btn-primary btn-xs"
+                           id="btnNewSet" href="@Url.Action("Newsetproductiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), Status = "SET" })"
+                            title="Go to the next page">
+                        New SET
+                    </a>
+
+
+                </div>
+                <div class="btnwidth60 float-right mr-1">
+                    <a 
+                            class="btn btn-primary btn-xs"
+                           id="btnNewSKU" href="@Url.Action("Productiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), Status = "SKU" })"
+                            title="Go to the next page">
+                        New SKU
+                    </a>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card card-primary card-tabs p-a-2" style="height: 100%;">
+                    <div class="card-header p-0 pt-1">
+                        <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                            <li class="nav-item">
+                                <a href="@Url.Action("ItemMasterIndex", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" class="nav-link">
+                                    Item Master
+
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("SKUMastersearch", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" class="nav-link">
+                                    SKU Master Search
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("comingsoon", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" class="nav-link">
+                                    Coming Soon
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Rawmaterial", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" class="nav-link active">
+                                    Raw Material
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Requests", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" class="nav-link">
+                                    Recycle
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                    <div class="card-body">
+
+
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered example1">
+                                <thead>
+                                    <tr>
+                                        <th width="80" style="width:80px;"><div align="left">SKU Key</div></th>
+                                        <th width="80" style="width:80px;"><div align="center">RM Code</div></th>
+                                        <th width="330" style="width:280px;"><div align="left">RM Description</div></th>
+                                        <th width="124" style="width:100px;"><div align="center">Gross Weight(gm/sku)</div></th>
+                                        <th width="80" style="width:100px;">  <div align="center">Net Weight (gm/sku)</div></th>
+                                        <th width="80" style="width:120px;"><div align="center">Net Weight kg/1000 Nos</div></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><div align="left">45THF</div></td>
+                                        <td><div align="center">8900882</div></td>
+                                        <td>FILE STEEL TRIANGULAR BAR & ROD 10.50 MM	</td>
+                                        <td><div align="center">5</div></td>
+                                        <td><div align="center">3.4</div></td>
+                                        <td>
+                                            <div align="center">
+                                                3,400
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><div align="left">06TFF</div></td>
+                                        <td><div align="center">8900894</div></td>
+                                        <td>FILE STEEL TRIANGULAR BAR & ROD 16.00 MM	</td>
+                                        <td><div align="center">10</div></td>
+                                        <td><div align="center">8.0	&nbsp;</div></td>
+                                        <td><div align="center">8,000</div></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+</section>
+</div>
+

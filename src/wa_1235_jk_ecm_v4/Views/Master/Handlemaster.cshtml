@@ -1,0 +1,803 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "HandleMaster";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+   @*  <div class="modal fade" id="nonstandard">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="txtID" value="68">
+                    <b>Request No.:</b><span>10</span> ,&nbsp;&nbsp;
+                    <b>Brand:</b><span>Dual</span>,&nbsp;&nbsp;
+                    <b>Chart No.:</b><span>grainger_global_sourcing_(westward)</span>
+
+                    <div>
+                        <div align="center" class="mt-2"><img id="displayImage" style="height:550px;" class="img-fluid" src="https://decintellai.com/ui/all-Modules/UI_Repository/dist/img/Handle.jpg"></div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+ *@
+    <div class="modal fade" id="preview">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="txtID" value="">
+
+                    <b>Request No.:</b> <span id="PreviewRequestNo"></span>,&nbsp;&nbsp;
+                    <b>Brand:</b> <span id="PreviewHandleType"></span>,&nbsp;&nbsp;
+                    <b>Chart No.:</b> <span id="PreviewHandleChartNo"></span>
+
+                    <div class="mt-3">
+                        <div align="center">
+                            <img id="displayImage2" class="img-fluid" style="height:550px; object-fit:contain;" src="">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="approve">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                   
+                    <b>Request No.:</b> <span id="RequestNo"></span>,&nbsp;&nbsp;
+                    <b>Handle Type:</b> <span id="HandleType"></span>,&nbsp;&nbsp;
+                    <b>Handle Chart No.:</b> <span id="HandleChartNo"></span>,&nbsp;&nbsp;
+                    <b>Handle Insert Chart No.:</b> <span id="insertChartNo"></span>
+
+                    <div class="mt-3">
+                        <div align="center">
+                            <img id="displayImage" class="img-fluid" style="height:550px; object-fit:contain;" src="">
+                        </div>
+                    </div>
+                </div>
+                <label id="modalId" style="display:none"></label>
+                <p style="display:none">ID: <span id="approveItemId"></span></p>
+
+                <div class="modal-footer">
+                    <div class="col-lg-4 form-group">
+                        <div class="float-right text-right">
+                            <button type="button"
+                                    class="btn btn-danger btn-xs btnwidth50"
+                                    onclick="ApprovalHandle(document.getElementById('approveItemId').textContent, 4)"
+                                    data-dismiss="modal"
+                                    title="Reject the selected item">
+
+                                Reject
+                            </button>
+
+                            <button type="button"
+                                    class="btn btn-success btn-xs btnwidth60"
+                                    onclick="ApprovalHandle(document.getElementById('approveItemId').textContent, 3)"
+                                    data-dismiss="modal"
+                                    title="Approve the selected item">
+                                Approve
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="view">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="txtID" value="">
+
+                    <b>Request No.:</b> <span id="ApprovedRequestNo"></span>,&nbsp;&nbsp;
+                    <b>Brand:</b> <span id="ApprovedHandleType"></span>,&nbsp;&nbsp;
+                    <b>Chart No.:</b> <span id="ApprovedHandleChartNo"></span>
+
+                    <div class="mt-3">
+                        <div align="center">
+                            <img id="displayImage1" class="img-fluid" style="height:550px; object-fit:contain;" src="">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>Handle</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item active">Master</li>
+                        <li class="breadcrumb-item active">Handle</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs"
+                                onclick="window.history.back()"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+
+                    </div>
+                    <div class="btnwidth50 float-right mr-1">
+                        <a href="@Url.Action("AddHandleMaster", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })" class="btn btn-block bg-gradient-primary   btn-xs float-left">
+                            Add
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+
+        <div class="container-fluid">
+
+            <!-- New Requests -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">New Requests</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%"><div align="center">Request No.</div></th>
+                                            <th width="22%"><div align="left">Handle Type</div></th>
+                                            <th width="22%"><div align="left">Handle Chart No.</div></th>
+                                            <th width="22%"><div align="left">Handle Insert Chart No.</div></th>
+                                           @*  <th width="10%"><div align="center">Edit</div></th> *@
+                                            <th width="7%"><div align="center">Delete</div></th>
+                                            <th width="7%"><div align="center">Action</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.Handle_List != null)
+                                        {
+                                            foreach (var item in Model.Handle_List)
+                                            {
+                                                if (item.GridNo == 1)
+                                                {
+                                                    <tr>
+                                                        <td><div align="center"><a href="#" title="Edit" onclick="EditHandle(@item.Id)">@item.Id</a></div></td>
+
+                                                        <td>
+                                                            <div align="left">
+                                                                <a href="#" data-toggle="modal" data-target="#preview"
+                                                                   onclick="preViewApprovedDetails(@item.Id, '@item.HandleType', '@item.HandleChartNo', '@item.insertChartNo', '@item.handleChart')">@item.HandleType</a>
+                                                            </div>
+                                                        </td>
+                                                        <td><div align="left">@item.HandleChartNo</div></td>
+                                                        <td><div align="left">@item.insertChartNo</div></td>
+                                                        @* <td>
+                                                            <div align="center">
+                                                                <button type="button" class="btn btn-warning btn-xs btnwidth50">Edit</button>
+                                                            </div>
+                                                        </td> *@
+                                                        <td>
+                                                            <div align="center">
+                                                                <button type="button" class="btn btn-danger btn-xs btnwidth50" onclick="DeleteHandle(@item.Id)">Delete</button>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div align="center">
+                                                                <button type="button" class="btn btn-primary btn-xs btnwidth95" onclick="ApprovalHandle(@item.Id, 2)">Submit For Approval</button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Requests for Approval -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-warning collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Requests for Approval</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th width="10%"><div align="center">Request No.</div></th>
+                                        <th width="30%"><div align="left">Handle Type</div></th>
+                                        <th width="30%"><div align="left">Handle Chart No.</div></th>
+                                        <th width="30%"><div align="left">Handle Insert Chart No.</div></th>
+                                       @*  <th width="5%"><div align="center">View</div></th> *@
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Handle_List != null)
+                                    {
+                                        foreach (var item in Model.Handle_List)
+                                        {
+                                            if (item.GridNo == 2)
+                                            {
+                                                <tr>
+                                                    <td><div align="center">@item.Id</div></td>
+                                                    <td>
+                                                        <div align="left">
+                                                            <a href="#" data-toggle="modal" data-target="#approve"
+                                                               onclick="setApproveItems(@item.Id, '@item.RequestNo', '@item.HandleType', '@item.HandleChartNo', '@item.insertChartNo', '@item.handleChart')"
+                                                               >@item.HandleType</a>
+                                                        </div>
+                                                    </td>
+                                                    <td><div align="left">@item.HandleChartNo</div></td>
+                                                    <td><div align="left">@item.insertChartNo</div></td>
+                                                   @*  <td>
+                                                        <div align="center">
+                                                            <a href="#" data-toggle="modal" data-target="#approve"
+                                                               onclick="setApproveItems(@item.Id, '@item.RequestNo', '@item.HandleType', '@item.HandleChartNo', '@item.insertChartNo', '@item.handleChart')"
+                                                               class="btn btn-info btn-xs btnwidth50">
+                                                                View
+                                                            </a>
+                                                        </div>
+                                                    </td> *@
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Handle Master -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-success collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Handle Master</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th width="10%"><div align="center">Request No.</div></th>
+                                        <th width="30%"><div align="left">Handle Type</div></th>
+                                        <th width="30%"><div align="left">Handle Chart No.</div></th>
+                                        <th width="30%"><div align="left">Handle Insert Chart No.</div></th>
+                                      @*   <th width="5%"><div align="center">View</div></th> *@
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Handle_List != null)
+                                    {
+                                        foreach (var item in Model.Handle_List)
+                                        {
+                                            if (item.GridNo == 3)
+                                            {
+                                                <tr>
+                                                    <td><div align="center">@item.Id</div></td>
+                                                    <td>
+                                                        <div align="left">
+                                                            <a href="#" data-toggle="modal" data-target="#view"
+                                                               onclick="ViewApprovedDetails(@item.Id, '@item.HandleType', '@item.HandleChartNo', '@item.insertChartNo', '@item.handleChart')"
+                                                              >@item.HandleType</a>
+                                                        </div>
+                                                    </td>
+                                                    <td><div align="left">@item.HandleChartNo</div></td>
+                                                    <td><div align="left">@item.insertChartNo</div></td>
+                                                   @*  <td>
+                                                        <div align="center">
+                                                            <a href="#" data-toggle="modal" data-target="#view"
+                                                               onclick="ViewApprovedDetails(@item.Id, '@item.HandleType', '@item.HandleChartNo', '@item.insertChartNo', '@item.handleChart')"
+                                                               class="btn btn-info btn-xs btnwidth50">
+                                                                View
+                                                            </a>
+                                                        </div>
+                                                    </td> *@
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- InstanceEndEditable -->
+</div>
+
+<!-- /.content-wrapper -->
+<script>
+     var JwToken = '@ViewBag.JWTToken';
+       var blobStorageUrl = '@ViewBag.ApiUrl';
+       let blobPathPrefix = '@ViewBag.BaseBlobPath';
+    function preViewApprovedDetails(RequestNo, HandleType, HandleChartNo, insertChartNo, handleChart) {
+        document.getElementById('PreviewRequestNo').textContent = RequestNo;
+        document.getElementById('PreviewHandleType').textContent = HandleType;
+        document.getElementById('PreviewHandleChartNo').textContent = HandleChartNo;
+        OpenDocument2(handleChart);
+    }
+</script>
+<script>
+    function ViewApprovedDetails(RequestNo, HandleType, HandleChartNo, insertChartNo, handleChart) {
+        document.getElementById('ApprovedRequestNo').textContent = RequestNo;
+        document.getElementById('ApprovedHandleType').textContent = HandleType;
+        document.getElementById('ApprovedHandleChartNo').textContent = HandleChartNo;
+        OpenDocument1(handleChart);
+    }
+</script>
+<script>
+    function setApproveItems(Id, RequestNo, HandleType, HandleChartNo, insertChartNo, handleChart) {
+
+        document.getElementById('RequestNo').textContent = Id;
+        document.getElementById('HandleType').textContent = HandleType;
+        document.getElementById('HandleChartNo').textContent = HandleChartNo;
+        document.getElementById('insertChartNo').textContent = insertChartNo;
+        document.getElementById('approveItemId').textContent = Id;
+        OpenDocument(handleChart);
+    }
+</script>
+<script>
+    function EditHandle(Id) {
+
+        // Constructing the URL using JavaScript
+         // Read values from server-side query string using Razor
+    var pageID = encodeURIComponent('@Context.Request.Query["PageId"]');
+    var parentID = encodeURIComponent('@Context.Request.Query["ParentId"]');
+    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleId"]');
+
+
+    // Build the URL with all parameters
+    var url = '@Url.Action("EditHandle", "Master")' +
+        '?HandleId=' + encodeURIComponent(Id) +
+        '&PageId=' + pageID +
+        '&ParentId=' + parentID +        
+        '&ModuleId=' + moduleID;
+
+    // Redirect to the generated URL
+    window.location.href = url;
+
+    }
+
+    function DeleteHandle(Id) {
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+        let JsonData = {
+            Id: Id,
+            CreatedDate: moment.utc(new Date()).format(),
+            CreatedBy: iLoggedInUserID
+        };
+
+        var jsonData = JSON.stringify(JsonData);
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("DeleteHandle", "Master")',
+            data: { JsonData: jsonData },
+            dataType: 'json',
+            success: function (data) {
+                alert(data.response);
+                window.location.reload();
+            },
+            error: function (xhr, status, error) {
+                console.error('Error occurred:', error);
+            }
+        });
+    }
+
+
+
+
+
+
+    function UploadFaultChara(HandleId) {
+        //var ServiceEngg = '@Context.Session.GetString("CreatedBy")';
+        var path = 'Handle\\HM' + HandleId;
+
+        var sfilename = "";
+        var formdata = new FormData();
+        var fileInput = document.getElementById('HandleChartImg');
+        var fileType = fileInput.files[0].name.split('.');
+        if (fileType[1] == "pdf" || fileType[1] == "png" || fileType[1] == "jpg" || fileType[1] == "jpeg") {
+            for (i = 0; i < fileInput.files.length; i++) {
+                sfilename = fileInput.files[i].name;
+                let srandomid = Math.random().toString(36).substring(7);
+                formdata.append(sfilename, fileInput.files[i]);
+            }
+            formdata.append("FilePath", path);
+            var flag = "";
+
+            if (flag != "Yes") {
+                var JwToken = '@ViewBag.JWTToken';
+                var url1 = '@ViewBag.ApiUrl';
+                $.ajax({
+                    url: url1 + 'UploadAndDownLoadFile/UploadAsync',
+                    headers: {
+                        Authorization: 'Bearer ' + JwToken
+                    },
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: formdata,
+                    async: false,
+                    beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+                    success: function (result) {
+
+                        // let DocumentJarr = {
+                        //     CreatedBy: '@Context.Session.GetString("CreatedBy")',
+                        //     Remarks: null,
+                        //     UserFileName: sfilename,
+                        //     SysFileName: "",
+                        //     MobileFileUrl: "",
+                        //     CreatedDate: moment.utc(new Date()).format()
+                        // }
+                        // let json = {
+                        //     OemId: '@Context.Session.GetString("OEMID")',
+                        //     UserId: '@Context.Session.GetString("CreatedBy")',
+                        //     ServiceCallId: ServiceCallID,
+                        //     DocumentJarr: DocumentJarr
+                        // };
+                        // var JsonData = JSON.stringify(json);
+                        // $.ajax({
+                        //     type: 'POST',
+                        //     url: '@Url.Action("UploadServiceCallDocuments", "ServiceCalls")',
+                        //     data: { JsonData: JsonData },
+                        //     dataType: "json",
+                        //     beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+                        //     success: function (data) {
+                        //         alert(data.responce);
+                        //         window.locaton.reload();
+                        //     }
+                        // });
+                    },
+                    error: function (err) {
+                        alert(err.message);
+                    }
+                });
+
+
+            }
+        }
+        else {
+            alert('System only allows .pdf and img files. ');
+        }
+    }
+    function ApprovalHandle(Id, StatusId) {
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+        var json = {
+            Id: Id,
+            StatusId: StatusId,
+            CreatedDate: moment.utc(new Date()).format(),
+            CreatedBy: iLoggedInUserID
+        };
+        var JsonData = JSON.stringify(json);
+
+        // First Ajax request
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ApprovalHandle", "Master")',
+            data: { JsonData: JsonData },
+            datatype: 'json',
+            beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                alert(data.response);
+                location.reload();
+            }
+        });
+
+    }
+
+
+
+    async function OpenDocument(FileName) {
+       
+        var path = 'others\\handle_inserts' + '\\';
+        // var path = Folder;
+
+        // const request = {
+        //     FileName: path + FileName
+        // };
+
+        // try {
+        //     const response = await fetch(apiUrl, {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //             Authorization: 'Bearer ' + JwToken
+        //         },
+        //         body: JSON.stringify(request),
+        //     });
+
+        //     if (!response.ok) {
+        //         console.error("Network response was not ok");
+        //         return;
+        //     }
+
+        //     // Open the downloaded file in a new tab.
+        //     const blob = await response.blob();
+        //     const objectURL = URL.createObjectURL(blob);
+        //     // Display the image in the img tag
+        //     const imgElement = document.getElementById('displayImage');
+        //     imgElement.src = objectURL;
+
+
+        // } catch (error) {
+        //     console.error("Error:", error);
+        // }
+          const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
+
+            const JSONData = {
+                blobPath: blobpath,
+                asSas: false,
+                downloadFileName: FileName
+            };
+
+            try {
+                $('#loader').show();
+
+                const response = await $.ajax({
+                    url: blobStorageUrl + 'Files/get',
+                    headers: { Authorization: 'Bearer ' + JwToken },
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(JSONData),
+                    xhrFields: { responseType: 'blob' }
+                });
+
+                if (response && response.size > 0) {
+                    const objectURL = URL.createObjectURL(response);
+                    // Display the image in the img tag
+                    const imgElement = document.getElementById('displayImage');
+                imgElement.src = objectURL;
+                }
+            }
+            catch (error) {
+                console.error("Error:", error);
+                const imgElement = document.getElementById('displayImage');
+                imgElement.src = '';
+
+            }
+            finally {
+             $('#loader').hide();
+            }
+    }
+
+    async function OpenDocument2(FileName) {
+       
+        var path = 'others\\handle_inserts' + '\\';
+        // var path = Folder;
+
+        // const request = {
+        //     FileName: path + FileName
+        // };
+
+        // try {
+        //     const response = await fetch(apiUrl, {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //             Authorization: 'Bearer ' + JwToken
+        //         },
+        //         body: JSON.stringify(request),
+        //     });
+
+        //     if (!response.ok) {
+        //         console.error("Network response was not ok");
+        //         return;
+        //     }
+
+        //     // Open the downloaded file in a new tab.
+        //     const blob = await response.blob();
+        //     const objectURL = URL.createObjectURL(blob);
+        //     // Display the image in the img tag
+        //     const imgElement = document.getElementById('displayImage2');
+        //     imgElement.src = objectURL;
+
+
+        // } catch (error) {
+        //     console.error("Error:", error);
+        // }
+        const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
+
+            const JSONData = {
+                blobPath: blobpath,
+                asSas: false,
+                downloadFileName: FileName
+            };
+
+            try {
+                $('#loader').show();
+
+                const response = await $.ajax({
+                    url: blobStorageUrl + 'Files/get',
+                    headers: { Authorization: 'Bearer ' + JwToken },
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(JSONData),
+                    xhrFields: { responseType: 'blob' }
+                });
+
+                if (response && response.size > 0) {
+                    const objectURL = URL.createObjectURL(response);
+                    // Display the image in the img tag
+                    const imgElement = document.getElementById('displayImage2');
+                imgElement.src = objectURL;
+                }
+            }
+            catch (error) {
+                console.error("Error:", error);
+                const imgElement = document.getElementById('displayImage2');
+                imgElement.src = '';
+
+            }
+            finally {
+             $('#loader').hide();
+            }
+    }
+
+        async function OpenDocument1(FileName) {
+       
+        var path = 'others\\handle_inserts' + '\\';
+        // var path = Folder;
+
+        // const request = {
+        //     FileName: path + FileName
+        // };
+
+        // try {
+        //     const response = await fetch(apiUrl, {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //             Authorization: 'Bearer ' + JwToken
+        //         },
+        //         body: JSON.stringify(request),
+        //     });
+
+        //     if (!response.ok) {
+        //         console.error("Network response was not ok");
+        //         return;
+        //     }
+
+        //     // Open the downloaded file in a new tab.
+        //     const blob = await response.blob();
+        //     const objectURL = URL.createObjectURL(blob);
+        //     // Display the image in the img tag
+        //     const imgElement = document.getElementById('displayImage1');
+        //     imgElement.src = objectURL;
+
+
+        // } catch (error) {
+        //     console.error("Error:", error);
+        // }
+         const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
+
+            const JSONData = {
+                blobPath: blobpath,
+                asSas: false,
+                downloadFileName: FileName
+            };
+
+            try {
+                $('#loader').show();
+
+                const response = await $.ajax({
+                    url: blobStorageUrl + 'Files/get',
+                    headers: { Authorization: 'Bearer ' + JwToken },
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(JSONData),
+                    xhrFields: { responseType: 'blob' }
+                });
+
+                if (response && response.size > 0) {
+                    const objectURL = URL.createObjectURL(response);
+                    // Display the image in the img tag
+                    const imgElement = document.getElementById('displayImage1');
+                imgElement.src = objectURL;
+                }
+            }
+            catch (error) {
+                console.error("Error:", error);
+                const imgElement = document.getElementById('displayImage1');
+                imgElement.src = '';
+
+            }
+            finally {
+             $('#loader').hide();
+            }
+    }
+</script>

@@ -1,0 +1,426 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.Master
+@{
+    ViewData["Title"] = "EditFileSubType";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>File Sub Type</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item active">Master</li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("FileSubType", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">File Sub Type</a></li>
+                        <li class="breadcrumb-item active">Add</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        @{
+                            var url = Url.Action("FileSubType", "Master", new
+                            {
+                                PageID = Context.Request.Query["PageID"].ToString(),
+                                ParentID = Context.Request.Query["ParentID"].ToString(),
+                                ModuleID = Context.Request.Query["ModuleID"].ToString(),
+                                ModulePageID = Context.Request.Query["ModulePageID"].ToString()
+                            });
+                        }
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs float-left"
+                                onclick="location.href='@url'"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+
+                </div>
+
+            </div><!-- /.container-fluid -->
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline p-a-2" style="height: 100%;">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="col-md-12 mr-1">
+
+                                
+                              @*   <div class="form-group col-md-2">
+                                    <label>File Sub Type</label>
+                                     <input id="txtCustomerCode" type="text" maxlength="2" value="Regular" class="form-control" />
+                                        <span id="sptxtCustomerCode" class="text-danger"></span> 
+                                    <input type="text" class="form-control" id="TxtFileSubType" value="@ViewBag.SubType">
+                                    <span id="spTxtFileSubType" class="text-danger"></span>
+
+                                </div> *@
+                                <div class="row">
+                                    <div class="form-group col-md-2">
+                                        <label>File Type</label>
+                                        @*  <input id="txtCustomerCode" type="text" maxlength="2" value="Regular" class="form-control" />
+                                        <span id="sptxtCustomerCode" class="text-danger"></span> *@
+                                        <input type="text" class="form-control" id="TxtFileType" value="@ViewBag.FileType" disabled>
+                                        <span id="spTxtFileType" class="text-danger"></span>
+
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>File Size</label>
+                                        @*  <input id="txtCustomerCode" type="text" maxlength="2" value="Regular" class="form-control" />
+                                        <span id="sptxtCustomerCode" class="text-danger"></span> *@
+                                        <input type="text" class="form-control" id="TxtFileSize" value="@ViewBag.FileSize" disabled>
+                                        <span id="spTxtFileSize" class="text-danger"></span>
+
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>File Sub Type</label>
+                                       @*  <input id="txtCustomerCode" type="text" maxlength="2" value="Regular" class="form-control" />
+                                        <span id="sptxtCustomerCode" class="text-danger"></span> *@
+                                        <input type="text" class="form-control" id="TxtFileSubType" value="@ViewBag.SubType">
+                                        <span id="spTxtFileSubType" class="text-danger"></span>
+
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <label>File Sub Type Code</label>
+                                      @*   <input id="txtCustomer" maxlength="50" name="" type="text" value="F" class="form-control" />
+                                        <span id="sptxtCustomer" class="text-danger"></span> *@
+                                        <input type="text" class="form-control"  id="TxtFilesubTypeCode" value="@ViewBag.SubTypeCode" oninput="validateInputCode()">
+                                        <span id="spFilesubTypeCode" class="text-danger"></span>
+                                    </div>
+
+
+
+                                    <div class="form-group col-md-3">
+                                        <label class="control-label padd0">Upload CSV</label> &nbsp;
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input name="" type="file" id="FileUploadCSV" class="custom-file-input">
+                                               
+                                               @*  <input type="file" class="custom-file-input" id="exampleInputFile"> *@
+                                                <label class="custom-file-label" for="FileUploadCSV">Choose file</label>
+                                            </div>
+                                        </div>
+                                        <span id="spTxtFileUploadCSV" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="btnwidth50 float-right mr-1 " style="margin-top:35px;">
+                                        <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                                                onClick="SubmitFileSubType()" title="Go to the next page">
+                                            Submit
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group row">
+
+                                    <div class="col-md-4">
+                                        <label>Download Reference CSV File Type Code</label>
+                                        @Html.DropDownListFor(p => p.FileSubTypeId, new SelectList(Model.FileSubType_List, "Id", "FileType"), "Select", new { @class = "form-control select2", @id = "ddlCSVSubFileType" })
+
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <button type="button"
+                                                class="btn btn-primary btn-xs " style="margin-top:35px;"
+                                                onclick="convertJSONToCSV()" id="downloadButton"
+                                                title="Download the file">
+                                            Download
+                                        </button>
+                                    </div>
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- InstanceEndEditable -->
+</div>
+<script>
+      function validateInputCode() {
+        var inputElement = document.getElementById('TxtFilesubTypeCode');
+        var inputValue = inputElement.value.trim();
+
+        if (inputValue.length === 1 || inputValue === '') {
+            // Clear previous error message
+            document.getElementById('spFilesubTypeCode').innerText = '';
+        } else {
+            // Display error message for invalid input
+            document.getElementById('spFilesubTypeCode').innerText = 'Only one characters/digits are allowed.';
+            // Trim input value to ensure only two characters are retained
+            inputElement.value = inputValue.substring(0, 1);
+        }
+    }
+    $(document).ready(function () {
+
+
+    });
+
+
+      function convertJSONToCSV() {
+        var $ddl = $('#ddlCSVSubFileType');
+        var FileSubTypeId = $ddl.val();
+        var FileSubTypeText = $ddl.find("option:selected").text().trim(); // ⬅️ Get selected text
+
+        var JsonData = JSON.stringify({
+            ID: FileSubTypeId
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetFileSubTypeParameters", "Master")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                var JsonData1 = data.getFileSubTypeParametersList;
+                var JsonData = JSON.stringify({
+                    JsonData: JsonData1
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DownloadExcel", "Master")',
+                    data: { JsonData: JsonData },
+                    success: function (response) {
+                        const url = window.URL.createObjectURL(new Blob([response], { type: 'text/csv' }));
+                        const link = document.createElement('a');
+                        link.href = url;
+
+                        // ✅ Use selected dropdown text as filename
+                        const safeName = FileSubTypeText.replace(/[^\w\d_\-]/g, "_"); // sanitize filename
+                        link.setAttribute('download', `${safeName}.csv`);
+
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error occurred:", error);
+                        alert("An error occurred while downloading the file.");
+                    },
+                    xhrFields: {
+                        responseType: 'blob'
+                    }
+                });
+            },
+            error: function () {
+                alert('Error occurred while fetching data.');
+            }
+        });
+    }
+
+
+    function SubmitFileSubType() {
+        var FileSubTypeName = $('#TxtFileSubType').val();
+        var FileSubTypeCode = $('#TxtFilesubTypeCode').val();
+        var FileType = $('#TxtFileType').val();
+        var FileSize = $('#TxtFileSize').val();
+
+        var subTypeSizeInInches = '@ViewBag.FileSize';
+
+
+
+        var ValidationFlag = false;
+
+        // Validate FileType
+        if (FileSubTypeName === "") {
+            $("#spTxtFileSubType").html("Enter FileSubType");
+            $("#spTxtFileSubType").css("display", "block");
+            ValidationFlag = true;
+        } else {
+            $("#spTxtFileSubType").html("");
+        }
+
+        // Validate FileTypeCode
+        if (FileSubTypeCode === "") {
+            $("#spFilesubTypeCode").html("Enter File Sub Type Code");
+            $("#spFilesubTypeCode").css("display", "block");
+            ValidationFlag = true;
+        } else {
+            $("#spFilesubTypeCode").html("");
+        }
+
+        var filenameCSV = ($('#FileUploadCSV')[0].files[0]) ? $('#FileUploadCSV')[0].files[0].name : '';
+        // Validate CSV file
+        if (!filenameCSV) {
+            $("#spTxtFileUploadCSV").html("Select CSV File");
+            $("#spTxtFileUploadCSV").css("display", "block");
+            ValidationFlag = true;
+        } else {
+            $("#spTxtFileUploadCSV").html("");
+        }
+
+        if (ValidationFlag) {
+            return; // Don't proceed further if any validation fails
+        }
+
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+        var CreatedDate = moment.utc(new Date()).format();
+
+
+
+
+
+
+        var fileInput = document.getElementById('FileUploadCSV');
+        if (fileInput.files.length === 0) {
+            alert('Please select a file!');
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+
+
+        // Ensure a file has been selected
+        if (fileInput.files.length === 0) {
+            alert('Please select a CSV file.');
+            return;
+        }
+
+        var file = fileInput.files[0];
+        var reader = new FileReader();
+        var jsonArrayObj = [];
+
+        // When file is loaded, process its content
+        reader.onload = function (event) {
+            var csvContent = event.target.result;
+            var jsonArray = csvToJson(csvContent);
+            jsonArrayObj = jsonArray;
+            console.log("CSV to JSON Array:", jsonArray);
+
+            // Now you can do something with the jsonArray, such as displaying it in a table
+
+            var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+            var FileSubTypeJobj = {
+                Id: encodeURIComponent(@Context.Request.Query["Id"]),
+                FileSubTypeName: FileSubTypeName,
+                FileSubTypeCode: FileSubTypeCode,
+                FileType:FileType,
+                FileSize:FileSize,
+                CreatedBy: iLoggedInUserID,
+                CreatedDate: moment.utc(new Date()).format(),
+                ParameterJarr: jsonArrayObj
+            };
+
+            var jsonData = JSON.stringify({
+                FileSubTypeJobj: FileSubTypeJobj
+            });
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SaveFileSubType", "Master")',
+                data: { JsonData: jsonData },
+                dataType: 'json',
+                beforeSend: function () { $('#loader').show(); },
+                complete: function () { $('#loader').hide(); },
+                success: function (data) {
+                    if (data && data.response === "Update Successfully") {
+                         alert(data.response);
+				var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+				var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+				var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+				var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+                redirectUrl =  '@Url.Action("FileSubType", "Master")' +
+						'?PageID=' + pageID +
+						'&ParentID=' + parentID +
+						'&ModuleID=' + moduleID +
+						'&ModulePageID=' + modulePageID 
+
+                       // ✅ Redirect to the new page
+                    window.location.href = redirectUrl;
+                    } else {
+                        alert("Error occurred while saving file sub type.");
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Error occurred while saving file sub type.");
+                    console.error(xhr.responseText);
+                }
+            });
+        };
+
+        // Read the file as text
+        reader.readAsText(file);
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // Function to convert CSV to JSON
+    function csvToJson(csv) {
+        // Split the CSV by newlines to get each row
+        var lines = csv.split("\n");
+
+        // Get the headers from the first row
+        var headers = lines[0].split(",");
+
+        var jsonArray = [];
+
+        // Loop through the remaining lines to convert each to a JSON object
+        for (var i = 1; i < lines.length; i++) {
+            var line = lines[i].trim();
+
+            // Skip empty lines
+            if (line === "") continue;
+
+            var values = line.split(",");
+            var jsonObject = {};
+
+            // Assign the values to the appropriate headers
+            for (var j = 0; j < headers.length; j++) {
+                jsonObject[headers[j].trim()] = values[j] ? values[j].trim() : null;
+            }
+
+            // Push the JSON object to the array
+            jsonArray.push(jsonObject);
+        }
+
+        return jsonArray;
+    }
+
+
+</script>

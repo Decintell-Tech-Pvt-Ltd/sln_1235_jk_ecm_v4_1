@@ -1,0 +1,136 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.Master
+@{
+    ViewData["Title"] = "ItemMasterArchive";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper" style="min-height: 237.812px;">
+   
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>Item Master</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item active">Archive</li>
+                        <li class="breadcrumb-item active">Item Master</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <a id="btnBack" onClick="history.back()"
+                           class="btn btn-block bg-gradient-danger btn-xs"
+                           title="Go back to the previous page">
+                            Back
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+
+        <div class="container-fluid">
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-primary">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:80px; text-align:center;">Request No.</th>
+                                            <th style="width:80px;"><div align="left">SKU</div></th>
+                                            <th style="width:100px;"> <div align="left">SKU History</div></th>
+                                            <th style="width:120px;"><div align="center">Drawing Revision No.</div></th>
+                                            <th style="width:250px;"><div align="left">Description</div></th>
+                                            <th style="width:120px;"><div align="left">Customer SKU</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.ApprovedSKUDetails_List != null)
+                                        {
+                                            @foreach (var item in Model.ApprovedSKUDetails_List)
+                                            {
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <a href="#" onclick="RedirectToViewRequest(@item.ReqId);" style="color: blue; cursor: pointer;">
+                                                            @Html.DisplayFor(modelItem => item.RequestNo)
+                                                        </a>
+
+                                                    </td>
+                                                    <td>@item.FalcoSKU</td>
+                                                    <td class="text-center">@item.SKUHistory</td>
+                                                    <td class="text-center">@item.DrwRevision</td>
+                                                    <td>@item.Description</td>
+                                                    <td>@item.CustomerSKU</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+
+            </div>
+
+
+        </div>
+    </section>
+
+    <small>
+        Note:This is to refer inactive SKU
+
+    </small>
+
+</div>
+<script>
+    var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+    function RedirectToEditRequest(RequestId) {
+      //  var url = '@Url.Action("Productiondetails", "ItemMaster")' + '?ReqValue=' + RequestId + '&Mode=Edit';
+        url = '@Url.Action("Changenoteproductiondetails", "ChangeNotes")' +
+                '?PageID=' + pageID +
+                '&ParentID=' + parentID +
+                '&ModuleID=' + moduleID +
+                '&ModulePageID=' + modulePageID +
+                '&ReqValue=' + RequestId+
+                '&Mode=Edit';
+        window.location.href = url;
+    }
+
+    function RedirectToViewRequest(RequestId) {
+       // var url = '@Url.Action("Changenoteproductiondetails", "ChangeNotes")' + '?ReqValue=' + RequestId;
+          url = '@Url.Action("Changenoteproductiondetails", "ChangeNotes")' +
+                '?PageID=' + pageID +
+                '&ParentID=' + parentID +
+                '&ModuleID=' + moduleID +
+                '&ModulePageID=' + modulePageID +
+                '&ReqValue=' + RequestId;
+        window.location.href = url;
+    }
+
+</script>

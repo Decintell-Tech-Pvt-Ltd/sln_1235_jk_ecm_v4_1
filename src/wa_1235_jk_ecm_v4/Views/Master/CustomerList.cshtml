@@ -1,0 +1,201 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.Master
+@{
+    ViewData["Title"] = "CustomerList";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                <h5>Customer</h5>
+            </div>
+            <div class="col-lg-9">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                    <li class="breadcrumb-item active">Master</li>
+                    <li class="breadcrumb-item active">Customer</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="btnwidth50 float-right ">
+                    <button type="button"
+                            class="btn btn-block bg-gradient-danger btn-xs"
+                            onclick="window.history.back()"
+                            title="Go back to the previous page">
+                        Back
+                    </button>
+                </div>
+                <div class="btnwidth50 float-right mr-1">
+                   @*  <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                            onclick="location.href='Add-Customer.html'" title="Add new record">
+                        Add
+                    </button> *@
+                    <a href="@Url.Action("AddCustomer", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })" class="btn btn-block bg-gradient-primary   btn-xs float-left">
+                        Add
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+
+</section>
+
+<section class="content">
+
+    <div class="container-fluid">
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-outline card-primary">
+
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1">
+                                    <thead>
+                                        <tr>
+                                            <th width="2%">
+                                                <div align="center">Customer Code​</div>
+                                            </th>
+                                            <th width="15%">
+                                                <div align="left">Customer Name</div>
+                                            </th>
+                                            <th width="3%">
+                                                <div align="center">Customer Rejection %​</div>
+                                            </th>
+                                            <th width="3%">
+                                                <div align="center">Customer Packing Days</div>
+                                            </th>
+                                           @*  <th width="2%">
+                                                <div align="center">Edit</div>
+                                            </th> *@
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.CustomerList != null && Model.CustomerList.Any())
+                                        {
+                                            foreach (var item in Model.CustomerList)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <div align="center">
+                                                            <a href="javascript:void(0);" onclick="EditCustomer('@item.CustomerId');" title="Edit">
+                                                                @item.CustomerCode
+                                                            </a>
+                                              @*                <a href="@Url.Action("AddGradeWisePerDiem", "Master", new {
+                    PageID = Context.Request.Query["PageID"].ToString(),
+                    ParentID = Context.Request.Query["ParentID"].ToString(),
+                    ModuleID = Context.Request.Query["ModuleID"].ToString(),
+                    ModulePageID = Context.Request.Query["ModulePageID"].ToString(),
+                    CustomerId = item.CustomerId
+                })" title="Edit">@item.CustomerCode  </a> *@
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div align="left">@item.CustomerName</div>
+                                                    </td>
+                                                    <td>
+                                                        <div align="center">@item.CustomerPct</div>
+                                                    </td>
+                                                    <td>
+                                                        <div align="center">@item.PackingDays</div>
+                                                    </td>
+                                                   @*  <td>
+                                                        <div align="center">
+                                                            <a href="javascript:void(0);" onclick="EditCustomer('@item.CustomerId');" class="fa-i-big orangebt" title="Edit">
+                                                                <img src="~/decintell/icons/edit.png" class="img-responsive" />
+                                                            </a>
+                                                        </div>
+                                                    </td> *@
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="5">
+                                                    <div align="center">No data found</div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                        <!-- /.tab-pane -->
+
+
+
+
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+
+        </div>
+        </div>
+
+</section>
+<script>
+    // function DeleteParameter(ParameterAssemblyLinkId) {
+
+    //     var ParameterAssemblyLinkId = ParameterAssemblyLinkId;
+    //     var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+    //     let JSONSiteData = {
+    //         "data": {
+    //             ParameterAssemblyLinkId: ParameterAssemblyLinkId,
+    //             iLoggedInUserID: iLoggedInUserID
+    //         }
+    //     };
+    //     var JsonInsertSite = JSON.stringify(JSONSiteData);
+
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '@Url.Action("AddParameter", "Master")',
+    //         data: { InsertData: JsonInsertSite },
+    //         datatype: 'json',
+    //         success: function (data) {
+    //             alert(data.response);
+    //             window.location.reload();
+    //         },
+    //     });
+
+
+    // }
+
+
+    function EditCustomer(CustomerId) {
+
+        // Constructing the URL using JavaScript
+      var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+    // Construct the full URL
+    var url = '@Url.Action("EditCustomer", "Master")' +
+        '?CustomerId=' + encodeURIComponent(CustomerId) +
+        '&PageID=' + pageID +
+        '&ParentID=' + parentID +
+        '&ModuleID=' + moduleID +
+        '&ModulePageID=' + modulePageID;
+
+    // Redirect
+    window.location.href = url;
+    }
+</script>

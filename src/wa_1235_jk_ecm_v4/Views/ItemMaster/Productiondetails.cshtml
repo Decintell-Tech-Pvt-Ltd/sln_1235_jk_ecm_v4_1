@@ -1,0 +1,1221 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.ItemMaster
+@{
+	ViewData["Title"] = "Productiondetails";
+	Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<style>
+	.disabledApprovebutton {
+		pointer-events: none; /* Disables all click, focus, and hover */
+		opacity: 1; /* Makes it look grayed out */		
+	}
+
+</style>
+<div class="modal fade" id="view">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">View File Sub Type</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<table width="100%" class="table table-bordered example1">
+					<thead>
+						<tr>
+							<th style="width:2%; text-align: center;">Sq.No.</th>
+							<th style="width:30%; text-align: Left;">Category</th>
+							<th style="width:35%;  text-align: Left;">Name</th>
+							<th style="width:15%;  text-align: center;">Value</th>
+							<th style="width:8%;  text-align: center;">Tolerance</th>
+						</tr>
+					</thead>
+					<tbody id="showAddedFileSubTypeParameters">
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+
+	</div>
+</div>
+<div class="content-wrapper">
+
+
+	<section class="content-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-4">
+					<h5>New SKU</h5>
+				</div>
+				<div class="col-lg-8">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+						<li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+						<li class="breadcrumb-item"><a href="@Url.Action("ItemMasterIndex", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Item Master</a></li>
+						<li class="breadcrumb-item active">New SKU</li>
+					</ol>
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="btnwidth50 float-right ">
+						<a id="btnBack" class="btn btn-block bg-gradient-danger btn-xs float-left"
+						   onClick="history.back()" title="Go back to the previous page">
+							Back
+						</a>
+					</div>
+
+				</div>
+			</div>
+
+		</div><!-- /.container-fluid -->
+	</section>
+
+	<section class="content">
+		<div class="content">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="card card-primary card-tabs p-a-2" style="height: 100%;">
+							<div class="card-header p-0 pt-1">
+								<ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+									
+									@{
+										string cssClass = ""; // Define the default CSS class variable
+
+										if (Context.Request.Query["Display"].ToString() == "Approval")
+										{
+											cssClass = "disabledApprovebutton"; // Reset cssClass if the condition is met
+										}
+										if (Context.Request.Query["Display"].ToString() == "Approval")
+										{
+											<li class="nav-item">
+												<a href="@Url.Action("Productiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval", Status = "SKU" })" class="nav-link active">
+													Production Details
+
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval" , Status = "SKU" })" class="nav-link">
+													Dispatch Details
+												</a>
+											</li>
+
+										}
+										else if (Context.Request.Query["Mode"].ToString() != null && Context.Request.Query["Mode"].ToString() != "")
+										{
+											<li class="nav-item">
+												<a href="@Url.Action("Productiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Status = "SKU" })" class="nav-link active">
+													Production Details
+
+												</a>
+											</li>
+											<li class="nav-item">
+												<a href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Status = "SKU" })" class="nav-link">
+													Dispatch Details
+												</a>
+											</li>
+
+										}
+										else
+										{
+
+											<li class="nav-item">
+												<a href="@Url.Action("Productiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), Status = "SKU" })" class="nav-link active">
+													Production Details
+
+												</a>
+											</li>
+											<li class="nav-item">
+										<a href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), Status = "SKU" })" class="nav-link">
+													Dispatch Details
+												</a>
+											</li>
+										}
+									}
+								</ul>
+
+							</div>
+
+
+							<div class="@cssClass">
+
+							<div class="card-body">
+
+								<div class="row" >
+									<div class="col-md-2 form-group">
+										<label>Start Date</label>
+										<div class="input-group date @cssClass" id="todate" data-target-input="nearest">
+											<input type="text" id="txtStartDate" class="form-control datetimepicker-input" data-target="#todate">
+											<div class="input-group-append" data-target="#todate" data-toggle="datetimepicker">
+												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-2 form-group">
+										<label>End Date</label>
+										<div class="input-group date @cssClass" id="fromdate" data-target-input="nearest">
+											<input type="text" id="txtEndDate" onchange="checkDateValidity();" class="form-control datetimepicker-input" data-target="#fromdate">
+											<div class="input-group-append" data-target="#fromdate" data-toggle="datetimepicker">
+												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+											</div>
+										</div>
+									</div>
+
+
+								</div>
+
+
+
+
+								<div class="row ">
+									<div class="col-md-3">
+										<h5 style="font-weight:600;" class="top10">Customer Details</h5>&nbsp;
+									</div>
+
+									<br />
+									<div class="col-md-12">
+										<div class="row">
+
+											<div class="form-group col-md-3">
+												<label>Customer</label>
+												<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllCustomer" onchange="CustomerCode();">
+													<option value="0">Select</option>
+													@if (Model.ecm_CustomerMaster != null)
+													{
+														@foreach (var item in Model.ecm_CustomerMaster)
+														{
+															@if (Model.ProductionDetails_List != null && item.CustomerCode == Model.ProductionDetails_List.CustomerCode)
+															{
+																<option selected="selected" value="@item.CustomerCode">@item.CustomerName</option>
+															}
+															else
+															{
+																<option value="@item.CustomerCode">@item.CustomerName</option>
+															}
+														}
+													}
+												</select>
+													<span id="spdllCustomer" class="text-danger" style="display:none;"></span>
+											</div>
+
+											<div class="form-group col-md-2" style="display:none">
+												@Html.TextBoxFor(m => m.ProductionDetails_List.CustomerCode, new { @class = "form-control", id = "txtcustId" })
+											</div>
+
+											<div class="form-group col-md-2">
+												<label>Customer Code</label>
+												@if (Model.ProductionDetails_List != null)
+												{
+													<input name="" type="text" id="txtCustomer" class="form-control" value="@Model.ProductionDetails_List.CustomerCode" disabled>
+												}
+												else
+												{
+													<input name="" type="text" id="txtCustomer" class="form-control" disabled>
+
+												}
+
+											</div>
+
+											<div class="form-group col-md-3">
+												<label>Brand</label>
+												<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllBrand" onchange="BrandCode();">
+													<option value="0">Select</option>
+													@foreach (var item in Model.ecm_BrandMaster)
+													{
+														@if (Model.ProductionDetails_List != null && item.BrandCode == Model.ProductionDetails_List.BrandCode)
+														{
+															<option selected="selected" value="@item.BrandCode">@item.BrandName</option>
+														}
+														else
+														{
+															<option value="@item.BrandCode">@item.BrandName</option>
+														}
+													}
+												</select>
+													<span id="spdllBrand" class="text-danger" style="display:none;"></span>
+											</div>
+
+											<div class="form-group col-md-2">
+												<label>Brand Code</label>
+												@if (Model.ProductionDetails_List != null)
+												{
+													<input name="" type="text" class="form-control" value="@Model.ProductionDetails_List.BrandCode" id="txtBrand" disabled>
+												}
+												else
+												{
+													<input name="" type="text" class="form-control" id="txtBrand" disabled>
+
+												}
+											</div>
+
+											<div class="form-group col-md-3">
+												<label>Ship to Country </label>
+												<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllCountryName" onchange="CountryContinent();">
+													<option value="0">Select</option>
+													@foreach (var item in Model.ShipToCountry_List)
+													{
+														@if (Model.ProductionDetails_List != null && item.CountryCode == Model.ProductionDetails_List.CountryCode)
+														{
+															<option selected="selected" value="@item.CountryCode">@item.CountryName</option>
+														}
+														else
+														{
+															<option value="@item.CountryCode">@item.CountryName</option>
+														}
+													}
+												</select>
+													<span id="spdllCountryName" class="text-danger" style="display:none;"></span>
+											</div>
+
+											<div class="form-group col-md-2">
+												<label>Continent</label>
+												@Html.TextBoxFor(m => m.ProductionDetails_List.Continent, new { @class = "form-control", id = "txtContinent", @disabled = "disabled" })
+											</div>
+
+										</div>
+
+										<div class="row">
+											<div class="form-group col-md-3">
+												<label>Customer Part No.</label>
+												@Html.TextBoxFor(m => m.ProductionDetails_List.CustomerPartNumber, new { @class = "form-control", id = "txtCustomerPart" })
+											</div>
+
+											<div class="form-group col-md-2">
+												<label>Sales  </label>
+												<select name="" class="form-control select2" id="dllSales">
+													<option value="Select">Select</option>
+													@if (Model.ProductionDetails_List != null && "Export Sales" == Model.ProductionDetails_List.Sales)
+													{
+														<option selected="selected" value="Export Sales">Export Sales</option>
+														<option value="Domestic Sales">Domestic Sales</option>
+													}
+													else if (Model.ProductionDetails_List != null && "Domestic Sales" == Model.ProductionDetails_List.Sales)
+													{
+														<option selected="selected" value="Domestic Sales">Domestic Sales</option>
+														<option value="Export Sales">Export Sales</option>
+													}
+													else
+													{
+														<option value="Export Sales">Export Sales</option>
+														<option value="Domestic Sales">Domestic Sales</option>
+													}
+												</select>
+													<span id="spdllSales" class="text-danger" style="display:none;"></span>
+											</div>
+
+										</div>
+
+									</div>
+
+
+									<div class="col-md-12">
+
+										<h5 style="font-weight:600;" class="top10">File & Cut Specs</h5>&nbsp;
+										<div class="row top10">
+
+											<div class="form-group col-md-2">
+												<label>File Size(Inch) </label>
+												<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllFileSize" onchange="FileSubTypeChange();">
+													<option value="0">Select</option>
+													@foreach (var item in Model.FileSizes_List)
+													{
+														@if (Model.ProductionDetails_List != null && item.FileSizeCode == Model.ProductionDetails_List.FileSizeCode)
+														{
+															<option selected="selected" value="@item.FileSizeCode">@item.FileSizeInch1</option>
+														}
+														else
+														{
+															<option value="@item.FileSizeCode">@item.FileSizeInch1</option>
+														}
+													}
+												</select>
+													<span id="spdllFileSize" class="text-danger" style="display:none;"></span>
+											</div>
+
+											<div class="form-group col-md-2">
+												<label>File Type </label>
+												<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllFileType" onchange="FileSubTypeChange();">
+													<option value="0">Select</option>
+													@foreach (var item in Model.FileType_List)
+													{
+														@if (Model.ProductionDetails_List != null && item.Id == Model.ProductionDetails_List.FileTypeCodeId)
+														{
+															<option selected="selected" value="@item.Id">@item.FileTypeName</option>
+														}
+														else
+														{
+															<option value="@item.Id">@item.FileTypeName</option>
+														}
+													}
+												</select>
+													<span id="spdllFileType" class="text-danger" style="display:none;"></span>
+											</div>
+
+											<div class="form-group col-md-2">
+												<label>File Sub Type </label>
+												<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllFileSubType" onchange="FileCodeAdd();">
+													<option value="0">Select</option>
+													@foreach (var item in Model.FileSubType_List)
+													{
+														@if (Model.ProductionDetails_List != null && item.Id == Model.ProductionDetails_List.FileSubType)
+														{
+															<option selected="selected" value="@item.Id">@item.SubType</option>
+														}
+														else
+														{
+															<option value="@item.Id">@item.FileSubTypeName</option>
+														}
+													}
+												</select>
+													<span id="spdllFileSubType" class="text-danger" style="display:none;"></span>
+											</div>
+
+											<div class="form-group col-md-1">
+												<label>File Code</label>
+												@if (Model.ProductionDetails_List != null)
+												{
+													<input name="" type="text" value="@Model.ProductionDetails_List.FileCode" class="form-control" disabled="" id="FileCode">
+												}
+												else
+												{
+													<input name="" type="text" class="form-control" disabled="" id="FileCode">
+												}
+											</div>
+
+
+											<div style="margin-top:36px;">
+												<button type="button"
+														class="btn btn-primary btn-xs btnwidth50"
+														data-toggle="modal" onclick="Filesubtypedata()"
+														title="View details">
+													View
+												</button>
+
+											</div>
+
+											<div class="form-group col-md-2">
+												<label>Cut Type  </label>
+												<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllCutType" onchange="FillCutSpecList();">
+													<option value="0">Select</option>
+													@foreach (var item in Model.CutTypelist)
+													{
+														@if (Model.ProductionDetails_List != null && item.LookupId == Model.ProductionDetails_List.CutType)
+														{
+															<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+														}
+														else
+														{
+															<option value="@item.LookupId">@item.LookupValue</option>
+														}
+													}
+												</select>
+
+											</div>
+
+											<div class="form-group col-md-2">
+												<label>Cut Specification  </label>
+												<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" id="dllCutStandard" onchange="CutSpecification();">
+													<option value="0">Select</option>
+
+													@if (Model.CutSpecification_List != null)
+													{
+														@foreach (var item in Model.CutSpecification_List)
+														{
+															@if (Model.ProductionDetails_List != null)
+															{
+																if (item.Id == Model.ProductionDetails_List.CutStandard)
+																{
+																	<option selected="selected" value="@item.Id">@item.CutSpecName</option>
+																}
+															}
+															else
+															{
+																<option value="@item.Id">@item.CutSpecName</option>
+															}
+
+														}
+													}
+												</select>
+											</div>
+
+										</div>
+
+
+									</div>
+
+									<div class="table-responsive">
+										<table class="table table-bordered example1">
+											<thead>
+												<tr>
+
+													<th width="15%"><div align="left">Name</div></th>
+													<th width="20%"><div align="left">Details​</div></th>
+													<th width="5%"><div align="center">Value</div></th>
+
+												</tr>
+											</thead>
+											<tbody id="bodyCutSides">
+											</tbody>
+										</table>
+
+										<br />
+										<div class="btnwidth50 float-right ">
+											<button type="button"
+													class="btn btn-primary btn-xs btnwidth50"
+													onclick="SaveNewProduct();" id="btnSave"
+													title="Save the current record">
+												Save
+											</button>
+
+
+										</div>
+
+										@if (Model.ProductionDetails_List != null)
+										{
+											<div class="btnwidth50 float-right mr-1 ">
+												<button type="button"
+														class="btn btn-primary btn-xs btnwidth60"
+														onclick="ShowDocument();" id="btnDrawingShow"
+														title="View Drawing">
+													Drawing
+												</button>
+											</div>
+										}
+
+
+									</div>
+								</div>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+
+
+
+
+<script>
+	$(document).ready(function () {
+		// let today = new Date();
+		// let minDate = today.toISOString().slice(0, 10);
+		// document.getElementById('txtStartDate').setAttribute('min', minDate);
+		// let formattedDate = today.toISOString().slice(0, 10);
+		// document.getElementById('txtStartDate').value = formattedDate;
+
+
+
+		// document.getElementById('txtEndDate').value = '31/12/20991';
+			let today = new Date();
+
+	// Format as dd/mm/yyyy
+	let dd = String(today.getDate()).padStart(2, '0');
+	let mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0
+	let yyyy = today.getFullYear();
+
+	let formattedDate = `${dd}/${mm}/${yyyy}`;
+	document.getElementById('txtStartDate').value = formattedDate;
+	document.getElementById('txtEndDate').value = '31/12/2099';
+	});
+</script>
+<script>
+	var ProdSKU;
+
+
+	function FillCutSpecList() {
+		var Filesize = $("#dllFileSize").val();
+		if (Filesize == "") {
+			Filesize = "All";
+		}
+		var FileType = $("#dllFileType").val();
+		if (FileType == "") {
+			FileType = "All";
+		}
+		var CutType = $("#dllCutType").val();
+
+		var JsonData = {
+			FileType: FileType,
+			Filesize: Filesize,
+			CutType: CutType
+		};
+
+		var JSONInsert = JSON.stringify(JsonData);
+
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("GetCutSpecList", "ItemMaster")',
+			data: { JsonData: JSONInsert },
+			datatype: 'json',
+			success: function (data) {
+
+
+				var CutSpec = data.cutSpecification_List;
+				var dropdowndata = $('#dllCutStandard');
+				dropdowndata.empty();
+
+				// dropdowndata.append($('<option>').text('Select').val(''));
+
+				// Add options from the data received
+				$.each(CutSpec, function (index, item) {
+					dropdowndata.append($('<option>').text(item.cutSpecName).val(item.id));
+				});
+
+
+			},
+			error: function () {
+				alert('Error occurred while processing your request.');
+			}
+		});
+
+	}
+
+
+
+	function FileSubTypeChange() {
+		var Filesize = $("#dllFileSize").val();
+		if (Filesize == "") {
+			Filesize = "All";
+		}
+		var FileType = $("#dllFileType").val();
+		if (FileType == "") {
+			FileType = "All";
+		}
+		//dllFileSubType
+
+		var JsonData = {
+			FileType: FileType,
+			Filesize: Filesize
+
+		};
+
+		var JSONInsert = JSON.stringify(JsonData);
+
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("GetFileSubType", "ItemMaster")',
+			data: { JsonData: JSONInsert },
+			datatype: 'json',
+			success: function (data) {
+
+				var FilesubType = data.fileSubType_List;
+				var dropdown = $('#dllFileSubType');
+				dropdown.empty();
+
+				dropdown.append($('<option>').text('Select').val(''));
+
+				// Add options from the data received
+				$.each(FilesubType, function (index, item) {
+					dropdown.append($('<option>').text(item.fileSubTypeName).val(item.id));
+				});
+
+				// You can enable the dropdown if needed
+				dropdown.prop('disabled', false);
+
+				var CutSpec = data.cutSpecification_List;
+				var dropdowndata = $('#dllCutStandard');
+				dropdowndata.empty();
+
+				dropdowndata.append($('<option>').text('Select').val(''));
+
+				// Add options from the data received
+				$.each(CutSpec, function (index, item) {
+					dropdowndata.append($('<option>').text(item.cutSpecName).val(item.id));
+				});
+
+				// You can enable the dropdown if needed
+				dropdown.prop('disabled', false);
+			},
+			error: function () {
+				alert('Error occurred while processing your request.');
+			}
+		});
+
+	}
+	function FileCodeAdd() {
+		var Filesize = $("#dllFileSize").val();
+		var FileType = $("#dllFileType").val();
+		var FileSubType = $("#dllFileSubType").val();
+		var JsonData = {
+			FileType: FileType,
+			Filesize: Filesize,
+			FileSubType: FileSubType
+		};
+
+		var JSONInsert = JSON.stringify(JsonData);
+
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("GetFileCode", "ItemMaster")',
+			data: { JsonData: JSONInsert },
+			datatype: 'json',
+			success: function (data) {
+
+				var FilesubType = data.dimentionAttribute[0].result;
+				$("#FileCode").val(FilesubType);
+
+			},
+			error: function () {
+				alert('Error occurred while processing your request.');
+			}
+		});
+
+	}
+	function CountryContinent() {
+		var CountryCode = $("#dllCountryName").val();
+
+		var JsonData = {
+			CountryCode: CountryCode,
+
+		};
+
+		var JSONInsert = JSON.stringify(JsonData);
+
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("GetCountryContinent", "ItemMaster")',
+			data: { JsonData: JSONInsert },
+			datatype: 'json',
+			success: function (data) {
+
+				var CountryContinent = data.countryContinent[0].result;
+				$("#txtContinent").val(CountryContinent);
+
+			},
+			error: function () {
+				alert('Error occurred while processing your request.');
+			}
+		});
+
+	}
+	function CutSpecification() {
+		var Filesize = $("#dllFileSize").val();
+
+		var FileType = $("#dllFileType").val();
+		var FileSubType = $("#dllFileSubType").val();
+		var CutStandard = $("#dllCutStandard").val();
+
+		if (Filesize == "" || FileType == "" || FileSubType == "") {
+			if (Filesize == "") { alert("Please Select Filesize"); }
+			if (FileType == "") { alert("Please Select FileType"); }
+			if (FileSubType == "") { alert("Please Select FileSubType"); }
+		}
+		else {
+			var JsonData = {
+				ID: CutStandard
+			};
+			var JSONInsert = JSON.stringify(JsonData);
+			$.ajax({
+				type: 'POST',
+				url: '@Url.Action("GetCutSideStandard", "ItemMaster")',
+				data: { JsonData: JSONInsert },
+				datatype: 'json',
+				success: function (data) {
+
+					var Cutdata = data.objList.cutSpecificationEdit_List;
+					var tbody = $('#bodyCutSides');
+					tbody.empty(); // Clear existing content if any
+
+					Cutdata.forEach(function (item) {
+						var row = $('<tr>');
+						row.append($('<td>').text(item.cutSides));
+						row.append($('<td>').text(item.cutOnSides));
+						row.append($('<td>').text(item.value));
+						tbody.append(row);
+					});
+
+				},
+				error: function () {
+				  //  alert('Error occurred while processing your request.');
+				}
+			});
+			var FileSizeCode = $("#dllFileSize :Selected").val();
+			var FileTypeCode = $("#dllFileType :Selected").val();
+			var FileSubTypeCode = $("#dllFileSubType :Selected").val();
+			var CutTypeCode = $("#dllCutType :Selected").val();
+			var CutSpecCode = $("#dllCutStandard :Selected").val();
+
+			var JsonData = {
+				FileSizeCode: FileSizeCode,
+				FileTypeCodesRowId: FileTypeCode,
+				FileSubTypeDetailsRowId: FileSubTypeCode,
+				CutTypeCodeId: CutTypeCode,
+				CutSpecDetailsRowId: CutSpecCode
+			};
+			var JSONInsert = JSON.stringify(JsonData);
+			$.ajax({
+				type: 'POST',
+				url: '@Url.Action("GetProdSKUKeyFromId", "ItemMaster")',
+				data: { JsonData: JSONInsert },
+				datatype: 'json',
+				success: function (data) {
+					ProdSKU = data.prodSKU[0].result;
+
+				},
+				error: function () {
+					//alert('Error occurred while processing your request.');
+				}
+			});
+		}
+
+	}
+	//CustomerCode
+	function CustomerCode() {
+		var Custome = $("#dllCustomer").val();
+		$("#txtCustomer").val(Custome);
+
+	}
+	function BrandCode() {
+		var Custome = $("#dllBrand").val();
+		$("#txtBrand").val(Custome);
+
+	}
+	   function Filesubtypedata() {
+		var FileSubType = $("#dllFileSubType").val();
+		var JsonData = {
+			ID: FileSubType
+		};
+		var JSONInsert = JSON.stringify(JsonData);
+
+		$.ajax({
+			type: "POST",
+			url: '@Url.Action("GetFileSubTypeParameters", "Master")',
+			data: { JsonData: JSONInsert },
+			dataType: 'json',
+			beforeSend: function () { $('#loader').show(); },
+			complete: function () { $('#loader').hide(); },
+			success: function (data) {
+				var table = $('#showAddedFileSubTypeParameters').closest('table');
+
+				// Destroy existing DataTable (if exists)
+				if ($.fn.DataTable.isDataTable(table)) {
+					table.DataTable().clear().destroy();
+				}
+
+				// Remove and re-add the 'example1' class to ensure fresh setup
+				table.removeClass('example1').addClass('example1');
+
+				// Build and inject rows
+				var html = '';
+				for (var i = 0; i < data.getFileSubTypeParametersList.length; i++) {
+					html += '<tr>';
+					html += '<td>' + data.getFileSubTypeParametersList[i].sequence + '</td>';
+					html += '<td>' + data.getFileSubTypeParametersList[i].category + '</td>';
+					html += '<td>' + data.getFileSubTypeParametersList[i].name + '</td>';
+					html += '<td>' + data.getFileSubTypeParametersList[i].value + '</td>';
+					html += '<td>' + data.getFileSubTypeParametersList[i].tolerance + '</td>';
+					html += '</tr>';
+				}
+
+				$('#showAddedFileSubTypeParameters').html(html);
+
+				// Re-initialize DataTable with the required buttons and config
+				var newTable = table.DataTable({
+					"responsive": true,
+					"lengthChange": false,
+					"autoWidth": false,
+					"buttons": ["csv"]
+				});
+
+				// Reattach the buttons to the proper container
+				newTable.buttons().container().appendTo(table.closest('.dataTables_wrapper').find('.col-md-6:eq(0)'));
+
+				// Show modal
+				$('#view').modal('show');
+			},
+			error: function () {
+				alert('Error occurred while fetching data.');
+			}
+		});
+	}
+
+</script>
+<script>
+	function checkDateValidity() {
+		let startDateVal = $('#txtStartDate').val();
+		let endDateVal = $('#txtEndDate').val();
+
+		if (startDateVal && endDateVal) {
+			let startDate = moment(startDateVal, 'DD/MM/YYYY');
+			let endDate = moment(endDateVal, 'DD/MM/YYYY');
+
+			if (startDate.isValid() && endDate.isValid()) {
+				if (startDate.isAfter(endDate)) {
+					alert('Start date cannot be greater than end date');
+					$('#txtEndDate').val('').focus();
+				}
+			}
+		}
+	}
+
+	$(function () {
+		// Initialize the datetimepickers
+		$('#todate, #fromdate').datetimepicker({
+			format: 'DD/MM/YYYY'
+		});
+
+		// Listen for changes using datetimepicker-specific event
+		$('#todate, #fromdate').on('change.datetimepicker', function () {
+			checkDateValidity();
+		});
+	});
+</script>
+
+
+<script>
+	
+		function validateFormInputs() {
+		let isValid = true; // moved inside
+
+		// Reset all error spans
+		$(".text-danger").hide().text("");
+
+		function checkDropdown(id, spanId, message) {
+			const value = $("#" + id).val();
+			if (!value || value === "0") {
+				$("#" + spanId).text(message).show();
+				isValid = false;
+			}
+		}
+
+		// Validate dropdowns
+		checkDropdown("dllCustomer", "spdllCustomer", "Please select a Customer.");
+		checkDropdown("dllBrand", "spdllBrand", "Please select a Brand.");
+		checkDropdown("dllCountryName", "spdllCountryName", "Please select a Country.");
+		checkDropdown("dllSales", "spdllSales", "Please select Sales.");
+		checkDropdown("dllFileSize", "spdllFileSize", "Please select File Size.");
+		// checkDropdown("dllFileType", "spdllFileType", "Please select File Type.");
+		// checkDropdown("dllFileSubType", "spdllFileSubType", "Please select File SubType.");
+		// checkDropdown("dllCutType", "spdllCutType", "Please select Cut Type.");
+		// checkDropdown("dllCutStandard", "spdllCutStandard", "Please select Cut Standard.");
+
+		
+
+		return isValid;
+	}
+
+	function SaveNewProduct() {
+		var RequestStartDate = $("#txtStartDate").val();
+		var RequestEndDate = $("#txtEndDate").val();
+	// Convert to UTC ISO format
+		RequestStartDate = moment(RequestStartDate, "DD/MM/YYYY").utc().format();
+		RequestEndDate = moment(RequestEndDate, "DD/MM/YYYY").utc().format();
+		var Customerid = $("#dllCustomer").val();
+		var Brandid = $("#dllBrand").val();
+		var CountryName = $("#dllCountryName").val();
+		var CustomerPart = $("#txtCustomerPart").val();
+		var Sales = $("#dllSales").val();
+		var FileSize = $("#dllFileSize").val();
+		var FileSubType = $("#dllFileSubType").val();
+		var FileType = $("#dllFileType").val();
+		var CutType = $("#dllCutType").val();
+		var CutStandard = $("#dllCutStandard").val();
+		//  var Remark = $("#txtRemark").val();
+		var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+		var txtcustId = $("#txtcustId").val();
+		var iOperationalFlag = 1;
+		var redirectUrl = '';
+		var RequestNumber = '';
+		var JsonData;
+			
+		    if (validateFormInputs()) {
+
+		if (txtcustId != '' && txtcustId != 'undefined') {
+			RequestNumber = encodeURIComponent(@Context.Request.Query["ReqValue"]);
+			iOperationalFlag = 2;
+		}
+		else {
+			RequestNumber = '';
+			iOperationalFlag = 1;
+		}
+
+		let NewRequestDetailsJobj = {
+
+			CreatedBy: iLoggedInUserID,
+			CreatedDate: moment.utc(new Date()).format()
+
+		};
+		JsonData = {
+			RequestNo: RequestNumber,
+			RequestStartDate: RequestStartDate,
+			RequestEndDate: RequestEndDate,
+			Customerid: Customerid,
+			Brandid: Brandid,
+			CountryName: CountryName,
+			CustomerPart: CustomerPart,
+			Sales: Sales,
+			FileSize: FileSize,
+			FileSubType: FileSubType,
+			FileType: FileType,
+			CutType: CutType,
+			CutStandard: CutStandard,
+			//  Remark: Remark,
+			iOperationalFlag: iOperationalFlag,
+			NewRequestDetailsJobj: NewRequestDetailsJobj
+		};
+		var JSONInsert = JSON.stringify(JsonData);
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("SaveNewRequest", "ItemMaster")',
+			data: { JsonData: JSONInsert },
+			datatype: 'json',
+			success: function (data) {
+
+
+				var Insertdata = data.response;
+				var parts = Insertdata.split(' '); // Split the string into parts based on spaces
+				var message = parts.slice(0, -1).join(' ');
+				//  alert(message);
+				var intValue = Insertdata.match(/\d+/)[0];
+
+				var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+				var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+				var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+				var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+				var Status = encodeURIComponent('@Context.Request.Query["Status"]');
+				if (iOperationalFlag == 1) {
+					alert("Request N-" + intValue + " created successfully");
+					redirectUrl = '@Url.Action("Dispatchdetails", "ItemMaster")' +
+						'?PageID=' + pageID +
+						'&ParentID=' + parentID +
+						'&ModuleID=' + moduleID +
+						'&ModulePageID=' + modulePageID +
+						'&Mode=Edit&ReqValue=' + intValue+'&Status=' + Status;
+
+				}
+				else if (iOperationalFlag == 2) {
+					alert("Request updated successfully");
+					redirectUrl = '@Url.Action("Dispatchdetails", "ItemMaster")' +
+						'?PageID=' + pageID +
+						'&ParentID=' + parentID +
+						'&ModuleID=' + moduleID +
+						'&ModulePageID=' + modulePageID +
+						'&ReqValue=' + intValue +
+						'&Mode=Edit&Status=' + Status;
+				}
+
+				window.location.href = redirectUrl;
+				// window.location.reload();
+
+			},
+			error: function () {
+				alert('Error occurred while processing your request.');
+			}
+		});
+		}else {
+						alert('Please fill all required fields.');
+						return ;
+		}
+	}
+
+
+
+	function GetProdSKU() {
+
+
+		var FileSizeCode = $("#dllFileSize :Selected").val();
+		var FileTypeCode = $("#dllFileType :Selected").val();
+		var FileSubTypeCode = $("#dllFileSubType :Selected").val();
+		var CutTypeCode = $("#dllCutType :Selected").val();
+		var CutSpecCode = $("#dllCutStandard :Selected").val();
+
+		var JsonData = {
+			FileSizeCode: FileSizeCode,
+			FileTypeCodesRowId: FileTypeCode,
+			FileSubTypeDetailsRowId: FileSubTypeCode,
+			CutTypeCodeId: CutTypeCode,
+			CutSpecDetailsRowId: CutSpecCode
+		};
+		var JSONInsert = JSON.stringify(JsonData);
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("GetProdSKUKeyFromId", "ItemMaster")',
+			data: { JsonData: JSONInsert },
+			datatype: 'json',
+			success: function (data) {
+				ProdSKU = data.prodSKU[0].result;
+
+			},
+			error: function () {
+				alert('Error occurred while processing your request.');
+			}
+		});
+
+	}
+
+	function ShowDocument() {
+
+		OpenDocument();
+	}
+	// async function OpenDocument() {
+	// 	var JwToken = '@ViewBag.JWTToken';
+	// 	var url1 = '@ViewBag.API_ECM_1231';
+
+	// 	ProdSKU = '@ViewBag.ProdSKU';
+
+	// 	if (ProdSKU != '') {
+	// 		var originalString = $("#FileCode").val();
+
+	// 		var part1 = originalString.substring(0, 2); // "05"
+	// 		var part2 = originalString.substring(2, 4); // "FL"
+
+	// 		const apiUrl = url1 + 'UploadAndDownLoadFile/DownloadAsync';
+	// 		var Folder = 'drawings' + '\\' ;
+	// 		var path = Folder;
+	// 		var FileName = ProdSKU + '.pdf';
+
+	// 		const request = {
+	// 			FileName: path + FileName
+	// 		};
+
+	// 		try {
+	// 			const response = await fetch(apiUrl, {
+	// 				method: "POST",
+	// 				headers: {
+	// 					"Content-Type": "application/json",
+	// 					Authorization: 'Bearer ' + JwToken
+	// 				},
+	// 				body: JSON.stringify(request),
+	// 			});
+
+	// 			if (!response.ok) {
+	// 				console.error("Network response was not ok");
+	// 				return;
+	// 			}
+
+	// 			// Open the downloaded file in a new tab.
+	// 			const blob = await response.blob();
+	// 			const objectURL = URL.createObjectURL(blob);
+	// 			window.open(objectURL, '_blank');
+	// 		} catch (error) {
+	// 			alert('Drawing Not Available');
+	// 		}
+	// 	}else{
+	// 		alert('Drawing Not Available');
+	// 	}
+
+	// }
+	async function OpenDocument() {
+		 var JwToken = '@ViewBag.JWTToken';
+	     var blobStorageUrl = '@ViewBag.ApiUrl';
+	     let blobPathPrefix = '@ViewBag.BaseBlobPath';
+
+		ProdSKU = '@ViewBag.ProdSKU';
+
+		if (ProdSKU != '') {
+			var originalString = $("#FileCode").val();
+
+			var part1 = originalString.substring(0, 2); // "05"
+			var part2 = originalString.substring(2, 4); // "FL"		
+			var Folder = 'drawings' + '\\' ;
+			var path = Folder;
+			var FileName = ProdSKU + '.pdf';
+
+			const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path)).toLowerCase()+ FileName;
+
+			const JSONData = {
+				blobPath: blobpath,
+				asSas: false,
+				downloadFileName: FileName
+			};
+
+			try {
+				$('#loader').show();
+
+				const response = await $.ajax({
+					url: blobStorageUrl + 'Files/get',
+					headers: { Authorization: 'Bearer ' + JwToken },
+					type: "POST",
+					contentType: "application/json",
+					data: JSON.stringify(JSONData),
+					xhrFields: { responseType: 'blob' }
+				});
+
+				if (response && response.size > 0) {
+					 const objectURL = URL.createObjectURL(response);
+   
+
+    // Open the PDF in a new tab
+    const newTab = window.open(objectURL, '_blank');
+			//	const newTab = window.open(objectURL, '_blank');
+
+			// Add a download button in the new tab
+			if (newTab) {
+				newTab.onload = () => {
+					const downloadButton = newTab.document.createElement('a');
+					downloadButton.href = objectURL;
+					downloadButton.download = FileName; //Set the original file name
+					downloadButton.innerText = "Download PDF";
+					downloadButton.style.cssText = "position: fixed; top: 10px; right: 10px; background: #007bff; color: #fff; padding: 10px; text-decoration: none; border-radius: 5px;";
+					newTab.document.body.appendChild(downloadButton);
+				};
+			}
+
+			//Revoke the object URL after some time (optional cleanup)
+			setTimeout(() => URL.revokeObjectURL(objectURL), 60000); 
+
+				}
+			
+			}
+				catch (error) {
+					console.error("Error:", error);
+				}
+				finally {
+			 $('#loader').hide();
+			}
+		}else{
+			alert('Drawing Not Available');
+		}
+
+	}
+
+
+
+
+
+		$(document).ready(function () {
+		var CutStandard = $("#dllCutStandard").val();
+
+		// Check if selected value is not empty or '0'
+		if (CutStandard && CutStandard !== "0") {
+			var JsonData = { ID: CutStandard };
+			var JSONInsert = JSON.stringify(JsonData);
+
+			$.ajax({
+				type: 'POST',
+				url: '@Url.Action("GetCutSideStandard", "ItemMaster")',
+				data: { JsonData: JSONInsert },
+				datatype: 'json',
+				success: function (data) {
+					var Cutdata = data.objList.cutSpecificationEdit_List;
+					var tbody = $('#bodyCutSides');
+					tbody.empty(); // Clear existing content
+
+					Cutdata.forEach(function (item) {
+						var row = $('<tr>');
+						row.append($('<td>').text(item.cutSides));
+						row.append($('<td>').text(item.cutOnSides));
+						row.append($('<td>').text(item.value));
+						tbody.append(row);
+					});
+				},
+				error: function () {
+					alert('Error occurred while processing your request.');
+				}
+			});
+		}else{
+				var tbody = $('#bodyCutSides');
+					tbody.empty(); // Clear existing content
+		}
+	});
+
+
+</script>

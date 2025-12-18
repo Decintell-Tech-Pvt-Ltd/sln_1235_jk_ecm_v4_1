@@ -1,0 +1,624 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "FileType";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+   
+
+    <div class="modal fade" id="approve">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title">Remark</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- File Info -->
+                <div class="modal-body">
+                    <input type="hidden" id="txtID">
+                    <p>
+                        <b>Request No.:</b> <span id="txtRequest"></span>, &nbsp;&nbsp;
+                        <b>File Type Name:</b> <span id="txtFileName"></span>, &nbsp;&nbsp;
+                        <b>File Type Code:</b> <span id="txtFileTypeCode"></span>
+                    </p>
+
+                    <!-- Image -->
+                    <div>
+                        <img id="displayImage1" class="img-fluid" src="" alt="File Image" />
+                    </div>
+                </div>
+                <label id="modalId" style="display:none"></label>
+                <p style="display:none">ID: <span id="approveItemId"></span></p>
+                <!-- Parameters Table -->
+                <div class="modal-body">
+                    <h4 class="top10">Parameters</h4>
+                    <table width="100%" class="table table-bordered example1" id="tblshowAddedFileTypeParameters">
+                        <thead>
+                            <tr>
+                                <th style="width:5%; text-align: center;">Sq.No.</th>
+                                <th style="width:25%; text-align: left;">Process</th>
+                                <th style="text-align: left;">Parameter Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id="showAddedParameters">
+                            <!-- Dynamic rows go here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Footer Buttons -->
+                <div class="modal-footer">
+                    <div class="float-right">
+                        <button type="button"
+                                class="btn btn-danger btn-xs btnwidth50"
+                                title="Reject the selected item"
+                                onclick="ApproveFileType(document.getElementById('txtID').value, 4); $('#approve').modal('hide');">
+                            Reject
+                        </button>
+                        <button type="button"
+                                class="btn btn-success btn-xs btnwidth60"
+                                title="Approve the selected item"
+                                onclick="ApproveFileType(document.getElementById('txtID').value, 3); $('#approve').modal('hide');">
+                            Approve
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="image">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title">View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Modal Body - File Info -->
+                <div class="modal-body">
+                    <input type="hidden" id="txtID1" />
+                    <b>Request No.:</b> <span id="txtRequest1"></span>, &nbsp;&nbsp;
+                    <b>File Type Name:</b> <span id="txtFileName1"></span>, &nbsp;&nbsp;
+                    <b>File Type Code:</b> <span id="txtFileTypeCode1"></span>
+
+                    <div class="top10">
+                        <img id="displayImage" class="img-fluid" src="" alt="File Type Image">
+                    </div>
+                </div>
+
+                <!-- Modal Body - Parameters Table -->
+                <div class="modal-body">
+                    <h4 class="top10">Parameters</h4>
+                    <table class="table table-bordered example1" style="width:100%;" id="tblshowAddedParametersList">
+                        <thead>
+                            <tr>
+                                <th style="width:5%; text-align:center;">Sq.No.</th>
+                                <th style="width:25%; text-align:left;">Process</th>
+                                <th style="text-align:left;">Parameter Name</th>
+                            </tr>
+                        </thead>
+                        <tbody id="showAddedParametersList">
+                            <!-- Dynamic rows will be injected via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>File Type</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item active">Master</li>
+                        <li class="breadcrumb-item active">File Type</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs"
+                                onclick="window.history.back()"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+                    <div class="btnwidth50 float-right mr-1">
+                        <a href="@Url.Action("AddFileType", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })" class="btn btn-block bg-gradient-primary   btn-xs float-left">
+                            Add
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+
+        <div class="container-fluid">
+            <!-- New Requests -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">New Requests</h3>
+                             <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                                @*  <a href='@Url.Action("AddFiletype", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })' class="btn btn-sm btn-success ml-2" title="Add">
+                                    <i class="fas fa-plus"></i> Add
+                                </a>
+                             *@
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th><div align="center">Request No.</div></th>
+                                            <th><div align="left">File Type Name</div></th>
+                                            <th><div align="center">File Type Code</div></th>
+                                            <th><div align="center">Action</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.FileType_List != null)
+                                        {
+                                            foreach (var item in Model.FileType_List)
+                                            {
+                                                if (item.GridNo == 1)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center"><a href="#" title="Edit" onclick="EditFileType('@item.Id',@item.RequestNo);">@item.RequestNo</a></td>
+                                                        <td>
+                                                            <a href="#" title="View" data-target="#image" onclick="ModelFileType('@item.Id','@item.RequestNo','@item.FileTypeName','@item.FileTypeCode');" data-toggle="modal">
+                                                                @item.FileTypeName
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-center">@item.FileTypeCode</td>
+                                                        <td class="text-center">
+                                                          @*   <a href="#" class="btn btn-sm btn-warning" onclick="EditFileType('@item.Id',@item.RequestNo);" title="Edit">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a> *@
+                                                            <button type="button" class="btn btn-primary btn-xs btnwidth95" onclick="ApproveFileType(@item.Id,2);">
+                                                                Submit for Approval
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Requests for Approval -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-warning collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Requests for Approval</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th><div align="center">Request No.</div></th>
+                                        <th><div align="left">File Type Name</div></th>
+                                        <th><div align="center">File Type Code</div></th>
+                                       @*  <th><div align="center">Action</div></th> *@
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.FileType_List != null)
+                                    {
+                                        foreach (var item in Model.FileType_List)
+                                        {
+                                            if (item.GridNo == 2)
+                                            {
+                                                <tr>
+                                                    <td class="text-center">@item.RequestNo</td>
+                                                    <td>
+                                                        <a href="#" title="View" data-toggle="modal" data-target="#approve" onclick="setApproveItems('@item.Id','@item.RequestNo','@item.FileTypeName','@item.FileTypeCode');">
+                                                            @item.FileTypeName
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-center">@item.FileTypeCode</td>
+                                                    @* <td class="text-center">
+                                                        <a href="#" title="Approve" class="btn btn-sm btn-info" data-toggle="modal" data-target="#approve" onclick="setApproveItems('@item.Id','@item.RequestNo','@item.FileTypeName','@item.FileTypeCode');">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                    </td> *@
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- File Type Master -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-success collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">File Type Master</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th><div align="center">Request No.</div></th>
+                                        <th><div align="left">File Type Name</div></th>
+                                        <th><div align="center">File Type Code</div></th>
+                                      @*   <th><div align="center">View</div></th> *@
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.FileType_List != null)
+                                    {
+                                        foreach (var item in Model.FileType_List)
+                                        {
+                                            if (item.GridNo == 3)
+                                            {
+                                                <tr>
+                                                    <td class="text-center">@item.RequestNo</td>
+                                                    <td>
+                                                        <a href="#" title="View" data-toggle="modal" data-target="#image" onclick="ModelFileType('@item.Id','@item.RequestNo','@item.FileTypeName','@item.FileTypeCode');">
+                                                            @item.FileTypeName
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-center">@item.FileTypeCode</td>
+                                                   @*  <td class="text-center">
+                                                        <a href="#" class="btn btn-sm btn-info" data-toggle="modal" onclick="ModelFileType('@item.Id','@item.RequestNo','@item.FileTypeName','@item.FileTypeCode');">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                    </td> *@
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- InstanceEndEditable -->
+</div>
+
+
+<script>
+
+
+        $(document).ready(function () {
+            // Hide the element with ID "txtID"
+            $("#txtID").hide();
+
+        });
+
+
+    function setApproveItems(itemId, RequestNo, FileTypeName, FileTypeCode) {
+        document.getElementById('approveItemId').textContent = itemId;
+
+        ModelFileSize(itemId, RequestNo, FileTypeName, FileTypeCode);
+        //  OpenDocument(BrandCode, ImageFile, 'displayImage1');
+    }
+
+    function EditFileType(Id, RequestNo) {
+
+        // Constructing the URL using JavaScript
+         var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+    // Construct the full URL
+    var url = '@Url.Action("EditFileType", "Master")' +
+        '?Id=' + encodeURIComponent(Id) +
+        '&ReqId=' + encodeURIComponent(RequestNo) +
+        '&PageID=' + pageID +
+        '&ParentID=' + parentID +
+        '&ModuleID=' + moduleID +
+        '&ModulePageID=' + modulePageID;
+
+    // Redirect
+    window.location.href = url;
+    }
+
+
+
+    function ApproveFileType(Id, StatusId) {
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+        var json = {
+            Id: Id,
+            StatusId: StatusId,
+            CreatedDate: moment.utc(new Date()).format(),
+            CreatedBy: iLoggedInUserID
+        };
+        var JsonData = JSON.stringify(json);
+
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ApproveFileType", "Master")',
+            data: { JsonData: JsonData },
+            datatype: 'json',
+            beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                alert(data.response);
+                location.reload();
+            }
+        });
+    }
+
+
+
+
+    function ModelOperation(ValueStreamCode, Id) {
+        var JsonData = JSON.stringify({
+            valuestreamcode: ValueStreamCode,
+            id: Id
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetOperationList", "Master")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+            success: function (data) {
+
+                var html = '';
+
+
+                for (var i = 0; i < data.operationList.length; i++) {
+                    html += '<tr>';
+                    html += '<td align="center">' + data.operationList[i].seqNo + '</td>';
+                    html += '<td align="center">' + data.operationList[i].opr_operation_name + '</td>';
+                    html += '</tr>';
+                }
+                $('#showAddedValueStreamProcess').html(html);
+                $('#vscode').modal('show');
+            },
+            error: function () {
+                alert('Error occurred while fetching data.');
+            }
+        });
+    }
+
+
+    function ModelFileSize(ID, RequestNo, FileTypeName, FileTypeCode) {
+        $('#txtID').val(ID);
+        $('#txtRequest').text(RequestNo);
+        $('#txtFileName').text(FileTypeName);
+        $('#txtFileTypeCode').text(FileTypeCode);
+
+
+
+        var JsonData = JSON.stringify({
+            ID: ID
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetParametersList", "Master")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                var html = '';
+                $("#tblshowAddedFileTypeParameters").dataTable().fnClearTable();
+                $("#tblshowAddedFileTypeParameters").dataTable().fnDestroy()
+                var dtParameter = $('#tblshowAddedFileTypeParameters').DataTable({
+                    "columnDefs": [
+                        { "className": "dt-center", "targets": "_all" }
+                    ],
+                });
+
+                var rows = [];
+
+                //  var cutside = data.objList.cutSidesarr_list;
+                var parametersLists = data.parametersLists;
+                for (var i = 0; i < parametersLists.length; i++) {
+                    // html += '<tr>';
+                    // html += '<td align="center">' + parametersLists[i].parameterCategorySequence + '</td>';
+                    // html += '<td align="center">' + parametersLists[i].parameterCategory + '</td>';
+                    // html += '<td align="center">' + parametersLists[i].parameterName + '</td>';
+                    // html += '</tr>';
+
+                    rows =
+                        [
+                            '<div align="center">' + data.parametersLists[i].parameterCategorySequence + '</div>',
+                            '<div align="left">' + data.parametersLists[i].parameterCategory + '</div>',
+                            '<div align="left">' + data.parametersLists[i].parameterName + '</div>',
+                        ];
+                    var backgroundImage = "url('" + parametersLists[i].fileTypeProfileImage + "')";
+
+                    // $('#imageDiv').css('background', backgroundImage + ' no-repeat center center');
+                    // $('#imageDiv').css('background-size', 'cover');
+                    // $('#imageDiv').css('margin-top', '10px');
+
+                    // Preload image
+                    $('<img src="' + parametersLists[i].fileTypeProfileImage + '" style="display: none;" />').appendTo('#imageDiv');
+                    dtParameter.row.add(rows).draw(false);                    
+                    var fileTypeProfileImage = data.parametersLists[i].fileTypeProfileImage;
+                }
+                   OpenDocument(fileTypeProfileImage,'displayImage1');
+                //$('#showAddedParameters').html(html);
+                $('#approve').modal('show'); // Show the modal
+            },
+            error: function () {
+                alert('Error occurred while fetching data.');
+            }
+        });
+    }
+
+
+
+    function ModelFileType(ID, RequestNo, FileTypeName, FileTypeCode) {
+        // $('#txtID').val(ID);
+        // $('#txtRequest').text(RequestNo);
+        // $('#txtFileName').text(FileTypeName);
+        // $('#txtFileTypeCode').text(FileTypeCode);
+
+        document.getElementById('txtRequest1').textContent = RequestNo;
+        document.getElementById('txtFileName1').textContent = FileTypeName;
+        document.getElementById('txtFileTypeCode1').textContent = FileTypeCode;
+
+        var JsonData = JSON.stringify({
+            ID: ID
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetParametersList", "Master")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                var html = '';
+                $("#tblshowAddedParametersList").dataTable().fnClearTable();
+                $("#tblshowAddedParametersList").dataTable().fnDestroy()
+                var dtParameter = $('#tblshowAddedParametersList').DataTable({
+                    "columnDefs": [
+                        { "className": "dt-center", "targets": "_all" }
+                    ],
+                });
+
+                var rows = [];
+                for (var i = 0; i < data.parametersLists.length; i++) {
+
+                    // html += '<tr>';
+                    // html += '<td align="center">' + data.parametersLists[i].parameterCategorySequence + '</td>';
+                    // html += '<td align="center">' + data.parametersLists[i].parameterCategory + '</td>';
+                    // html += '<td align="center">' + data.parametersLists[i].parameterName + '</td>';
+
+                    // html += '</tr>';
+
+                    // Bind background image
+                    // var backgroundImage = "url('" + data.parametersLists[i].fileTypeProfileImage + "')";
+                    // $('#imageDiv').css('background', backgroundImage + ' no-repeat center center');
+                    // $('#imageDiv').css('background-size', 'cover');
+                    // $('#imageDiv').css('margin-top', '10px');
+
+
+                    rows =
+                        [
+                            '<div align="center">' + data.parametersLists[i].parameterCategorySequence + '</div>',
+                            '<div align="left">' + data.parametersLists[i].parameterCategory + '</div>',
+                            '<div align="left">' + data.parametersLists[i].parameterName + '</div>',
+                        ];
+
+                    dtParameter.row.add(rows).draw(false);
+                    var fileTypeProfileImage = data.parametersLists[i].fileTypeProfileImage;
+
+                }
+
+                // $('#showAddedParametersList').html(html);
+
+                OpenDocument(fileTypeProfileImage,'displayImage');
+                $('#image').modal('show'); // Show the modal
+            },
+            error: function () {
+                alert('Error occurred while fetching data.');
+            }
+        });
+    }
+
+    async function OpenDocument(FileName, ImageId) {
+       var JwToken = '@ViewBag.JWTToken';
+       var blobStorageUrl = '@ViewBag.ApiUrl';
+       let blobPathPrefix = '@ViewBag.BaseBlobPath';
+        var path = 'others\\filetypes' + '\\';
+        
+        const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
+
+            const JSONData = {
+                blobPath: blobpath,
+                asSas: false,
+                downloadFileName: FileName
+            };
+
+            try {
+                $('#loader').show();
+
+                const response = await $.ajax({
+                    url: blobStorageUrl + 'Files/get',
+                    headers: { Authorization: 'Bearer ' + JwToken },
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(JSONData),
+                    xhrFields: { responseType: 'blob' }
+                });
+
+                if (response && response.size > 0) {
+                    const objectURL = URL.createObjectURL(response);
+                    // Display the image in the img tag
+                    const imgElement = document.getElementById(ImageId);
+                imgElement.src = objectURL;
+                }
+            }
+            catch (error) {
+                console.error("Error:", error);
+                const imgElement = document.getElementById(ImageId);
+                imgElement.src = '';
+
+            }
+            finally {
+             $('#loader').hide();
+            }
+    }
+</script>

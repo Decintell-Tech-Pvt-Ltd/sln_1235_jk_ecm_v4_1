@@ -1,0 +1,314 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "ValueStream";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+    <div class="modal fade" id="Operations">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Operations</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+
+                        <div class="col-lg-12">
+
+                            <div class="table-responsive">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="30%"><div align="center">Sq No.</div></th>
+                                            <th width="70%"><div align="left">Operation Name</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr>
+                                            <td><div align="center">10</div></td>
+                                            <td>Cropping</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div align="center">20</div></td>
+                                            <td>Tang swagging</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div align="center">50</div></td>
+                                            <td>Annealing</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div align="center">60</div></td>
+                                            <td>Tang Punching</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div align="center">70</div></td>
+                                            <td>Point Punching</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div align="center">80</div></td>
+                                            <td>Tang Pressing</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div align="center">110</div></td>
+                                            <td>Tang Cutting</td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+                    <div style="clear:both;"></div>
+
+
+
+
+
+
+                    <div style="clear:both;"></div>
+
+
+
+                </div>
+                <div class="modal-footer justify-content-between">
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>Value Stream</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="../login/marketing-page.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="index.html">ECM</a></li>
+                        <li class="breadcrumb-item"><a href="#">Masters</a></li>
+                        <li class="breadcrumb-item active">
+                            Value Stream
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs"
+                                onclick="window.history.back()"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+                    <div class="btnwidth50 float-right mr-1">
+                      @*   <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                                onclick="location.href='Add-Value-Stream.html'" title="Add new record">
+                            Add
+                        </button> *@
+                        <a href="@Url.Action("AddValueStream", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })" class="btn btn-block bg-gradient-primary   btn-xs float-left">
+                            Add
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+
+        <div class="container-fluid">
+
+
+
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">List</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1" style="width:100%;">
+                                    <thead>
+
+                                        <tr>
+                                            <th width="8%"><div align="center">Sr No. </div></th>
+                                            <th width="25px"><div align="left">Code</div></th>
+                                            <th width="45%"><div align="left">Name</div></th>
+                                            <th width="15%"><div align="center">Action</div></th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td height="28"><div align="center">1</div></td>
+                                            <td>
+                                                <a href="@Url.Action("AddValueStream", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })">
+                                                    TSE
+                                                </a>
+                                            </td>
+                                            <td><div align="left"> <a href="#" data-toggle="modal" data-target="#Operations">Testvalustreamdata1</a></div></td>
+                                            <td>
+                                                <div align="center">
+                                                    <button type="button" class="btn btn-primary btn-xs btnwidth95" onclick="customAlert()" .href="" title="Go to the next page">
+                                                        Submit for Approval
+                                                    </button>
+                                                </div>
+
+                                                <script>
+                                                    function customAlert() {
+                                                      alert("Submitted for Approval!");
+                                                      window.location.href = "value-stream.html"; // Replace with your desired URL or page
+                                                    }
+                                                </script>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-warning collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Approve</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table class="table table-bordered example1" style="width:100%;">
+                                <thead>
+
+                                    <tr>
+                                        <th width="8%"><div align="center">Sr No. </div></th>
+                                        <th width="25px"><div align="left">Code</div></th>
+                                        <th width="60%"><div align="left">Name</div></th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td height="28"><div align="center">1</div></td>
+                                        <td>
+                                            <a href="@Url.Action("ViewValueStream", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })">
+                                                TSE
+                                            </a>
+                                        </td>
+                                        <td><div align="left"> <a href="#" data-toggle="modal" data-target="#Operations">Testvalustreamdata1</a></div></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-success collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Master</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1" style="width:100%;">
+                                    <thead>
+
+                                        <tr>
+                                            <th width="8%"><div align="center">Sr No. </div></th>
+                                            <th width="25px"><div align="left">Code</div></th>
+                                            <th width="60%"><div align="left">Name</div></th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td height="28"><div align="center">1</div></td>
+                                            <td><div align="left">TSE</div></td>
+                                            <td><div align="left"> <a href="#" data-toggle="modal" data-target="#Operations">Testvalustreamdata1</a></div></td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- InstanceEndEditable -->
+</div>
+
