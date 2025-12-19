@@ -1,0 +1,1018 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+	ViewData["Title"] = "DrillSubType";
+	Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+    <div class="modal fade" id="nonstandard">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View Sub Type</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="txtID" value="68">
+                    <b>Request No.: </b><span>10</span>,&nbsp;&nbsp;
+                    <b>Product Line: </b><span>Drills</span>,&nbsp;&nbsp;
+                    <b>Size: </b><span>0100 - 1.0 mm (dia)</span>,&nbsp;&nbsp;
+
+                    <b>Type: </b><span>PARALLEL-HSS CENTRE DRILL (CD)</span>,&nbsp;&nbsp;<br>
+                    <b>Sub Type: </b><span>Regular (R)</span>,&nbsp;&nbsp;
+                    <b> Standard: </b><span>Metrics</span>,&nbsp;&nbsp;
+                    <b>Code: </b><span>D0100CDRM</span>
+                    <div style="clear: both;"></div>
+                    <br>
+                    <table width="100%" class="table table-bordered example1 mt-3">
+                        <thead>
+                            <tr>
+                                <th width="9%" style="text-align: center;">Sq.No.</th>
+                                <th width="29%" style="text-align: Left;">Category</th>
+                                <th width="25%" style="text-align: Left;">Name</th>
+                                <th width="14%" style="text-align: center;">Value</th>
+                                <th width="15%" style="text-align: center;">Tolerance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="text-align: center;">1</td>
+                                <td style="text-align: Left;">RAW MATERIAL</td>
+                                <td style="text-align: Left;">&nbsp;</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">1</td>
+                                <td style="text-align: Left;">RAW MATERIAL</td>
+                                <td style="text-align: Left;">&nbsp;</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">2</td>
+                                <td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+                                <td style="text-align: Left;">&nbsp;</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">2</td>
+                                <td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+                                <td style="text-align: Left;">&nbsp;</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">2</td>
+                                <td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+                                <td style="text-align: Left;">&nbsp;</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">3</td>
+                                <td style="text-align: Left;">GRINDING</td>
+                                <td style="text-align: Left;">&nbsp;</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">3</td>
+                                <td style="text-align: Left;">GRINDING</td>
+                                <td style="text-align: Left;">&nbsp;</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">4</td>
+                                <td style="text-align: Left;">CUTTING</td>
+                                <td style="text-align: Left;">&nbsp;</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">4</td>
+                                <td style="text-align: Left;">CUTTING</td>
+                                <td style="text-align: Left;">&nbsp;</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">5</td>
+                                <td style="text-align: Left;">FINISH</td>
+                                <td style="text-align: Left;">&nbsp;</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">6</td>
+                                <td style="text-align: Left;">HARDNESS</td>
+                                <td style="text-align: Left;">&nbsp;</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">7</td>
+                                <td style="text-align: Left;">REMARKS</td>
+                                <td style="text-align: Left;">&nbsp;</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="nonstandard1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View File Sub Type</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="txtID" value="68">
+                    <b>Request No.: </b><span>10</span> ,&nbsp;&nbsp;
+                    <b>File Size (inch): </b><span>4</span>,&nbsp;&nbsp;
+                    <b>File Type: </b><span>FL</span>,&nbsp;&nbsp;
+                    <b>Sub Type: </b><span>F</span>,&nbsp;&nbsp;
+                    <b>Existing Sub Type: </b><span>Regular</span>
+
+                </div>
+                <div class="modal-body">
+                    <table width="100%" class="table table-bordered example1">
+                        <thead>
+                            <tr>
+                                <th style="width:2%; text-align: center;">Sq.No.</th>
+                                <th style="width:30%; text-align: Left;">Category</th>
+                                <th style="width:35%;  text-align: Left;">Name</th>
+                                <th style="width:15%;  text-align: center;">Value</th>
+                                <th style="width:8%;  text-align: center;">Tolerance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="text-align: center;">1</td>
+                                <td style="text-align: Left;">RAW MATERIAL</td>
+                                <td style="text-align: Left;">Width</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">1</td>
+                                <td style="text-align: Left;">RAW MATERIAL</td>
+                                <td style="text-align: Left;">Thickness</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">2</td>
+                                <td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+                                <td style="text-align: Left;">Tang Thickness at Shoulder</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">2</td>
+                                <td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+                                <td style="text-align: Left;">Tang Width at Shoulder</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">2</td>
+                                <td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+                                <td style="text-align: Left;">#NOTE# - Grinding Blank Shall be free from decarburization</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">3</td>
+                                <td style="text-align: Left;">GRINDING</td>
+                                <td style="text-align: Left;">Taper Length</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">3</td>
+                                <td style="text-align: Left;">GRINDING</td>
+                                <td style="text-align: Left;">Body Thickness</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">4</td>
+                                <td style="text-align: Left;">CUTTING</td>
+                                <td style="text-align: Left;">Upcut</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">4</td>
+                                <td style="text-align: Left;">CUTTING</td>
+                                <td style="text-align: Left;">Upcut Inclination</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">5</td>
+                                <td style="text-align: Left;">FINISH</td>
+                                <td style="text-align: Left;">Finished Body Length</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">6</td>
+                                <td style="text-align: Left;">HARDNESS</td>
+                                <td style="text-align: Left;">Hardness (HRC)</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">7</td>
+                                <td style="text-align: Left;">REMARKS</td>
+                                <td style="text-align: Left;">REMARKS</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="col-lg-2form-group">
+                        <div class="">
+                            <div class="float-left text-right" style="margin-top: 36px;">
+                                <button type="button"
+                                        class="btn btn-danger btn-xs btnwidth50"
+                                        onclick="location.href=''"
+                                        title="Reject the selected item">
+                                    Reject
+                                </button>
+
+                                <button type="button"
+                                        class="btn btn-success btn-xs btnwidth60"
+                                        onclick="location.href=''"
+                                        title="Approve the selected item">
+                                    Approve
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="nonstandard2">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View File Sub Type</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="txtID" value="68">
+                    <b>Request No.: </b><span>10</span> ,&nbsp;&nbsp;
+                    <b>File Size (inch): </b><span>4</span>,&nbsp;&nbsp;
+                    <b>File Type: </b><span>FL</span>,&nbsp;&nbsp;
+                    <b>Sub Type: </b><span>F</span>,&nbsp;&nbsp;
+                    <b>Existing Sub Type: </b><span>Regular</span>
+
+                </div>
+                <div class="modal-body">
+                    <table width="100%" class="table table-bordered example1">
+                        <thead>
+                            <tr>
+                                <th style="width:2%; text-align: center;">Sq.No.</th>
+                                <th style="width:30%; text-align: Left;">Category</th>
+                                <th style="width:35%;  text-align: Left;">Name</th>
+                                <th style="width:15%;  text-align: center;">Value</th>
+                                <th style="width:8%;  text-align: center;">Tolerance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="text-align: center;">1</td>
+                                <td style="text-align: Left;">RAW MATERIAL</td>
+                                <td style="text-align: Left;">Width</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">1</td>
+                                <td style="text-align: Left;">RAW MATERIAL</td>
+                                <td style="text-align: Left;">Thickness</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">2</td>
+                                <td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+                                <td style="text-align: Left;">Tang Thickness at Shoulder</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">2</td>
+                                <td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+                                <td style="text-align: Left;">Tang Width at Shoulder</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">2</td>
+                                <td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+                                <td style="text-align: Left;">#NOTE# - Grinding Blank Shall be free from decarburization</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">3</td>
+                                <td style="text-align: Left;">GRINDING</td>
+                                <td style="text-align: Left;">Taper Length</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">3</td>
+                                <td style="text-align: Left;">GRINDING</td>
+                                <td style="text-align: Left;">Body Thickness</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">4</td>
+                                <td style="text-align: Left;">CUTTING</td>
+                                <td style="text-align: Left;">Upcut</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">4</td>
+                                <td style="text-align: Left;">CUTTING</td>
+                                <td style="text-align: Left;">Upcut Inclination</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;">± 2 mm</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">5</td>
+                                <td style="text-align: Left;">FINISH</td>
+                                <td style="text-align: Left;">Finished Body Length</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">6</td>
+                                <td style="text-align: Left;">HARDNESS</td>
+                                <td style="text-align: Left;">Hardness (HRC)</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">7</td>
+                                <td style="text-align: Left;">REMARKS</td>
+                                <td style="text-align: Left;">REMARKS</td>
+                                <td style="text-align: center;">10</td>
+                                <td style="text-align: center;"></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>Sub Type</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="../login/marketing-page.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="index.html">ECM</a></li>
+                        <li class="breadcrumb-item">Masters</li>
+                        <li class="breadcrumb-item">Sub Type</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs"
+                                onclick="window.history.back()"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+                    <div class="btnwidth50 float-right mr-1">
+                        <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                                onclick="location.href='Add-Subtype.html'" title="Add new record">
+                            Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">New Requests</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                    <thead>
+
+                                        <tr>
+
+                                            <th width="10%"><div align="center">Request No.	</div></th>
+                                            <th width="14%"><div align="Left">Product Line</div></th>
+                                            <th width="12%"><div align="center">Size</div></th>
+                                            <th width="19%"><div align="Left"> Type</div></th>
+                                            <th width="10%"><div align="Left">Sub Type</div></th>
+                                            <th width="13%"><div align="left">Standard</div></th>
+                                            <th width="12%"><div align="center">Code</div></th>
+                                            <th width="15%"><div align="center">Action</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><div align="center"><a href="Edit-SubType.html" title="Edit">10</a></div></td>
+                                            <td><div align="Left">DRILLS</div></td>
+                                            <td><div align="center">0100 - 1.0 mm (Dia)</div></td>
+                                            <td><div align="Left">PARALLEL-HSS CENTRE DRILL (CD)</div></td>
+                                            <td><div align="Left"><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></div></td>
+                                            <td><div align="left">Metrics</div></td>
+                                            <td><div align="center">D0100CDRM</div></td>
+                                            <td>
+                                                <div align="center">
+                                                    <button type="button"
+                                                            class="btn btn-primary btn-xs btnwidth95"
+                                                            onclick="location.href=''"
+                                                            title="Go to the next page">
+                                                        Submit for Approval
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div align="center">
+                                                    <div align="center"><a href="Edit-SubType.html" title="Edit">11</a></div>
+                                                </div>
+                                            </td>
+                                            <td><div align="left">DRILLS</div></td>
+                                            <td><div align="center">0050-0.5 mm (Dia)</div></td>
+                                            <td>PARALLEL-HSS GROUND FLUTE JOBBER SERIES (PG)</td>
+                                            <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                            <td><div align="left">Metrics</div></td>
+                                            <td><div align="center">D0050PGRM</div></td>
+                                            <td>
+                                                <div align="center">
+                                                    <button type="button"
+                                                            class="btn btn-primary btn-xs btnwidth95"
+                                                            onclick="location.href=''"
+                                                            title="Go to the next page">
+                                                        Submit for Approval
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div align="center">
+                                                    <div align="center"><a href="Edit-SubType.html" title="Edit">12</a></div>
+                                                </div>
+                                            </td>
+                                            <td><div align="left">DRILLS</div></td>
+                                            <td><div align="center">0076-0.75 mm (Dia)</div></td>
+                                            <td>TOOL BIT-ROUND (TR)</td>
+                                            <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                            <td><div align="left">Metrics</div></td>
+                                            <td><div align="center">D0076TRRM</div></td>
+                                            <td>
+                                                <div align="center">
+                                                    <button type="button"
+                                                            class="btn btn-primary btn-xs btnwidth95"
+                                                            onclick="location.href=''"
+                                                            title="Go to the next page">
+                                                        Submit for Approval
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div align="center">
+                                                    <div align="center"><a href="Edit-SubType.html" title="Edit">13</a></div>
+                                                </div>
+                                            </td>
+                                            <td>TAPS</td>
+                                            <td><div align="center">0315-3.15 mm (Dia)</div></td>
+                                            <td>TAPS-HAND TAPS (TH)</td>
+                                            <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                            <td><div align="left">Metrics</div></td>
+                                            <td><div align="center">T0315THRM</div></td>
+                                            <td>
+                                                <div align="center">
+                                                    <button type="button"
+                                                            class="btn btn-primary btn-xs btnwidth95"
+                                                            onclick="location.href=''"
+                                                            title="Go to the next page">
+                                                        Submit for Approval
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div align="center">
+                                                    <div align="center"><a href="Edit-SubType.html" title="Edit">14</a></div>
+                                                </div>
+                                            </td>
+                                            <td>DIES</td>
+                                            <td><div align="center">0100-1.0 mm (Dia)</div></td>
+                                            <td>DIES-SCREWING (SD)</td>
+                                            <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                            <td><div align="left">Metrics</div></td>
+                                            <td><div align="center">D0100SDRM</div></td>
+                                            <td>
+                                                <div align="center">
+                                                    <button type="button"
+                                                            class="btn btn-primary btn-xs btnwidth95"
+                                                            onclick="location.href=''"
+                                                            title="Go to the next page">
+                                                        Submit for Approval
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div align="center">
+                                                    <div align="center"><a href="Edit-SubType.html" title="Edit">15</a></div>
+                                                </div>
+                                            </td>
+                                            <td><div align="left">DRILLS</div></td>
+                                            <td><div align="center">0300-3.0 mm (Dia)</div></td>
+                                            <td>CARBIDE BURR-CONE SHAPE (CC)</td>
+                                            <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                            <td><div align="left">Metrics</div></td>
+                                            <td><div align="center">D0300CCRM</div></td>
+                                            <td>
+                                                <div align="center">
+                                                    <button type="button"
+                                                            class="btn btn-primary btn-xs btnwidth95"
+                                                            onclick="location.href=''"
+                                                            title="Go to the next page">
+                                                        Submit for Approval
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-warning collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Requests for Approval</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                <thead>
+
+                                    <tr>
+
+                                        <th width="10%"><div align="center">Request No.	</div></th>
+                                        <th width="14%"><div align="Left">Product Line</div></th>
+                                        <th width="12%"><div align="center">Size</div></th>
+                                        <th width="19%"><div align="Left"> Type</div></th>
+                                        <th width="10%"><div align="Left">Sub Type</div></th>
+                                        <th width="13%"><div align="left">Standard</div></th>
+                                        <th width="12%"><div align="center">Code</div></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><div align="center">10</div></td>
+                                        <td><div align="Left">DRILLS</div></td>
+                                        <td><div align="center">0100 - 1.0 mm (Dia)</div></td>
+                                        <td><div align="Left">PARALLEL-HSS CENTRE DRILL (CD)</div></td>
+                                        <td><div align="Left"><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></div></td>
+                                        <td><div align="left">Metrics</div></td>
+                                        <td><div align="center">D0100CDRM</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div align="center">
+                                                <div align="center">11</div>
+                                            </div>
+                                        </td>
+                                        <td><div align="left">DRILLS</div></td>
+                                        <td><div align="center">0050-0.5 mm (Dia)</div></td>
+                                        <td>PARALLEL-HSS GROUND FLUTE JOBBER SERIES (PG)</td>
+                                        <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                        <td><div align="left">Metrics</div></td>
+                                        <td><div align="center">D0050PGRM</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div align="center">
+                                                <div align="center">12</div>
+                                            </div>
+                                        </td>
+                                        <td><div align="left">DRILLS</div></td>
+                                        <td><div align="center">0076-0.75 mm (Dia)</div></td>
+                                        <td>TOOL BIT-ROUND (TR)</td>
+                                        <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                        <td><div align="left">Metrics</div></td>
+                                        <td><div align="center">D0076TRRM</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div align="center">
+                                                <div align="center">13</div>
+                                            </div>
+                                        </td>
+                                        <td>TAPS</td>
+                                        <td><div align="center">0315-3.15 mm (Dia)</div></td>
+                                        <td>TAPS-HAND TAPS (TH)</td>
+                                        <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                        <td><div align="left">Metrics</div></td>
+                                        <td><div align="center">T0315THRM</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div align="center">
+                                                <div align="center">14</div>
+                                            </div>
+                                        </td>
+                                        <td>DIES</td>
+                                        <td><div align="center">0100-1.0 mm (Dia)</div></td>
+                                        <td>DIES-SCREWING (SD)</td>
+                                        <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                        <td><div align="left">Metrics</div></td>
+                                        <td><div align="center">D0100SDRM</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div align="center">
+                                                <div align="center">15</div>
+                                            </div>
+                                        </td>
+                                        <td><div align="left">DRILLS</div></td>
+                                        <td><div align="center">0300-3.0 mm (Dia)</div></td>
+                                        <td>CARBIDE BURR-CONE SHAPE (CC)</td>
+                                        <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                        <td><div align="left">Metrics</div></td>
+                                        <td><div align="center">D0300CCRM</div></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-primary collapsed-card">
+
+                        <div class="card-header">
+                            <h3 class="card-title">Requests for Approval (ECN)</h3>
+
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                    <thead>
+
+                                        <tr>
+
+                                            <th width="10%"><div align="center">Request No.	</div></th>
+                                            <th width="14%"><div align="Left">Product Line</div></th>
+                                            <th width="12%"><div align="center">Size</div></th>
+                                            <th width="19%"><div align="Left"> Type</div></th>
+                                            <th width="10%"><div align="Left">Sub Type</div></th>
+                                            <th width="13%"><div align="left">Standard</div></th>
+                                            <th width="12%"><div align="center">Code</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><div align="center">10</div></td>
+                                            <td><div align="Left">DRILLS</div></td>
+                                            <td><div align="center">0100 - 1.0 mm (Dia)</div></td>
+                                            <td><div align="Left">PARALLEL-HSS CENTRE DRILL (CD)</div></td>
+                                            <td><div align="Left"><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></div></td>
+                                            <td><div align="left">Metrics</div></td>
+                                            <td><div align="center">D0100CDRM</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div align="center">
+                                                    <div align="center">11</div>
+                                                </div>
+                                            </td>
+                                            <td><div align="left">DRILLS</div></td>
+                                            <td><div align="center">0050-0.5 mm (Dia)</div></td>
+                                            <td>PARALLEL-HSS GROUND FLUTE JOBBER SERIES (PG)</td>
+                                            <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                            <td><div align="left">Metrics</div></td>
+                                            <td><div align="center">D0050PGRM</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div align="center">
+                                                    <div align="center">12</div>
+                                                </div>
+                                            </td>
+                                            <td><div align="left">DRILLS</div></td>
+                                            <td><div align="center">0076-0.75 mm (Dia)</div></td>
+                                            <td>TOOL BIT-ROUND (TR)</td>
+                                            <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                            <td><div align="left">Metrics</div></td>
+                                            <td><div align="center">D0076TRRM</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div align="center">
+                                                    <div align="center">13</div>
+                                                </div>
+                                            </td>
+                                            <td>TAPS</td>
+                                            <td><div align="center">0315-3.15 mm (Dia)</div></td>
+                                            <td>TAPS-HAND TAPS (TH)</td>
+                                            <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                            <td><div align="left">Metrics</div></td>
+                                            <td><div align="center">T0315THRM</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div align="center">
+                                                    <div align="center">14</div>
+                                                </div>
+                                            </td>
+                                            <td>DIES</td>
+                                            <td><div align="center">0100-1.0 mm (Dia)</div></td>
+                                            <td>DIES-SCREWING (SD)</td>
+                                            <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                            <td><div align="left">Metrics</div></td>
+                                            <td><div align="center">D0100SDRM</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div align="center">
+                                                    <div align="center">15</div>
+                                                </div>
+                                            </td>
+                                            <td><div align="left">DRILLS</div></td>
+                                            <td><div align="center">0300-3.0 mm (Dia)</div></td>
+                                            <td>CARBIDE BURR-CONE SHAPE (CC)</td>
+                                            <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                            <td><div align="left">Metrics</div></td>
+                                            <td><div align="center">D0300CCRM</div></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-success collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Sub Type Master</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                <thead>
+
+                                    <tr>
+
+                                        <th width="10%"><div align="center">Request No.	</div></th>
+                                        <th width="14%"><div align="Left">Product Line</div></th>
+                                        <th width="12%"><div align="center">Size</div></th>
+                                        <th width="19%"><div align="Left"> Type</div></th>
+                                        <th width="10%"><div align="Left">Sub Type</div></th>
+                                        <th width="13%"><div align="left">Standard</div></th>
+                                        <th width="12%"><div align="center">Code</div></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><div align="center">10</div></td>
+                                        <td><div align="Left">DRILLS</div></td>
+                                        <td><div align="center">0100 - 1.0 mm (Dia)</div></td>
+                                        <td><div align="Left">PARALLEL-HSS CENTRE DRILL (CD)</div></td>
+                                        <td><div align="Left"><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></div></td>
+                                        <td><div align="left">Metrics</div></td>
+                                        <td><div align="center">D0100CDRM</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div align="center">
+                                                <div align="center">11</div>
+                                            </div>
+                                        </td>
+                                        <td><div align="left">DRILLS</div></td>
+                                        <td><div align="center">0050-0.5 mm (Dia)</div></td>
+                                        <td>PARALLEL-HSS GROUND FLUTE JOBBER SERIES (PG)</td>
+                                        <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                        <td><div align="left">Metrics</div></td>
+                                        <td><div align="center">D0050PGRM</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div align="center">
+                                                <div align="center">12</div>
+                                            </div>
+                                        </td>
+                                        <td><div align="left">DRILLS</div></td>
+                                        <td><div align="center">0076-0.75 mm (Dia)</div></td>
+                                        <td>TOOL BIT-ROUND (TR)</td>
+                                        <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                        <td><div align="left">Metrics</div></td>
+                                        <td><div align="center">D0076TRRM</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div align="center">
+                                                <div align="center">13</div>
+                                            </div>
+                                        </td>
+                                        <td>TAPS</td>
+                                        <td><div align="center">0315-3.15 mm (Dia)</div></td>
+                                        <td>TAPS-HAND TAPS (TH)</td>
+                                        <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                        <td><div align="left">Metrics</div></td>
+                                        <td><div align="center">T0315MTHR</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div align="center">
+                                                <div align="center">14</div>
+                                            </div>
+                                        </td>
+                                        <td>DIES</td>
+                                        <td><div align="center">0100-1.0 mm (Dia)</div></td>
+                                        <td>DIES-SCREWING (SD)</td>
+                                        <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                        <td><div align="left">Metrics</div></td>
+                                        <td><div align="center">D0100SDRM</div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div align="center">
+                                                <div align="center">15</div>
+                                            </div>
+                                        </td>
+                                        <td><div align="left">DRILLS</div></td>
+                                        <td><div align="center">0300-3.0 mm (Dia)</div></td>
+                                        <td>CARBIDE BURR-CONE SHAPE (CC)</td>
+                                        <td><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Regular (R)</a></td>
+                                        <td><div align="left">Metrics</div></td>
+                                        <td><div align="center">D0300CCRM</div></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+
+
+    </section>
+
+    <!-- InstanceEndEditable -->
+</div>

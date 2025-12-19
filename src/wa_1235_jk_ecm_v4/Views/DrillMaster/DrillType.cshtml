@@ -1,0 +1,765 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+	ViewData["Title"] = "DrillType";
+	Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+	<!-- InstanceBeginEditable name="EditRegion1" -->
+	<div class="modal fade" id="nonstandard">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">View</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+					<input type="hidden" id="txtID" value="68">
+					<b>Request No.:</b><span>10</span>,&nbsp;&nbsp;
+					<b>Type Name:</b><span> PARALLEL-HSS CENTRE DRILL</span>,&nbsp;&nbsp;
+					<b>Type Code:</b><span> CD</span>
+
+					<div>
+						<br>
+						<img id="displayImage" class="img-fluid" src="https://decintellai.com/ui/all-Modules/UI_Repository/dist/img/drill.jpg">
+
+					</div>
+
+					<div>
+						<h4>Parameters</h4>
+						<table width="100%" class="table table-bordered example1">
+							<thead>
+								<tr>
+									<th style="width:15%; text-align: center;">Sq. No.</th>
+									<th style="width:45%; text-align: Left;">Process</th>
+									<th style="width:40%;  text-align: Left;">Parameter Name</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td style="text-align: center;">1</td>
+									<td style="text-align: Left;">RAW MATERIAL</td>
+									<td style="text-align: Left;">&nbsp;</td>
+								</tr>
+								<tr>
+									<td style="text-align: center;">1</td>
+									<td style="text-align: Left;">RAW MATERIAL</td>
+									<td style="text-align: Left;">&nbsp;</td>
+								</tr>
+								<tr>
+									<td style="text-align: center;">2</td>
+									<td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+									<td style="text-align: Left;">&nbsp;</td>
+								</tr>
+								<tr>
+									<td style="text-align: center;">2</td>
+									<td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+									<td style="text-align: Left;">&nbsp;</td>
+								</tr>
+								<tr>
+									<td style="text-align: center;">2</td>
+									<td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+									<td style="text-align: Left;">&nbsp;</td>
+								</tr>
+								<tr>
+									<td style="text-align: center;">3</td>
+									<td style="text-align: Left;">GRINDING</td>
+									<td style="text-align: Left;">&nbsp;</td>
+								</tr>
+								<tr>
+									<td style="text-align: center;">3</td>
+									<td style="text-align: Left;">GRINDING</td>
+									<td style="text-align: Left;">&nbsp;</td>
+								</tr>
+								<tr>
+									<td style="text-align: center;">4</td>
+									<td style="text-align: Left;">CUTTING</td>
+									<td style="text-align: Left;">&nbsp;</td>
+								</tr>
+								<tr>
+									<td style="text-align: center;">4</td>
+									<td style="text-align: Left;">CUTTING</td>
+									<td style="text-align: Left;">&nbsp;</td>
+								</tr>
+								<tr>
+									<td style="text-align: center;">5</td>
+									<td style="text-align: Left;">FINISH</td>
+									<td style="text-align: Left;">&nbsp;</td>
+								</tr>
+								<tr>
+									<td style="text-align: center;">6</td>
+									<td style="text-align: Left;">HARDNESS</td>
+									<td style="text-align: Left;">&nbsp;</td>
+								</tr>
+								<tr>
+									<td style="text-align: center;">7</td>
+									<td style="text-align: Left;">REMARKS</td>
+									<td style="text-align: Left;">&nbsp;</td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+			</div>
+
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="nonstandard1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">View</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+					<input type="hidden" id="txtID" value="68">
+					<b>Request No.:</b><span>10</span> ,&nbsp;&nbsp;
+					<b>File Size (inch):</b><span>4</span>,&nbsp;&nbsp;
+					<b>File Size Code:</b><span>04</span>
+
+					<div>
+						<img id="displayImage" class="img-fluid" src="https://decintellai.com/ui/all-Modules/UI_Repository/dist/img/FL.jpg">
+
+					</div>
+				</div>
+				<div class="modal-body">
+					<h4 class="top10">Parameters</h4>
+					<table width="100%" class="table table-bordered example1">
+						<thead>
+							<tr>
+								<th style="width:2%; text-align: center;">Sq.No.</th>
+								<th style="width:15%; text-align: Left;">Process</th>
+								<th style="width:35%;  text-align: Left;">Parameter Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td style="text-align: center;">1</td>
+								<td style="text-align: Left;">RAW MATERIAL</td>
+								<td style="text-align: Left;">Width</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">1</td>
+								<td style="text-align: Left;">RAW MATERIAL</td>
+								<td style="text-align: Left;">Thickness</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">2</td>
+								<td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+								<td style="text-align: Left;">Tang Thickness at Shoulder</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">2</td>
+								<td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+								<td style="text-align: Left;">Tang Width at Shoulder</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">2</td>
+								<td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+								<td style="text-align: Left;">#NOTE# - Grinding Blank Shall be free from decarburization</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">3</td>
+								<td style="text-align: Left;">GRINDING</td>
+								<td style="text-align: Left;">Taper Length</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">3</td>
+								<td style="text-align: Left;">GRINDING</td>
+								<td style="text-align: Left;">Body Thickness</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">4</td>
+								<td style="text-align: Left;">CUTTING</td>
+								<td style="text-align: Left;">Upcut</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">4</td>
+								<td style="text-align: Left;">CUTTING</td>
+								<td style="text-align: Left;">Upcut Inclination</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">5</td>
+								<td style="text-align: Left;">FINISH</td>
+								<td style="text-align: Left;">Finished Body Length</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">6</td>
+								<td style="text-align: Left;">HARDNESS</td>
+								<td style="text-align: Left;">Hardness (HRC)</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">7</td>
+								<td style="text-align: Left;">REMARKS</td>
+								<td style="text-align: Left;">REMARKS</td>
+
+							</tr>
+
+						</tbody>
+					</table>
+
+				</div>
+				<div class="modal-footer">
+					<div class="col-lg-2form-group">
+						<div class="">
+							<div class="float-left text-right" style="margin-top: 36px;">
+								<button type="button"
+										class="btn btn-danger btn-xs btnwidth50"
+										onclick="location.href=''"
+										title="Reject the selected item">
+									Reject
+								</button>
+
+								<button type="button"
+										class="btn btn-success btn-xs btnwidth60"
+										onclick="location.href=''"
+										title="Approve the selected item">
+									Approve
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+			</div>
+
+		</div>
+	</div>
+
+	<div class="modal fade" id="nonstandard2">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">View</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+					<input type="hidden" id="txtID" value="68">
+					<b>Request No.:</b><span>10</span> ,&nbsp;&nbsp;
+					<b>File Size (inch):</b><span>4</span>,&nbsp;&nbsp;
+					<b>File Size Code:</b><span>04</span>
+
+					<div>
+						<img id="displayImage" class="img-fluid" src="https://decintellai.com/ui/all-Modules/UI_Repository/dist/img/FL.jpg">
+
+					</div>
+				</div>
+				<div class="modal-body">
+					<h4 class="top10">Parameters</h4>
+					<table width="100%" class="table table-bordered example1">
+						<thead>
+							<tr>
+								<th style="width:2%; text-align: center;">Sq.No.</th>
+								<th style="width:15%; text-align: Left;">Process</th>
+								<th style="width:35%;  text-align: Left;">Parameter Name</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td style="text-align: center;">1</td>
+								<td style="text-align: Left;">RAW MATERIAL</td>
+								<td style="text-align: Left;">Width</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">1</td>
+								<td style="text-align: Left;">RAW MATERIAL</td>
+								<td style="text-align: Left;">Thickness</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">2</td>
+								<td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+								<td style="text-align: Left;">Tang Thickness at Shoulder</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">2</td>
+								<td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+								<td style="text-align: Left;">Tang Width at Shoulder</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">2</td>
+								<td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
+								<td style="text-align: Left;">#NOTE# - Grinding Blank Shall be free from decarburization</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">3</td>
+								<td style="text-align: Left;">GRINDING</td>
+								<td style="text-align: Left;">Taper Length</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">3</td>
+								<td style="text-align: Left;">GRINDING</td>
+								<td style="text-align: Left;">Body Thickness</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">4</td>
+								<td style="text-align: Left;">CUTTING</td>
+								<td style="text-align: Left;">Upcut</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">4</td>
+								<td style="text-align: Left;">CUTTING</td>
+								<td style="text-align: Left;">Upcut Inclination</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">5</td>
+								<td style="text-align: Left;">FINISH</td>
+								<td style="text-align: Left;">Finished Body Length</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">6</td>
+								<td style="text-align: Left;">HARDNESS</td>
+								<td style="text-align: Left;">Hardness (HRC)</td>
+
+							</tr>
+							<tr>
+								<td style="text-align: center;">7</td>
+								<td style="text-align: Left;">REMARKS</td>
+								<td style="text-align: Left;">REMARKS</td>
+
+							</tr>
+
+						</tbody>
+					</table>
+
+				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+			</div>
+
+		</div>
+	</div>
+
+
+	<section class="content-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-3">
+					<h5>Type</h5>
+				</div>
+				<div class="col-lg-9">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="../login/marketing-page.html">Home</a></li>
+						<li class="breadcrumb-item"><a href="index.html">ECM</a></li>
+						<li class="breadcrumb-item">Masters</li>
+						<li class="breadcrumb-item">Type</li>
+					</ol>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="btnwidth50 float-right ">
+						<button type="button"
+								class="btn btn-block bg-gradient-danger btn-xs"
+								onclick="window.history.back()"
+								title="Go back to the previous page">
+							Back
+						</button>
+					</div>
+					<div class="btnwidth50 float-right mr-1">
+						<button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+								onclick="location.href='Add-Type.html'" title="Add new record">
+							Add
+						</button>
+					</div>
+				</div>
+			</div>
+		</div><!-- /.container-fluid -->
+
+	</section>
+
+	<section class="content">
+
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card card-outline card-primary">
+						<div class="card-header">
+							<h3 class="card-title">New Requests</h3>
+
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool" data-card-widget="collapse">
+									<i class="fas fa-minus"></i>
+								</button>
+							</div>
+							<!-- /.card-tools -->
+						</div>
+						<!-- /.card-header -->
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered example1 nowrap" style="width:100%;">
+									<thead>
+
+										<tr>
+
+											<th width="13%"><div align="center">Request No.	</div></th>
+											<th width="32.5%">Product Line</th>
+											<th width="30.5%"><div align="Left"> Type Name</div></th>
+											<th width="25.5%"> <div align="center">Type Code</div></th>
+											<th width="15%"><div align="center">Action</div></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><div align="center"><a href="Edit-Type.html" title="Edit">10</a></div></td>
+											<td>DRILLS</td>
+											<td><div align="Left"><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">PARALLEL-HSS CENTRE DRILL</a></div></td>
+											<td><div align="center">CD</div></td>
+											<td>
+												<div align="center">
+													<button type="button"
+															class="btn btn-primary btn-xs btnwidth95"
+															onclick="location.href=''"
+															title="Go to the next page">
+														Submit for Approval
+													</button>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div align="center">
+													<div align="center"><a href="Edit-Type.html" title="Edit">11</a></div>
+												</div>
+											</td>
+											<td>DRILLS</td>
+											<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">PARALLEL-HSS GROUND FLUTE JOBBER SERIES</a></td>
+											<td><div align="center">PG</div></td>
+											<td>
+												<div align="center">
+													<button type="button"
+															class="btn btn-primary btn-xs btnwidth95"
+															onclick="location.href=''"
+															title="Go to the next page">
+														Submit for Approval
+													</button>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div align="center">
+													<div align="center"><a href="Edit-Type.html" title="Edit">12</a></div>
+												</div>
+											</td>
+											<td>DRILLS</td>
+											<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">TOOL BIT-ROUND</a></td>
+											<td><div align="center">TR</div></td>
+											<td>
+												<div align="center">
+													<button type="button"
+															class="btn btn-primary btn-xs btnwidth95"
+															onclick="location.href=''"
+															title="Go to the next page">
+														Submit for Approval
+													</button>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div align="center">
+													<div align="center"><a href="Edit-Type.html" title="Edit">13</a></div>
+												</div>
+											</td>
+											<td>TAPS</td>
+											<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">TAPS-HAND TAPS</a></td>
+											<td><div align="center">TH</div></td>
+											<td>
+												<div align="center">
+													<button type="button"
+															class="btn btn-primary btn-xs btnwidth95"
+															onclick="location.href=''"
+															title="Go to the next page">
+														Submit for Approval
+													</button>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td><div align="center"><a href="Edit-Type.html" title="Edit">14</a></div></td>
+											<td>DIES</td>
+											<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">DIES-SCREWING</a></td>
+											<td><div align="center">SD</div></td>
+											<td>
+												<div align="center">
+													<button type="button"
+															class="btn btn-primary btn-xs btnwidth95"
+															onclick="location.href=''"
+															title="Go to the next page">
+														Submit for Approval
+													</button>
+												</div>
+											</td>
+										</tr>
+										<tr>
+											<td><div align="center"><a href="Edit-Type.html" title="Edit">15</a></div></td>
+											<td>DRILLS</td>
+											<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">CARBIDE BURR-CONE SHAPE</a></td>
+											<td><div align="center">CC</div></td>
+											<td>
+												<div align="center">
+													<button type="button"
+															class="btn btn-primary btn-xs btnwidth95"
+															onclick="location.href=''"
+															title="Go to the next page">
+														Submit for Approval
+													</button>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<!-- /.card-body -->
+					</div>
+					<!-- /.card -->
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card card-outline card-warning collapsed-card">
+						<div class="card-header">
+							<h3 class="card-title">Requests for Approval</h3>
+
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool" data-card-widget="collapse">
+									<i class="fas fa-plus"></i>
+								</button>
+							</div>
+							<!-- /.card-tools -->
+						</div>
+						<!-- /.card-header -->
+						<div class="card-body">
+							<table class="table table-bordered example1 nowrap" style="width:100%;">
+								<thead>
+
+									<tr>
+
+										<th width="13%"><div align="center">Request No.	</div></th>
+										<th width="25.5%">Product Line</th>
+										<th width="35.5%"><div align="Left"> Type Name</div></th>
+										<th width="30.5%"> <div align="center">Type Code</div></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><div align="center">10</div></td>
+										<td>DRILLS</td>
+										<td><div align="Left"><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">PARALLEL-HSS CENTRE DRILL</a></div></td>
+										<td><div align="center">CD</div></td>
+									</tr>
+									<tr>
+										<td>
+											<div align="center">
+												<div align="center">11</div>
+											</div>
+										</td>
+										<td>DRILLS</td>
+										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">PARALLEL-HSS GROUND FLUTE JOBBER SERIES</a></td>
+										<td><div align="center">PG</div></td>
+									</tr>
+									<tr>
+										<td>
+											<div align="center">
+												<div align="center">12</div>
+											</div>
+										</td>
+										<td>DRILLS</td>
+										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">TOOL BIT-ROUND</a></td>
+										<td><div align="center">TR</div></td>
+									</tr>
+									<tr>
+										<td>
+											<div align="center">
+												<div align="center">13</div>
+											</div>
+										</td>
+										<td>TAPS</td>
+										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">TAPS-HAND TAPS</a></td>
+										<td><div align="center">TH</div></td>
+									</tr>
+									<tr>
+										<td><div align="center">14</div></td>
+										<td>DIES</td>
+										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">DIES-SCREWING</a></td>
+										<td><div align="center">SD</div></td>
+									</tr>
+									<tr>
+										<td><div align="center">15</div></td>
+										<td>DRILLS</td>
+										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">CARBIDE BURR-CONE SHAPE</a></td>
+										<td><div align="center">CC</div></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- /.card-body -->
+					</div>
+					<!-- /.card -->
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card card-outline card-success collapsed-card">
+						<div class="card-header">
+							<h3 class="card-title">Type Master</h3>
+
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool" data-card-widget="collapse">
+									<i class="fas fa-plus"></i>
+								</button>
+							</div>
+							<!-- /.card-tools -->
+						</div>
+						<!-- /.card-header -->
+						<div class="card-body">
+							<table class="table table-bordered example1 nowrap" style="width:100%;">
+								<thead>
+
+									<tr>
+
+										<th width="13%"><div align="center">Request No.	</div></th>
+										<th width="25.5%">Product Line</th>
+										<th width="35.5%"><div align="Left"> Type Name</div></th>
+										<th width="30.5%"> <div align="center">Type Code</div></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><div align="center">10</div></td>
+										<td>DRILLS</td>
+										<td><div align="Left"><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">PARALLEL-HSS CENTRE DRILL</a></div></td>
+										<td><div align="center">CD</div></td>
+									</tr>
+									<tr>
+										<td>
+											<div align="center">
+												<div align="center">11</div>
+											</div>
+										</td>
+										<td>DRILLS</td>
+										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">PARALLEL-HSS GROUND FLUTE JOBBER SERIES</a></td>
+										<td><div align="center">PG</div></td>
+									</tr>
+									<tr>
+										<td>
+											<div align="center">
+												<div align="center">12</div>
+											</div>
+										</td>
+										<td>DRILLS</td>
+										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">TOOL BIT-ROUND</a></td>
+										<td><div align="center">TR</div></td>
+									</tr>
+									<tr>
+										<td>
+											<div align="center">
+												<div align="center">13</div>
+											</div>
+										</td>
+										<td>TAPS</td>
+										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">TAPS-HAND TAPS</a></td>
+										<td><div align="center">TH</div></td>
+									</tr>
+									<tr>
+										<td><div align="center">14</div></td>
+										<td>DIES</td>
+										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">DIES-SCREWING</a></td>
+										<td><div align="center">SD</div></td>
+									</tr>
+									<tr>
+										<td><div align="center">15</div></td>
+										<td>DRILLS</td>
+										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">CARBIDE BURR-CONE SHAPE</a></td>
+										<td><div align="center">CC</div></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- /.card-body -->
+					</div>
+					<!-- /.card -->
+				</div>
+			</div>
+		</div>
+
+	</section>
+
+	<!-- InstanceEndEditable -->
+</div>

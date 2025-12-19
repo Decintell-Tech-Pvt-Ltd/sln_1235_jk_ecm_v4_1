@@ -1,0 +1,362 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+	ViewData["Title"] = "DrillStamp";
+	Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+    <div class="modal fade" id="nonstandard">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body text-center">
+                    <input type="hidden" id="txtID" value="68">
+                    <b>Request No.:</b><span>10</span>,&nbsp;&nbsp;
+                    <b>Brand:</b><span>DICK LOGO</span>,<br>
+                    <b>Image Name:</b><span>
+                        h_205.jpg
+                    </span>
+
+                    <div class="mt-1">
+                        <center>
+                            <img id="displayImage" class="img-fluid" src="https://decintellai.com/ui/all-Modules/UI_Repository/dist/img/FDRP.jpg">
+                        </center>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="nonstandard1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <b>Request No.:</b><span>10</span> ,&nbsp;&nbsp;
+                    <b>Brand:</b><span>DICK LOGO</span>,&nbsp;&nbsp;
+                    <b>Chart No:</b><span>h_11a</span>
+
+                    <div>
+                        <img id="displayImage" class="img-fluid" src="https://decintellai.com/ui/all-Modules/UI_Repository/dist/img/FDRP.jpg">
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="col-lg-2form-group">
+                        <div class="">
+                            <div class="float-left text-right" style="margin-top: 36px;">
+                                <button type="button"
+                                        class="btn btn-danger btn-xs btnwidth50"
+                                        onclick="location.href=''"
+                                        title="Reject the selected item">
+                                    Reject
+                                </button>
+
+                                <button type="button"
+                                        class="btn btn-success btn-xs btnwidth60"
+                                        onclick="location.href=''"
+                                        title="Approve the selected item">
+                                    Approve
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="nonstandard2">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="txtID" value="68">
+                    <b>Request No.:</b><span>10</span> ,&nbsp;&nbsp;
+                    <b>Brand:</b><span>DICK LOGO</span>,&nbsp;&nbsp;
+                    <b>Chart No:</b><span>h_11a</span>
+
+                    <div>
+                        <img id="displayImage" class="img-fluid" src="https://decintellai.com/ui/all-Modules/UI_Repository/dist/img/Stamp.jpg">
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>Stamps</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="../login/marketing-page.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="index.html">ECM</a></li>
+                        <li class="breadcrumb-item">Masters</li>
+                        <li class="breadcrumb-item">Stamps</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs"
+                                onclick="window.history.back()"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+
+                    </div>
+                    <div class="btnwidth50 float-right mr-1">
+                        <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                                onclick="location.href='Add-non-file-Stamp.html'" title="Add new record">
+                            Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">New Requests</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                    <thead>
+
+                                        <tr>
+                                            <th width="10%"><div align="center">Request No.	</div></th>
+                                            <th width="15%"><div align="left">Product Line</div></th>
+                                            <th width="15%"><div align="Left">Brand</div></th>
+                                            <th width="18%"><div align="center">Size&nbsp;</div></th>
+                                            <th width="15%"><div align="left">Type</div></th>
+                                            <th width="20%"><div align="left">Sub Type</div></th>
+                                            <th width="10%"><div align="left">Sales</div></th>
+                                            <th width="10%"><div align="center">Image Name</div></th>
+                                            <th width="15%"><div align="center"></div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><div align="center"><a href="Edit-non-file-Stamp.html" title="Edit">10</a></div></td>
+                                            <td><div align="left">Drills</div></td>
+                                            <td><div align="Left"><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Two Files</a></div></td>
+                                            <td><div align="center">0100 - 1.0 mm (Dia)</div></td>
+                                            <td><div align="left">PARALLEL-HSS CENTRE DRILL (CD) &nbsp;</div></td>
+                                            <td><div align="left">Regular (R)</div></td>
+                                            <td><div align="left">Export</div></td>
+                                            <td><div align="center">h_205.jpg</div></td>
+                                            <td>
+                                                <div align="center">
+                                                    <button type="button"
+                                                            class="btn btn-primary btn-xs btnwidth95"
+                                                            onclick="location.href=''"
+                                                            title="Go to the next page">
+                                                        Submit for Approval
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-warning collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Requests for Approval</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                <thead>
+
+                                    <tr>
+                                        <th width="10%"><div align="center">Request No.	</div></th>
+                                        <th width="15%"><div align="left">Product Line</div></th>
+                                        <th width="10%"><div align="Left">Brand</div></th>
+                                        <th width="15%"><div align="center">Size&nbsp;</div></th>
+                                        <th width="25%"><div align="left">Type</div></th>
+                                        <th width="15%"><div align="left">Sub Type</div></th>
+                                        <th width="10%"><div align="left">Sales</div></th>
+                                        <th width="10%"><div align="center">Image Name</div></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><div align="center">10</div></td>
+                                        <td><div align="left">Drills</div></td>
+                                        <td><div align="Left"><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Two Files</a></div></td>
+                                        <td><div align="center">0100 - 1.0 mm (Dia)</div></td>
+                                        <td><div align="left">PARALLEL-HSS CENTRE DRILL (CD) &nbsp;</div></td>
+                                        <td><div align="left">Regular (R)</div></td>
+                                        <td><div align="left">Export</div></td>
+                                        <td><div align="center">h_205.jpg</div></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-success collapsed-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Stamp Master</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <!-- /.card-tools -->
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                <thead>
+
+                                    <tr>
+                                        <th width="10%"><div align="center">Request No.	</div></th>
+                                        <th width="15%"><div align="left">Product Line</div></th>
+                                        <th width="10%"><div align="Left">Brand</div></th>
+                                        <th width="15%"><div align="center">Size&nbsp;</div></th>
+                                        <th width="25%"><div align="left">Type</div></th>
+                                        <th width="15%"><div align="left">Sub Type</div></th>
+                                        <th width="10%"><div align="left">Sales</div></th>
+                                        <th width="10%"><div align="center">Image Name</div></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><div align="center">10</div></td>
+                                        <td><div align="left">Drills</div></td>
+                                        <td><div align="Left"><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Two Files</a></div></td>
+                                        <td><div align="center">0100 - 1.0 mm (Dia)</div></td>
+                                        <td><div align="left">PARALLEL-HSS CENTRE DRILL (CD) &nbsp;</div></td>
+                                        <td><div align="left">Regular (R)</div></td>
+                                        <td><div align="left">Export</div></td>
+                                        <td><div align="center">h_205.jpg</div></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+
+
+    </section>
+
+    <!-- InstanceEndEditable -->
+</div>

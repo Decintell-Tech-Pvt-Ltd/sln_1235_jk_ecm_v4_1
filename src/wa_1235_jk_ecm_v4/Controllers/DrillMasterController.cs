@@ -23,6 +23,41 @@ namespace wa_1235_jk_ecm_v4.Controllers
         private string JwtToken => _httpContextAccessor.HttpContext.Request.Cookies["1231_AccessToken"];
 
 
-
+        public IActionResult DrillSize()
+        {
+            return View();
+        }
+        public IActionResult DrillAddSize()
+        {
+            return View();
+        }
+        public IActionResult DrillType()
+        {
+            return View();
+        }
+        public IActionResult DrillAddType()
+        {
+            return View();
+        }
+        public IActionResult DrillSubType()
+        {
+            return View();
+        }
+        public IActionResult DrillAddSubType()
+        {
+            return View();
+        }
+        public IActionResult DrillDrawingMaster()
+        {
+            return View();
+        }
+        public IActionResult DrillStamp()
+        {
+            return View();
+        }
+        public IActionResult DrillAddStamp()
+        {
+            return View();
+        }
     }
 }

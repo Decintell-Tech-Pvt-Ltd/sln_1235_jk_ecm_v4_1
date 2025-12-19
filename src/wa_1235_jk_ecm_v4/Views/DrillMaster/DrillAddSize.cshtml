@@ -1,0 +1,141 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+	ViewData["Title"] = "DrillAddSize";
+	Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">   
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>Add</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="../login/marketing-page.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="index.html">ECM</a></li>
+                        <li class="breadcrumb-item">Masters</li>
+                        <li class="breadcrumb-item"><a href="key-dimension.html">Size</a></li>
+                        <li class="breadcrumb-item">Add </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button" class="btn btn-block bg-gradient-danger btn-xs float-left"
+                                onclick="location.href='key-dimension.html'" title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+            </div>
+
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline p-a-2" style="height: 100%;">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+
+                            <div class="col-md-12 mr-1">
+
+                                <div class="row">
+
+                                    <div class="form-group col-md-2">
+                                        <label>Product Line</label>
+                                        <select class="form-control select2">
+                                            <option>Select</option>
+                                            <option selected>DRILLS </option>
+                                            <option>TAPS </option>
+                                            <option>DIES </option>
+
+                                        </select>
+                                    </div>
+
+
+                                    <div class="form-group col-md-2">
+                                        <label>
+                                            Dimension
+                                            Code
+                                        </label>
+                                        <input id="txtCustomer" maxlength="50" name="" type="text" class="form-control" />
+                                        <span id="sptxtCustomer" class="text-danger"></span>
+                                    </div>
+
+
+                                    <div class="form-group col-md-2">
+                                        <label>
+                                            Dimension
+                                            Value
+                                        </label>
+                                        <input id="txtCustomer" maxlength="50" name="" type="text" class="form-control" />
+                                        <span id="sptxtCustomer" class="text-danger"></span>
+                                    </div>
+
+
+
+
+                                    <div class="form-group col-md-2">
+                                        <label>Dimension Type</label>
+                                        <select class="form-control select2">
+                                            <option>Diameter</option>
+                                            <option>Length</option>
+                                            <option>Width</option>
+
+                                        </select>
+                                    </div>
+
+
+
+                                    <div class="form-group col-md-1">
+                                        <label>Standard</label>
+                                        <select class="form-control select2">
+                                            <option>Select</option>
+                                            <option>Metrics</option>
+                                            <option>British</option>
+
+
+                                        </select>
+                                    </div>
+
+
+                                    <div class="btnwidth50 float-right mr-1 " style="margin-top:35px;">
+                                        <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                                                onclick="location.href='key-dimension.html'" title="Go to the next page">
+                                            Submit
+                                        </button>
+                                    </div>
+
+                                </div>
+
+
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                Note: Dimension Code should be unique
+
+                <!-- /.card -->
+            </div>
+        </div>
+    </section>
+</div>

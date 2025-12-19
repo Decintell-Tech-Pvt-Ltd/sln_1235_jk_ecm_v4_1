@@ -1,0 +1,209 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+	ViewData["Title"] = "DrillAddSubType";
+	Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+	<!-- InstanceBeginEditable name="EditRegion1" -->
+
+
+	<section class="content-header">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-3">
+					<h5>Add</h5>
+				</div>
+				<div class="col-lg-9">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="../login/marketing-page.html">Home</a></li>
+						<li class="breadcrumb-item"><a href="index.html">ECM</a></li>
+						<li class="breadcrumb-item">Masters</li>
+						<li class="breadcrumb-item"><a href="subtype.html">Sub Type</a></li>
+						<li class="breadcrumb-item">Add</li>
+					</ol>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="btnwidth50 float-right ">
+						<button type="button" class="btn btn-block bg-gradient-danger btn-xs float-left"
+								onclick="location.href='subtype.html'" title="Go back to the previous page">
+							Back
+						</button>
+					</div>
+
+				</div>
+
+			</div><!-- /.container-fluid -->
+		</div>
+	</section>
+
+	<section class="content">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card card-primary card-outline p-a-2" style="height: 100%;">
+
+						<!-- /.card-header -->
+						<div class="card-body">
+
+							<div class="col-md-12 mr-1">
+
+								<div class="row">
+									<div class="form-group col-md-2">
+										<label>Product Line</label>
+										<select class="form-control select2">
+											<option>Select</option>
+											<option>DRILLS </option>
+											<option>TAPS </option>
+											<option>DIES </option>
+
+										</select>
+
+
+									</div>
+
+									<div class="form-group col-md-2">
+										<label>Size</label>
+										<select class="form-control select2">
+											<option>Select</option>
+											<option>
+												0100 - 1.0 mm (Dia)
+											</option>
+											<option>
+												0132 - 1/32 inch (Dia)
+											</option>
+
+
+										</select>
+
+
+									</div>
+
+
+
+									<div class="form-group col-md-4">
+										<label>Type</label>
+										<select class="form-control select2">
+											<option>Select</option>
+											<option>PARALLEL-HSS CENTRE DRILL (CD) </option>
+											<option>
+												PARALLEL-HSS GROUND FLUTE JOBBER SERIES (PG)
+											</option>
+											<option>
+												TOOL BIT-ROUND (TR)
+											</option>
+											<option>
+												TAPS-HAND TAPS (TH)
+											</option>
+											<option>
+												DIES-SCREWING (SD)
+											</option>
+											<option>
+												CARBIDE BURR-CONE SHAPE (CC)
+											</option>
+										</select>
+									</div>
+
+
+									<div class="form-group col-md-2">
+										<label>Sub Type</label>
+										<input id="txtCustomer" maxlength="50" name="" type="text" class="form-control" />
+										<span id="sptxtCustomer" class="text-danger"></span>
+									</div>
+
+									<div class="form-group col-md-2">
+										<label> Standard</label>
+										<select class="form-control select2">
+											<option>Select</option>
+											<option>
+												Metrics
+											</option>
+											<option>British</option>
+
+
+										</select>
+
+
+									</div>
+
+
+
+									<div class="form-group col-md-2">
+										<label>Code </label>
+										<input id="txtCustomer" maxlength="50" name="" type="text" class="form-control" />
+										<span id="sptxtCustomer" class="text-danger"></span>
+									</div>
+
+
+									<div class="form-group col-md-2">
+										<label class="control-label padd0">Upload CSV</label>
+										<div class="input-group">
+											<div class="custom-file">
+												<input type="file" class="custom-file-input" id="exampleInputFile">
+												<label class="custom-file-label" for="exampleInputFile">Choose file</label>
+											</div>
+										</div>
+									</div>
+									<div class="btnwidth50 float-right mr-1 " style="margin-top:35px;">
+										<button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left" onclick="location.href='subtype.html'" title="Go to the next page">
+											Submit
+										</button>
+									</div>
+
+
+
+								</div>
+								<hr>
+								<div class="form-group row">
+
+									<div class="col-md-3">
+										<label>Download CSV Template </label>
+										<select name="" class="form-control select2">
+											<option>Select</option>
+											<!--<option value="1">06RC0</option>
+											<option value="2">08RC0</option>
+											<option value="3">06RC1</option>
+											<option value="4">08RC1</option>
+											<option value="5">08RC2</option>
+											<option value="6">08RC3</option>
+											<option value="7">08RC4</option>
+											<option value="8">08RC5</option>
+											<option value="9">08RC6</option>
+											<option value="10">08RC6</option>-->
+										</select>
+									</div>
+
+									<div class="col-md-2">
+										<button type="button"
+												class="btn btn-primary btn-xs " onclick="location.href='#'"
+												title="Download the file" style="margin-top:35px;">
+											Download
+										</button>
+									</div>
+
+								</div>
+
+
+
+
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.card -->
+			</div>
+		</div>
+	</section>
+
+
+
+
+	<!-- InstanceEndEditable -->
+</div>
