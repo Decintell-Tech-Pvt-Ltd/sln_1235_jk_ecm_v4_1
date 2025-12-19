@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using static System.Net.Mime.MediaTypeNames;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 namespace api_1235_jk_ecm_v4.Controllers
 {
-    //  [Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ChangeNoteController : Controller

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace api_1235_jk_ecm_v4.Controllers
 {
-   // [Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MastersController : Controller
