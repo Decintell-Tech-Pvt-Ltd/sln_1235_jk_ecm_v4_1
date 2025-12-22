@@ -426,29 +426,59 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Page specific script -->
     <script>
         $(document).ready(function () {
+
             $('.example1').each(function () {
+
+                if ($.fn.DataTable.isDataTable(this)) {
+                    return;
+                }
+
+                // 🔹 Read heading text dynamically
+                let titleText = $('h5:first').text().trim() || 'Export';
+
                 $(this).DataTable({
-                    "responsive": true,
-                    "lengthChange": false,
-                    "autoWidth": false,
-                   // "buttons": ["copy", "csv", "excel", "pdf", "print"]
-                    "buttons": [ "csv"]
-                }).buttons().container().appendTo($(this).closest('.dataTables_wrapper').find('.col-md-6:eq(0)'));
+                  responsive: true,
+                    paging: true,          // ✅ ENABLE PAGING
+                    pageLength: 10,        // ✅ Rows per page
+                    lengthChange: true,    // Optional (dropdown)
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: false,
+                    
+                    buttons: [
+                        {
+                            extend: 'csv',
+                            text: 'CSV',
+                            title: titleText,                 // Sheet title
+                            filename: function () {
+                                // Optional date suffix
+                                let d = new Date();
+                                let date =
+                                    d.getFullYear().toString() +
+                                    ('0' + (d.getMonth() + 1)).slice(-2) +
+                                    ('0' + d.getDate()).slice(-2);
+
+                                return titleText.replace(/\s+/g, '_') + '_' + date;
+                            }
+                        }
+                    ],
+
+                    // CSV on right of paging
+                 
+                        dom:
+                        "<'row'<'col-sm-2'l><'col-sm-6'B><'col-sm-4'f>>" +
+                        "<'row'<'col-sm-12'tr>>" +
+                        "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+
+                });
+
             });
 
-            $('.example2').each(function () {
-                $(this).DataTable({
-                    "paging": true,
-                    "lengthChange": false,
-                    "searching": false,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true
-                });
-            });
         });
     </script>
+
+
 
     <script>
 

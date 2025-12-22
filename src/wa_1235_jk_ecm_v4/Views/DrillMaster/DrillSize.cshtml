@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-
+@model wa_1235_jk_ecm_v4.Models.DrillMaster
 @{
 	ViewData["Title"] = "DrillSize";
 	Layout = "~/Views/Shared/_ECMMaster.cshtml";
@@ -68,14 +68,14 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                <table class="table table-bordered example1" style="width:100%;">
                                     <thead>
 
                                         <tr>
                                             <th width="10%"><div align="center">Request No.</div></th>
-                                            <th width="20%"><div align="left">Product Line</div></th>
+                                            <th width="13%"><div align="left">Product Line</div></th>
 
-                                            <th width="15%"><div align="center">Dimension Code</div></th>
+                                            <th width="13%"><div align="center">Dimension Code</div></th>
                                             <th width="15%"><div align="center">Dimension Value</div></th>
                                             <th width="15%"><div align="left">Dimension Type</div></th>
                                             <th width="13%"><div align="left"> Standard</div></th>
@@ -83,133 +83,39 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td><div align="center"><a href="edit-key-dimension.html" title="Edit">10</a></div></td>
-                                            <td><div align="left">Drills</div></td>
-                                            <td><div align="center">0100</div></td>
-                                            <td><div align="center">1.0</div></td>
-                                            <td><div align="left">Diameter</div></td>
-                                            <td><div align="left">Metrics</div></td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth95"
-                                                            onclick="location.href=''"
-                                                            title="Go to the next page">
-                                                        Submit for Approval
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center"><a href="edit-key-dimension.html" title="Edit">11</a></div></td>
-                                            <td><div align="left">Drills</div></td>
-                                            <td><div align="center">0050</div></td>
-                                            <td><div align="center">0.5</div></td>
-                                            <td><div align="left">Diameter</div></td>
-                                            <td><div align="left">Metrics</div></td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth95"
-                                                            onclick="location.href=''"
-                                                            title="Go to the next page">
-                                                        Submit for Approval
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center"><a href="edit-key-dimension.html" title="Edit">12</a></div></td>
-                                            <td>Drills</td>
-                                            <td><div align="center">0076</div></td>
-                                            <td><div align="center">0.76</div></td>
-                                            <td>Diameter</td>
-                                            <td><div align="left">Metrics</div></td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth95"
-                                                            onclick="location.href=''"
-                                                            title="Go to the next page">
-                                                        Submit for Approval
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center"><a href="edit-key-dimension.html" title="Edit">13</a></div></td>
-                                            <td>Taps</td>
-                                            <td><div align="center">0315</div></td>
-                                            <td><div align="center">3.15</div></td>
-                                            <td>Diameter</td>
-                                            <td><div align="left">Metrics</div></td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth95"
-                                                            onclick="location.href=''"
-                                                            title="Go to the next page">
-                                                        Submit for Approval
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center"><a href="edit-key-dimension.html" title="Edit">14</a></div></td>
-                                            <td>Dies</td>
-                                            <td><div align="center">0100</div></td>
-                                            <td><div align="center">1.0</div></td>
-                                            <td>Diameter</td>
-                                            <td><div align="left">Metrics</div></td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth95"
-                                                            onclick="location.href=''"
-                                                            title="Go to the next page">
-                                                        Submit for Approval
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center"><a href="edit-key-dimension.html" title="Edit">15</a></div></td>
-                                            <td>Drills</td>
-                                            <td><div align="center">0300</div></td>
-                                            <td><div align="center">3.0</div></td>
-                                            <td>Diameter</td>
-                                            <td><div align="left">Metrics</div></td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth95"
-                                                            onclick="location.href=''"
-                                                            title="Go to the next page">
-                                                        Submit for Approval
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center"><a href="edit-key-dimension.html" title="Edit">16</a></div></td>
-                                            <td>Drills</td>
-                                            <td><div align="center">0132</div></td>
-                                            <td><div align="center">1/32</div></td>
-                                            <td>Diameter</td>
-                                            <td><div align="left">British</div></td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth95"
-                                                            onclick="location.href=''"
-                                                            title="Go to the next page">
-                                                        Submit for Approval
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                            @foreach (var item in Model.FileSize_List.Where(x => x.GridNo == 1))
+                            {
+                                <tr>
+          
+                                    <td><div align="center"><a href='@Url.Action("DrillAddSize", "DrillMaster", new {
+                                                    fileid = item.Id,
+                                                    ProductLineId = item.ProductLineId,
+                                                    DimensionCode = item.DimensionCode,
+                                                    NewOrExisting = item.NewOrExisting,
+                                                    Remarks = item.Remarks,
+                                                    PageID = Context.Request.Query["PageID"].ToString(),
+                                                    ParentID = Context.Request.Query["ParentID"].ToString(),
+                                                    ModuleID = Context.Request.Query["ModuleID"].ToString(),
+                                                    ModulePageID = Context.Request.Query["ModulePageID"].ToString()
+                                                })' title="Edit">
+                                                @item.Id
+                                            </a> </div></td>
+                                    <td><div align="left">@item.ProductLine</div></td>
+                                    <td><div align="center">@item.DimensionCode</div></td>
+                                    <td><div align="center">@item.DimensionValue</div></td>
+                                    <td><div align="left">@item.Dimensionname</div></td>
+                                    <td><div align="left">@item.Standardname</div></td>
+                                  
+                                    <td>
+                                        <div align="center">
+                                            <a href="#"   class="btn btn-primary btn-xs btnwidth95"   onclick="ApprovesFileSize(@item.Id); return false;">
+                                              Submit for Approval
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
                                 </table>
                             </div>
 
@@ -236,7 +142,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table class="table table-bordered example1 nowrap" style="width:100%;">
+                            <table class="table table-bordered example1" style="width:100%;">
                                 <thead>
 
                                     <tr>
@@ -249,65 +155,27 @@
                                         <th width="16.6%"> <div align="left">Standard</div></th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><div align="center">10</div></td>
-                                        <td><div align="left">Drills</div></td>
-                                        <td><div align="center">0100</div></td>
-                                        <td><div align="center">1.0</div></td>
-                                        <td><div align="left">Diameter</div></td>
-                                        <td><div align="left">Metrics</div></td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center">11</div></td>
-                                        <td><div align="left">Drills</div></td>
-                                        <td><div align="center">0050</div></td>
-                                        <td><div align="center">0.5</div></td>
-                                        <td><div align="left">Diameter</div></td>
-                                        <td><div align="left">Metrics</div></td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center">12</div></td>
-                                        <td>Drills</td>
-                                        <td><div align="center">0076</div></td>
-                                        <td><div align="center">0.76</div></td>
-                                        <td>Diameter</td>
-                                        <td><div align="left">Metrics</div></td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center">13</div></td>
-                                        <td>Taps</td>
-                                        <td><div align="center">0315</div></td>
-                                        <td><div align="center">3.15</div></td>
-                                        <td>Diameter</td>
-                                        <td><div align="left">Metrics</div></td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center">14</div></td>
-                                        <td>Dies</td>
-                                        <td><div align="center">0100</div></td>
-                                        <td><div align="center">1.0</div></td>
-                                        <td>Diameter</td>
-                                        <td><div align="left">Metrics</div></td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center">15</div></td>
-                                        <td>Drills</td>
-                                        <td><div align="center">0300</div></td>
-                                        <td><div align="center">3.0</div></td>
-                                        <td>Diameter</td>
-                                        <td><div align="left">Metrics</div></td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center">16</div></td>
-                                        <td>Drills</td>
-                                        <td><div align="center">0132</div></td>
-                                        <td><div align="center">1/32</div></td>
-                                        <td>Diameter</td>
-
-                                        <td><div align="left">British</div></td>
-                                    </tr>
-                                </tbody>
+                                  <tbody>
+                            @foreach (var item in Model.FileSize_List.Where(x => x.GridNo == 2))
+                            {
+                                <tr>
+                                   
+                                    <td>
+                                        <div align="center">
+                                            <a href="#" title="View" onclick="ModelFileSize(@item.Id,@item.RequestId,'@item.DimensionValue','@item.DimensionCode');">
+                                                @item.Id
+                                            </a>
+                                        </div>
+                                    </td>
+                                     <td><div align="left">@item.ProductLine</div></td>
+                                    <td><div align="center">@item.DimensionCode</div></td>
+                                    <td><div align="center">@item.DimensionValue</div></td>
+                                    <td><div align="left">@item.Dimensionname</div></td>
+                                    <td><div align="left">@item.Standardname</div></td>
+                                
+                                </tr>
+                            }
+                        </tbody>
                             </table>
                         </div>
                         <!-- /.card-body -->
@@ -348,64 +216,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td><div align="center">10</div></td>
-                                        <td><div align="left">Drills</div></td>
-                                        <td><div align="center">0100</div></td>
-                                        <td><div align="center">1.0</div></td>
-                                        <td><div align="left">Diameter</div></td>
-                                        <td><div align="left">Metrics</div></td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center">11</div></td>
-                                        <td><div align="left">Drills</div></td>
-                                        <td><div align="center">0050</div></td>
-                                        <td><div align="center">0.5</div></td>
-                                        <td><div align="left">Diameter</div></td>
-                                        <td><div align="left">Metrics</div></td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center">12</div></td>
-                                        <td>Drills</td>
-                                        <td><div align="center">0076</div></td>
-                                        <td><div align="center">0.76</div></td>
-                                        <td>Diameter</td>
-                                        <td><div align="left">Metrics</div></td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center">13</div></td>
-                                        <td>Taps</td>
-                                        <td><div align="center">0315</div></td>
-                                        <td><div align="center">3.15</div></td>
-                                        <td>Diameter</td>
-                                        <td><div align="left">Metrics</div></td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center">14</div></td>
-                                        <td>Dies</td>
-                                        <td><div align="center">0100</div></td>
-                                        <td><div align="center">1.0</div></td>
-                                        <td>Diameter</td>
-                                        <td><div align="left">Metrics</div></td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center">15</div></td>
-                                        <td>Drills</td>
-                                        <td><div align="center">0300</div></td>
-                                        <td><div align="center">3.0</div></td>
-                                        <td>Diameter</td>
-                                        <td><div align="left">Metrics</div></td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center">16</div></td>
-                                        <td>Drills</td>
-                                        <td><div align="center">0132</div></td>
-                                        <td><div align="center">1/32</div></td>
-                                        <td>Diameter</td>
-
-                                        <td><div align="left">British</div></td>
-                                    </tr>
-                                </tbody>
+                            @foreach (var item in Model.FileSize_List.Where(x => x.GridNo == 3))
+                            {
+                                <tr>
+                                    <td><div align="center">@item.Id</div></td>
+                                    <td><div align="left">@item.ProductLine</div></td>
+                                    <td><div align="center">@item.DimensionCode</div></td>
+                                    <td><div align="center">@item.DimensionValue</div></td>
+                                    <td><div align="left">@item.Dimensionname</div></td>
+                                    <td><div align="left">@item.Standardname</div></td>
+                                </tr>
+                            }
+                        </tbody>
                             </table>
                         </div>
                         <!-- /.card-body -->
@@ -419,3 +241,131 @@
 
     <!-- InstanceEndEditable -->
 </div>
+
+<div class="modal fade" id="approve">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <!-- Optional header with logos from first modal -->
+          
+            <!-- Modal Header (from second modal for cleaner UI) -->
+            <div class="modal-header">
+                <h5 class="modal-title">Remark</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <input type="hidden" id="txtID">
+                <b>Request No.:</b><span id="txtRequest"></span>,&nbsp;&nbsp;
+                <b>Dimension Value :</b><span id="txtDimensionValue"></span>,&nbsp;&nbsp;
+                <b>Dimension Code:</b><span id="txtDimensionCode"></span>
+
+                <textarea rows="5" class="form-control" id="textRemark"></textarea>
+            </div>
+
+            <!-- Modal Footer: Buttons styled like second modal, functions from first -->
+            <div class="modal-footer">
+                <div class="text-right w-100">
+                    <button type="button"
+                            class="btn btn-danger btn-xs btnwidth50"
+                            onclick="RejectFileSize(); $('#approve').modal('hide');"
+                            title="Reject the selected item">
+                        Reject
+                    </button>
+
+                    <button type="button"
+                            class="btn btn-success btn-xs btnwidth60"
+                            onclick="ApproveFileSize(); $('#approve').modal('hide');"
+                            title="Approve the selected item">
+                        Approve
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<Script>
+
+    function ApprovesFileSize(ID) {
+        var Remark = $('#textRemark').val();
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+        
+        let jsonData = { ID: ID, StatusID: 2, CreatedBy: iLoggedInUserID, Remark: Remark };
+        var JSONInformation = JSON.stringify(jsonData);
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("DroApproveFileSize", "DrillMaster")',
+            data: { JSONData: JSONInformation },
+            dataType: 'json',
+            success: function (data) {
+                alert(data.response);
+                window.location.reload();
+            },
+            error: function (err) {
+                alert(err.statusText);
+            }
+        });
+    }
+
+
+    function ApproveFileSize() {
+        var Remark = $('#textRemark').val();
+        var FileStatus = $('#txtID').val();
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+         
+
+        var jsonData = { ID: FileStatus, StatusID: 3, CreatedBy: iLoggedInUserID, Remark: Remark };
+        var JSONInformation = JSON.stringify(jsonData);
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("DroApproveFileSize", "DrillMaster")', // Assuming this URL is correctly configured in your application
+            data: { JSONData: JSONInformation },
+            dataType: 'json',
+            success: function (data) {
+                alert(data.response);
+                window.location.reload();
+            },
+            error: function (err) {
+                alert(err.statusText);
+            }
+        });
+    }
+    //RejectFileSize
+    function RejectFileSize() {
+        //textRemark
+        var Remark = $('#textRemark').val();
+
+        var FileStatus = $('#txtID').val();
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+         
+
+        var jsonData = { ID: FileStatus, StatusID: 4, CreatedBy: iLoggedInUserID, Remark: Remark };
+        var JSONInformation = JSON.stringify(jsonData);
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("DroApproveFileSize", "DrillMaster")', // Assuming this URL is correctly configured in your application
+            data: { JSONData: JSONInformation },
+            dataType: 'json',
+            success: function (data) {
+                alert(data.response);
+                window.location.reload();
+            },
+            error: function (err) {
+                alert(err.statusText);
+            }
+        });
+    }
+
+    function ModelFileSize(ID, RequestId, DimensionValue, DimensionCode) {
+        $('#txtID').val(ID);
+        $('#txtRequest').text(RequestId);
+        $('#txtDimensionValue').text(DimensionValue);
+        $('#txtDimensionCode').text(DimensionCode);
+        $('#approve').modal('show');
+    }
+</Script>

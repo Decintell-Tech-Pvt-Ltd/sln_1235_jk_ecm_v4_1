@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-
+@model wa_1235_jk_ecm_v4.Models.DrillMaster
 @{
 	ViewData["Title"] = "DrillAddSize";
 	Layout = "~/Views/Shared/_ECMMaster.cshtml";
@@ -56,13 +56,9 @@
 
                                     <div class="form-group col-md-2">
                                         <label>Product Line</label>
-                                        <select class="form-control select2">
-                                            <option>Select</option>
-                                            <option selected>DRILLS </option>
-                                            <option>TAPS </option>
-                                            <option>DIES </option>
-
-                                        </select>
+                                     
+                                        @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "Id", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline" })
+                                        <span id="spddlproductline" class="text-danger"></span>
                                     </div>
 
 
@@ -71,8 +67,8 @@
                                             Dimension
                                             Code
                                         </label>
-                                        <input id="txtCustomer" maxlength="50" name="" type="text" class="form-control" />
-                                        <span id="sptxtCustomer" class="text-danger"></span>
+                                        <input id="txtDimensionCode" maxlength="50" name="" type="text" class="form-control" />
+                                        <span id="sptxtDimensionCode" class="text-danger"></span>
                                     </div>
 
 
@@ -81,8 +77,8 @@
                                             Dimension
                                             Value
                                         </label>
-                                        <input id="txtCustomer" maxlength="50" name="" type="text" class="form-control" />
-                                        <span id="sptxtCustomer" class="text-danger"></span>
+                                        <input id="txtDimensionValue" maxlength="50" name="" type="text" class="form-control" />
+                                        <span id="sptxtDimensionValue" class="text-danger"></span>
                                     </div>
 
 
@@ -90,31 +86,23 @@
 
                                     <div class="form-group col-md-2">
                                         <label>Dimension Type</label>
-                                        <select class="form-control select2">
-                                            <option>Diameter</option>
-                                            <option>Length</option>
-                                            <option>Width</option>
-
-                                        </select>
+                                       @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.LookupValues_List, "ID", "LookupValue"), "Select", new { @class = "form-control select2", @id = "ddlDimensionType" })
+                                        <span id="spddlDimensionType" class="text-danger"></span>
                                     </div>
 
 
 
                                     <div class="form-group col-md-1">
                                         <label>Standard</label>
-                                        <select class="form-control select2">
-                                            <option>Select</option>
-                                            <option>Metrics</option>
-                                            <option>British</option>
-
-
-                                        </select>
+                                       
+                                        @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.LookupStandard_List, "ID", "LookupValue"), "Select", new { @class = "form-control select2", @id = "ddlStandard" })
+                                        <span id="spddlStandard" class="text-danger"></span>
                                     </div>
 
 
                                     <div class="btnwidth50 float-right mr-1 " style="margin-top:35px;">
                                         <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
-                                                onclick="location.href='key-dimension.html'" title="Go to the next page">
+                                                onclick="AddFileSizeData()" id="btnsubmit" title="Go to the next page">
                                             Submit
                                         </button>
                                     </div>
@@ -139,3 +127,116 @@
         </div>
     </section>
 </div>
+
+<script>
+    var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+       function AddFileSizeData() {
+        var isValid = true;
+
+        var FileSizeInch = $("#txtFileSizeInch").val().trim();
+        var FileSizeCode = $("#txtFileSizeCode").val().trim();
+        var Remarks = $("#txtRemark").val().trim();
+        var OperationFlag = 1;
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+        // Clear all previous errors
+        $("#spFileSizeInch").text('');
+        $("#spFileSizeCode").text('');
+
+
+        // Validation
+        if (FileSizeInch === "") {
+            $("#spFileSizeInch").text("File Size (Inch) is required.");
+            isValid = false;
+        }
+
+        if (FileSizeCode === "") {
+            $("#spFileSizeCode").text("File Size Code is required.");
+            isValid = false;
+        }
+
+
+
+        if (!isValid) return; // Stop if validation fails
+
+        // Construct object
+        let FileSizeDetailsJobj = {
+            TxnId: 0,
+            Remarks: Remarks,
+            CreatedBy: iLoggedInUserID,
+            CreatedDate: moment.utc(new Date()).format()
+        };
+
+        let json = {
+            FileType: 'M',
+            FileSizeInch: FileSizeInch,
+            FileSizeCode: FileSizeCode,
+            FileSizeDetailsJobj: FileSizeDetailsJobj,
+            OperationFlag: OperationFlag
+        };
+
+        var JsonData = JSON.stringify(json);
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("DroAddFileType", "DrillMaster")',
+            data: { JsonData: JsonData },
+            datatype: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                alert(data.response);
+                var url = '@Url.Action("DrillSize", "DrillMaster")' +
+                    '?PageID=' + pageID +
+                    '&ParentID=' + parentID +
+                    '&ModuleID=' + moduleID +
+                    '&ModulePageID=' + modulePageID;
+                window.location.href = url;
+            },
+            error: function () {
+                alert("An error occurred while saving.");
+            }
+        });
+    }
+
+</script>
+
+
+<script>
+    function validateInput() {
+        var inputElement = document.getElementById('txtFileSizeInch');
+        var inputValue = inputElement.value.trim();
+
+        // Regular expression to match integer or decimal values
+        var regex = /^-?\d*\.?\d*$/;
+
+        if (regex.test(inputValue) || inputValue === '') {
+            // Clear previous error message
+            document.getElementById('spFileSizeInch').innerText = '';
+        } else {
+            // Display error message for invalid input
+            document.getElementById('spFileSizeInch').innerText = 'Only integer or decimal values are allowed.';
+            // Remove invalid characters from the input
+            inputElement.value = inputValue.replace(/[^0-9.-]/g, '');
+        }
+    }
+    function validateInputCode() {
+        var inputElement = document.getElementById('txtFileSizeCode');
+        var inputValue = inputElement.value.trim();
+
+        if (inputValue.length === 2 || inputValue === '') {
+            // Clear previous error message
+            document.getElementById('spFileSizeCode').innerText = '';
+        } else {
+            // Display error message for invalid input
+            document.getElementById('spFileSizeCode').innerText = 'Only two characters are allowed.';
+            // Trim input value to ensure only two characters are retained
+            inputElement.value = inputValue.substring(0, 2);
+        }
+    }
+
+</script>
