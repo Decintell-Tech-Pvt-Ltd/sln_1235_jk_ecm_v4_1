@@ -1,8 +1,10 @@
-﻿using api_1235_jk_ecm_v4.DAL;
+﻿using System.Text;
+using System.Text.Json;
+using api_1235_jk_ecm_v4.DAL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using wa_1235_jk_ecm_v4.Models.DecintellCommon;
 using static System.Net.Mime.MediaTypeNames;
-using System.Text;
 
 namespace api_1235_jk_ecm_v4.Controllers
 {
@@ -115,6 +117,116 @@ namespace api_1235_jk_ecm_v4.Controllers
                 jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
             }
             return Content(jsonResult, Application.Json, Encoding.UTF8);
+        }
+        [HttpPost]
+        [Route("DroApproveFileType")]
+        public async Task<IActionResult> DroApproveFileType()
+        {
+
+            string spName = "usp_DroApproveFileType";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+        }
+        [HttpPost]
+        [Route("GetDroOperationList")]
+        public async Task<IActionResult> GetDroOperationList()
+        {
+
+            string spName = "usp_GetDroOperationList";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+        }
+        [HttpPost]
+        [Route("GetDroParametersList")]
+        public async Task<IActionResult> GetDroParametersList()
+        {
+
+            string spName = "usp_GetDroParametersList";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+        }
+        [HttpPost]
+        [Route("GetDroFileTypeList")]
+        public async Task<IActionResult> GetDroFileTypeList()
+        {
+
+            string spName = "usp_GetDroFileTypeList";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+        }
+
+        [HttpGet]
+        [Route("GetDroFileTypes")]
+        public async Task<IActionResult> GetDroFileTypes()
+        {
+            string spName = "usp_GetDroFileTypeData";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+        [HttpPost]
+        [Route("EditDroSaveFileType")]
+        public async Task<IActionResult> EditDroSaveFileType()
+        {
+
+            string spName = "usp_EditDroFileType";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
         }
     }
  }

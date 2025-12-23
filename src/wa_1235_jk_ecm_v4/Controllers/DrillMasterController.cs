@@ -49,13 +49,30 @@ namespace wa_1235_jk_ecm_v4.Controllers
 
             return View(objList);
         }
-        public IActionResult DrillType()
+        public async Task<IActionResult> DrillType()
         {
-            return View();
+            ViewBag.JWTToken = JwtToken;
+            ViewBag.ApiUrl = appSettings?.API_blob_1231;
+            ViewBag.BaseBlobPath = appSettings?.BaseBlobPath;
+            DrillMaster objList = new DrillMaster();
+            string apiEndPoint = "DrillMaster/GetDroFileTypeList";
+            string JsonData = "{}";
+            objList.FileType_List = JsonSerializer.Deserialize<TypeList[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+          
+            return View(objList);
         }
-        public IActionResult DrillAddType()
+        public async Task<IActionResult> DrillAddType()
         {
-            return View();
+            ViewBag.JWTToken = JwtToken;
+            ViewBag.ApiUrl = appSettings?.API_blob_1231;
+            ViewBag.BaseBlobPath = appSettings?.BaseBlobPath;
+            DrillMaster objList = new DrillMaster();
+            string apiEndPoint = "DrillMaster/GetDroFileTypes";
+            objList.FileTypeMasters = JsonSerializer.Deserialize<FileTypeMaster[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+             apiEndPoint = "DrillMaster/GetDroProdLine";
+            objList.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            return View(objList);
+           
         }
         public IActionResult DrillSubType()
         {
@@ -92,7 +109,6 @@ namespace wa_1235_jk_ecm_v4.Controllers
             }
             return Json(new { response = resultMessage });
         }
-
         [HttpPost]
         public async Task<IActionResult> DroAddFileType(string JsonData)
         {
@@ -107,6 +123,8 @@ namespace wa_1235_jk_ecm_v4.Controllers
             }
             return Json(new { response = resultMessage });
         }
+
+       
         [HttpPost]
         public async Task<IActionResult> DroApproveFileSize(string JsonData)
         {
@@ -135,6 +153,61 @@ namespace wa_1235_jk_ecm_v4.Controllers
             objList.FileSize_List = JsonSerializer.Deserialize<DrillFileSize[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
             return Json(new { response = objList.FileSize_List });
         }
+        [HttpPost]
+        public async Task<IActionResult> GetDroFileTypeListId(string JsonData)
+        {
+            DrillMaster objList = new DrillMaster();
+            string apiEndPoint = "DrillMaster/GetDroFileTypeList";
+            objList.FileType_List = JsonSerializer.Deserialize<TypeList[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            return Json(new { response = objList.FileType_List });
+        }
+        [HttpPost]
+        public async Task<IActionResult> DroApproveFileType(string JsonData)
+        {
+            string apiEndPoint = "DrillMaster/DroApproveFileType";
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetDroOperationList(string JsonData)
+        {
+            string apiEndPoint = "DrillMaster/GetDroOperationList";
+            var OperationList = JsonSerializer.Deserialize<List<OperationList>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
 
+            return Json(new { OperationList });
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetDroParametersList(string JsonData)
+        {
+            Master objList = new Master();
+            string apiEndPoint = "DrillMaster/GetDroParametersList";
+            objList.ParametersLists = JsonSerializer.Deserialize<ParametersList[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+
+            //apiEndPoint = "Masters/GetCutSides";
+            //objList.cutSidesarr_list =  JsonSerializer.Deserialize<cutSidesarr[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+
+
+            return Json(new { objList.ParametersLists });
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditDroSaveFileType(string JsonData)
+        {           
+            string apiEndPoint = "DrillMaster/EditDroSaveFileType";
+
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
+        }
     }
 }

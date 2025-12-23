@@ -14,4 +14,8 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\wa_1235_jk_ecm_v4\wa_1235_jk_ecm_v4.csproj" />
+  </ItemGroup>
+
 </Project>

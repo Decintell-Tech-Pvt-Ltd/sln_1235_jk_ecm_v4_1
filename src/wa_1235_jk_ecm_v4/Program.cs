@@ -1,4 +1,3 @@
-
 using Serilog;
 using Serilog.Events;
 using wa_1235_jk_ecm_v4.CustomExceptionMiddleware;
@@ -9,48 +8,78 @@ using wa_1235_jk_ecm_v4.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//#region Serilog Configuration
+// ----------------------------------------------------
+// Serilog Configuration
+// ----------------------------------------------------
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
     .WriteTo.Console(LogEventLevel.Information)
     .CreateLogger();
-builder.Host.UseSerilog();
-//#endregion
 
+builder.Host.UseSerilog();
+
+// ----------------------------------------------------
 // Add services to the container
-builder.Services.AddControllersWithViews();
+// ----------------------------------------------------
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+    {
+        // READ ? case-insensitive (UserId, userId, USERID)
+        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+
+        // WRITE ? camelCase JSON
+        options.JsonSerializerOptions.PropertyNamingPolicy =
+            System.Text.Json.JsonNamingPolicy.CamelCase;
+
+        options.JsonSerializerOptions.DictionaryKeyPolicy =
+            System.Text.Json.JsonNamingPolicy.CamelCase;
+    });
+
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpContextAccessor();
 
+// ----------------------------------------------------
 // Session configuration
-var randomGuid = Guid.NewGuid().ToString();
+// ----------------------------------------------------
+builder.Services.AddDistributedMemoryCache();
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(20);
     options.Cookie.IsEssential = true;
-    options.Cookie.Name = $".wa_1235_jk_ecm_v4.Session";
+    options.Cookie.Name = ".wa_1235_jk_ecm_v4.Session";
     options.Cookie.Domain = builder.Configuration["Decintell:DomainName"];
     options.Cookie.HttpOnly = true;
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
-builder.Services.AddDistributedMemoryCache();
 
+// ----------------------------------------------------
+// Dependency Injection
+// ----------------------------------------------------
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<IAppSettingsService, AppSettingsService>();
-builder.Services.Configure<DecintellSettings>(builder.Configuration.GetSection("Decintell"));
-builder.Services.Configure<DecintellSettings>(builder.Configuration.GetSection("DecintellData"));
+
+builder.Services.Configure<DecintellSettings>(
+    builder.Configuration.GetSection("Decintell"));
+
+builder.Services.Configure<DecintellSettings>(
+    builder.Configuration.GetSection("DecintellData"));
+
 builder.Services.AddHttpClient();
-
-
 
 builder.Services.AddSingleton<IGenericMethods, GenericMethodsRepository>();
 builder.Services.AddSingleton<ILogServices, LogManagerRepository>();
 
+// ----------------------------------------------------
+// Build app
+// ----------------------------------------------------
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
+// ----------------------------------------------------
+// Configure HTTP request pipeline
+// ----------------------------------------------------
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -62,18 +91,20 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// ? Enable session middleware BEFORE any custom middleware or authorization
+// IMPORTANT: Session BEFORE custom middleware
 app.UseSession();
 
-// ? Global exception handler
+// Global exception middleware
 app.ConfigureCustomExceptionMiddleware();
 
-// ? Custom middleware (e.g., logs session)
+// Custom session logging middleware
 app.UseMiddleware<SessionLoggingMiddleware>();
 
-// ? Now do authorization
 app.UseAuthorization();
 
+// ----------------------------------------------------
+// Endpoints
+// ----------------------------------------------------
 app.MapBlazorHub();
 app.MapRazorPages();
 

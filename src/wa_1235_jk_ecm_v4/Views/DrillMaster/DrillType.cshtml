@@ -1,281 +1,87 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-
+@model wa_1235_jk_ecm_v4.Models.DrillMaster
 @{
 	ViewData["Title"] = "DrillType";
 	Layout = "~/Views/Shared/_ECMMaster.cshtml";
 }
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-	<!-- InstanceBeginEditable name="EditRegion1" -->
-	<div class="modal fade" id="nonstandard">
+	
+
+	<div class="modal fade" id="approve">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
+
+				<!-- Modal Header -->
 				<div class="modal-header">
-					<h5 class="modal-title">View</h5>
+					<h5 class="modal-title">Remark</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 
+				<!-- File Info -->
 				<div class="modal-body">
-					<input type="hidden" id="txtID" value="68">
-					<b>Request No.:</b><span>10</span>,&nbsp;&nbsp;
-					<b>Type Name:</b><span> PARALLEL-HSS CENTRE DRILL</span>,&nbsp;&nbsp;
-					<b>Type Code:</b><span> CD</span>
+					<input type="hidden" id="txtID">
+					<p>
+						<b>Request No.:</b> <span id="txtRequest"></span>, &nbsp;&nbsp;
+						<b>Type Name:</b> <span id="txtFileName"></span>, &nbsp;&nbsp;
+						<b>Type Code:</b> <span id="txtFileTypeCode"></span>
+					</p>
 
+					<!-- Image -->
 					<div>
-						<br>
-						<img id="displayImage" class="img-fluid" src="https://decintellai.com/ui/all-Modules/UI_Repository/dist/img/drill.jpg">
-
-					</div>
-
-					<div>
-						<h4>Parameters</h4>
-						<table width="100%" class="table table-bordered example1">
-							<thead>
-								<tr>
-									<th style="width:15%; text-align: center;">Sq. No.</th>
-									<th style="width:45%; text-align: Left;">Process</th>
-									<th style="width:40%;  text-align: Left;">Parameter Name</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td style="text-align: center;">1</td>
-									<td style="text-align: Left;">RAW MATERIAL</td>
-									<td style="text-align: Left;">&nbsp;</td>
-								</tr>
-								<tr>
-									<td style="text-align: center;">1</td>
-									<td style="text-align: Left;">RAW MATERIAL</td>
-									<td style="text-align: Left;">&nbsp;</td>
-								</tr>
-								<tr>
-									<td style="text-align: center;">2</td>
-									<td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
-									<td style="text-align: Left;">&nbsp;</td>
-								</tr>
-								<tr>
-									<td style="text-align: center;">2</td>
-									<td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
-									<td style="text-align: Left;">&nbsp;</td>
-								</tr>
-								<tr>
-									<td style="text-align: center;">2</td>
-									<td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
-									<td style="text-align: Left;">&nbsp;</td>
-								</tr>
-								<tr>
-									<td style="text-align: center;">3</td>
-									<td style="text-align: Left;">GRINDING</td>
-									<td style="text-align: Left;">&nbsp;</td>
-								</tr>
-								<tr>
-									<td style="text-align: center;">3</td>
-									<td style="text-align: Left;">GRINDING</td>
-									<td style="text-align: Left;">&nbsp;</td>
-								</tr>
-								<tr>
-									<td style="text-align: center;">4</td>
-									<td style="text-align: Left;">CUTTING</td>
-									<td style="text-align: Left;">&nbsp;</td>
-								</tr>
-								<tr>
-									<td style="text-align: center;">4</td>
-									<td style="text-align: Left;">CUTTING</td>
-									<td style="text-align: Left;">&nbsp;</td>
-								</tr>
-								<tr>
-									<td style="text-align: center;">5</td>
-									<td style="text-align: Left;">FINISH</td>
-									<td style="text-align: Left;">&nbsp;</td>
-								</tr>
-								<tr>
-									<td style="text-align: center;">6</td>
-									<td style="text-align: Left;">HARDNESS</td>
-									<td style="text-align: Left;">&nbsp;</td>
-								</tr>
-								<tr>
-									<td style="text-align: center;">7</td>
-									<td style="text-align: Left;">REMARKS</td>
-									<td style="text-align: Left;">&nbsp;</td>
-								</tr>
-							</tbody>
-						</table>
-
+						<img id="displayImage1" class="img-fluid" src="" alt="File Image" />
 					</div>
 				</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-			</div>
-
-		</div>
-	</div>
-
-
-	<div class="modal fade" id="nonstandard1">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">View</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-
-				<div class="modal-body">
-					<input type="hidden" id="txtID" value="68">
-					<b>Request No.:</b><span>10</span> ,&nbsp;&nbsp;
-					<b>File Size (inch):</b><span>4</span>,&nbsp;&nbsp;
-					<b>File Size Code:</b><span>04</span>
-
-					<div>
-						<img id="displayImage" class="img-fluid" src="https://decintellai.com/ui/all-Modules/UI_Repository/dist/img/FL.jpg">
-
-					</div>
-				</div>
+				<label id="modalId" style="display:none"></label>
+				<p style="display:none">ID: <span id="approveItemId"></span></p>
+				<!-- Parameters Table -->
 				<div class="modal-body">
 					<h4 class="top10">Parameters</h4>
-					<table width="100%" class="table table-bordered example1">
+					<table width="100%" class="table table-bordered example1" id="tblshowAddedFileTypeParameters">
 						<thead>
 							<tr>
-								<th style="width:2%; text-align: center;">Sq.No.</th>
-								<th style="width:15%; text-align: Left;">Process</th>
-								<th style="width:35%;  text-align: Left;">Parameter Name</th>
+								<th style="width:5%; text-align: center;">Sq.No.</th>
+								<th style="width:25%; text-align: left;">Process</th>
+								<th style="text-align: left;">Parameter Name</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<td style="text-align: center;">1</td>
-								<td style="text-align: Left;">RAW MATERIAL</td>
-								<td style="text-align: Left;">Width</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">1</td>
-								<td style="text-align: Left;">RAW MATERIAL</td>
-								<td style="text-align: Left;">Thickness</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">2</td>
-								<td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
-								<td style="text-align: Left;">Tang Thickness at Shoulder</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">2</td>
-								<td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
-								<td style="text-align: Left;">Tang Width at Shoulder</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">2</td>
-								<td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
-								<td style="text-align: Left;">#NOTE# - Grinding Blank Shall be free from decarburization</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">3</td>
-								<td style="text-align: Left;">GRINDING</td>
-								<td style="text-align: Left;">Taper Length</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">3</td>
-								<td style="text-align: Left;">GRINDING</td>
-								<td style="text-align: Left;">Body Thickness</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">4</td>
-								<td style="text-align: Left;">CUTTING</td>
-								<td style="text-align: Left;">Upcut</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">4</td>
-								<td style="text-align: Left;">CUTTING</td>
-								<td style="text-align: Left;">Upcut Inclination</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">5</td>
-								<td style="text-align: Left;">FINISH</td>
-								<td style="text-align: Left;">Finished Body Length</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">6</td>
-								<td style="text-align: Left;">HARDNESS</td>
-								<td style="text-align: Left;">Hardness (HRC)</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">7</td>
-								<td style="text-align: Left;">REMARKS</td>
-								<td style="text-align: Left;">REMARKS</td>
-
-							</tr>
-
+						<tbody id="showAddedParameters">
+							<!-- Dynamic rows go here -->
 						</tbody>
 					</table>
-
 				</div>
+
+				<!-- Footer Buttons -->
 				<div class="modal-footer">
-					<div class="col-lg-2form-group">
-						<div class="">
-							<div class="float-left text-right" style="margin-top: 36px;">
-								<button type="button"
-										class="btn btn-danger btn-xs btnwidth50"
-										onclick="location.href=''"
-										title="Reject the selected item">
-									Reject
-								</button>
-
-								<button type="button"
-										class="btn btn-success btn-xs btnwidth60"
-										onclick="location.href=''"
-										title="Approve the selected item">
-									Approve
-								</button>
-							</div>
-						</div>
+					<div class="float-right">
+						<button type="button"
+								class="btn btn-danger btn-xs btnwidth50"
+								title="Reject the selected item"
+								onclick="ApproveFileType(document.getElementById('txtID').value, 4); $('#approve').modal('hide');">
+							Reject
+						</button>
+						<button type="button"
+								class="btn btn-success btn-xs btnwidth60"
+								title="Approve the selected item"
+								onclick="ApproveFileType(document.getElementById('txtID').value, 3); $('#approve').modal('hide');">
+							Approve
+						</button>
 					</div>
 				</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
 			</div>
-
 		</div>
 	</div>
 
-	<div class="modal fade" id="nonstandard2">
+
+	<div class="modal fade" id="image">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
+
+				<!-- Modal Header -->
 				<div class="modal-header">
 					<h5 class="modal-title">View</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -283,119 +89,35 @@
 					</button>
 				</div>
 
+				<!-- Modal Body - File Info -->
 				<div class="modal-body">
-					<input type="hidden" id="txtID" value="68">
-					<b>Request No.:</b><span>10</span> ,&nbsp;&nbsp;
-					<b>File Size (inch):</b><span>4</span>,&nbsp;&nbsp;
-					<b>File Size Code:</b><span>04</span>
+					<input type="hidden" id="txtID1" />
+					<b>Request No.:</b> <span id="txtRequest1"></span>, &nbsp;&nbsp;
+					<b> Type Name:</b> <span id="txtFileName1"></span>, &nbsp;&nbsp;
+					<b> Type Code:</b> <span id="txtFileTypeCode1"></span>
 
-					<div>
-						<img id="displayImage" class="img-fluid" src="https://decintellai.com/ui/all-Modules/UI_Repository/dist/img/FL.jpg">
-
+					<div class="top10">
+						<img id="displayImage" class="img-fluid" src="" alt="File Type Image">
 					</div>
 				</div>
+
+				<!-- Modal Body - Parameters Table -->
 				<div class="modal-body">
 					<h4 class="top10">Parameters</h4>
-					<table width="100%" class="table table-bordered example1">
+					<table class="table table-bordered example1" style="width:100%;" id="tblshowAddedParametersList">
 						<thead>
 							<tr>
-								<th style="width:2%; text-align: center;">Sq.No.</th>
-								<th style="width:15%; text-align: Left;">Process</th>
-								<th style="width:35%;  text-align: Left;">Parameter Name</th>
+								<th style="width:5%; text-align:center;">Sq.No.</th>
+								<th style="width:25%; text-align:left;">Process</th>
+								<th style="text-align:left;">Parameter Name</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<td style="text-align: center;">1</td>
-								<td style="text-align: Left;">RAW MATERIAL</td>
-								<td style="text-align: Left;">Width</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">1</td>
-								<td style="text-align: Left;">RAW MATERIAL</td>
-								<td style="text-align: Left;">Thickness</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">2</td>
-								<td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
-								<td style="text-align: Left;">Tang Thickness at Shoulder</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">2</td>
-								<td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
-								<td style="text-align: Left;">Tang Width at Shoulder</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">2</td>
-								<td style="text-align: Left;">POINT PUNCHIG AND PRESSING</td>
-								<td style="text-align: Left;">#NOTE# - Grinding Blank Shall be free from decarburization</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">3</td>
-								<td style="text-align: Left;">GRINDING</td>
-								<td style="text-align: Left;">Taper Length</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">3</td>
-								<td style="text-align: Left;">GRINDING</td>
-								<td style="text-align: Left;">Body Thickness</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">4</td>
-								<td style="text-align: Left;">CUTTING</td>
-								<td style="text-align: Left;">Upcut</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">4</td>
-								<td style="text-align: Left;">CUTTING</td>
-								<td style="text-align: Left;">Upcut Inclination</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">5</td>
-								<td style="text-align: Left;">FINISH</td>
-								<td style="text-align: Left;">Finished Body Length</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">6</td>
-								<td style="text-align: Left;">HARDNESS</td>
-								<td style="text-align: Left;">Hardness (HRC)</td>
-
-							</tr>
-							<tr>
-								<td style="text-align: center;">7</td>
-								<td style="text-align: Left;">REMARKS</td>
-								<td style="text-align: Left;">REMARKS</td>
-
-							</tr>
-
+						<tbody id="showAddedParametersList">
+							<!-- Dynamic rows will be injected via JavaScript -->
 						</tbody>
 					</table>
-
 				</div>
-
-
-
-
-
-
-
-
-
-
-
-
 			</div>
-
 		</div>
 	</div>
 
@@ -428,7 +150,7 @@
 					</div>
 					<div class="btnwidth50 float-right mr-1">
 						<a id="btnadd" class="btn btn-block bg-gradient-primary   btn-xs float-left"
-						   href="@Url.Action("DrillType", "DrillMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" title="Add new record">
+						   href="@Url.Action("DrillAddType", "DrillMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" title="Add new record">
 							Add
 						</a>
 					</div>
@@ -471,114 +193,33 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
-											<td><div align="center"><a href="Edit-Type.html" title="Edit">10</a></div></td>
-											<td>DRILLS</td>
-											<td><div align="Left"><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">PARALLEL-HSS CENTRE DRILL</a></div></td>
-											<td><div align="center">CD</div></td>
-											<td>
-												<div align="center">
-													<button type="button"
-															class="btn btn-primary btn-xs btnwidth95"
-															onclick="location.href=''"
-															title="Go to the next page">
-														Submit for Approval
-													</button>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<div align="center">
-													<div align="center"><a href="Edit-Type.html" title="Edit">11</a></div>
-												</div>
-											</td>
-											<td>DRILLS</td>
-											<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">PARALLEL-HSS GROUND FLUTE JOBBER SERIES</a></td>
-											<td><div align="center">PG</div></td>
-											<td>
-												<div align="center">
-													<button type="button"
-															class="btn btn-primary btn-xs btnwidth95"
-															onclick="location.href=''"
-															title="Go to the next page">
-														Submit for Approval
-													</button>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<div align="center">
-													<div align="center"><a href="Edit-Type.html" title="Edit">12</a></div>
-												</div>
-											</td>
-											<td>DRILLS</td>
-											<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">TOOL BIT-ROUND</a></td>
-											<td><div align="center">TR</div></td>
-											<td>
-												<div align="center">
-													<button type="button"
-															class="btn btn-primary btn-xs btnwidth95"
-															onclick="location.href=''"
-															title="Go to the next page">
-														Submit for Approval
-													</button>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<div align="center">
-													<div align="center"><a href="Edit-Type.html" title="Edit">13</a></div>
-												</div>
-											</td>
-											<td>TAPS</td>
-											<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">TAPS-HAND TAPS</a></td>
-											<td><div align="center">TH</div></td>
-											<td>
-												<div align="center">
-													<button type="button"
-															class="btn btn-primary btn-xs btnwidth95"
-															onclick="location.href=''"
-															title="Go to the next page">
-														Submit for Approval
-													</button>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td><div align="center"><a href="Edit-Type.html" title="Edit">14</a></div></td>
-											<td>DIES</td>
-											<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">DIES-SCREWING</a></td>
-											<td><div align="center">SD</div></td>
-											<td>
-												<div align="center">
-													<button type="button"
-															class="btn btn-primary btn-xs btnwidth95"
-															onclick="location.href=''"
-															title="Go to the next page">
-														Submit for Approval
-													</button>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td><div align="center"><a href="Edit-Type.html" title="Edit">15</a></div></td>
-											<td>DRILLS</td>
-											<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">CARBIDE BURR-CONE SHAPE</a></td>
-											<td><div align="center">CC</div></td>
-											<td>
-												<div align="center">
-													<button type="button"
-															class="btn btn-primary btn-xs btnwidth95"
-															onclick="location.href=''"
-															title="Go to the next page">
-														Submit for Approval
-													</button>
-												</div>
-											</td>
-										</tr>
+										@if (Model.FileType_List != null)
+										{
+											foreach (var item in Model.FileType_List)
+											{
+												if (item.GridNo == 1)
+												{
+													<tr>
+														<td class="text-center"><a href="#" title="Edit" onclick="EditFileType('@item.Id',@item.RequestNo);">@item.RequestNo</a></td>
+														<td class="text-left">@item.ProductLine</td>
+														<td>
+															<a href="#" title="View" onclick="ModelFileType('@item.Id','@item.RequestNo','@item.FileTypeName','@item.FileTypeCode','@item.ProductLine');" data-toggle="modal">
+																@item.FileTypeName
+															</a>
+														</td>
+														<td class="text-center">@item.FileTypeCode</td>
+														<td class="text-center">
+															@*   <a href="#" class="btn btn-sm btn-warning" onclick="EditFileType('@item.Id',@item.RequestNo);" title="Edit">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a> *@
+															<button type="button" class="btn btn-primary btn-xs btnwidth95" onclick="ApproveFileType(@item.Id,2);">
+																Submit for Approval
+															</button>
+														</td>
+													</tr>
+												}
+											}
+										}
 									</tbody>
 								</table>
 							</div>
@@ -616,54 +257,26 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td><div align="center">10</div></td>
-										<td>DRILLS</td>
-										<td><div align="Left"><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">PARALLEL-HSS CENTRE DRILL</a></div></td>
-										<td><div align="center">CD</div></td>
-									</tr>
-									<tr>
-										<td>
-											<div align="center">
-												<div align="center">11</div>
-											</div>
-										</td>
-										<td>DRILLS</td>
-										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">PARALLEL-HSS GROUND FLUTE JOBBER SERIES</a></td>
-										<td><div align="center">PG</div></td>
-									</tr>
-									<tr>
-										<td>
-											<div align="center">
-												<div align="center">12</div>
-											</div>
-										</td>
-										<td>DRILLS</td>
-										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">TOOL BIT-ROUND</a></td>
-										<td><div align="center">TR</div></td>
-									</tr>
-									<tr>
-										<td>
-											<div align="center">
-												<div align="center">13</div>
-											</div>
-										</td>
-										<td>TAPS</td>
-										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">TAPS-HAND TAPS</a></td>
-										<td><div align="center">TH</div></td>
-									</tr>
-									<tr>
-										<td><div align="center">14</div></td>
-										<td>DIES</td>
-										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">DIES-SCREWING</a></td>
-										<td><div align="center">SD</div></td>
-									</tr>
-									<tr>
-										<td><div align="center">15</div></td>
-										<td>DRILLS</td>
-										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">CARBIDE BURR-CONE SHAPE</a></td>
-										<td><div align="center">CC</div></td>
-									</tr>
+									@if (Model.FileType_List != null)
+									{
+										foreach (var item in Model.FileType_List)
+										{
+											if (item.GridNo == 2)
+											{
+												<tr>
+													<td class="text-center">@item.RequestNo</td>
+													<td class="text-left">@item.ProductLine</td>
+													<td>
+														<a href="#" title="View" data-toggle="modal" data-target="#approve" onclick="setApproveItems('@item.Id','@item.RequestNo','@item.FileTypeName','@item.FileTypeCode','@item.ProductLine');">
+															@item.FileTypeName
+														</a>
+													</td>
+													<td class="text-center">@item.FileTypeCode</td>
+												
+												</tr>
+											}
+										}
+									}
 								</tbody>
 							</table>
 						</div>
@@ -701,54 +314,26 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td><div align="center">10</div></td>
-										<td>DRILLS</td>
-										<td><div align="Left"><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">PARALLEL-HSS CENTRE DRILL</a></div></td>
-										<td><div align="center">CD</div></td>
-									</tr>
-									<tr>
-										<td>
-											<div align="center">
-												<div align="center">11</div>
-											</div>
-										</td>
-										<td>DRILLS</td>
-										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">PARALLEL-HSS GROUND FLUTE JOBBER SERIES</a></td>
-										<td><div align="center">PG</div></td>
-									</tr>
-									<tr>
-										<td>
-											<div align="center">
-												<div align="center">12</div>
-											</div>
-										</td>
-										<td>DRILLS</td>
-										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">TOOL BIT-ROUND</a></td>
-										<td><div align="center">TR</div></td>
-									</tr>
-									<tr>
-										<td>
-											<div align="center">
-												<div align="center">13</div>
-											</div>
-										</td>
-										<td>TAPS</td>
-										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">TAPS-HAND TAPS</a></td>
-										<td><div align="center">TH</div></td>
-									</tr>
-									<tr>
-										<td><div align="center">14</div></td>
-										<td>DIES</td>
-										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">DIES-SCREWING</a></td>
-										<td><div align="center">SD</div></td>
-									</tr>
-									<tr>
-										<td><div align="center">15</div></td>
-										<td>DRILLS</td>
-										<td><a href="#" data-toggle="modal" data-target="#nonstandard" title="View">CARBIDE BURR-CONE SHAPE</a></td>
-										<td><div align="center">CC</div></td>
-									</tr>
+									@if (Model.FileType_List != null)
+									{
+										foreach (var item in Model.FileType_List)
+										{
+											if (item.GridNo == 3)
+											{
+												<tr>
+													<td class="text-center">@item.RequestNo</td>
+													<td class="text-left">@item.ProductLine</td>
+													<td>
+														<a href="#" title="View" onclick="ModelFileType('@item.Id','@item.RequestNo','@item.FileTypeName','@item.FileTypeCode','@item.ProductLine');">
+															@item.FileTypeName
+														</a>
+													</td>
+													<td class="text-center">@item.FileTypeCode</td>
+									
+												</tr>
+											}
+										}
+									}
 								</tbody>
 							</table>
 						</div>
@@ -763,3 +348,259 @@
 
 	<!-- InstanceEndEditable -->
 </div>
+<script>
+
+
+		$(document).ready(function () {
+			// Hide the element with ID "txtID"
+			$("#txtID").hide();
+
+		});
+
+
+	function setApproveItems(itemId, RequestNo, FileTypeName, FileTypeCode,ProdLine) {
+		document.getElementById('approveItemId').textContent = itemId;
+
+		ModelFileSize(itemId, RequestNo, FileTypeName, FileTypeCode,ProdLine);
+		//  OpenDocument(BrandCode, ImageFile, 'displayImage1');
+	}
+
+	function EditFileType(Id, RequestNo) {
+
+		// Constructing the URL using JavaScript
+		 var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+	var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+	var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+	var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+	// Construct the full URL
+	var url = '@Url.Action("DrillAddType", "DrillMaster")' +
+		'?TypeId=' + encodeURIComponent(Id) +
+		'&ReqId=' + encodeURIComponent(RequestNo) +
+		'&PageID=' + pageID +
+		'&ParentID=' + parentID +
+		'&ModuleID=' + moduleID ;
+
+	// Redirect
+	window.location.href = url;
+	}
+
+
+
+	function ApproveFileType(Id, StatusId) {
+		var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+		var json = {
+			Id: Id,
+			StatusId: StatusId,
+			CreatedDate: moment.utc(new Date()).format(),
+			CreatedBy: iLoggedInUserID
+		};
+		var JsonData = JSON.stringify(json);
+
+
+		$.ajax({
+			type: "POST",
+			url: '@Url.Action("DroApproveFileType", "DrillMaster")',
+			data: { JsonData: JsonData },
+			datatype: 'json',
+			beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+			success: function (data) {
+				alert(data.response);
+				location.reload();
+			}
+		});
+	}
+
+
+
+
+	function ModelOperation(ValueStreamCode, Id) {
+		var JsonData = JSON.stringify({
+			valuestreamcode: ValueStreamCode,
+			id: Id
+		});
+
+		$.ajax({
+			type: "POST",
+			url: '@Url.Action("GetDroOperationList", "DrillMaster")',
+			data: { JsonData: JsonData },
+			dataType: 'json',
+			beforeSend: function () { $('#loader').show(); },
+			complete: function () { $('#loader').hide(); },
+			success: function (data) {
+
+				var html = '';
+
+
+				for (var i = 0; i < data.operationList.length; i++) {
+					html += '<tr>';
+					html += '<td align="center">' + data.operationList[i].seqNo + '</td>';
+					html += '<td align="center">' + data.operationList[i].opr_operation_name + '</td>';
+					html += '</tr>';
+				}
+				$('#showAddedValueStreamProcess').html(html);
+				$('#vscode').modal('show');
+			},
+			error: function () {
+				alert('Error occurred while fetching data.');
+			}
+		});
+	}
+
+
+	function ModelFileSize(ID, RequestNo, FileTypeName, FileTypeCode,ProdLine) {
+		$('#txtID').val(ID);
+		$('#txtRequest').text(RequestNo);
+		$('#txtFileName').text(FileTypeName);
+		$('#txtFileTypeCode').text(FileTypeCode);
+
+
+
+		var JsonData = JSON.stringify({
+			ID: ID
+		});
+
+		$.ajax({
+			type: "POST",
+			url: '@Url.Action("GetDroParametersList", "DrillMaster")',
+			data: { JsonData: JsonData },
+			dataType: 'json',
+			beforeSend: function () { $('#loader').show(); },
+			complete: function () { $('#loader').hide(); },
+			success: function (data) {
+				var html = '';
+				$("#tblshowAddedFileTypeParameters").dataTable().fnClearTable();
+				$("#tblshowAddedFileTypeParameters").dataTable().fnDestroy()
+				var dtParameter = $('#tblshowAddedFileTypeParameters').DataTable({
+					"columnDefs": [
+						{ "className": "dt-center", "targets": "_all" }
+					],
+				});
+
+				var rows = [];
+
+				//  var cutside = data.objList.cutSidesarr_list;
+				var parametersLists = data.parametersLists;
+				for (var i = 0; i < parametersLists.length; i++) {
+				
+					rows =
+						[
+							'<div align="center">' + data.parametersLists[i].parameterCategorySequence + '</div>',
+							'<div align="left">' + data.parametersLists[i].parameterCategory + '</div>',
+							'<div align="left">' + data.parametersLists[i].parameterName + '</div>',
+						];
+					var backgroundImage = "url('" + parametersLists[i].fileTypeProfileImage + "')";
+
+					
+					// Preload image
+					$('<img src="' + parametersLists[i].fileTypeProfileImage + '" style="display: none;" />').appendTo('#imageDiv');
+					dtParameter.row.add(rows).draw(false);
+					var fileTypeProfileImage = data.parametersLists[i].fileTypeProfileImage;
+				}
+				   OpenDocument(fileTypeProfileImage,'displayImage1',ProdLine);
+				//$('#showAddedParameters').html(html);
+				$('#approve').modal('show'); // Show the modal
+			},
+			error: function () {
+				alert('Error occurred while fetching data.');
+			}
+		});
+	}
+
+
+
+	function ModelFileType(ID, RequestNo, FileTypeName, FileTypeCode,ProdLine) {
+		
+		document.getElementById('txtRequest1').textContent = RequestNo;
+		document.getElementById('txtFileName1').textContent = FileTypeName;
+		document.getElementById('txtFileTypeCode1').textContent = FileTypeCode;
+
+		var JsonData = JSON.stringify({
+			ID: ID
+		});
+
+		$.ajax({
+			type: "POST",
+			url: '@Url.Action("GetDroParametersList", "DrillMaster")',
+			data: { JsonData: JsonData },
+			dataType: 'json',
+			beforeSend: function () { $('#loader').show(); },
+			complete: function () { $('#loader').hide(); },
+			success: function (data) {
+				var html = '';
+				$("#tblshowAddedParametersList").dataTable().fnClearTable();
+				$("#tblshowAddedParametersList").dataTable().fnDestroy()
+				var dtParameter = $('#tblshowAddedParametersList').DataTable({
+					"columnDefs": [
+						{ "className": "dt-center", "targets": "_all" }
+					],
+				});
+
+				var rows = [];
+				for (var i = 0; i < data.parametersLists.length; i++) {
+
+					rows =
+						[
+							'<div align="center">' + data.parametersLists[i].parameterCategorySequence + '</div>',
+							'<div align="left">' + data.parametersLists[i].parameterCategory + '</div>',
+							'<div align="left">' + data.parametersLists[i].parameterName + '</div>',
+						];
+
+					dtParameter.row.add(rows).draw(false);
+					var fileTypeProfileImage = data.parametersLists[i].fileTypeProfileImage;
+
+				}
+				OpenDocument(fileTypeProfileImage,'displayImage',ProdLine);
+				$('#image').modal('show'); // Show the modal
+			},
+			error: function () {
+				alert('Error occurred while fetching data.');
+			}
+		});
+	}
+
+	async function OpenDocument(FileName, ImageId,ProdLine) {
+	   var JwToken = '@ViewBag.JWTToken';
+	   var blobStorageUrl = '@ViewBag.ApiUrl';
+	   let blobPathPrefix = '@ViewBag.BaseBlobPath';
+		//var path = 'others\\filetypes' + '\\';
+	var path = 'others\\' + ProdLine + '\\types\\';
+		const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
+
+			const JSONData = {
+				blobPath: blobpath,
+				asSas: false,
+				downloadFileName: FileName
+			};
+
+			try {
+				$('#loader').show();
+
+				const response = await $.ajax({
+					url: blobStorageUrl + 'Files/get',
+					headers: { Authorization: 'Bearer ' + JwToken },
+					type: "POST",
+					contentType: "application/json",
+					data: JSON.stringify(JSONData),
+					xhrFields: { responseType: 'blob' }
+				});
+
+				if (response && response.size > 0) {
+					const objectURL = URL.createObjectURL(response);
+					// Display the image in the img tag
+					const imgElement = document.getElementById(ImageId);
+				imgElement.src = objectURL;
+				}
+			}
+			catch (error) {
+				console.error("Error:", error);
+				const imgElement = document.getElementById(ImageId);
+				imgElement.src = '';
+
+			}
+			finally {
+			 $('#loader').hide();
+			}
+	}
+</script>

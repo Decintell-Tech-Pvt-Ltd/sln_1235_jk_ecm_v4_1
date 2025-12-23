@@ -10,6 +10,8 @@ namespace wa_1235_jk_ecm_v4.Models
         public ProdLineList[] ProdLine_List { get; set; }
         public LookupValues[] LookupValues_List { get; set; }
         public LookupValues[] LookupStandard_List { get; set; }
+        public TypeList[] FileType_List { get; set; }
+        public FileTypeMaster[] FileTypeMasters { get; set; }
         public int ProdId { get; set; }
     }
 
@@ -47,5 +49,25 @@ namespace wa_1235_jk_ecm_v4.Models
         public int? ID { get; set; }
         public string? LookupValue { get; set; }
     }
+    public class TypeList
+    {
+        public int Id { get; set; }
+        public string BatchId { get; set; }
+        public string RequestNo { get; set; }
+        public string FileTypeName { get; set; }
+        public string FileTypeCode { get; set; }
+        public string? ImageFileName { get; set; }
+        public string ValueStreamCode { get; set; }
+        public string SizeMin { get; set; }
+        public string SizeMax { get; set; }
+        public object operationJarr { get; set; }
+        public int StatusId { get; set; }
+        public string Remark { get; set; }
+        public string Cutonside { get; set; }
+        public string CutSide { get; set; }
+        public string? ProductLine { get; set; }
+        public int ProductLineId { get; set; }
+        public int GridNo { get; set; }
 
+    }
 }
