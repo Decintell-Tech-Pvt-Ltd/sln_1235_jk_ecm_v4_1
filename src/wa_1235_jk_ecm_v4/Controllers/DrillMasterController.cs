@@ -28,7 +28,8 @@ namespace wa_1235_jk_ecm_v4.Controllers
         {
             DrillMaster objList = new DrillMaster();
             string apiEndPoint = "DrillMaster/GetDroFileSizeList";
-            objList.FileSize_List = JsonSerializer.Deserialize<DrillFileSize[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            string JsonData = "{}";
+            objList.FileSize_List = JsonSerializer.Deserialize<DrillFileSize[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
             return View(objList);
            
         }
@@ -78,6 +79,21 @@ namespace wa_1235_jk_ecm_v4.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> DroAddFileSize(string JsonData)
+        {
+            
+            string apiEndPoint = "DrillMaster/DroAddFileSize";
+
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
+        }
+
+        [HttpPost]
         public async Task<IActionResult> DroAddFileType(string JsonData)
         {
             
@@ -110,6 +126,14 @@ namespace wa_1235_jk_ecm_v4.Controllers
             string apiEndPoint = "DrillMaster/GetDroProdLine";
             var ProdLineList = JsonSerializer.Deserialize<dynamic>(await _iGenericMethods.GetDataEcm(apiEndPoint));           
             return Json(new { response = ProdLineList });
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetDroFileSizeListById(string JsonData)
+        {
+            DrillMaster objList = new DrillMaster();
+            string apiEndPoint = "DrillMaster/GetDroFileSizeList";
+            objList.FileSize_List = JsonSerializer.Deserialize<DrillFileSize[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            return Json(new { response = objList.FileSize_List });
         }
 
     }

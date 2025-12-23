@@ -23,8 +23,27 @@ namespace api_1235_jk_ecm_v4.Controllers
 
 
         [HttpPost]
+        [Route("DroAddFileSize")]
+        public async Task<IActionResult> DroAddFileSize()
+        {
+
+            string spName = "usp_Dro_AddFileSize";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+        [HttpPost]
         [Route("DroAddFileType")]
-        public async Task<IActionResult> SaveFileType()
+        public async Task<IActionResult> DroAddFileType()
         {
 
             string spName = "usp_Dro_AddFileType";
@@ -41,7 +60,7 @@ namespace api_1235_jk_ecm_v4.Controllers
             return Content(jsonResult, Application.Json, Encoding.UTF8);
 
         }
-        [HttpGet]
+        [HttpPost]
         [Route("GetDroFileSizeList")]
         public async Task<IActionResult> GetDroFileSizeList()
         {

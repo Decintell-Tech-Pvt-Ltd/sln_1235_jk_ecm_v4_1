@@ -88,11 +88,7 @@
                                 <tr>
           
                                     <td><div align="center"><a href='@Url.Action("DrillAddSize", "DrillMaster", new {
-                                                    fileid = item.Id,
-                                                    ProductLineId = item.ProductLineId,
-                                                    DimensionCode = item.DimensionCode,
-                                                    NewOrExisting = item.NewOrExisting,
-                                                    Remarks = item.Remarks,
+                                                    SizeId = item.Id,
                                                     PageID = Context.Request.Query["PageID"].ToString(),
                                                     ParentID = Context.Request.Query["ParentID"].ToString(),
                                                     ModuleID = Context.Request.Query["ModuleID"].ToString(),
