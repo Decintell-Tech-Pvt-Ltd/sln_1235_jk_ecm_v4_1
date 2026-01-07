@@ -155,9 +155,8 @@ namespace wa_1235_jk_ecm_v4.Models
             public int CustomerId { get; set; }
             public string? CustomerName { get; set; }
             public string? CustomerCode { get; set; }
-
-            public decimal CustomerPct { get; set; }
-            public int PackingDays { get; set; }
+            public decimal? CustomerPct { get; set; }
+            public int? PackingDays { get; set; }
             public string? CustomerDetailsJobj { get; set; }
             public string? CustomerHistoryJarr { get; set; }
         }
