@@ -494,7 +494,7 @@
                                                                 <td>@Model.ProductionDetails_List.ProdSKU</td>
                                                                 <td align="center">
                                                                     <div class="btnwidth80 float-right">
-                                                                        <button type="button" class="btn btn-primary btn-xs"
+                                                                        <button type="button" class="btn btn-primary btn-xs" id="btnDrawing"
                                                                                 onclick="OpenDocument('@Model.ProductionDetails_List.ProdSKU')"
                                                                                 title="Show Drawing">
                                                                             Drawing
@@ -545,7 +545,7 @@
                                                                 <td width="51%"><strong>View</strong></td>
                                                                 <td>
                                                                     <div align="left">
-                                                                        <button type="button"
+                                                                        <button type="button" id="btnView"
                                                                                 class="btn btn-primary btn-xs btnwidth95"
                                                                                 data-toggle="modal" data-target="#sub"
                                                                                 onclick="GetFileSubTypeParams(@Model.ProductionDetails_List.FileSubType)"
