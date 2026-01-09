@@ -315,19 +315,24 @@
 
 
 									<div class="col-md-12">
-
+											@{
+												bool disableControls =
+												Model?.ProductionDetails_List?.ReqType == "A" ||
+												Model?.ProductionDetails_List?.ReqType == "R";
+											}
 										<h5 style="font-weight:600;" class="top10">File & Cut Specs</h5>&nbsp;
 										<div class="row top10">
 
 											<div class="form-group col-md-2">
 												<label>File Size(Inch) </label>
-												<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllFileSize" onchange="FileSubTypeChange();">
+													<select class="form-control select2 select2-hidden-accessible" @(disableControls ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllFileSize" onchange="FileSubTypeChange();">
 													<option value="0">Select</option>
-													@foreach (var item in Model.FileSizes_List)
+						
+														@foreach (var item in Model.FileSizes_List)
 													{
 														@if (Model.ProductionDetails_List != null && item.FileSizeCode == Model.ProductionDetails_List.FileSizeCode)
 														{
-															<option selected="selected" value="@item.FileSizeCode">@item.FileSizeInch1</option>
+															<option selected="selected" value="@item.FileSizeCode" >@item.FileSizeInch1</option>
 														}
 														else
 														{
@@ -340,7 +345,7 @@
 
 											<div class="form-group col-md-2">
 												<label>File Type </label>
-												<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllFileType" onchange="FileSubTypeChange();">
+													<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" @(disableControls ? "disabled" : "") tabindex="-1" aria-hidden="true" id="dllFileType" onchange="FileSubTypeChange();">
 													<option value="0">Select</option>
 													@foreach (var item in Model.FileType_List)
 													{
@@ -359,7 +364,7 @@
 
 											<div class="form-group col-md-2">
 												<label>File Sub Type </label>
-												<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllFileSubType" onchange="FileCodeAdd();">
+													<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" @(disableControls ? "disabled" : "") tabindex="-1" aria-hidden="true" id="dllFileSubType" onchange="FileCodeAdd();">
 													<option value="0">Select</option>
 													@foreach (var item in Model.FileSubType_List)
 													{
@@ -380,7 +385,7 @@
 												<label>File Code</label>
 												@if (Model.ProductionDetails_List != null)
 												{
-													<input name="" type="text" value="@Model.ProductionDetails_List.FileCode" class="form-control" disabled="" id="FileCode">
+														<input name="" type="text" value="@Model.ProductionDetails_List.FileCode" @(disableControls ? "disabled" : "") class="form-control" disabled="" id="FileCode">
 												}
 												else
 												{
@@ -401,7 +406,7 @@
 
 											<div class="form-group col-md-2">
 												<label>Cut Type  </label>
-												<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllCutType" onchange="FillCutSpecList();">
+													<select class="form-control select2 select2-hidden-accessible" @(disableControls ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllCutType" onchange="FillCutSpecList();">
 													<option value="0">Select</option>
 													@foreach (var item in Model.CutTypelist)
 													{
@@ -420,7 +425,7 @@
 
 											<div class="form-group col-md-2">
 												<label>Cut Specification  </label>
-												<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" id="dllCutStandard" onchange="CutSpecification();">
+													<select class="form-control select2 select2-hidden-accessible" @(disableControls ? "disabled" : "") style="width: 100%;" id="dllCutStandard" onchange="CutSpecification();">
 													<option value="0">Select</option>
 
 													@if (Model.CutSpecification_List != null)
