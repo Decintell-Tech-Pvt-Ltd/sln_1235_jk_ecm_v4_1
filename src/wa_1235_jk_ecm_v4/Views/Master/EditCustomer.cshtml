@@ -193,48 +193,48 @@
 
         ValidationFlag = false;
 
-        // if (CustomerName == "") {
-        //     $("#sptxtCustomer").html("Please enter Customer Name");
-        //     $("#sptxtCustomer").css("display", "block");
-        //     ValidationFlag = true;
-        // }
-        // else {
-        //     $("#sptxtCustomer").html("");
-        // }
+        if (CustomerName == "") {
+            $("#sptxtCustomer").html("Please enter Customer Name");
+            $("#sptxtCustomer").css("display", "block");
+            ValidationFlag = true;
+        }
+        else {
+            $("#sptxtCustomer").html("");
+        }
 
-        // if (CustomerCode == "") {
-        //     $("#sptxtCustomerCode").html("Please enter Customer Code");
-        //     $("#sptxtCustomerCode").css("display", "block");
-        //     ValidationFlag = true;
-        // }
-        // else {
-        //     $("#sptxtCustomerCode").html("");
-        // }
+        if (CustomerCode == "") {
+            $("#sptxtCustomerCode").html("Please enter Customer Code");
+            $("#sptxtCustomerCode").css("display", "block");
+            ValidationFlag = true;
+        }
+        else {
+            $("#sptxtCustomerCode").html("");
+        }
 
-        // if (CustomerRejectionPercent == "" || isNaN(CustomerRejectionPercent)) {
-        //     $("#sptxtCustomerRejectionPercent").html("Enter Customer Rejection %");
-        //     $("#sptxtCustomerRejectionPercent").css("display", "block");
-        //     ValidationFlag = true;
+        if (CustomerRejectionPercent == "" || isNaN(CustomerRejectionPercent)) {
+            $("#sptxtCustomerRejectionPercent").html("Enter Customer Rejection %");
+            $("#sptxtCustomerRejectionPercent").css("display", "block");
+            ValidationFlag = true;
 
-        // }
-        // else {
-        //     if ($("#sptxtCustomerRejectionPercent").html() == "")
-        //         $("#sptxtCustomerRejectionPercent").html("");
-        //     // ValidationFlag = false;
-        // }
+        }
+        else {
+            if ($("#sptxtCustomerRejectionPercent").html() == "")
+                $("#sptxtCustomerRejectionPercent").html("");
+            // ValidationFlag = false;
+        }
 
 
-        // if (CustomerPackingDays == "" || isNaN(CustomerPackingDays)) {
-        //     $("#sptxtCustomerPackingDays").html("Enter Customer Packing Days");
-        //     $("#sptxtCustomerPackingDays").css("display", "block");
-        //     ValidationFlag = true;
+        if (CustomerPackingDays == "" || isNaN(CustomerPackingDays)) {
+            $("#sptxtCustomerPackingDays").html("Enter Customer Packing Days");
+            $("#sptxtCustomerPackingDays").css("display", "block");
+            ValidationFlag = true;
 
-        // }
-        // else {
-        //     if ($("#sptxtCustomerPackingDays").html() == "")
-        //         $("#sptxtCustomerPackingDays").html("");
-        //     //ValidationFlag = false;
-        // }
+        }
+        else {
+            if ($("#sptxtCustomerPackingDays").html() == "")
+                $("#sptxtCustomerPackingDays").html("");
+            //ValidationFlag = false;
+        }
 
 
         if ($("#sptxtCustomerRejectionPercent").text() == "" && $("#sptxtCustomerPackingDays").text() == "") {

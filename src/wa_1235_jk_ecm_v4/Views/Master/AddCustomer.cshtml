@@ -248,32 +248,37 @@
 
 
 
+
+
     txtCustomerRejectionPercent.addEventListener("input", function (event) {
-        // Get the current value of the input field
         var inputValue = event.target.value;
 
         // Check if the entered value is a valid decimal
         if (!isValidDecimal(inputValue)) {
-            $("#sptxtCustomerRejectionPercent").html("Customer Rejection % is invalid");
-            $("#sptxtCustomerRejectionPercent").css("display", "block");
-            ValidationFlag = true;
-            return;
-        }
+            $("#sptxtCustomerRejectionPercent")
+                .html("Customer Rejection % is invalid")
+                .show();
 
-        else {
-            $("#sptxtCustomerRejectionPercent").html("");
-           // ValidationFlag = false;
+            ValidationFlag = true;
+        } else {
+            $("#sptxtCustomerRejectionPercent")
+                .html("")
+                .hide();
+
+            ValidationFlag = false;
         }
     });
 
     // Function to check if a string is a valid decimal
-    function isValidDecimal(value) {
-        // Regular expression to match decimal numbers
-        var decimalPattern = /^-?\d*\.?\d*$/;
-        return decimalPattern.test(value);
+        function isValidDecimal(value) {
+        return /^\d+(\.\d+)?$/.test(value);
     }
 
 
+        function isValidDecimal(value) {
+        var num = parseFloat(value);
+        return !isNaN(num) && num >= 0 && num <= 100;
+    }
 
     // Add an event listener to the input field to listen for input events
     txtCustomerPackingDays.addEventListener("input", function (event) {
