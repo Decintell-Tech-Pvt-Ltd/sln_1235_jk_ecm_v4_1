@@ -238,7 +238,7 @@
                     <div class="btnwidth50 float-right ">
                         <button type="button"
                                 class="btn btn-block bg-gradient-danger btn-xs"
-                                onclick="window.history.back()"
+                                onclick="location.href='@Url.Action("Index", "Home")';"
                                 title="Go back to the previous page">
                             Back
                         </button>
@@ -264,7 +264,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered nowrap" style="width:100%;">
+                                <table class="table table-bordered nowrap example1" style="width:100%;">
                                     <thead>
                                         <tr>
                                             <th width="10%"><div align="center">Request No.</div></th>
@@ -309,7 +309,7 @@
                                                         <td class="text-center">
                                                             <button type="button" id="btn_CutSpecificationSubmitFA"
                                                                     class="btn btn-primary btn-xs btnwidth95"
-                                                                    onclick="ApproveCutSpecification('@item.Id',2);"
+                                                                    onclick="ApproveSubForCutspecification(this,'@item.Id',2);"
                                                                     title="Go to the next page">
                                                                 Submit for Approval
                                                             </button>
@@ -341,7 +341,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered nowrap" style="width:100%;">
+                                <table class="table table-bordered nowrap example1" style="width:100%;">
                                     <thead>
                                         <tr>
                                             <th width="10%"><div align="center">Request No.</div></th>
@@ -398,7 +398,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                   <table class="table table-bordered nowrap" style="width:100%;">
+                                <table class="table table-bordered nowrap example1" style="width:100%;">
                                     <thead>
                                         <tr>
                                             <th width="10%"><div align="center">Request No.</div></th>
@@ -587,6 +587,61 @@
             }
         });
     }
+
+
+
+        function ApproveSubForCutspecification(btn, Id, StatusId) {
+
+        var row = $(btn).closest("tr");
+        var isValid = true;
+
+        // Check each cell except last (Action column)
+        row.find("td").not(":last").each(function () {
+            var cellText = $(this).text().trim();
+            if (cellText === "") {
+                isValid = false;
+                return false; // break loop
+            }
+        });
+
+        if (!isValid) {
+            alert("Please fill all details in this row before submitting.");
+            return false;
+        }
+
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+        var json = {
+            Id: Id,
+            StatusId: StatusId,
+            CreatedDate: moment.utc(new Date()).format(),
+            CreatedBy: iLoggedInUserID
+        };
+
+        var JsonData = JSON.stringify(json);
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ApproveCutSpecification", "Master")',
+            data: { JsonData: JsonData },
+            datatype: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                alert(data.response);
+                location.reload();
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
 
     function setApproveItems(itemId, RequestNo, FileSizeCode, FileTypeCode, CutSpecCode) {
         document.getElementById('approveItemId').textContent = itemId;

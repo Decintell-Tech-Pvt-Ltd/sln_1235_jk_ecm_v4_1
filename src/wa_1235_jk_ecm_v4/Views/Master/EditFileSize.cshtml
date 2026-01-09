@@ -119,9 +119,22 @@
         var FileSizeNewOrExst = '@ViewBag.NewOrExisting' ;
 
         var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
-        if (FileSizeInch == "" || FileSizeCode == "" || Remarks == "") {
+            if (FileSizeInch === "" || FileSizeCode === "" ) {
 
+        if (FileSizeInch === "") {
+            $("#spFileSizeInch").text("File Size (Inch) is required");
+        } else {
+            $("#spFileSizeInch").text("");
         }
+
+        if (FileSizeCode === "") {
+            $("#spFileSizeCode").text("File Size Code is required");
+        } else {
+            $("#spFileSizeCode").text("");
+        }
+        return false; // stop submit
+    }
+
         let FileSizeDetailsJobj = {
 
             CreatedBy: iLoggedInUserID,

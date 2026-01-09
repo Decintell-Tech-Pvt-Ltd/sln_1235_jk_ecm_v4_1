@@ -245,9 +245,13 @@
     function EditCutSpecification() {
         var ID = @ViewBag.ID;
 
-        var CutSpecName = $("#txtCutSpecName").val();
-        var CutSpecCode = $("#txtCutSpecCode").val();
+           var CutSpecName = $("#txtCutSpecName").val().trim();
+    var CutSpecCode = $("#txtCutSpecCode").val().trim();
 
+        if (CutSpecName === "" || CutSpecCode === "") {
+        alert("Please fill all required fields");
+        return false;
+    }
         var formData = [];
 
         // Iterate through each row in the table body

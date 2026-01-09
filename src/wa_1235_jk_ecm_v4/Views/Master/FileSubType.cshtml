@@ -350,7 +350,7 @@
                     <div class="btnwidth50 float-right ">
                         <button type="button"
                                 class="btn btn-block bg-gradient-danger btn-xs"
-                                onclick="window.history.back()"
+                                onclick="location.href='@Url.Action("Index", "Home")';"
                                 title="Go back to the previous page">
                             Back
                         </button>
@@ -410,7 +410,15 @@
                                                 <td class="text-center">
                                                   @*   <a href="#" title="View" onclick="ModelFileSize(@item.Id ,'@item.RequestNo','@item.FileSize','@item.FileType','@item.SubType','@item.SubTypeCode');" class="btn btn-info btn-xs">View</a>
                                                     <a href="#" title="Edit" onclick="EditDetails(@item.Id,'@item.RequestNo','@item.FileSize','@item.FileType','@item.SubType','@item.SubTypeCode');" class="btn btn-warning btn-xs">Edit</a> *@
-                                                    <a href="#" title="Submit" onclick="ApproveSubFileType(@item.Id,2); return false;" class="btn btn-primary btn-xs btnwidth95">Submit for Approval</a>
+                                                   @*  <a href="#" title="Submit" onclick="ApproveSubFileType(@item.Id,2); return false;" class="btn btn-primary btn-xs btnwidth95">Submit for Approval</a>
+                                               *@
+                                                    <a href="#"
+                                                       title="Submit"
+                                                       onclick="ApproveSubForFileType(this, @item.Id, 2); return false;"
+                                                       class="btn btn-primary btn-xs btnwidth95">
+                                                        Submit for Approval
+                                                    </a>
+
                                                 </td>
                                             </tr>
                                         }
@@ -826,6 +834,53 @@
 
 
 
+    }
+
+
+</script>
+<script>
+        function ApproveSubForFileType(btn, Id, StatusId) {
+
+        var row = $(btn).closest("tr");
+        var isValid = true;
+
+        // Check each cell except last (Action column)
+        row.find("td").not(":last").each(function () {
+            var cellText = $(this).text().trim();
+            if (cellText === "") {
+                isValid = false;
+                return false; // break loop
+            }
+        });
+
+        if (!isValid) {
+            alert("Please fill all details in this row before submitting.");
+            return false;
+        }
+
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+        var json = {
+            Id: Id,
+            StatusId: StatusId,
+            CreatedDate: moment.utc(new Date()).format(),
+            CreatedBy: iLoggedInUserID
+        };
+
+        var JsonData = JSON.stringify(json);
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("ApproveSubFileType", "Master")',
+            data: { JsonData: JsonData },
+            datatype: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                alert(data.response);
+                location.reload();
+            }
+        });
     }
 
 

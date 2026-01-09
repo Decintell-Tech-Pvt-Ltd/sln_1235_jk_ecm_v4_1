@@ -96,7 +96,7 @@
                                             {
                                                 <input name="file" class="custom-file-input" type="file" id="FileUploadIMG">
                                                 <label class="custom-file-label" for="FileUploadIMG">Choose file</label>
-                                                <span>@fileTypeProfileImage</span>
+                                                <span><a href="#" onclick="OpenDocument('@fileTypeProfileImage')"> @fileTypeProfileImage</a></span>
                                             }
                                             else
                                             {
@@ -466,5 +466,52 @@
 
 
     }
+
+</script>
+<script>
+    async function OpenDocument(FileName) {
+            var JwToken = '@ViewBag.JWTToken';
+         var blobStorageUrl = '@ViewBag.ApiUrl';
+         let blobPathPrefix = '@ViewBag.BaseBlobPath';
+           // G: \static\falco_co_in\1235_jk\ecm_v3\others\stamps\ag\ca\34
+           var path = 'others\\filetypes' + '\\';
+
+           const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
+
+            const JSONData = {
+                blobPath: blobpath,
+                asSas: false,
+                downloadFileName: FileName
+            };
+
+            try {
+                $('#loader').show();
+
+                const response = await $.ajax({
+                    url: blobStorageUrl + 'Files/get',
+                    headers: { Authorization: 'Bearer ' + JwToken },
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(JSONData),
+                    xhrFields: { responseType: 'blob' }
+                });
+
+                if (response && response.size > 0) {
+                    const objectURL = URL.createObjectURL(response);
+                    // Display the image in the img tag
+                    // const imgElement = document.getElementById('displayImage');
+                    // imgElement.src = objectURL;
+                    // Display the image in the img tag
+                        window.open(objectURL, '_blank');
+                }
+            }
+                catch (error) {
+                    console.error("Error:", error);
+                }
+                finally {
+             $('#loader').hide();
+            }
+       }
+
 
 </script>
