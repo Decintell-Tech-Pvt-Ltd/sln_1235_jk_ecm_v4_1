@@ -37,7 +37,7 @@
                         </button>
                     </div>
                     <div class="btnwidth50 float-right mr-1">
-                        <a id="btnadd"  class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                        <a id="btnaddDrillSize"  class="btn btn-block bg-gradient-primary   btn-xs float-left"
                            href="@Url.Action("DrillAddSize", "DrillMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" title="Add new record">
                             Add
                         </a>
@@ -104,7 +104,7 @@
                                   
                                     <td>
                                         <div align="center">
-                                            <a href="#"   class="btn btn-primary btn-xs btnwidth95"   onclick="ApprovesFileSize(@item.Id); return false;">
+                                            <a href="#"  id="btn_DrillSizeSubmitFA"  class="btn btn-primary btn-xs btnwidth95"   onclick="ApprovesFileSize(@item.Id); return false;">
                                               Submit for Approval
                                             </a>
                                         </div>

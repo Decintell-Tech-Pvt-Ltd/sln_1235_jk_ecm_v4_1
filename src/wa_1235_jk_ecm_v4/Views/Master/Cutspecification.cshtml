@@ -124,7 +124,7 @@
                 <div class="modal-footer " id="ModelCutSpecification" style="display: none;">
                     <div class="col-lg-4 form-group ">
                         <div class="float-right text-right">
-                            <button type="button"
+                            <button type="button" id="btn_RejectCustspecification"
                                     class="btn btn-danger btn-xs btnwidth50"
                                     onclick="ApproveCutSpecification(document.getElementById('approveItemId').textContent, 4);"
                                     title="Reject the selected item"
@@ -132,7 +132,7 @@
                                 Reject
                             </button>
 
-                            <button type="button"
+                            <button type="button" id="btn_ApproveCustspecification"
                                     class="btn btn-success btn-xs btnwidth60"
                                     onclick="ApproveCutSpecification(document.getElementById('approveItemId').textContent, 3);"
                                     title="Approve the selected item"
@@ -307,7 +307,7 @@
                                                             </a>
                                                         </td> *@
                                                         <td class="text-center">
-                                                            <button type="button"
+                                                            <button type="button" id="btn_CutSpecificationSubmitFA"
                                                                     class="btn btn-primary btn-xs btnwidth95"
                                                                     onclick="ApproveCutSpecification('@item.Id',2);"
                                                                     title="Go to the next page">

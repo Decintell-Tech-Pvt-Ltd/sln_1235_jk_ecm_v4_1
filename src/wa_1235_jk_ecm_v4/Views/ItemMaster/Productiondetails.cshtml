@@ -390,7 +390,7 @@
 
 
 											<div style="margin-top:36px;">
-												<button type="button"
+												<button type="button" id="btn_ProductionView"
 														class="btn btn-primary btn-xs btnwidth50"
 														data-toggle="modal" onclick="Filesubtypedata()"
 														title="View details">
@@ -466,7 +466,7 @@
 
 										<br />
 										<div class="btnwidth50 float-right ">
-											<button type="button"
+											<button type="button" id="btn_ProductionSave"
 													class="btn btn-primary btn-xs btnwidth50"
 													onclick="SaveNewProduct();" id="btnSave"
 													title="Save the current record">
@@ -479,7 +479,7 @@
 										@if (Model.ProductionDetails_List != null)
 										{
 											<div class="btnwidth50 float-right mr-1 ">
-												<button type="button"
+												<button type="button" id="btn_ProductionDrawing"
 														class="btn btn-primary btn-xs btnwidth60"
 														onclick="ShowDocument();" id="btnDrawingShow"
 														title="View Drawing">

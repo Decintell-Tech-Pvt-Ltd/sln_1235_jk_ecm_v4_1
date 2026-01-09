@@ -462,18 +462,18 @@
 
 														<td class="text-center">
 															<div align="center">
-																<a onclick="URLReport(@item.RequestNo)"
+																<a onclick="URLReport(@item.RequestNo)" id="btn_DrawingGenerate"
 																   class="btn btn-primary btn-xs">Generate</a>
 															</div>
 														</td>
 														<td class="text-center">
 															<div align="center">
-																<a class="btn btn-primary btn-xs" data-toggle="modal" data-target="#operation">Add</a>
+																<a id="btn_DrawingAdd" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#operation">Add</a>
 															</div>
 														</td>
 														<td class="text-center">
 															<div align="center">
-																<a href="#" onclick="UpdateDrawingStatus(@item.DrawingId,2,'@item.SKUKey');"
+																<a href="#" id="btn_DrawingSubmitForApproval" onclick="UpdateDrawingStatus(@item.DrawingId,2,'@item.SKUKey');"
 																   class="btn btn-primary btn-xs">Submit For Approval</a>
 															</div>
 														</td>

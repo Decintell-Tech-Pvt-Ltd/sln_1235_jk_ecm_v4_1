@@ -57,13 +57,13 @@
                 <div class="modal-footer">
                     <div class="float-right">
                         <button type="button"
-                                class="btn btn-danger btn-xs btnwidth50"
+                                class="btn btn-danger btn-xs btnwidth50" id="btn_RejectFiletype"
                                 title="Reject the selected item"
                                 onclick="ApproveFileType(document.getElementById('txtID').value, 4); $('#approve').modal('hide');">
                             Reject
                         </button>
                         <button type="button"
-                                class="btn btn-success btn-xs btnwidth60"
+                                class="btn btn-success btn-xs btnwidth60" id="btn_ApproveFiletype"
                                 title="Approve the selected item"
                                 onclick="ApproveFileType(document.getElementById('txtID').value, 3); $('#approve').modal('hide');">
                             Approve
@@ -148,7 +148,7 @@
                         </button>
                     </div>
                     <div class="btnwidth50 float-right mr-1">
-                        <a href="@Url.Action("AddFileType", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })" class="btn btn-block bg-gradient-primary   btn-xs float-left">
+                        <a id="btn_AddFileType" href="@Url.Action("AddFileType", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })" class="btn btn-block bg-gradient-primary   btn-xs float-left">
                             Add
                         </a>
                     </div>
@@ -207,7 +207,7 @@
                                                           @*   <a href="#" class="btn btn-sm btn-warning" onclick="EditFileType('@item.Id',@item.RequestNo);" title="Edit">
                                                                 <i class="fas fa-edit"></i>
                                                             </a> *@
-                                                            <button type="button" class="btn btn-primary btn-xs btnwidth95" onclick="ApproveFileType(@item.Id,2);">
+                                                            <button type="button" id="btn_FiletypeSubmitFA" class="btn btn-primary btn-xs btnwidth95" onclick="ApproveFileType(@item.Id,2);">
                                                                 Submit for Approval
                                                             </button>
                                                         </td>
