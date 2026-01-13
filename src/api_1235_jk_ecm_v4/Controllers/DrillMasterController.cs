@@ -3,7 +3,6 @@ using System.Text.Json;
 using api_1235_jk_ecm_v4.DAL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using wa_1235_jk_ecm_v4.Models.DecintellCommon;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace api_1235_jk_ecm_v4.Controllers
