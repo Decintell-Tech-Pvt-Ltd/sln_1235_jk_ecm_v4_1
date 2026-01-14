@@ -690,7 +690,7 @@
 								<div class="btnwidth50">
 										<button type="button" class="btn btn-danger btn-xs btnwidth50 @cssClass"
 										title="Delete" ${hasId ? '' : 'disabled'}
-													onclick='DeletePackingStickerAllDetails(${hasId ? d.Id : null}, ${d.LabelType}, ${d.Position})'>
+													onclick='DeletePackingStickerAllDetails(${hasId ? d.Id : null}, ${d.LabelType}, ${d.Position}, ${d.PackingCategoriesRowId})'>
 										Delete
 									</button>
 								</div>
@@ -823,7 +823,7 @@
 			}
 		}
 
-				function DeletePackingStickerAllDetails(Id,LabelType,Position) {
+				function DeletePackingStickerAllDetails(Id,LabelType,Position,CategoriesRowId) {
 				var RequestedId = '@ViewBag.NewReqNo';
 				var CategoryId = $("#ddlCategory :Selected").val();
 
@@ -831,6 +831,7 @@
 				{
 					RequestedId: RequestedId,
 					PositionId: parseInt(Position),
+					PackingCategoriesRowId:CategoriesRowId,
 					LabelTypeId: parseInt(LabelType)
 				};
 
