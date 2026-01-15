@@ -353,12 +353,25 @@
 
                     </div>
                     <div class="btnwidth60 float-right mr-1">
-                        <button type="button"
-                                class="btn btn-primary btn-xs"
-                                onclick="AddCloneAndAmendRequest('Clone')" id="btnClone"
-                                title="Clone Request">
-                            Clone
-                        </button>
+                               @if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R"){
+                    
+                            <button type="button"
+                                    class="btn btn-primary btn-xs"
+                                    onclick="AddCloneAndAmendRequest('Clone')" id="btnClone"
+                                    title="Clone Request">
+                                Clone
+                            </button>
+                        }
+                        else
+                        {
+
+                            <button type="button"
+                                    class="btn btn-primary btn-xs"
+                                    onclick="AddCloneAndAmendRequest('CloneSet')" id="btnClone"
+                                    title="Clone Request">
+                                Clone
+                            </button>
+                        }
                     </div>
 
                     <div class="btnwidth60 float-right mr-1">
@@ -1022,7 +1035,7 @@
                             }
 
                         alert(data1.response);
-                        redirectUrl = '@Url.Action("ItemMasterIndex", "ItemMaster")' +
+                                    redirectUrl = '@Url.Action("ChangeNote", "ChangeNotes")' +
                             '?PageID=' + pageID +
                             '&ParentID=' + parentID +
                             '&ModuleID=' + moduleID +
