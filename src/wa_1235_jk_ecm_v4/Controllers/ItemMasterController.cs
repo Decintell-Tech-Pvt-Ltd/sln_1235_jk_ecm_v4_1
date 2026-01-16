@@ -96,7 +96,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
             string apiEndSubFileType = "Masters/GetSubFileTypes";
             ItemMasters.FileSubType_List = JsonSerializer.Deserialize<FileSubTypeMaster[]>(await _iGenericMethods.GetDataEcm(apiEndSubFileType));
 
-            string apiEndPointSileSize = "Masters/GetSizeMinMax";
+            string apiEndPointSileSize = "Masters/GetSizeMinMaxApproved";
             ItemMasters.FileSizes_List = JsonSerializer.Deserialize<FileSizes[]>(await _iGenericMethods.GetDataEcm(apiEndPointSileSize));
 
             //var fileSize_List = JsonSerializer.Deserialize<FileSizes[]>(await _iGenericMethods.GetDataEcm(apiEndSubFileType));
@@ -819,7 +819,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
             string apiEndSubFileType = "Masters/GetSubFileTypes";
             ItemMasters.FileSubType_List = JsonSerializer.Deserialize<FileSubTypeMaster[]>(await _iGenericMethods.GetDataEcm(apiEndSubFileType));
 
-            string apiEndPointSileSize = "Masters/GetSizeMinMax";
+            string apiEndPointSileSize = "Masters/GetSizeMinMaxApproved";
             ItemMasters.FileSizes_List = JsonSerializer.Deserialize<FileSizes[]>(await _iGenericMethods.GetDataEcm(apiEndPointSileSize));
 
             //var fileSize_List = JsonSerializer.Deserialize<FileSizes[]>(await _iGenericMethods.GetDataEcm(apiEndSubFileType));

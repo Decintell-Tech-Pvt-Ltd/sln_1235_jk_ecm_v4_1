@@ -477,6 +477,50 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         });
     </script>
+    <script>
+        $(document).ready(function () {
+
+            $('.example1').each(function () {
+
+                if ($.fn.DataTable.isDataTable(this)) return;
+
+                let titleText = $('h5:first').text().trim() || 'Export';
+
+                $(this).DataTable({
+                    responsive: true,
+                    paging: true,
+                    pageLength: 10,
+                    lengthChange: true,
+                    lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: false,
+
+                    buttons: [{
+                        extend: 'csv',
+                        text: 'CSV',
+                        title: titleText,
+                        filename: function () {
+                            let d = new Date();
+                            let date =
+                                d.getFullYear() +
+                                ('0' + (d.getMonth() + 1)).slice(-2) +
+                                ('0' + d.getDate()).slice(-2);
+
+                            return titleText.replace(/\s+/g, '_') + '_' + date;
+                        }
+                    }],
+
+                    dom:
+                  "<'row'<'col-sm-2'l><'col-sm-6'B><'col-sm-4'f>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-5'i><'col-sm-7'p>>"
+                });
+            });
+
+        });
+    </script>
 
 
 

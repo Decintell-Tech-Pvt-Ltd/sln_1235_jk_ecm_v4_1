@@ -455,7 +455,7 @@
 									</div>
 
 									<div class="table-responsive">
-										<table class="table table-bordered example1">
+											<table class="table table-bordered example1" id="bodyCutSides">
 											<thead>
 												<tr>
 
@@ -465,7 +465,7 @@
 
 												</tr>
 											</thead>
-											<tbody id="bodyCutSides">
+											<tbody>
 											</tbody>
 										</table>
 
@@ -717,6 +717,7 @@
 			var JsonData = {
 				ID: CutStandard
 			};
+			var table = $('#bodyCutSides').DataTable(); // Initialize once
 			var JSONInsert = JSON.stringify(JsonData);
 			$.ajax({
 				type: 'POST',
@@ -726,16 +727,31 @@
 				success: function (data) {
 
 					var Cutdata = data.objList.cutSpecificationEdit_List;
-					var tbody = $('#bodyCutSides');
+					var tbody = $('#bodyCutSides tbody');
 					tbody.empty(); // Clear existing content if any
+					
+					// Cutdata.forEach(function (item) {
+					// 	var row = $('<tr>');
+					// 	row.append($('<td>').text(item.cutSides));
+					// 	row.append($('<td>').text(item.cutOnSides));
+					// 	row.append($('<td>').text(item.value));
+					// 	tbody.append(row);
+					// });
 
+					// ✅ Clear existing rows
+					table.clear();
+
+					// ✅ Add rows properly
 					Cutdata.forEach(function (item) {
-						var row = $('<tr>');
-						row.append($('<td>').text(item.cutSides));
-						row.append($('<td>').text(item.cutOnSides));
-						row.append($('<td>').text(item.value));
-						tbody.append(row);
+						table.row.add([
+							item.cutSides,
+							item.cutOnSides,
+							item.value
+						]);
 					});
+
+					// ✅ Redraw table
+					table.draw();
 
 				},
 				error: function () {
@@ -1186,39 +1202,46 @@
 
 
 
-		$(document).ready(function () {
+			$(document).ready(function () {
+
+		var table = $('#bodyCutSides').DataTable(); // Initialize once
+
 		var CutStandard = $("#dllCutStandard").val();
 
-		// Check if selected value is not empty or '0'
 		if (CutStandard && CutStandard !== "0") {
-			var JsonData = { ID: CutStandard };
-			var JSONInsert = JSON.stringify(JsonData);
 
 			$.ajax({
 				type: 'POST',
 				url: '@Url.Action("GetCutSideStandard", "ItemMaster")',
-				data: { JsonData: JSONInsert },
-				datatype: 'json',
+				data: { JsonData: JSON.stringify({ ID: CutStandard }) },
+				dataType: 'json',
 				success: function (data) {
-					var Cutdata = data.objList.cutSpecificationEdit_List;
-					var tbody = $('#bodyCutSides');
-					tbody.empty(); // Clear existing content
 
+					var Cutdata = data.objList.cutSpecificationEdit_List || [];
+
+					// ✅ Clear existing rows
+					table.clear();
+
+					// ✅ Add rows properly
 					Cutdata.forEach(function (item) {
-						var row = $('<tr>');
-						row.append($('<td>').text(item.cutSides));
-						row.append($('<td>').text(item.cutOnSides));
-						row.append($('<td>').text(item.value));
-						tbody.append(row);
+						table.row.add([
+							item.cutSides,
+							item.cutOnSides,
+							item.value
+						]);
 					});
+
+					// ✅ Redraw table
+					table.draw();
 				},
 				error: function () {
 					alert('Error occurred while processing your request.');
 				}
 			});
-		}else{
-				var tbody = $('#bodyCutSides');
-					tbody.empty(); // Clear existing content
+
+		} else {
+			// If dropdown is reset
+			table.clear().draw();
 		}
 	});
 

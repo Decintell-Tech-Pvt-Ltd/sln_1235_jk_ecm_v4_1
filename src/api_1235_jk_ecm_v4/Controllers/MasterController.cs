@@ -472,6 +472,25 @@ namespace api_1235_jk_ecm_v4.Controllers
         }
 
         [HttpGet]
+        [Route("GetSizeMinMaxApproved")]
+        public async Task<IActionResult> GetSizeMinMaxApproved()
+        {
+            string spName = "usp_GetSizeMinMaxApproved";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+
+        [HttpGet]
         [Route("GetValuestream")]
         public async Task<IActionResult> GetValuestream()
         {
