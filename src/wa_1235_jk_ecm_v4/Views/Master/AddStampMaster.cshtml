@@ -85,7 +85,7 @@
 
 
                                     <div class="form-group col-md-4">
-                                        <label class="control-label padd0">Insert Stamp Chart</label> &nbsp;
+                                        <label class="control-label padd0">Insert Stamp Chart </label> &nbsp; <span style="color:red">(JPG / PNG only) </span>
                                         <div class="input-group">
                                             <div class="custom-file">
                                                 <input name="" type="file" id="FileUploadIMG" class="custom-file-input">
@@ -96,7 +96,7 @@
                                             </div>
                                             
                                         </div>
-                                        <span id="spfilename" class="text-danger"></span>
+                                        <span id="spfilename" style="color:red" class="text-danger"></span>
                                     </div>
 
                                     <div class="btnwidth50 float-right mr-1 " style="margin-top:35px;">
@@ -170,7 +170,8 @@
                 $("#spfilename").css("display", "block");
             }
         }
-        else {
+      
+  else {
 
 
             var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');

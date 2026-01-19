@@ -519,6 +519,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 });
             });
 
+               $('.example2').each(function () {
+
+            if ($.fn.DataTable.isDataTable(this)) return;
+
+            $(this).DataTable({
+                responsive: true,
+                paging: true,
+                pageLength: 10,
+                lengthChange: true,
+                lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                searching: true,
+                ordering: true,
+                info: true,
+                autoWidth: false
+            });
+        });
+
         });
     </script>
 
