@@ -5,6 +5,7 @@
     ViewData["Title"] = "AddFileSize";
     Layout = "~/Views/Shared/_ECMMaster.cshtml";
 }
+<div class="content-wrapper">
 <section class="content-header">
     <div class="container-fluid">
         <div class="row">
@@ -108,6 +109,10 @@
         </div>
     </div>
 </section>
+
+
+</div>
+
 <script>
     var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
     var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
