@@ -287,7 +287,11 @@
 							</div>
 							<div class="card-header p-2">
 								<ul class="nav nav-pills" id="custom-tabs-one-tab" role="tablist">
-									 @{
+									@{
+										    var prod = Model?.ProductionDetails_List;
+										}
+										@if (prod!= null)
+										{
                                             if (Context.Request.Query["Mode"].ToString() != null && Context.Request.Query["Mode"].ToString() != "")
                                             {
                                                 if (Context.Request.Query["Display"].ToString() == "Approval")
@@ -427,7 +431,7 @@
 											<!-- /.card-tools -->
 										</div>
 										<!-- /.card-header -->
-										@if (Model.ProductionDetails_List != null)
+										@if (prod != null)
 										{
 											@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 											{
@@ -555,7 +559,7 @@
 											</div>
 											<!-- /.card-tools -->
 										</div>
-										@if (Model.ProductionDetails_List != null)
+										@if (prod != null)
 										{
 											@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 											{
@@ -706,7 +710,7 @@
 											<!-- /.card-tools -->
 										</div>
 										<!-- /.card-header -->
-										@if (Model.ProductionDetails_List != null)
+										@if (prod != null)
 										{
 											@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 											{
@@ -873,7 +877,7 @@
 										<!-- /.card-header -->
 										<div class="card-body">
 
-											@if (Model.ProductionDetails_List != null)
+											@if (prod!= null)
 											{
 												@if (Model.ProductionDetails_List.ReqType != "S" &&  Model.ProductionDetails_List.ReqType != "R")
 												{
@@ -1172,7 +1176,7 @@
 										</div>
 										<!-- /.card-header -->
 										<div class="card-body">
-											 @if (Model.ProductionDetails_List != null)
+											 @if (prod != null)
 											{
 												@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
                                                 {
@@ -1357,7 +1361,7 @@
 										</div>
 										<!-- /.card-header -->
 										<div class="card-body">
-											@if (Model.ProductionDetails_List != null)
+											@if (prod != null)
 											{
 												@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 												{
@@ -1564,7 +1568,7 @@
 										</div>
 										<!-- /.card-header -->
 										<div class="card-body">
-											 @if (Model.ProductionDetails_List != null)
+											 @if (prod != null)
 											 {
 												@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 												{
@@ -1720,7 +1724,7 @@
 										</div>
 										<!-- /.card-header -->
 										<div class="card-body">
-											 @if (Model.ProductionDetails_List != null)
+											 @if (prod != null)
                                                     {
 												@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 												{
@@ -1919,7 +1923,7 @@
 										</div>
 										<!-- /.card-header -->
 										<div class="card-body">
-											@if (Model.ProductionDetails_List != null)
+											@if (prod != null)
                                               {
 												@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 												{
@@ -2066,7 +2070,7 @@
 										</div>
 										<!-- /.card-header -->
 										<div class="card-body">
-										@if (Model.ProductionDetails_List != null)
+										@if (prod!= null)
                                           {
                                             @if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
                                             {
@@ -2293,7 +2297,7 @@
 										</div>
 										<!-- /.card-header -->
 										<div class="card-body">
-											@if (Model.ProductionDetails_List != null)
+											@if (prod != null)
 											{
 												@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 												{
@@ -2447,7 +2451,7 @@
 										<!-- /.card-header -->
 										<div class="card-body">
 
-											@if (Model.ProductionDetails_List != null)
+											@if (prod != null)
 											{
 												@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 												{
@@ -2661,7 +2665,7 @@
 										</div>
 										<!-- /.card-header -->
 										<div class="card-body">
-											@if (Model.ProductionDetails_List != null)
+											@if (prod != null)
 											{
 												@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 												{
@@ -2815,7 +2819,7 @@
 										</div>
 										<!-- /.card-header -->
 										<div class="card-body">
-											@if (Model.ProductionDetails_List != null)
+											@if (prod != null)
 											{
 												@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 												{

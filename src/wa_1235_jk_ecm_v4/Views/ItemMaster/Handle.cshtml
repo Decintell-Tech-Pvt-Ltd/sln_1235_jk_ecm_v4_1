@@ -199,8 +199,17 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="mb-2 col-lg-9">
-                                        <b>Customer:</b>&nbsp;@(Model.ProductionDetails_List?.CustomerName ?? "") &nbsp;
-                                        <b>Brand:</b>&nbsp;@(Model.ProductionDetails_List?.BrandName ?? "")
+                                       
+                                        <b>Customer:</b>&nbsp;
+                                        <span id="lblCustomerName">
+                                            @(Model.ProductionDetails_List?.CustomerName ?? "")
+                                        </span>
+                                        &nbsp;&nbsp;
+
+                                        <b>Brand:</b>&nbsp;
+                                        <span id="lblBrandName">
+                                            @(Model.ProductionDetails_List?.BrandName ?? "")
+                                        </span>
                                     </div>
                                 </div>
 
@@ -387,7 +396,24 @@
 
 
 <script>
-    
+
+        function validateCustomerBrand() {
+        var customer = $('#lblCustomerName').text().trim();
+        var brand = $('#lblBrandName').text().trim();
+
+        if (customer === "") {
+            alert("Customer is mandatory");
+            return false;
+        }
+
+        if (brand === "") {
+            alert("Brand is mandatory");
+            return false;
+        }
+
+        return true;
+    }
+
     function OnChangeHandlePresence(){
 
         var HandlePresence  =  $("#dllHandlePresence option:selected").text();
@@ -530,7 +556,9 @@
     // });
 
     function AddHandleObjData() {
-
+          if (!validateCustomerBrand()) {
+            return;
+           }
         var selectedData = {};
 
         var mode = '@Context.Request.Query["Mode"]';

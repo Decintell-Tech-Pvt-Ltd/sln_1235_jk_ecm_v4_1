@@ -338,8 +338,17 @@
 							<div class="card-body">
 								<div class="row">
 									<div class="mb-2 col-lg-9">
-										<b>Customer:</b>&nbsp;<span id="lblCustomer">@Model.ProductionDetails_List?.CustomerName</span>&nbsp;
-										<b>Brand:</b>&nbsp;<span id="lblBrand">@Model.ProductionDetails_List?.BrandName</span>
+										<b>Customer:</b>&nbsp;
+										<span id="lblCustomerName">
+											@(Model.ProductionDetails_List?.CustomerName ?? "")
+										</span>
+										&nbsp;&nbsp;
+
+										<b>Brand:</b>&nbsp;
+										<span id="lblBrandName">
+											@(Model.ProductionDetails_List?.BrandName ?? "")
+										</span>
+
 									</div>
 								</div>
 
@@ -528,9 +537,26 @@
 			$("#disabledclass").hide();
 		}
 	});
+	   function validateCustomerBrand() {
+		 var customer = $('#lblCustomerName').text().trim();
+		 var brand = $('#lblBrandName').text().trim();
 
+		 if (customer === "") {
+			 alert("Customer is mandatory");
+			 return false;
+		 }
+
+		 if (brand === "") {
+			 alert("Brand is mandatory");
+			 return false;
+		 }
+
+		 return true;
+	 }
 	function ShowAlert()
-	{
+	{   if (!validateCustomerBrand()) {
+			return;
+		   }
 		alert("Label Details Saved successfully!");
 		 var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
 				var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
@@ -948,6 +974,9 @@
 
 
 			async function AddPackingSelectedImage() {
+				   if (!validateCustomerBrand()) {
+			return;
+		   }
 			var selectedFilterPosition = $("#ddsurface :selected").text();
 			var selectedFilterLabelType = $("#ddLabelType :selected").text();
 
