@@ -94,7 +94,7 @@
 
 
                                     <div class="form-group col-md-4">
-                                        <label class="control-label padd0">Insert Stamp Chart</label> &nbsp;
+                                        <label class="control-label padd0">Insert Stamp Chart</label> &nbsp; <span style="color:red">(JPG / PNG only) </span>
                                         <div class="input-group">
                                             <div class="custom-file">
                                                 <input name="" type="file" id="FileUploadIMG" class="custom-file-input">
@@ -177,10 +177,15 @@
                 $("#spStampChartNo").html("Please Select stamp Chart No");
                 $("#spStampChartNo").css("display", "block");
             }
-            if (filename == undefined) {
-                $("#spfilename").html("Please select file");
-                $("#spfilename").css("display", "block");
-            }
+                if (filename == undefined) {
+        $("#spfilename")
+            .html("Please select file")
+            .css({
+                "display": "block",
+                "color": "red"
+            });
+    }
+
         }
         else {
             var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
@@ -242,7 +247,8 @@
 
 
     }
-      async function copyFile(fileInput, path, imageName) {
+     
+ async function copyFile(fileInput, path, imageName) {
         var JwToken = '@ViewBag.JWTToken';
       var blobStorageUrl = '@ViewBag.ApiUrl';
       let blobPathPrefix = '@ViewBag.BaseBlobPath';

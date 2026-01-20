@@ -5,10 +5,47 @@
 	ViewData["Title"] = "Changenoteproductiondetails";
 	Layout = "~/Views/Shared/_ECMMaster.cshtml";
 }
+<style>
+    /* ===== CSV Button Small & Center ===== */
+    .dt-buttons {
+        display: inline-flex !important;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .dt-buttons .buttons-csv {
+            padding: 2px 8px !important;
+            font-size: 12px !important;
+            line-height: 1.4;
+            height: 26px;
+            margin-left: 77px;
+        }
+
+    /* Prevent overlap with Show entries */
+    .dataTables_length {
+        margin-right: 10px;
+    }
+
+    /* Search input alignment */
+    .dataTables_filter {
+        margin-left: 10px;
+    }
+
+        .dataTables_filter input {
+            height: 26px;
+            font-size: 12px;
+        }
+
+    /* Remove extra button-group spacing */
+    .dt-buttons.btn-group {
+        margin: 0;
+    }
+
+</style>
 <div class="content-wrapper">
     <!-- InstanceBeginEditable name="EditRegion1" -->
     <div class="modal fade" id="sub">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">View File Sub Type</h5>
@@ -178,7 +215,7 @@
         </div>
     </div>
     <div class="modal fade" id="cutSpecChart">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">View Cut Specification</h5>
@@ -616,18 +653,21 @@
                                                 {
                                                     <br />
                                                     <div style="clear:both;"></div>
-                                                    <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                                  
+
+                                                    <table class="table table-bordered example1" style="width:100%;" id="TableCutSides">
                                                         <thead>
                                                             <tr>
-                                                                <th><div align="Left">Side/Edge</div></th>
-                                                                <th><div align="left">Desc</div></th>
-                                                                <th><div align="center">Value</div></th>
+                                                                <th style="width:40%"><div align="Left">Side/Edge</div></th>
+                                                                <th style="width:30%"><div align="left">Desc</div></th>
+                                                                <th style="width:30%"><div align="center">Value</div></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="bodyCutSides">
                                                             <!-- Dynamic rows to be populated here -->
                                                         </tbody>
                                                     </table>
+                                                   
                                                 }
                                             </div>
 
@@ -904,7 +944,8 @@
 
 
 
-     $(document).ready(function () {
+       $(document).ready(function () {
+
         var CutStandard = @Model.ProductionDetails_List.CutStandard;
 
         var JsonData = { ID: CutStandard };
@@ -916,29 +957,45 @@
             data: { JsonData: JSONInsert },
             dataType: 'json',
             success: function (data) {
+
                 var Cutdata = data.objList.cutSpecificationEdit_List;
                 var tbody = $('#bodyCutSides');
-                tbody.empty(); // Clear existing content
+                tbody.empty();
 
                 Cutdata.forEach(function (item) {
-                    var row = $('<tr>');
-                    row.append($('<td>').text(item.cutSides));
-                    row.append($('<td>').text(item.cutOnSides));
-                    row.append($('<td>').text(item.value));
-                    tbody.append(row);
+                    tbody.append(`
+                        <tr>
+                            <td>${item.cutSides}</td>
+                            <td>${item.cutOnSides}</td>
+                            <td class="text-center">${item.value}</td>
+                        </tr>
+                    `);
                 });
 
-                // Initialize or reinitialize DataTable
-                if ($.fn.DataTable.isDataTable('#cutSpecTable')) {
-                    $('#cutSpecTable').DataTable().clear().destroy();
-                }
-                $('#cutSpecTable').DataTable({
+                // 🔥 Destroy if already initialized
+                    if ($.fn.DataTable.isDataTable('#cutSpecTable')) { $('#cutSpecTable').DataTable().clear().destroy(); }
+
+                // 🔥 Initialize DataTable PROPERLY
+                    $('#cutSpecTable').DataTable({
+                    responsive: true,
                     paging: true,
-                    searching: false,
-                    ordering: false,
-                    lengthChange: false,
                     pageLength: 5,
-                    info: false
+                    lengthChange: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: false,
+
+                    buttons: [{
+                        extend: 'csv',
+                        text: 'CSV',
+                        className: 'btn btn-sm btn-primary'
+                    }],
+
+                    dom:
+                        "<'row mb-2'<'col-md-3'l><'col-md-5 text-center'B><'col-md-4'f>>" +
+                        "<'row'<'col-md-12'tr>>" +
+                        "<'row mt-2'<'col-md-5'i><'col-md-7'p>>"
                 });
             },
             error: function () {
