@@ -107,7 +107,7 @@
                                         <span id="spfilename">
                                             @if (!string.IsNullOrEmpty(ViewBag.StampChartImage))
                                             {
-                                                <text>@ViewBag.StampChartImage</text>
+                                                <text> <a href="#" onclick="OpenDocument('@ViewBag.StampChartImage')">@ViewBag.StampChartImage</a></text>
                                             }
                                         </span>
                                     </div>
