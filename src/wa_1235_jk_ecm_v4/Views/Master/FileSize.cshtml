@@ -312,7 +312,7 @@
                     <table class="table table-bordered example1 nowrap" style="width:100%;">
                         <thead>
                             <tr>
-                                <th><div align="center">File Size Code</div></th>
+                                <th><div align="left">File Size Code</div></th>
                                 <th><div align="center">File Size (Inch)</div></th>
                                 <th><div align="center">File Size (mm)</div></th>
                             </tr>
@@ -321,7 +321,7 @@
                             @foreach (var item in Model.FileSize_List.Where(x => x.GridNo == 3))
                             {
                                 <tr>
-                                    <td><div align="center">@item.FileSizeCode</div></td>
+                                    <td><div align="left">@item.FileSizeCode</div></td>
                                     <td><div align="center">@item.FileSizeInch</div></td>
                                     <td><div align="center">@item.MM</div></td>
                                 </tr>

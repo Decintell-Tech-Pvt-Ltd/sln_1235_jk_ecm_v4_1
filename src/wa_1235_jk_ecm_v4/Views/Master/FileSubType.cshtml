@@ -392,8 +392,8 @@
                                         <tr>
                                             <th><div align="center">Request No.</div></th>
                                             <th><div align="center">File Size (Inch)</div></th>
-                                            <th><div align="center">File Type</div></th>
-                                            <th><div align="center">Sub Type</div></th>
+                                            <th><div align="left">File Type</div></th>
+                                            <th><div align="left">Sub Type</div></th>
                                             <th><div align="center">File Type-Sub Type Code</div></th>
                                             <th><div align="center">Action</div></th>
                                         </tr>
@@ -404,8 +404,8 @@
                                             <tr>
                                                 <td class="text-center"> <a href="#" title="Edit" onclick="EditDetails(@item.Id,'@item.RequestNo','@item.FileSize','@item.FileType','@item.SubType','@item.SubTypeCode');">@item.RequestNo</a></td>
                                                 <td class="text-center">@item.FileSize</td>
-                                                <td class="text-center">@item.FileType</td>
-                                                <td class="text-center"><a href="#" title="View" onclick="ModelFileSize(@item.Id ,'@item.RequestNo','@item.FileSize','@item.FileType','@item.SubType','@item.SubTypeCode');">@item.SubType</a></td>
+                                                <td class="text-left">@item.FileType</td>
+                                                <td class="text-left"><a href="#" title="View" onclick="ModelFileSize(@item.Id ,'@item.RequestNo','@item.FileSize','@item.FileType','@item.SubType','@item.SubTypeCode');">@item.SubType</a></td>
                                                 <td class="text-center">@item.FileSubtypeCode</td>
                                                 <td class="text-center">
                                                   @*   <a href="#" title="View" onclick="ModelFileSize(@item.Id ,'@item.RequestNo','@item.FileSize','@item.FileType','@item.SubType','@item.SubTypeCode');" class="btn btn-info btn-xs">View</a>
@@ -448,8 +448,8 @@
                                         <tr>
                                             <th><div align="center">Request No.</div></th>
                                             <th><div align="center">File Size (Inch)</div></th>
-                                            <th><div align="center">File Type</div></th>
-                                            <th><div align="center">Sub Type</div></th>
+                                            <th><div align="left">File Type</div></th>
+                                            <th><div align="left">Sub Type</div></th>
                                             <th><div align="center">File Type-Sub Type Code</div></th>
                                  @*            <th><div align="center">Action</div></th> *@
                                         </tr>
@@ -460,8 +460,8 @@
                                             <tr>
                                                 <td class="text-center">@item.RequestNo</td>
                                                 <td class="text-center">@item.FileSize</td>
-                                                <td class="text-center">@item.FileType</td>
-                                                <td class="text-center"><a href="#" data-toggle="modal" data-target="#approval" onclick="setApproveItems(@item.Id,'@item.RequestNo','@item.FileSize','@item.FileType','@item.SubTypeCode','@item.SubType')">@item.SubType</a></td>
+                                                <td class="text-left">@item.FileType</td>
+                                                <td class="text-left"><a href="#" data-toggle="modal" data-target="#approval" onclick="setApproveItems(@item.Id,'@item.RequestNo','@item.FileSize','@item.FileType','@item.SubTypeCode','@item.SubType')">@item.SubType</a></td>
                                                 <td class="text-center">@item.FileSubtypeCode</td>
                                                
                                             </tr>
@@ -492,8 +492,8 @@
                                         <tr>
                                             <th><div align="center">Request No.</div></th>
                                             <th><div align="center">File Size (Inch)</div></th>
-                                            <th><div align="center">File Type</div></th>
-                                            <th><div align="center">Sub Type</div></th>
+                                            <th><div align="left">File Type</div></th>
+                                            <th><div align="left">Sub Type</div></th>
                                             <th><div align="center">File Type-Sub Type Code</div></th>
                                         </tr>
                                     </thead>
@@ -525,8 +525,8 @@
                                         <tr>
                                             <th><div align="center">Request No.</div></th>
                                             <th><div align="center">File Size (Inch)</div></th>
-                                            <th><div align="center">File Type</div></th>
-                                            <th><div align="center">Sub Type</div></th>
+                                            <th><div align="left">File Type</div></th>
+                                            <th><div align="left">Sub Type</div></th>
                                             <th><div align="center">File Type-Sub Type Code</div></th>
                                             
                                         </tr>
@@ -537,8 +537,8 @@
                                             <tr>
                                                 <td class="text-center">@item.RequestNo</td>
                                                 <td class="text-center">@item.FileSize</td>
-                                                <td class="text-center">@item.FileType</td>
-                                                <td class="text-center"> <a href="#" data-toggle="modal" onclick="ModelFileSize(@item.Id,'@item.RequestNo','@item.FileSize','@item.FileType','@item.SubType','@item.SubTypeCode');">@item.SubType</a></td>
+                                                <td class="text-left">@item.FileType</td>
+                                                <td class="text-left"> <a href="#" data-toggle="modal" onclick="ModelFileSize(@item.Id,'@item.RequestNo','@item.FileSize','@item.FileType','@item.SubType','@item.SubTypeCode');">@item.SubType</a></td>
                                                 <td class="text-center">@item.FileSubtypeCode</td>
                                                
                                             </tr>

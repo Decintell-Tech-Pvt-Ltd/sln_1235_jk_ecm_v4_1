@@ -640,9 +640,13 @@
 
 				$("#tblshowAddedFileSubTypeParameters1").dataTable().fnClearTable();
 				$("#tblshowAddedFileSubTypeParameters1").dataTable().fnDestroy()
+				
+				
 				var dtParameter = $('#tblshowAddedFileSubTypeParameters1').DataTable({
 					"columnDefs": [
-						{ "className": "dt-center", "targets": "_all" }
+							{ targets: [0, 1, 2], className: 'dt-body-left' },   // left align
+							{ targets: [3,4], className: 'dt-body-center' }
+						
 					],
 				});
 
@@ -1112,9 +1116,12 @@
 
 				$("#tblshowAddedFileSubTypeParameters2").dataTable().fnClearTable();
 				$("#tblshowAddedFileSubTypeParameters2").dataTable().fnDestroy()
+				
 				var dtParameter = $('#tblshowAddedFileSubTypeParameters2').DataTable({
 					"columnDefs": [
-						{ "className": "dt-center", "targets": "_all" }
+							{ targets: [0, 1], className: 'dt-body-left' },   // left align
+							{ targets: [2,3], className: 'dt-body-center' }
+							
 					],
 				});
 				var rows = [];

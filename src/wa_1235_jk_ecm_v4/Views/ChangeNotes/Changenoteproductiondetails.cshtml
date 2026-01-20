@@ -6,42 +6,11 @@
 	Layout = "~/Views/Shared/_ECMMaster.cshtml";
 }
 <style>
-    /* ===== CSV Button Small & Center ===== */
-    .dt-buttons {
-        display: inline-flex !important;
-        justify-content: center;
-        align-items: center;
-    }
-
-        .dt-buttons .buttons-csv {
-            padding: 2px 8px !important;
-            font-size: 12px !important;
-            line-height: 1.4;
-            height: 26px;
-            margin-left: 77px;
-        }
-
-    /* Prevent overlap with Show entries */
-    .dataTables_length {
-        margin-right: 10px;
-    }
-
-    /* Search input alignment */
-    .dataTables_filter {
+    .dt-csv-wrapper {
         margin-left: 10px;
     }
-
-        .dataTables_filter input {
-            height: 26px;
-            font-size: 12px;
-        }
-
-    /* Remove extra button-group spacing */
-    .dt-buttons.btn-group {
-        margin: 0;
-    }
-
 </style>
+
 <div class="content-wrapper">
     <!-- InstanceBeginEditable name="EditRegion1" -->
     <div class="modal fade" id="sub">
@@ -496,7 +465,7 @@
 
 
                                 <div class="col-md-12">
-                                    <div class="col-md-10 col-centered">
+                                    <div class="col-md-12 col-centered">
 
                                         <div class="row">
 
@@ -649,9 +618,9 @@
                                                 <br />
 
                                                 <div style="clear:both;"></div>
-                                                @if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
+                                               @*  @if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
                                                 {
-                                                    <br />
+                                                    <br />  
                                                     <div style="clear:both;"></div>
                                                   
 
@@ -670,8 +639,28 @@
                                                    
                                                 }
                                             </div>
+ *@
 
+                                                @if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
+                                                {
+                                                    <br />
+                                                    <div style="clear:both;"></div>
 
+                                                    <table class="table table-bordered example1"
+                                                           style="width:100%;"
+                                                           id="TableCutSides">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width:40%"><div align="left">Side/Edge</div></th>
+                                                                <th style="width:30%"><div align="left">Desc</div></th>
+                                                                <th style="width:30%"><div align="center">Value</div></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="bodyCutSides">
+                                                            <!-- Dynamic rows -->
+                                                        </tbody>
+                                                    </table>
+                                                }
 
                                         </div>
 
@@ -944,7 +933,7 @@
 
 
 
-       $(document).ready(function () {
+         $(document).ready(function () {
 
         var CutStandard = @Model.ProductionDetails_List.CutStandard;
 
@@ -958,10 +947,13 @@
             dataType: 'json',
             success: function (data) {
 
-                var Cutdata = data.objList.cutSpecificationEdit_List;
+                var Cutdata = data.objList.cutSpecificationEdit_List || [];
                 var tbody = $('#bodyCutSides');
                 tbody.empty();
-
+ 
+                if ($.fn.DataTable.isDataTable('#TableCutSides')) {
+                        $('#TableCutSides').DataTable().clear().destroy();
+                    }
                 Cutdata.forEach(function (item) {
                     tbody.append(`
                         <tr>
@@ -972,31 +964,33 @@
                     `);
                 });
 
-                // 🔥 Destroy if already initialized
-                    if ($.fn.DataTable.isDataTable('#cutSpecTable')) { $('#cutSpecTable').DataTable().clear().destroy(); }
 
-                // 🔥 Initialize DataTable PROPERLY
-                    $('#cutSpecTable').DataTable({
-                    responsive: true,
-                    paging: true,
-                    pageLength: 5,
-                    lengthChange: true,
-                    searching: true,
-                    ordering: true,
-                    info: true,
-                    autoWidth: false,
 
-                    buttons: [{
-                        extend: 'csv',
-                        text: 'CSV',
-                        className: 'btn btn-sm btn-primary'
-                    }],
 
-                    dom:
-                        "<'row mb-2'<'col-md-3'l><'col-md-5 text-center'B><'col-md-4'f>>" +
-                        "<'row'<'col-md-12'tr>>" +
-                        "<'row mt-2'<'col-md-5'i><'col-md-7'p>>"
-                });
+                         $('#TableCutSides').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        lengthChange: true,
+        searching: true,
+        ordering: true,
+        info: true,
+        autoWidth: false,
+
+        buttons: [
+            {
+                extend: 'csv',
+                text: 'CSV',
+                className: 'btn btn-sm btn-primary'
+            }
+        ],
+
+        dom:
+            "<'row mb-2'<'col-md-6 d-flex align-items-center'l <'ms-3'B>><'col-md-6 text-end'f>>" +
+            "<'row'<'col-md-12'tr>>" +
+            "<'row mt-2'<'col-md-5'i><'col-md-7'p>>"
+    });
+
             },
             error: function () {
                 alert('Error occurred while processing your request.');

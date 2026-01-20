@@ -648,7 +648,7 @@
 				</div>
 			</div>`
 			,
-			'<input type="number" class="form-control" value="0" />',
+				'<input type="number" min="0" class="form-control" value="0" />',
 			'<div class="text-center"><a href="#" class="deleteRow btn btn-danger btn-xs btnwidth50">Delete</a></div>'
 		];
 
@@ -680,7 +680,7 @@
 			handleTypeDropdown,
 			`<div class="row">
 				<div class="col-lg-8">
-					<input type="text" id="inputChartNo_${uniqueId}" class="form-control input-chart-number" data-uid="${uniqueId}" />
+						<input type="text" id="inputChartNo_${uniqueId}" class="form-control input-chart-number"  min="0" data-uid="${uniqueId}" />
 				</div>
 				<div class="col-lg-4" style="margin-top:6px;">
 						<button type="button" class="btn btn-primary btn-xs btnwidth50" data-toggle="modal" id="btnHandle_${uniqueId}" data-target="#selectchart" title="View details" data-uid="${uniqueId}">View</button>
@@ -1201,7 +1201,7 @@
 			`<div class="row"><div class="col-lg-8">${stampChartDropdown}</div>
 			 <div class="col-lg-4" style="margin-top:6px;">
 			 <button type="button" class="btn btn-primary btn-xs btnwidth50 btn-view-chart"  title="View details" data-uid="${uniqueId}">View</button></div></div>`,
-			`<input type="number" class="form-control" value="${item.qty}" />`,
+			`<input type="number" class="form-control" min="0" value="${item.qty}" />`,
 			'<div class="text-center"><a href="#" class="deleteRow btn btn-danger btn-xs btnwidth50">Delete</a></div>'
 		];
 		StampTable.row.add(newStampRow).draw();

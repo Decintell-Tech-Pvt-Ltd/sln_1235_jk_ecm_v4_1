@@ -487,6 +487,7 @@
 
 
     function ModelCutSpecification(Id, RequestNo, FileSizeCode, FileTypeCode, CutSpecCode, statusId) {
+
         $('#txtID').val(Id);
         $('#txtReqNo').text(RequestNo);
         $('#txtFilesize').text(FileSizeCode);
@@ -502,56 +503,56 @@
             dataType: 'json',
             beforeSend: function () { $('#loader').show(); },
             complete: function () { $('#loader').hide(); },
+
             success: function (data) {
-                var html = '';
-                $("#TableCutSpecParams").dataTable().fnClearTable();
-                $("#TableCutSpecParams").dataTable().fnDestroy()
+
+                // ✅ Destroy existing DataTable safely
+                if ($.fn.DataTable.isDataTable('#TableCutSpecParams')) {
+                    $('#TableCutSpecParams').DataTable().clear().destroy();
+                }
+
+                // ✅ Initialize ONCE with alignment rules
                 var dtParameter = $('#TableCutSpecParams').DataTable({
-                    "columnDefs": [
-                        { "className": "dt-center", "targets": "_all" }
+                    columnDefs: [
+                        { targets: [0, 1, 3], className: 'dt-body-left' },   // left align
+                        { targets: [2], className: 'dt-body-center' }       // value center
                     ],
+                    ordering: false,
+                    paging: true,
+                    searching: false,
+                    info: false
                 });
 
-                var CutSpecification = data.objList.cutSpecificationEdit_List;
+                var CutSpecification = data.objList.cutSpecificationEdit_List || [];
 
-
-
-
-    var rows = [];
-
-
+                // ✅ Add rows
                 for (var i = 0; i < CutSpecification.length; i++) {
-                    // html += '<tr>';
-                    // html += '<td align="left">' + CutSpecification[i].cutSides + '</td>';
-                    // html += '<td align="left">' + CutSpecification[i].cutOnSides + '</td>';
-                    // html += '<td align="center">' + CutSpecification[i].value + '</td>';
-                    // html += '<td align="center">' + CutSpecification[i].uom + '</td>';
-                    // html += '</tr>';
-                    rows=[
+                    dtParameter.row.add([
                         CutSpecification[i].cutSides,
                         CutSpecification[i].cutOnSides,
                         CutSpecification[i].value,
                         CutSpecification[i].uom
-                    ];
-                    dtParameter.row.add(rows).draw(false);
+                    ]);
                 }
 
+                // ✅ Draw once (better performance)
+                dtParameter.draw();
 
-
-               // $('#bodyCutSpecParams').html(html);
-                var CutType = CutSpecification[0].cutType;
+                // Other UI logic
+                var CutType = CutSpecification.length > 0 ? CutSpecification[0].cutType : '';
 
                 if (statusId == 2) {
                     $('#ModelCutSpecification').show();
                     $('#divRemark').show();
-                }else{
-                      $('#ModelCutSpecification').hide();
-                       $('#divRemark').hide();
+                } else {
+                    $('#ModelCutSpecification').hide();
+                    $('#divRemark').hide();
                 }
 
                 $('#txtCutType').text(CutType);
                 $('#view').modal('show');
             },
+
             error: function () {
                 alert('Error occurred while fetching data.');
             }
