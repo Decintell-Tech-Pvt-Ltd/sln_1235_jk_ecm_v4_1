@@ -363,7 +363,8 @@
                 beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
                 success: async function (data) {
                     var HandleId = data.response;
-                    if (HandleId != '') {
+                 alert(data.response);
+                    if (HandleId != '' && HandleId != 'Already Exists') {
                         // if (Chartfilename.length != 0) {
 
                         //     UploadFaultChara(HandleId);
@@ -383,7 +384,7 @@
                             await copyFile(uploadedFileSampleInsert, targetPathSample, selectedImageNameSample);
 
                         }
-                        alert(data.response)
+                        
                     }
                            // Read values from server-side query string using Razor
     var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
@@ -392,6 +393,9 @@
     var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
 
     // Build the full URL
+ 
+      if (HandleId != 'Already Exists') {
+
     var url = "@Url.Action("Handlemaster", "Master")" +
         "?PageID=" + pageID +
         "&ParentID=" + parentID +
@@ -400,7 +404,7 @@
 
     // Redirect to the URL
     window.location.href = url;
-
+      }
                 }
             });
         }

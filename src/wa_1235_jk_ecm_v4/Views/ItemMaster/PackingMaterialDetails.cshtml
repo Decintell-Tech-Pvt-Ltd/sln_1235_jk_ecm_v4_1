@@ -1065,17 +1065,29 @@
 
                
                     // Now initialize DataTable on the newly added .example1 table
-                    var table = $('#tblDimentionList').DataTable({
-                     responsive: true,
-                     autoWidth: true,
-                     lengthChange: false,
-                     scrollX: true,
-                     paging: true,
-                     searching: true,
-                     ordering: false,
-                     buttons: ["csv"],
-                     dom: 'Bfrtip'
-                 });
+                     var table = $('#tblDimentionList').DataTable({
+                       responsive: true,
+                       paging: true,          // ✅ ENABLE PAGING
+                       pageLength: 10,        // ✅ Rows per page
+                       lengthChange: true,    // Optional (dropdown)
+                       searching: true,
+                       ordering: true,
+                       info: true,
+                       autoWidth: false,
+
+
+           buttons: [
+            {
+                extend: 'csv',
+                text: 'CSV'
+            }
+        ],
+
+        dom:
+            "<'row'<'col-sm-3'l><'col-sm-5'B><'col-sm-4'f>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>"
+    });
 
                  // Ensure layout recalculates correctly
                  setTimeout(function () {
@@ -1096,6 +1108,7 @@
             var Attribute = $("#" + dimentionAttribute[i].attributeName).val();
             if (Attribute == '') {
                 alert("Please Enter all field.");
+                     return false;
             }
             else {
                 DimensionsJarr.push(Attribute);
