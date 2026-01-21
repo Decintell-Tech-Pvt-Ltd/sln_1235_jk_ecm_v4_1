@@ -302,6 +302,7 @@
                 beforeSend: function () { $('#loader').show(); },
                 complete: function () { $('#loader').hide(); },
                 success: function (data) {
+                       alert(data.response);
                     if (data && data.response === "Updated Successfully") {
 
 
@@ -310,7 +311,7 @@
                         var uploadedFileSample = document.getElementById('FileUploadIMG').files[0];
 
                         copyFile(selectedImageNameSample, targetPathSample, uploadedFileSample);
-                        alert(data.response);
+                     
                             var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
     var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
     var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
@@ -326,7 +327,7 @@
     // Redirect
     window.location.href = url;
                     } else {
-                        alert("Error occurred while saving file type.");
+                     //  alert("Error occurred while saving file type.");
 
                     }
                 },
