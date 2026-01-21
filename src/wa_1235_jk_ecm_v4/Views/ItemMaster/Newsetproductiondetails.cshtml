@@ -604,24 +604,38 @@
 		var HandleTable = $('#tblHandleDetails').DataTable();
 		var uniqueId = Date.now(); // Unique ID for this row
 			// Get all existing drawing numbers from both tables
-		var stampDrawings = StampTable
-			.column(0)
-			.data()
-			.toArray()
-			.map(x => $('<div>').html(x).text().trim()); // Remove HTML wrapping if any
+		  // 🔹 Helper: get base prefix (first 6 chars or before number if needed)
+			// 🔹 Helper: get base prefix (first 6 characters)
+	function getPrefix(value) {
+		return value.substring(0, 2);
+	}
 
-		var handleDrawings = HandleTable
-			.column(0)
-			.data()
-			.toArray()
-			.map(x => $('<div>').html(x).text().trim()); // Same here
+	var selectedPrefix = getPrefix(drawingSKU);
 
-		// Combine both lists and check for duplicate
-		var allDrawings = stampDrawings.concat(handleDrawings);
-		if (allDrawings.includes(drawingSKU)) {
-			alert("This drawing already exists in either Stamp or Handle table. Please select a different one.");
+	// 🔹 Get all existing drawings from both tables
+	var stampDrawings = StampTable.column(0).data().toArray()
+		.map(x => $('<div>').html(x).text().trim());
+
+	var handleDrawings = HandleTable.column(0).data().toArray()
+		.map(x => $('<div>').html(x).text().trim());
+
+	var allDrawings = stampDrawings.concat(handleDrawings);
+
+	// ✅ RULE 1: If records exist → enforce SAME prefix
+	if (allDrawings.length > 0) {
+		var firstPrefix = getPrefix(allDrawings[0]);
+
+		if (selectedPrefix !== firstPrefix) {
+			alert(`Only drawings starting with '${firstPrefix}' are allowed.`);
 			return;
 		}
+	}
+
+	// ❌ RULE 2: Exact same drawing not allowed
+	if (allDrawings.includes(drawingSKU)) {
+		alert(`Drawing '${drawingSKU}' already exists.`);
+		return;
+	}
 
 		// --- Stamp Dropdowns ---
 		var stampProcessDropdown = `@Html.Raw("<select class='form-control select2 ddlStampProcess' style='width: 100%;'>" +
