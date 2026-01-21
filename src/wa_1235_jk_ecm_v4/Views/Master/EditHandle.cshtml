@@ -107,6 +107,8 @@
                                                 </td>
                                                 <td style="line-height: 31.2px;">Handle Chart</td>
                                                 <td>
+                                                    <span class="text-danger" style="font-size:12px;">(.JPG /.PNG only)</span>
+                                                    </br>
                                                     <div class="input-group">
                                                         <div class="custom-file">
                                                           @*   <input type="file" class="custom-file-input">
@@ -117,6 +119,8 @@
                                                         </div>
                                                     </div>
                                                     <span id="spHandleChart" class="text-danger"></span>
+                                                    <span id="txtHandleChart"><a href="#" onclick=""> @ViewBag.handleChart</a></span>
+
                                                 </td>
                                             </tr>
                                             <tr>
@@ -144,20 +148,26 @@
                                                 <td>
                                                     @* <input name="" type="text" class="form-control" value="hdl_dual" id="txtHandleInsertChartNo">
                                                     <span id="spInsertChartNo" class="text-danger"></span> *@
-                                                    <input name="" type="text" class="form-control" id="txtHandleInsertChartNo" value="@ViewBag.insertChartNo" text="@ViewBag.insertChartNo">
+                                                    <input name="" type="text" class="form-control" id="txtHandleInsertChartNo" value="@ViewBag.insertChartNo" text="@ViewBag.insertChartNo" disabled>
                                                     @* <span id="spInsertChartNo" class="text-danger"></span> *@
                                                 </td>
                                                 <td style="line-height: 31.2px;">Insert Chart</td>
                                                 <td>
+                                                    <span class="text-danger" style="font-size:12px;">(.JPG /.PNG only)</span>
+                                                    </br>
                                                     <div class="input-group">
+                                                        
                                                         <div class="custom-file">
                                                            @*  <input type="file" class="custom-file-input">
                                                             <label class="custom-file-label" for="exampleInputFile">Choose file</label> *@
                                                             <input name="" type="file" id="HandleInsertImg" class="custom-file-input" value="@ViewBag.insertChart" text="@ViewBag.insertChart">
                                                             <label class="custom-file-label" for="HandleInsertImg">Choose file</label>
                                                             <span id="spInsertChart" class="text-danger"></span>
+                                                           
                                                         </div>
                                                     </div>
+                                                    <span id="txtInsertChart"><a href="#" onclick=""> @ViewBag.insertChart</a></span>
+
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -189,6 +199,47 @@
     <!-- InstanceEndEditable -->
 </div>
 <script>
+    let selectedFile = null;
+    const allowedTypes = ['image/jpeg', 'image/png'];
+
+    function validateImage(input, labelForId) {
+        const file = input.files[0];
+        if (!file) return;
+
+        if (!allowedTypes.includes(file.type)) {
+            alert('Only JPG and PNG images are allowed.');
+            input.value = '';
+            document.querySelector(`label[for="${labelForId}"]`).innerText = 'Choose file';
+            return;
+        }
+
+        // Update label text
+        document.querySelector(`label[for="${labelForId}"]`).innerText = file.name;
+    }
+
+    document.getElementById('HandleChartImg').addEventListener('change', function () {
+        selectedFile = this.files[0];
+        validateImage(this, 'HandleChartImg');
+
+        // Show same file name in HandleInsertImg label
+        if (selectedFile) {
+            document.querySelector('label[for="HandleInsertImg"]').innerText = selectedFile.name;
+        }
+    });
+
+    document.getElementById('HandleInsertImg').addEventListener('change', function () {
+        validateImage(this, 'HandleInsertImg');
+    });
+    $(document).ready(function () {
+         $('#txtHandleChartNo').on('input', function () {
+             var handleChartNo = $(this).val();
+             $('#txtHandleInsertChartNo').val(handleChartNo);
+         });
+     });
+</script>
+
+<script>
+      
    async function SaveData() {
         var HandleType = $('#ddlHandleType').val();
         var HandleInsertType = $('#ddlHandleInsertType').val();

@@ -146,6 +146,32 @@
     <!-- InstanceEndEditable -->
 </div>
 <script>
+    document.getElementById('HandleChartImg').addEventListener('change', function () {
+        var file = this.files[0];
+        if (!file) return;
+
+        var allowedTypes = ['image/jpeg', 'image/png'];
+
+        if (!allowedTypes.includes(file.type)) {
+            alert('Only JPG and PNG images are allowed.');
+            this.value = ''; // clear file
+        }
+    });
+      document.getElementById('HandleInsertImg').addEventListener('change', function () {
+        var file = this.files[0];
+        if (!file) return;
+
+        var allowedTypes = ['image/jpeg', 'image/png'];
+
+        if (!allowedTypes.includes(file.type)) {
+            alert('Only JPG and PNG images are allowed.');
+            this.value = ''; // clear file
+        }
+    });
+
+
+</script>
+<script>
     $(document).ready(function () {
         $("#txtStampChartNo").val("@ViewBag.StampChartNo");
         $("#FileUploadIMG1").text("@ViewBag.StampChartImage");

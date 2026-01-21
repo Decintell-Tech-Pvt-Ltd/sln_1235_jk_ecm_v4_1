@@ -8,7 +8,7 @@
 <div class="content-wrapper">
 	<!-- InstanceBeginEditable name="EditRegion1" -->
 	<div class="modal fade" id="parameter">
-		<div class="modal-dialog modal-lg">
+		<div class="modal-dialog modal-xl">
 			<div class="modal-content">
 				<!-- Optional Branding Row -->
 				@*  <div class="col-md-12 pt-2 pb-2">
@@ -293,7 +293,7 @@
 
 
 	<div class="modal fade" id="view">
-		<div class="modal-dialog modal-lg">
+		<div class="modal-dialog modal-xl">
 			<div class="modal-content">
 				<!-- Modal Header -->
 				<div class="modal-header">
@@ -616,6 +616,7 @@
 	   var blobStorageUrl = '@ViewBag.ApiUrl';
 	   var url1 = '@ViewBag.API_ECM_1231';
 	   let blobPathPrefix = '@ViewBag.BaseBlobPath';
+
 	function ModelFileSize(ID, RequestNo, FileSize, FileType) {
 		$('#txtID').val(ID);
 		$('#txtRequest').text(RequestNo);
@@ -640,17 +641,37 @@
 
 				$("#tblshowAddedFileSubTypeParameters1").dataTable().fnClearTable();
 				$("#tblshowAddedFileSubTypeParameters1").dataTable().fnDestroy()
-				
-				
-				var dtParameter = $('#tblshowAddedFileSubTypeParameters1').DataTable({
-					"columnDefs": [
-							{ targets: [0, 1, 2], className: 'dt-body-left' },   // left align
-							{ targets: [3,4], className: 'dt-body-center' }
-						
-					],
-				});
 
-				var rows = [];
+
+						var dtParameter = $('#tblshowAddedFileSubTypeParameters1').DataTable({
+				responsive: true,
+				paging: true,
+				pageLength: 10,
+				searching: true,
+				ordering: true,
+				info: true,
+				autoWidth: false,
+
+				columnDefs: [
+					{ targets: [0, 1, 2], className: 'dt-body-left' },
+					{ targets: [3, 4], className: 'dt-body-center' }
+				],
+
+				buttons: [
+					{
+						extend: 'csvHtml5',
+						text: 'CSV',
+						title: $('h5:first').text().trim() || 'Export'
+					}
+				],
+
+				dom:
+					"<'row'<'col-sm-2'l><'col-sm-6'B><'col-sm-4'f>>" +
+					"<'row'<'col-sm-12'tr>>" +
+					"<'row'<'col-sm-5'i><'col-sm-7'p>>"
+			});
+
+					var rows = [];
 				for (var i = 0; i < data.getFileSubTypeParametersList.length; i++) {
 					// html += '<tr>';
 					// html += '<td>' + data.getFileSubTypeParametersList[i].sequence + '</td>';
@@ -1096,13 +1117,11 @@
 	}
 
 	function FileSubtypeParams(ID, FileName) {
-		$('#txtID').val(ID);
 
+		$('#txtID').val(ID);
 		OpenImageDocument(FileName);
 
-		var JsonData = JSON.stringify({
-			ID: ID
-		});
+		var JsonData = JSON.stringify({ ID: ID });
 
 		$.ajax({
 			type: "POST",
@@ -1111,47 +1130,58 @@
 			dataType: 'json',
 			beforeSend: function () { $('#loader').show(); },
 			complete: function () { $('#loader').hide(); },
+
 			success: function (data) {
-				var html = '';
 
-				$("#tblshowAddedFileSubTypeParameters2").dataTable().fnClearTable();
-				$("#tblshowAddedFileSubTypeParameters2").dataTable().fnDestroy()
-				
+				// Destroy existing DataTable safely
+				if ($.fn.DataTable.isDataTable('#tblshowAddedFileSubTypeParameters2')) {
+					$('#tblshowAddedFileSubTypeParameters2').DataTable().clear().destroy();
+				}
+
+				// ✅ Initialize DataTable (ONLY CHANGE IS dom + buttons)
 				var dtParameter = $('#tblshowAddedFileSubTypeParameters2').DataTable({
-					"columnDefs": [
-							{ targets: [0, 1], className: 'dt-body-left' },   // left align
-							{ targets: [2,3], className: 'dt-body-center' }
-							
-					],
-				});
-				var rows = [];
+		paging: true,
+		searching: true,
+		pageLength: 10,
+		lengthMenu: [10, 25, 50, 100],
 
+			 dom:
+							"<'row'<'col-sm-2'l><'col-sm-6'B><'col-sm-4'f>>" +
+							"<'row'<'col-sm-12'tr>>" +
+							"<'row'<'col-sm-5'i><'col-sm-7'p>>",
+
+		buttons: [
+			{
+				extend: 'csv',
+				text: 'CSV'
+			}
+		],
+
+		columnDefs: [
+			{ targets: [0, 1], className: 'dt-body-left' },
+			{ targets: [2, 3], className: 'dt-body-center' }
+		]
+	});
+
+				// Add rows
 				for (var i = 0; i < data.getFileSubTypeParametersList.length; i++) {
-					// html += '<tr>';
-					// html += '<td>' + data.getFileSubTypeParametersList[i].category + '</td>';
-					// html += '<td>' + data.getFileSubTypeParametersList[i].name + '</td>';
-					// html += '<td>' + data.getFileSubTypeParametersList[i].value + '</td>';
-					// html += '<td>' + data.getFileSubTypeParametersList[i].isDisplay + '</td>';
-					// html += '</tr>';
-					rows = [
-
+					dtParameter.row.add([
 						data.getFileSubTypeParametersList[i].category,
 						data.getFileSubTypeParametersList[i].name,
 						data.getFileSubTypeParametersList[i].value,
 						data.getFileSubTypeParametersList[i].isDisplay
-					];
-					dtParameter.row.add(rows).draw(false);
+					]);
 				}
 
-			 //   $('#showAddedFileSubTypeParameters').html(html);
+				dtParameter.draw();
 
 				$('#parameter').modal('show');
 			},
+
 			error: function () {
 				alert('Error occurred while fetching data.');
 			}
 		});
-
 	}
 
 		function FileSubtypeParamsSecondGrid(ID, FileName, RequestNo, FileSizeCode, FileTypeCode, CutTypeCode, CutSpecCode) {
