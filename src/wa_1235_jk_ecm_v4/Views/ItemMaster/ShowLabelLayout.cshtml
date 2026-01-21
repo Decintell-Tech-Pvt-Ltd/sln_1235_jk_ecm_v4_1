@@ -3791,12 +3791,13 @@
 
 
 
-		
+
 </script>
+
 <script>
 $(document).ready(function () {
 
-   
+    
     @if (hasProd)
     {
         <text>
@@ -3936,6 +3937,95 @@ $(document).ready(function () {
             '@Model.PalletDetails?.PackingDrawingImage'
         );
 
+
+@{
+									var g = 1;
+									var h = 1;
+									var j = 1;
+									var k = 1;
+									var m = 1;
+									var n = 1;
+		}
+		@if (Model.LabelDetailsList != null)
+		{
+									foreach (var item in Model.LabelDetailsList)
+									{
+																if (item.CategoryName == "Wrapper1")
+																{
+																							<text>
+																									OpenDocument_Label('displayImage_LabelWrapper1_@g', '@item.CustomerCode', '@item.BrandCode', '@item.TxnRequestId', '@item.CategoryName', '@item.PositionName', '@item.LabelType', '@item.ImageFileName');
+																							</text>
+																							g++;
+																}
+									}
+		}
+
+		@if (Model.LabelDetailsList != null)
+		{
+									foreach (var item in Model.LabelDetailsList)
+									{
+																if (item.CategoryName == "Wrapper2")
+																{
+																							<text>
+																									OpenDocument_Label('displayImage_LabelWrapper2_@h', '@item.CustomerCode', '@item.BrandCode', '@item.TxnRequestId', '@item.CategoryName', '@item.PositionName', '@item.LabelType', '@item.ImageFileName');
+																							</text>
+																							h++;
+																}
+									}
+		}
+		@if (Model.LabelDetailsList != null)
+		{
+									foreach (var item in Model.LabelDetailsList)
+									{
+																if (item.CategoryName == "InnerBox")
+																{
+																							<text>
+																									OpenDocument_Label('displayImage_LabelInnerBox_@j', '@item.CustomerCode', '@item.BrandCode', '@item.TxnRequestId', '@item.CategoryName', '@item.PositionName', '@item.LabelType', '@item.ImageFileName');
+																							</text>
+																							j++;
+																}
+									}
+		}
+		@if (Model.LabelDetailsList != null)
+		{
+									foreach (var item in Model.LabelDetailsList)
+									{
+																if (item.CategoryName == "OuterBox")
+																{
+																							<text>
+																									OpenDocument_Label('displayImage_LabelOuterBox_@k', '@item.CustomerCode', '@item.BrandCode', '@item.TxnRequestId', '@item.CategoryName', '@item.PositionName', '@item.LabelType', '@item.ImageFileName');
+																							</text>
+																							k++;
+																}
+									}
+		}
+		@if (Model.LabelDetailsList != null)
+		{
+									foreach (var item in Model.LabelDetailsList)
+									{
+																if (item.CategoryName == "Outer")
+																{
+																							<text>
+																									OpenDocument_Label('displayImage_LabelOuter_@m', '@item.CustomerCode', '@item.BrandCode', '@item.TxnRequestId', '@item.CategoryName', '@item.PositionName', '@item.LabelType', '@item.ImageFileName');
+																							</text>
+																							m++;
+																}
+									}
+		}
+		@if (Model.LabelDetailsList != null)
+		{
+									foreach (var item in Model.LabelDetailsList)
+									{
+																if (item.CategoryName == "Pallet")
+																{
+																							<text>
+																									OpenDocument_Label('displayImage_LabelPallet_@n', '@item.CustomerCode', '@item.BrandCode', '@item.TxnRequestId', '@item.CategoryName', '@item.PositionName', '@item.LabelType', '@item.ImageFileName');
+																							</text>
+																							n++;
+																}
+									}
+		}
+		 
         </text>
     }
 

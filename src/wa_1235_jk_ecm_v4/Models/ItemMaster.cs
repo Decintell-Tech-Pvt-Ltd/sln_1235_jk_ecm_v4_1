@@ -267,7 +267,8 @@ namespace wa_1235_jk_ecm_v4.Models
         public string CustomerName { get; set; }
         public string BrandName { get; set; }
         public int RequestNo { get; set; }
-
+        public string RequestStartDate { get; set; }
+        public string RequestEndDate { get; set; }
         public string FileCode { get; set; }
         public string ReqType { get; set; }
         public int FileTypeCodeId { get; set; }

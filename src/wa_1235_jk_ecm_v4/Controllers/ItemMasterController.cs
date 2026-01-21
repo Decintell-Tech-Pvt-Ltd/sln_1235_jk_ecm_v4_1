@@ -124,6 +124,8 @@ namespace wa_1235_jk_ecm_v4.Controllers
                 string jsonData = JsonSerializer.Serialize(json);
                 string apiEndPoint = "changeNote/GetProductionDetailsFromReqNo";
                 ItemMasters.ProductionDetails_List = JsonSerializer.Deserialize<ProductionDetails>(await _iGenericMethods.PostDataEcm(apiEndPoint, jsonData));
+                ViewBag.RequestStartDate = ItemMasters.ProductionDetails_List.RequestStartDate;
+                ViewBag.RequestEndDate = ItemMasters.ProductionDetails_List.RequestEndDate;
 
                 var json1 = new
                 {
@@ -776,7 +778,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
         public async Task<ActionResult> comingsoon()
         {
             ItemMaster objMaster = new ItemMaster();
-            string apiEndPointCustomer = "ItemMaster/GetComingSoonApprovedSKUList";
+            string apiEndPointCustomer = "ItemMaster/i";
             objMaster.ApprovedCommingSKUDetails_List = JsonSerializer.Deserialize<ApprovedCommingSKUDetails[]>(await _iGenericMethods.GetDataEcm(apiEndPointCustomer));
 
             return View(objMaster);
