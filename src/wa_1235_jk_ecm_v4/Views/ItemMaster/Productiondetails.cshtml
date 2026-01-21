@@ -510,27 +510,39 @@
 
 
 <script>
+	
+
 	$(document).ready(function () {
-		// let today = new Date();
-		// let minDate = today.toISOString().slice(0, 10);
-		// document.getElementById('txtStartDate').setAttribute('min', minDate);
-		// let formattedDate = today.toISOString().slice(0, 10);
-		// document.getElementById('txtStartDate').value = formattedDate;
 
-
-
-		// document.getElementById('txtEndDate').value = '31/12/20991';
+		let serverStartDate = '@ViewBag.RequestStartDate';
+		let serverEndDate   = '@ViewBag.RequestEndDate';
+		// -------- START DATE --------
+		if (serverStartDate) {
+			$('#txtStartDate').val(serverStartDate);
+			 // Disable input
+			$('#txtStartDate').prop('disabled', true);
+		}
+		
+		else {
 			let today = new Date();
+			let dd = String(today.getDate()).padStart(2, '0');
+			let mm = String(today.getMonth() + 1).padStart(2, '0');
+			let yyyy = today.getFullYear();
+			$('#txtStartDate').val(`${dd}/${mm}/${yyyy}`);
+		}
 
-	// Format as dd/mm/yyyy
-	let dd = String(today.getDate()).padStart(2, '0');
-	let mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0
-	let yyyy = today.getFullYear();
+		// -------- END DATE --------
+		if (serverEndDate) {
+			$('#txtEndDate').val(serverEndDate);
+			 // Disable input
+			$('#txtEndDate').prop('disabled', true);
+		} 		
+		else {
+			$('#txtEndDate').val('31/12/2099');
+		}
 
-	let formattedDate = `${dd}/${mm}/${yyyy}`;
-	document.getElementById('txtStartDate').value = formattedDate;
-	document.getElementById('txtEndDate').value = '31/12/2099';
 	});
+
 </script>
 <script>
 	var ProdSKU;

@@ -287,7 +287,12 @@
 							</div>
 							<div class="card-header p-2">
 								<ul class="nav nav-pills" id="custom-tabs-one-tab" role="tablist">
-									 @{
+									@{
+										    var prod = Model?.ProductionDetails_List;
+									        bool hasProd = Model?.ProductionDetails_List != null;
+										}
+										@if (prod!= null)
+										{
                                             if (Context.Request.Query["Mode"].ToString() != null && Context.Request.Query["Mode"].ToString() != "")
                                             {
                                                 if (Context.Request.Query["Display"].ToString() == "Approval")
@@ -412,7 +417,8 @@
 							</div>
 
 							<br />
-
+							@if (prod!= null)
+										{
 							<div class="row">
 								<div class="col-md-12">
 									<div class="card card-outline card-primary">
@@ -427,7 +433,7 @@
 											<!-- /.card-tools -->
 										</div>
 										<!-- /.card-header -->
-										@if (Model.ProductionDetails_List != null)
+										@if (prod != null)
 										{
 											@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 											{
@@ -555,7 +561,7 @@
 											</div>
 											<!-- /.card-tools -->
 										</div>
-										@if (Model.ProductionDetails_List != null)
+										@if (prod != null)
 										{
 											@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 											{
@@ -706,7 +712,7 @@
 											<!-- /.card-tools -->
 										</div>
 										<!-- /.card-header -->
-										@if (Model.ProductionDetails_List != null)
+										@if (prod != null)
 										{
 											@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 											{
@@ -873,7 +879,7 @@
 										<!-- /.card-header -->
 										<div class="card-body">
 
-											@if (Model.ProductionDetails_List != null)
+											@if (prod!= null)
 											{
 												@if (Model.ProductionDetails_List.ReqType != "S" &&  Model.ProductionDetails_List.ReqType != "R")
 												{
@@ -1172,7 +1178,7 @@
 										</div>
 										<!-- /.card-header -->
 										<div class="card-body">
-											 @if (Model.ProductionDetails_List != null)
+											 @if (prod != null)
 											{
 												@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
                                                 {
@@ -1357,7 +1363,7 @@
 										</div>
 										<!-- /.card-header -->
 										<div class="card-body">
-											@if (Model.ProductionDetails_List != null)
+											@if (prod != null)
 											{
 												@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 												{
@@ -1564,7 +1570,7 @@
 										</div>
 										<!-- /.card-header -->
 										<div class="card-body">
-											 @if (Model.ProductionDetails_List != null)
+											 @if (prod != null)
 											 {
 												@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 												{
@@ -1720,7 +1726,7 @@
 										</div>
 										<!-- /.card-header -->
 										<div class="card-body">
-											 @if (Model.ProductionDetails_List != null)
+											 @if (prod != null)
                                                     {
 												@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 												{
@@ -1919,7 +1925,7 @@
 										</div>
 										<!-- /.card-header -->
 										<div class="card-body">
-											@if (Model.ProductionDetails_List != null)
+											@if (prod != null)
                                               {
 												@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 												{
@@ -2066,7 +2072,7 @@
 										</div>
 										<!-- /.card-header -->
 										<div class="card-body">
-										@if (Model.ProductionDetails_List != null)
+										@if (prod!= null)
                                           {
                                             @if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
                                             {
@@ -2293,7 +2299,7 @@
 										</div>
 										<!-- /.card-header -->
 										<div class="card-body">
-											@if (Model.ProductionDetails_List != null)
+											@if (prod != null)
 											{
 												@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 												{
@@ -2447,7 +2453,7 @@
 										<!-- /.card-header -->
 										<div class="card-body">
 
-											@if (Model.ProductionDetails_List != null)
+											@if (prod != null)
 											{
 												@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 												{
@@ -2661,7 +2667,7 @@
 										</div>
 										<!-- /.card-header -->
 										<div class="card-body">
-											@if (Model.ProductionDetails_List != null)
+											@if (prod != null)
 											{
 												@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 												{
@@ -2815,7 +2821,7 @@
 										</div>
 										<!-- /.card-header -->
 										<div class="card-body">
-											@if (Model.ProductionDetails_List != null)
+											@if (prod != null)
 											{
 												@if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
 												{
@@ -3058,6 +3064,9 @@
 									<!-- /.card -->
 								</div>
 							</div>
+
+
+							}
 						</div>
 					</div>
 				</div>
@@ -3782,74 +3791,154 @@
 
 
 
-		$(document).ready(function () {
+
+</script>
+
+<script>
+$(document).ready(function () {
+
+    
+    @if (hasProd)
+    {
+        <text>
+
+        OpenDocument_Stamp(
+            '@Model.StampMasterDispatchDetails?.BrandCode',
+            '@Model.StampMasterDispatchDetails?.StampChartImage'
+        );
+
+        OpenDocument_Handle(
+            '@Model.HandleMasterForEditDetails?.HandleChartName'
+        );
+
+        OpenDocument_Sample(
+            'displayImage_SampleWrapper1',
+            '@Model.Wrapper1Details?.CustomerCode',
+            '@Model.Wrapper1Details?.BrandCode',
+            '@Model.Wrapper1Details?.TxnRequestId',
+            '@Model.Wrapper1Details?.MaterialSampleBox'
+        );
+
+        OpenDocument_Artwork(
+            'displayImage_ArtworkWrapper1',
+            '@Model.Wrapper1Details?.CustomerCode',
+            '@Model.Wrapper1Details?.BrandCode',
+            '@Model.Wrapper1Details?.TxnRequestId',
+            '@Model.Wrapper1Details?.MaterialArtwork'
+        );
+
+        OpenDocument_Sample(
+            'displayImage_SampleWrapper2',
+            '@Model.Wrapper2Details?.CustomerCode',
+            '@Model.Wrapper2Details?.BrandCode',
+            '@Model.Wrapper2Details?.TxnRequestId',
+            '@Model.Wrapper2Details?.MaterialSampleBox'
+        );
+
+        OpenDocument_Artwork(
+            'displayImage_ArtworkWrapper2',
+            '@Model.Wrapper2Details?.CustomerCode',
+            '@Model.Wrapper2Details?.BrandCode',
+            '@Model.Wrapper2Details?.TxnRequestId',
+            '@Model.Wrapper2Details?.MaterialArtwork'
+        );
+
+        OpenDocument_Sample(
+            'displayImage_SampleOuter',
+            '@Model.OuterDetails?.CustomerCode',
+            '@Model.OuterDetails?.BrandCode',
+            '@Model.OuterDetails?.TxnRequestId',
+            '@Model.OuterDetails?.MaterialSampleBox'
+        );
+
+        OpenDocument_Artwork(
+            'displayImage_ArtworkOuter',
+            '@Model.OuterDetails?.CustomerCode',
+            '@Model.OuterDetails?.BrandCode',
+            '@Model.OuterDetails?.TxnRequestId',
+            '@Model.OuterDetails?.MaterialArtwork'
+        );
+
+        OpenDocument_Sample(
+            'displayImage_SampleInnerbox',
+            '@Model.InnerboxDetails?.CustomerCode',
+            '@Model.InnerboxDetails?.BrandCode',
+            '@Model.InnerboxDetails?.TxnRequestId',
+            '@Model.InnerboxDetails?.MaterialSampleBox'
+        );
+
+        OpenDocument_Artwork(
+            'displayImage_ArtworkInnerbox',
+            '@Model.InnerboxDetails?.CustomerCode',
+            '@Model.InnerboxDetails?.BrandCode',
+            '@Model.InnerboxDetails?.TxnRequestId',
+            '@Model.InnerboxDetails?.MaterialArtwork'
+        );
+
+        OpenDocument_Sample(
+            'displayImage_SampleOuterbox',
+            '@Model.OuterboxDetails?.CustomerCode',
+            '@Model.OuterboxDetails?.BrandCode',
+            '@Model.OuterboxDetails?.TxnRequestId',
+            '@Model.OuterboxDetails?.MaterialSampleBox'
+        );
+
+        OpenDocument_Artwork(
+            'displayImage_ArtworkOuterbox',
+            '@Model.OuterboxDetails?.CustomerCode',
+            '@Model.OuterboxDetails?.BrandCode',
+            '@Model.OuterboxDetails?.TxnRequestId',
+            '@Model.OuterboxDetails?.MaterialArtwork'
+        );
+
+        OpenDocument_Sample(
+            'displayImage_SamplePallet',
+            '@Model.PalletDetails?.CustomerCode',
+            '@Model.PalletDetails?.BrandCode',
+            '@Model.PalletDetails?.TxnRequestId',
+            '@Model.PalletDetails?.MaterialSampleBox'
+        );
+
+        OpenDocument_Artwork(
+            'displayImage_ArtworkPallet',
+            '@Model.PalletDetails?.CustomerCode',
+            '@Model.PalletDetails?.BrandCode',
+            '@Model.PalletDetails?.TxnRequestId',
+            '@Model.PalletDetails?.MaterialArtwork'
+        );
+
+        OpenDocument_Cellotape(
+            'displayImage_Cellotape',
+            '@Model.OtherPackingForEditDetails?.CelloTapeImageName'
+        );
+
+        OpenDocument_PackingDrawingImage(
+            'displayImage_DrawingWrapper2',
+            '@Model.Wrapper2Details?.PackingDrawingImage'
+        );
+
+        OpenDocument_PackingDrawingImage(
+            'displayImage_DrawingInnerbox',
+            '@Model.InnerboxDetails?.PackingDrawingImage'
+        );
+
+        OpenDocument_PackingDrawingImage(
+            'displayImage_DrawingOuterbox',
+            '@Model.OuterboxDetails?.PackingDrawingImage'
+        );
+
+        OpenDocument_PackingDrawingImage(
+            'displayImage_DrawingOuter',
+            '@Model.OuterDetails?.PackingDrawingImage'
+        );
+
+        OpenDocument_PackingDrawingImage(
+            'displayImage_DrawingPallet',
+            '@Model.PalletDetails?.PackingDrawingImage'
+        );
 
 
-			OpenDocument_Stamp('@Model.StampMasterDispatchDetails.BrandCode', '@Model.StampMasterDispatchDetails.StampChartImage');
-
-
-
-			OpenDocument_Handle('@Model.HandleMasterForEditDetails.HandleChartName');
-
-
-			OpenDocument_Sample('displayImage_SampleWrapper1', '@Model.Wrapper1Details.CustomerCode',
-				'@Model.Wrapper1Details.BrandCode', '@Model.Wrapper1Details.TxnRequestId',
-				'@Model.Wrapper1Details.MaterialSampleBox');
-
-			OpenDocument_Artwork('displayImage_ArtworkWrapper1', '@Model.Wrapper1Details.CustomerCode',
-				'@Model.Wrapper1Details.BrandCode', '@Model.Wrapper1Details.TxnRequestId',
-				'@Model.Wrapper1Details.MaterialArtwork');
-
-			OpenDocument_Sample('displayImage_SampleWrapper2', '@Model.Wrapper2Details.CustomerCode',
-				'@Model.Wrapper2Details.BrandCode', '@Model.Wrapper2Details.TxnRequestId',
-				'@Model.Wrapper2Details.MaterialSampleBox');
-
-			OpenDocument_Artwork('displayImage_ArtworkWrapper2', '@Model.Wrapper2Details.CustomerCode',
-				'@Model.Wrapper2Details.BrandCode', '@Model.Wrapper2Details.TxnRequestId',
-				'@Model.Wrapper2Details.MaterialArtwork');
-
-			OpenDocument_Sample('displayImage_SampleOuter', '@Model.OuterDetails.CustomerCode',
-				'@Model.OuterDetails.BrandCode', '@Model.OuterDetails.TxnRequestId',
-				'@Model.OuterDetails.MaterialSampleBox');
-
-			OpenDocument_Artwork('displayImage_ArtworkOuter', '@Model.OuterDetails.CustomerCode',
-				'@Model.OuterDetails.BrandCode', '@Model.OuterDetails.TxnRequestId',
-				'@Model.OuterDetails.MaterialArtwork');
-
-			OpenDocument_Sample('displayImage_SampleInnerbox', '@Model.InnerboxDetails.CustomerCode',
-				'@Model.InnerboxDetails.BrandCode', '@Model.InnerboxDetails.TxnRequestId',
-				'@Model.InnerboxDetails.MaterialSampleBox');
-
-			OpenDocument_Artwork('displayImage_ArtworkInnerbox', '@Model.InnerboxDetails.CustomerCode',
-				'@Model.InnerboxDetails.BrandCode', '@Model.InnerboxDetails.TxnRequestId',
-				'@Model.InnerboxDetails.MaterialArtwork');
-
-			OpenDocument_Sample('displayImage_SampleOuterbox', '@Model.OuterboxDetails.CustomerCode',
-				'@Model.OuterboxDetails.BrandCode', '@Model.OuterboxDetails.TxnRequestId',
-				'@Model.OuterboxDetails.MaterialSampleBox');
-
-			OpenDocument_Artwork('displayImage_ArtworkOuterbox', '@Model.OuterboxDetails.CustomerCode',
-				'@Model.OuterboxDetails.BrandCode', '@Model.OuterboxDetails.TxnRequestId',
-				'@Model.OuterboxDetails.MaterialArtwork');
-
-			OpenDocument_Sample('displayImage_SamplePallet', '@Model.PalletDetails.CustomerCode',
-				'@Model.PalletDetails.BrandCode', '@Model.PalletDetails.TxnRequestId',
-				'@Model.PalletDetails.MaterialSampleBox');
-
-			OpenDocument_Artwork('displayImage_ArtworkPallet', '@Model.PalletDetails.CustomerCode',
-				'@Model.PalletDetails.BrandCode', '@Model.PalletDetails.TxnRequestId',
-				'@Model.PalletDetails.MaterialArtwork');
-
-
-			OpenDocument_Cellotape('displayImage_Cellotape', '@Model.OtherPackingForEditDetails.CelloTapeImageName');
-
-		@*  OpenDocument_PackingDrawingImage('displayImage_DrawingWrapper1', '@Model.Wrapper1Details.PackingDrawingImage'); *@
-				OpenDocument_PackingDrawingImage('displayImage_DrawingWrapper2', '@Model.Wrapper2Details.PackingDrawingImage');
-			OpenDocument_PackingDrawingImage('displayImage_DrawingInnerbox', '@Model.InnerboxDetails.PackingDrawingImage');
-			OpenDocument_PackingDrawingImage('displayImage_DrawingOuterbox', '@Model.OuterboxDetails.PackingDrawingImage');
-			OpenDocument_PackingDrawingImage('displayImage_DrawingOuter', '@Model.OuterDetails.PackingDrawingImage');
-			OpenDocument_PackingDrawingImage('displayImage_DrawingPallet', '@Model.PalletDetails.PackingDrawingImage');
-	@{
+@{
 									var g = 1;
 									var h = 1;
 									var j = 1;
@@ -3936,8 +4025,9 @@
 																}
 									}
 		}
+		 
+        </text>
+    }
 
-
-			});
-
+});
 </script>
