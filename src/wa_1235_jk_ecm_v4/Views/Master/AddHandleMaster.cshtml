@@ -105,11 +105,13 @@
                                                     <input name="" type="text" class="form-control" id="txtHandleChartNo">
                                                     <span id="spHandleChartNo" class="text-danger"></span>
                                                 </td>
-                                                <td style="line-height: 31.2px;">Handle Chart</td>
+                                                <td style="line-height: 31.2px;">Handle Chart </td>
                                                 <td>
+                                                    <span class="text-danger" style="font-size:12px;">(.JPG /.PNG only)</span>
+                                                    </br>
                                                     <div class="input-group">
                                                         <div class="custom-file">
-                                                            <input name="" type="file" id="HandleChartImg" class="custom-file-input">
+                                                            <input name="" type="file" id="HandleChartImg"  class="custom-file-input" accept=".jpg,.jpeg,.png">
                                                             <label class="custom-file-label" for="HandleChartImg">Choose file</label>
                                                            
                                                            @*  <input type="file" class="custom-file-input">
@@ -122,7 +124,7 @@
                                             <tr>
                                                 <td style="line-height: 31.2px;">Insert Type</td>
                                                 <td>
-                                                    <select name="" class="form-control select2" id="ddlHandleInsertType">
+                                                    <select name="" class="form-control select2" id="ddlHandleInsertType" disabled>
                                                         <option>Select</option>
                                                         <option value="DUAL">DUAL</option>
                                                         <option value="HANDLE REQURIED">HANDLE REQURIED</option>
@@ -133,7 +135,7 @@
                                                         <option value="WOODEN WITH FERUL">WOODEN WITH FERUL</option>
 
                                                     </select>
-                                                    <span id="spInsertType" class="text-danger"></span>
+                                                    <span id="spHandleInsertType" class="text-danger"></span>
                                                 </td>
                                             
                                                 <td>&nbsp;</td>
@@ -144,16 +146,18 @@
                                                 <td>
                                                   @*   <input name="" type="text" class="form-control" id="txtHandleInsertChartNo">
                                                     <span id="spInsertChartNo" class="text-danger"></span> *@
-                                                    <input name="" type="text" class="form-control" id="txtHandleInsertChartNo">
+                                                    <input name="" type="text" class="form-control" id="txtHandleInsertChartNo" disabled>
                                                     <span id="spInsertChartNo" class="text-danger"></span>
                                                 </td>
-                                                <td style="line-height: 31.2px;">Insert Chart</td>
+                                                <td style="line-height: 31.2px;">Insert Chart </td>
                                                 <td>
+                                                    <span class="text-danger"  style="font-size:12px;">(.JPG /.PNG only)</span>
+</br> 
                                                     <div class="input-group">
-                                                        <div class="custom-file">
+                                                         <div class="custom-file">
                                                            @*  <input type="file" class="custom-file-input">
                                                            *@
-                                                            <input name="" type="file" id="HandleInsertImg" class="custom-file-input">
+                                                            <input name="" type="file" id="HandleInsertImg" accept=".jpg,.jpeg,.png" class="custom-file-input">
                                                             <label class="custom-file-label" for="HandleInsertImg">Choose file</label>
                                                            
                                                         </div>
@@ -189,6 +193,40 @@
 
     <!-- InstanceEndEditable -->
 </div>
+<script>
+    let selectedFile = null;
+    const allowedTypes = ['image/jpeg', 'image/png'];
+
+    function validateImage(input, labelForId) {
+        const file = input.files[0];
+        if (!file) return;
+
+        if (!allowedTypes.includes(file.type)) {
+            alert('Only JPG and PNG images are allowed.');
+            input.value = '';
+            document.querySelector(`label[for="${labelForId}"]`).innerText = 'Choose file';
+            return;
+        }
+
+        // Update label text
+        document.querySelector(`label[for="${labelForId}"]`).innerText = file.name;
+    }
+
+    document.getElementById('HandleChartImg').addEventListener('change', function () {
+        selectedFile = this.files[0];
+        validateImage(this, 'HandleChartImg');
+
+        // Show same file name in HandleInsertImg label
+        if (selectedFile) {
+            document.querySelector('label[for="HandleInsertImg"]').innerText = selectedFile.name;
+        }
+    });
+
+    document.getElementById('HandleInsertImg').addEventListener('change', function () {
+        validateImage(this, 'HandleInsertImg');
+    });
+</script>
+
 <script>
     $(document).ready(function () {
         $('#txtHandleChartNo').on('input', function () {
@@ -246,8 +284,14 @@
         || $("#ddlHandleType").val() == "Select") {
             $("#spHandleType").html("Please Select Handle Type");
             $("#spHandleType").css("display", "block");
+            
         }
+        if ($("#ddlHandleInsertType").val() === "" || $("#ddlHandleInsertType").val() == "undefined"
+        || $("#ddlHandleInsertType").val() == "Select") {
+            $("#spHandleInsertType").html("Please Select Insert Type");
+            $("#spHandleInsertType").css("display", "block");
 
+        }
         if (HandleChartNo == "" || Chartfilename == undefined) {
 
             if (HandleChartNo == "") {
@@ -286,7 +330,9 @@
                     || $("#ddlHandleType").val() == "Select") {
                     $("#spInsertType").html("Please Select Insert Type");
                     $("#spInsertType").css("display", "block");
-                }
+               
+                    
+                    }
             }
 
         }
