@@ -495,48 +495,61 @@
 										<label>Tang Tempering  </label>
 										<select class="form-control select2 select2-hidden-accessible" @(isView ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllTangTempering">
 											<option value="0">Select</option>
-											@foreach (var item in Model.TangTempering_List)
-											{ 
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.TangTempering)
+											@{
+												int? selectedTangTemperingId = null;
+
+												// ✅ EDIT MODE → take DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedTangTemperingId = Model.OtherPackingForEditDetails.TangTempering;
 												}
 												else
 												{
-													if (item.LookupValue == "No")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "No"
+													selectedTangTemperingId = Model.TangTempering_List
+													.FirstOrDefault(x => x.LookupValue == "No")
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.TangTempering_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedTangTemperingId)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 									<div class="form-group col-md-2">
 										<label>Tang Color </label>
 										<select class="form-control select2 select2-hidden-accessible" @(isView ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllTangColor">
 											<option value="0">Select</option>
-											@foreach (var item in Model.TangColor_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.TangColor)
+											@{
+												int? selectedTangColorId = null;
+
+												// ✅ EDIT MODE
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedTangColorId = Model.OtherPackingForEditDetails.TangColor;
 												}
 												else
 												{
-													if (item.LookupValue == "No")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "No"
+													selectedTangColorId = Model.TangColor_List
+													.FirstOrDefault(x => x.LookupValue == "No")
+													?.LookupId;
 												}
 											}
+
+											@foreach (var item in Model.TangColor_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedTangColorId)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 
@@ -545,24 +558,30 @@
 										<label>Blackodising </label>
 										<select class="form-control select2 select2-hidden-accessible" @(isView ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllBlackodising">
 											<option value="0">Select</option>
-											@foreach (var item in Model.Blackodising_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.Blackodising)
+											@{
+												int? selectedBlackodisingId = null;
+
+												// ✅ EDIT MODE → use DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedBlackodisingId = Model.OtherPackingForEditDetails.Blackodising;
 												}
 												else
 												{
-													if (item.LookupValue == "No")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "No"
+													selectedBlackodisingId = Model.Blackodising_List
+													.FirstOrDefault(x => x.LookupValue == "No")
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.Blackodising_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedBlackodisingId)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 
@@ -570,24 +589,32 @@
 										<label>Quality Seal </label>
 										<select class="form-control select2 select2-hidden-accessible" @(isView ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllQualitySeal">
 											<option value="0">Select</option>
-											@foreach (var item in Model.QualitySeal_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.QualitySeal)
+											@{
+												int? selectedQualitySealId = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedQualitySealId = Model.OtherPackingForEditDetails.QualitySeal;
 												}
 												else
 												{
-													if (item.LookupValue == "No")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "No"
+													selectedQualitySealId = Model.QualitySeal_List
+													.FirstOrDefault(x => x.LookupValue == "No")
+													?.LookupId;
 												}
 											}
+
+											@foreach (var item in Model.QualitySeal_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedQualitySealId)">
+													@item.LookupValue
+												</option>
+											}
+
+
 										</select>
 									</div>
 
@@ -595,24 +622,30 @@
 										<label>Line No.</label>
 										<select class="form-control select2 select2-hidden-accessible"  @(isView ? "disabled" : "")  style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllLineNo">
 											<option value="0">Select</option>
-											@foreach (var item in Model.LineNo_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.LineNumber)
+											@{
+												int? selectedLineNoId = null;
+
+												// ✅ EDIT MODE → use DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedLineNoId = Model.OtherPackingForEditDetails.LineNumber;
 												}
 												else
 												{
-													if (item.LookupValue == "No")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "No"
+													selectedLineNoId = Model.LineNo_List
+													.FirstOrDefault(x => x.LookupValue == "No")
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.LineNo_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedLineNoId)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 
@@ -621,24 +654,30 @@
 										<label>Hologram</label>
 										<select class="form-control select2 select2-hidden-accessible" @(isView ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllHologram">
 											<option value="0">Select</option>
-											@foreach (var item in Model.Hologram_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.Hologram)
+											@{
+												int? selectedHologramId = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedHologramId = Model.OtherPackingForEditDetails.Hologram;
 												}
 												else
 												{
-													if (item.LookupValue == "No")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "No"
+													selectedHologramId = Model.Hologram_List
+													.FirstOrDefault(x => x.LookupValue == "No")
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.Hologram_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedHologramId)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 
@@ -647,24 +686,30 @@
 										<label>Price Sticker</label>
 										<select class="form-control select2 select2-hidden-accessible" @(isView ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllPriceSticker">
 											<option value="0">Select</option>
-											@foreach (var item in Model.PriceSticker_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.PriceSticker)
+											@{
+												int? selectedPriceStickerId = null;
+
+												// ✅ EDIT MODE → use DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedPriceStickerId = Model.OtherPackingForEditDetails.PriceSticker;
 												}
 												else
 												{
-													if (item.LookupValue == "No")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "No"
+													selectedPriceStickerId = Model.PriceSticker_List
+													.FirstOrDefault(x => x.LookupValue == "No")
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.PriceSticker_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedPriceStickerId)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 
@@ -672,48 +717,60 @@
 										<label>Made in India</label>
 										<select class="form-control select2 select2-hidden-accessible" @(isView ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllMadeInIndia">
 											<option value="0">Select</option>
-											@foreach (var item in Model.MadeInIndia_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.MadeInIndia)
+											@{
+												int? selectedMadeInIndiaId = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedMadeInIndiaId = Model.OtherPackingForEditDetails.MadeInIndia;
 												}
 												else
 												{
-													if (item.LookupValue == "No")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "No"
+													selectedMadeInIndiaId = Model.MadeInIndia_List
+													.FirstOrDefault(x => x.LookupValue == "No")
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.MadeInIndia_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedMadeInIndiaId)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 									<div class="form-group col-md-2">
 										<label>Polythene Bag</label>
 										<select class="form-control select2 select2-hidden-accessible" @(isView ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllPolytheneBag">
 											<option value="0">Select</option>
-											@foreach (var item in Model.PolytheneBag_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.PolytheneBag)
+											@{
+												int? selectedPolytheneBagId = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedPolytheneBagId = Model.OtherPackingForEditDetails.PolytheneBag;
 												}
 												else
 												{
-													if (item.LookupValue == "No")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "No"
+													selectedPolytheneBagId = Model.PolytheneBag_List
+													.FirstOrDefault(x => x.LookupValue == "No")
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.PolytheneBag_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedPolytheneBagId)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 
@@ -722,24 +779,30 @@
 										<label>Silica Gel</label>
 										<select class="form-control select2 select2-hidden-accessible"  @(isView ? "disabled" : "")  style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllSilicaGel">
 											<option value="0">Select</option>
-											@foreach (var item in Model.SilicaGel_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.SilicaGel)
+											@{
+												int? selectedSilicaGelId = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedSilicaGelId = Model.OtherPackingForEditDetails.SilicaGel;
 												}
 												else
 												{
-													if (item.LookupValue == "No")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "No"
+													selectedSilicaGelId = Model.SilicaGel_List
+													.FirstOrDefault(x => x.LookupValue == "No")
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.SilicaGel_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedSilicaGelId)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 
@@ -748,24 +811,30 @@
 										<label>Fumigation</label>
 										<select class="form-control select2 select2-hidden-accessible"  @(isView ? "disabled" : "")  style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllFumigation">
 											<option value="0">Select</option>
-											@foreach (var item in Model.Fumigation_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.Fumigation)
+											@{
+												int? selectedFumigationId = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedFumigationId = Model.OtherPackingForEditDetails.Fumigation;
 												}
 												else
 												{
-													if (item.LookupValue == "No")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "No"
+													selectedFumigationId = Model.Fumigation_List
+													.FirstOrDefault(x => x.LookupValue == "No")
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.Fumigation_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedFumigationId)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 
@@ -774,24 +843,30 @@
 										<label>Promotional Item</label>
 										<select class="form-control select2 select2-hidden-accessible"  @(isView ? "disabled" : "")  style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllPromotionalItem">
 											<option value="0">Select</option>
-											@foreach (var item in Model.PromotionalItem_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.PromotionalItem)
+											@{
+												int? selectedPromotionalItemId = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedPromotionalItemId = Model.OtherPackingForEditDetails.PromotionalItem;
 												}
 												else
 												{
-													if (item.LookupValue == "No")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "No"
+													selectedPromotionalItemId = Model.PromotionalItem_List
+													.FirstOrDefault(x => x.LookupValue == "No")
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.PromotionalItem_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedPromotionalItemId)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 
@@ -800,24 +875,30 @@
 										<label>Strap</label>
 										<select class="form-control select2 select2-hidden-accessible" @(isView ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllStrap">
 											<option value="0">Select</option>
-											@foreach (var item in Model.Strap_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.Strap)
+											@{
+												int? selectedStrapId = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedStrapId = Model.OtherPackingForEditDetails.Strap;
 												}
 												else
 												{
-													if (item.LookupValue == "NO")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "NO"
+													selectedStrapId = Model.Strap_List
+													.FirstOrDefault(x => x.LookupValue == "NO")
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.Strap_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedStrapId)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 
@@ -826,25 +907,31 @@
 										<label>Cello Tape</label>
 										<select class="form-control select2" id="dllCelloTape" @(isView ? "disabled" : "") onchange="OnchangeCellTape()">
 											<option value="0">Select</option>
+											@{
+												int? selectedCelloTapeId = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
+												{
+													selectedCelloTapeId = Model.OtherPackingForEditDetails.CelloTape;
+												}
+												else
+												{
+													// ✅ CREATE MODE → default "No"
+													selectedCelloTapeId = Model.CelloTape_List
+													.FirstOrDefault(x =>
+													string.Equals(x.LookupValue?.Trim(), "No", StringComparison.OrdinalIgnoreCase))
+													?.LookupId;
+												}
+											}
 											@foreach (var item in Model.CelloTape_List)
 											{
-												var isSelected = false;
-
-												if (Model.OtherPackingForEditDetails != null &&
-												item.LookupId == Model.OtherPackingForEditDetails.CelloTape)
-												{
-													isSelected = true;
-												}
-												else if (Model.OtherPackingForEditDetails == null &&
-												item.LookupValue.Trim().ToLower() == "no")
-												{
-													isSelected = true;
-												}
-
-												<option value="@item.LookupId" selected="@(isSelected ? "selected" : null)">
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedCelloTapeId ? "selected" : null)">
 													@item.LookupValue
 												</option>
 											}
+
 										</select>
 									</div>
 
@@ -854,24 +941,32 @@
 										<label>Shrink Wrap</label>
 										<select class="form-control select2 select2-hidden-accessible"  @(isView ? "disabled" : "")  style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllShrinkWrap">
 											<option value="0">Select</option>
-											@foreach (var item in Model.ShrinkWrap_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.ShrinkWrap)
+											@{
+												int? selectedShrinkWrapId = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedShrinkWrapId = Model.OtherPackingForEditDetails.ShrinkWrap;
 												}
 												else
 												{
-													if (item.LookupValue == "No")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "No"
+													selectedShrinkWrapId = Model.ShrinkWrap_List
+													.FirstOrDefault(x =>
+													string.Equals(x.LookupValue?.Trim(), "No", StringComparison.OrdinalIgnoreCase))
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.ShrinkWrap_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedShrinkWrapId ? "selected" : null)">
+													@item.LookupValue
+												</option>
+											}
+
+
 										</select>
 									</div>
 
@@ -880,24 +975,31 @@
 										<label>Paperwool</label>
 										<select class="form-control select2 select2-hidden-accessible" @(isView ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllPaperwool">
 											<option value="0">Select</option>
-											@foreach (var item in Model.Paperwool_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.Paperwool)
+											@{
+												int? selectedPaperwoolId = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedPaperwoolId = Model.OtherPackingForEditDetails.Paperwool;
 												}
 												else
 												{
-													if (item.LookupValue == "No")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "No"
+													selectedPaperwoolId = Model.Paperwool_List
+													.FirstOrDefault(x =>
+													string.Equals(x.LookupValue?.Trim(), "No", StringComparison.OrdinalIgnoreCase))
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.Paperwool_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedPaperwoolId ? "selected" : null)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 
@@ -906,24 +1008,31 @@
 										<label>PO No.</label>
 										<select class="form-control select2 select2-hidden-accessible"  @(isView ? "disabled" : "")  style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllPONO">
 											<option value="0">Select</option>
-											@foreach (var item in Model.PONO_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.PONO)
+											@{
+												int? selectedPONOId = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedPONOId = Model.OtherPackingForEditDetails.PONO;
 												}
 												else
 												{
-													if (item.LookupValue == "No")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "No"
+													selectedPONOId = Model.PONO_List
+													.FirstOrDefault(x =>
+													string.Equals(x.LookupValue?.Trim(), "No", StringComparison.OrdinalIgnoreCase))
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.PONO_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedPONOId ? "selected" : null)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 
@@ -932,24 +1041,32 @@
 										<label>Pre Inspection</label>
 										<select class="form-control select2 select2-hidden-accessible"  @(isView ? "disabled" : "")  style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllPreInspection">
 											<option value="0">Select</option>
-											@foreach (var item in Model.PreInspection_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.PreInspection)
+											@{
+												int? selectedPreInspectionId = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedPreInspectionId = Model.OtherPackingForEditDetails.PreInspection;
 												}
 												else
 												{
-													if (item.LookupValue == "No")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "No"
+													selectedPreInspectionId = Model.PreInspection_List
+													.FirstOrDefault(x =>
+													string.Equals(x.LookupValue?.Trim(), "No",
+													StringComparison.OrdinalIgnoreCase))
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.PreInspection_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedPreInspectionId ? "selected" : null)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 
@@ -958,24 +1075,32 @@
 										<label>Stencil</label>
 										<select class="form-control select2 select2-hidden-accessible" @(isView ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllStencil">
 											<option value="0">Select</option>
-											@foreach (var item in Model.Stencil_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.Stencil)
+											@{
+												int? selectedStencilId = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedStencilId = Model.OtherPackingForEditDetails.Stencil;
 												}
 												else
 												{
-													if (item.LookupValue == "No")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "No"
+													selectedStencilId = Model.Stencil_List
+													.FirstOrDefault(x =>
+													string.Equals(x.LookupValue?.Trim(), "No",
+													StringComparison.OrdinalIgnoreCase))
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.Stencil_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedStencilId ? "selected" : null)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 
@@ -984,24 +1109,32 @@
 										<label>Insert Quality Card</label>
 										<select class="form-control select2 select2-hidden-accessible" @(isView ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllInsertQualityCard">
 											<option value="0">Select</option>
-											@foreach (var item in Model.InsertQualityCard_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.InsertQualityCard)
+											@{
+												int? selectedInsertQualityCardId = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedInsertQualityCardId = Model.OtherPackingForEditDetails.InsertQualityCard;
 												}
 												else
 												{
-													if (item.LookupValue == "No")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "No"
+													selectedInsertQualityCardId = Model.InsertQualityCard_List
+													.FirstOrDefault(x =>
+													string.Equals(x.LookupValue?.Trim(), "No",
+													StringComparison.OrdinalIgnoreCase))
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.InsertQualityCard_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedInsertQualityCardId ? "selected" : null)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 
@@ -1010,24 +1143,32 @@
 										<label>Bar Code(Wrapper1) </label>
 										<select class="form-control select2 select2-hidden-accessible"  @(isView ? "disabled" : "")  style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllBarCodeWrapper1">
 											<option value="0">Select</option>
-											@foreach (var item in Model.BarCodeWrapper1_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.BarCodeWrapper1)
+											@{
+												int? selectedBarCodeWrapper1Id = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedBarCodeWrapper1Id = Model.OtherPackingForEditDetails.BarCodeWrapper1;
 												}
 												else
 												{
-													if (item.LookupValue == "NO")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "NO"
+													selectedBarCodeWrapper1Id = Model.BarCodeWrapper1_List
+													.FirstOrDefault(x =>
+													string.Equals(x.LookupValue?.Trim(), "NO",
+													StringComparison.OrdinalIgnoreCase))
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.BarCodeWrapper1_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedBarCodeWrapper1Id ? "selected" : null)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 
@@ -1036,24 +1177,32 @@
 										<label>Bar Code(Wrapper2) </label>
 										<select class="form-control select2 select2-hidden-accessible" @(isView ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllBarCodeWrapper2">
 											<option value="0">Select</option>
-											@foreach (var item in Model.BarCodeWrapper2_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.BarCodeWrapper2)
+											@{
+												int? selectedBarCodeWrapper2Id = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedBarCodeWrapper2Id = Model.OtherPackingForEditDetails.BarCodeWrapper2;
 												}
 												else
 												{
-													if (item.LookupValue == "NO")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "NO"
+													selectedBarCodeWrapper2Id = Model.BarCodeWrapper2_List
+													.FirstOrDefault(x =>
+													string.Equals(x.LookupValue?.Trim(), "NO",
+													StringComparison.OrdinalIgnoreCase))
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.BarCodeWrapper2_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedBarCodeWrapper2Id ? "selected" : null)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 
@@ -1061,24 +1210,32 @@
 										<label>Bar Code(Inner)  </label>
 										<select class="form-control select2 select2-hidden-accessible"  @(isView ? "disabled" : "")  style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllBarCodeInner">
 											<option value="0">Select</option>
-											@foreach (var item in Model.BarCodeInner_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.BarCodeInner)
+											@{
+												int? selectedBarCodeInnerId = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedBarCodeInnerId = Model.OtherPackingForEditDetails.BarCodeInner;
 												}
 												else
 												{
-													if (item.LookupValue == "NO")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "NO"
+													selectedBarCodeInnerId = Model.BarCodeInner_List
+													.FirstOrDefault(x =>
+													string.Equals(x.LookupValue?.Trim(), "NO",
+													StringComparison.OrdinalIgnoreCase))
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.BarCodeInner_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedBarCodeInnerId ? "selected" : null)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 
@@ -1087,24 +1244,32 @@
 										<label>Bar Code(Outer)  </label>
 										<select class="form-control select2 select2-hidden-accessible" @(isView ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllBarCodeOuter">
 											<option value="0">Select</option>
-											@foreach (var item in Model.BarCodeOuter_List)
-											{
-												@if (Model.OtherPackingForEditDetails != null && item.LookupId == Model.OtherPackingForEditDetails.BarCodeOuter)
+											@{
+												int? selectedBarCodeOuterId = null;
+
+												// ✅ EDIT MODE → DB value
+												if (Model.OtherPackingForEditDetails != null)
 												{
-													<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+													selectedBarCodeOuterId = Model.OtherPackingForEditDetails.BarCodeOuter;
 												}
 												else
 												{
-													if (item.LookupValue == "NO")
-													{
-														<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-													}
-													else
-													{
-														<option value="@item.LookupId">@item.LookupValue</option>
-													}
+													// ✅ CREATE MODE → default "NO"
+													selectedBarCodeOuterId = Model.BarCodeOuter_List
+													.FirstOrDefault(x =>
+													string.Equals(x.LookupValue?.Trim(), "NO",
+													StringComparison.OrdinalIgnoreCase))
+													?.LookupId;
 												}
 											}
+											@foreach (var item in Model.BarCodeOuter_List)
+											{
+												<option value="@item.LookupId"
+														selected="@(item.LookupId == selectedBarCodeOuterId ? "selected" : null)">
+													@item.LookupValue
+												</option>
+											}
+
 										</select>
 									</div>
 

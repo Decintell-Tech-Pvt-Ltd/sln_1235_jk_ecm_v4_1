@@ -519,6 +519,8 @@
 		// -------- START DATE --------
 		if (serverStartDate) {
 			$('#txtStartDate').val(serverStartDate);
+			 // Disable input
+			$('#txtStartDate').prop('disabled', true);
 		}
 		
 		else {
@@ -532,6 +534,8 @@
 		// -------- END DATE --------
 		if (serverEndDate) {
 			$('#txtEndDate').val(serverEndDate);
+			 // Disable input
+			$('#txtEndDate').prop('disabled', true);
 		} 		
 		else {
 			$('#txtEndDate').val('31/12/2099');
