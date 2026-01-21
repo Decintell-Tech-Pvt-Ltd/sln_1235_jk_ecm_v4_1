@@ -300,7 +300,7 @@
 
                                         <div style="margin-top:35px;">
                                             <button type="button"
-                                                    class="btn btn-primary btn-xs btnwidth50" id="ViewHandle_btn"
+                                                    class="btn btn-primary btn-xs btnwidth50" id="ViewHandle_btn" onclick="chartData()"
                                                     data-toggle="modal" data-target="#selectchart"
                                                     title="View details">
                                                 View
@@ -317,7 +317,7 @@
                                         <div style="margin-top:35px;">
                                             <button type="button"
                                                     class="btn btn-primary btn-xs btnwidth50" id="ViewHandle_btn"
-                                                    data-toggle="modal" onclick="showColorPdfModal()l" data-target="#color"
+                                                    data-toggle="modal" onclick="showColorPdfModal()" data-target="#color"
                                                     title="View details">
                                                 View
                                             </button>
@@ -487,8 +487,13 @@
 
 
     // }
-         function chartData() {
+            function chartData() {
+
         var HandleType = $("#dllHandleType option:selected").text();
+
+        // ✅ Use .val() if input, .text() if span/div
+        var txtHandleChartNo = $("#txtHandleChartNo").val();
+
         let JsonData = { HandleTypeId: HandleType };
         var JSONInsert = JSON.stringify(JsonData);
 
@@ -496,36 +501,53 @@
             type: 'POST',
             url: '@Url.Action("GetHandleChartData", "ItemMaster")',
             data: { JsonData: JSONInsert },
-            dataType: 'json', // FIXED: was 'datatype'
+            dataType: 'json',
             success: function (data) {
+
                 var Chartdata = data.handleTypeList;
 
-                // Destroy DataTable if already exists
+                // Destroy DataTable if exists
                 if ($.fn.DataTable.isDataTable('#TableHandleChart')) {
                     $('#TableHandleChart').DataTable().clear().destroy();
                 }
 
-                // Clear tbody content
                 var tbody1 = $('#TableHandleChartBody');
                 tbody1.empty();
 
                 $.each(Chartdata, function (index, item) {
+
                     var radioId = 'handleRadio_' + index;
-                    var row = '<tr>' +
-                        '<td>' +
-                            '<div class="custom-control custom-radio" align="center">' +
-                                '<input type="radio" class="custom-control-input" id="' + radioId + '" name="chartRadio" value="' + item.handleChartNo + '">' +
-                                '<label class="custom-control-label" for="' + radioId + '"></label>' +
-                            '</div>' +
-                        '</td>' +
-                        '<td style="text-align: left;">' +
-                            '<a href="#" data-toggle="modal" data-target="#view" onclick="OpenDocument(\'' + item.handleChart + '\', \'' + item.handleType + '\', \'' + item.handleChartNo + '\')">' + item.handleChartNo + '</a>' +
-                        '</td>' +
-                    '</tr>';
+
+                    var checkedAttr = (item.handleChartNo === txtHandleChartNo)
+                        ? 'checked="checked"' : '';
+
+                    var row = `
+                        <tr>
+                            <td align="center">
+                                <div class="custom-control custom-radio">
+                                    <input type="radio"
+                                           class="custom-control-input"
+                                           id="${radioId}"
+                                           name="chartRadio"
+                                           value="${item.handleChartNo}"
+                                           ${checkedAttr}>
+                                    <label class="custom-control-label" for="${radioId}"></label>
+                                </div>
+                            </td>
+                            <td style="text-align:left;">
+                                <a href="#"
+                                   data-toggle="modal"
+                                   data-target="#view"
+                                   onclick="OpenDocument('${item.handleChart}','${item.handleType}','${item.handleChartNo}')">
+                                    ${item.handleChartNo}
+                                </a>
+                            </td>
+                        </tr>`;
+
                     tbody1.append(row);
                 });
 
-                // Re-initialize DataTable with pagination
+                // Reinitialize DataTable
                 $('#TableHandleChart').DataTable({
                     paging: true,
                     searching: true,

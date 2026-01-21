@@ -402,7 +402,7 @@
                 '&ModuleID=' + moduleID +
                 '&ModulePageID=' + modulePageID +
                 '&ReqValue=' + RequestId +
-                '&Status=SKU';
+                '&Status=SKU&Page=Approval';
         }
         else if (ReqType === "S" || ReqType === "R") {
 
@@ -412,7 +412,7 @@
                 '&ModuleID=' + moduleID +
                 '&ModulePageID=' + modulePageID +
                 '&ReqValue=' + RequestId +
-                '&Status=SET';
+                '&Status=SET&Page=Approval';
         }
         else {
 
@@ -422,7 +422,7 @@
                 '&ModuleID=' + moduleID +
                 '&ModulePageID=' + modulePageID +
                 '&ReqValue=' + RequestId +
-                '&Status=SKU';
+                '&Status=SKU&Page=Approval';
         }
 
         window.location.href = url;

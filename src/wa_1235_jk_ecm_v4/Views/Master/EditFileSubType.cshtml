@@ -348,8 +348,9 @@
                 beforeSend: function () { $('#loader').show(); },
                 complete: function () { $('#loader').hide(); },
                 success: function (data) {
+                    alert(data.response);
                     if (data && data.response === "Update Successfully") {
-                         alert(data.response);
+                         
 				var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
 				var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
 				var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
@@ -363,7 +364,7 @@
                        // ✅ Redirect to the new page
                     window.location.href = redirectUrl;
                     } else {
-                        alert("Error occurred while saving file sub type.");
+                      //  alert("Error occurred while saving file sub type.");
 
                     }
                 },
