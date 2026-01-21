@@ -289,6 +289,7 @@
 								<ul class="nav nav-pills" id="custom-tabs-one-tab" role="tablist">
 									@{
 										    var prod = Model?.ProductionDetails_List;
+									        bool hasProd = Model?.ProductionDetails_List != null;
 										}
 										@if (prod!= null)
 										{
@@ -416,7 +417,8 @@
 							</div>
 
 							<br />
-
+							@if (prod!= null)
+										{
 							<div class="row">
 								<div class="col-md-12">
 									<div class="card card-outline card-primary">
@@ -3062,6 +3064,9 @@
 									<!-- /.card -->
 								</div>
 							</div>
+
+
+							}
 						</div>
 					</div>
 				</div>
@@ -3786,162 +3791,153 @@
 
 
 
-		$(document).ready(function () {
+		
+</script>
+<script>
+$(document).ready(function () {
 
+   
+    @if (hasProd)
+    {
+        <text>
 
-			OpenDocument_Stamp('@Model.StampMasterDispatchDetails.BrandCode', '@Model.StampMasterDispatchDetails.StampChartImage');
+        OpenDocument_Stamp(
+            '@Model.StampMasterDispatchDetails?.BrandCode',
+            '@Model.StampMasterDispatchDetails?.StampChartImage'
+        );
 
+        OpenDocument_Handle(
+            '@Model.HandleMasterForEditDetails?.HandleChartName'
+        );
 
+        OpenDocument_Sample(
+            'displayImage_SampleWrapper1',
+            '@Model.Wrapper1Details?.CustomerCode',
+            '@Model.Wrapper1Details?.BrandCode',
+            '@Model.Wrapper1Details?.TxnRequestId',
+            '@Model.Wrapper1Details?.MaterialSampleBox'
+        );
 
-			OpenDocument_Handle('@Model.HandleMasterForEditDetails.HandleChartName');
+        OpenDocument_Artwork(
+            'displayImage_ArtworkWrapper1',
+            '@Model.Wrapper1Details?.CustomerCode',
+            '@Model.Wrapper1Details?.BrandCode',
+            '@Model.Wrapper1Details?.TxnRequestId',
+            '@Model.Wrapper1Details?.MaterialArtwork'
+        );
 
+        OpenDocument_Sample(
+            'displayImage_SampleWrapper2',
+            '@Model.Wrapper2Details?.CustomerCode',
+            '@Model.Wrapper2Details?.BrandCode',
+            '@Model.Wrapper2Details?.TxnRequestId',
+            '@Model.Wrapper2Details?.MaterialSampleBox'
+        );
 
-			OpenDocument_Sample('displayImage_SampleWrapper1', '@Model.Wrapper1Details.CustomerCode',
-				'@Model.Wrapper1Details.BrandCode', '@Model.Wrapper1Details.TxnRequestId',
-				'@Model.Wrapper1Details.MaterialSampleBox');
+        OpenDocument_Artwork(
+            'displayImage_ArtworkWrapper2',
+            '@Model.Wrapper2Details?.CustomerCode',
+            '@Model.Wrapper2Details?.BrandCode',
+            '@Model.Wrapper2Details?.TxnRequestId',
+            '@Model.Wrapper2Details?.MaterialArtwork'
+        );
 
-			OpenDocument_Artwork('displayImage_ArtworkWrapper1', '@Model.Wrapper1Details.CustomerCode',
-				'@Model.Wrapper1Details.BrandCode', '@Model.Wrapper1Details.TxnRequestId',
-				'@Model.Wrapper1Details.MaterialArtwork');
+        OpenDocument_Sample(
+            'displayImage_SampleOuter',
+            '@Model.OuterDetails?.CustomerCode',
+            '@Model.OuterDetails?.BrandCode',
+            '@Model.OuterDetails?.TxnRequestId',
+            '@Model.OuterDetails?.MaterialSampleBox'
+        );
 
-			OpenDocument_Sample('displayImage_SampleWrapper2', '@Model.Wrapper2Details.CustomerCode',
-				'@Model.Wrapper2Details.BrandCode', '@Model.Wrapper2Details.TxnRequestId',
-				'@Model.Wrapper2Details.MaterialSampleBox');
+        OpenDocument_Artwork(
+            'displayImage_ArtworkOuter',
+            '@Model.OuterDetails?.CustomerCode',
+            '@Model.OuterDetails?.BrandCode',
+            '@Model.OuterDetails?.TxnRequestId',
+            '@Model.OuterDetails?.MaterialArtwork'
+        );
 
-			OpenDocument_Artwork('displayImage_ArtworkWrapper2', '@Model.Wrapper2Details.CustomerCode',
-				'@Model.Wrapper2Details.BrandCode', '@Model.Wrapper2Details.TxnRequestId',
-				'@Model.Wrapper2Details.MaterialArtwork');
+        OpenDocument_Sample(
+            'displayImage_SampleInnerbox',
+            '@Model.InnerboxDetails?.CustomerCode',
+            '@Model.InnerboxDetails?.BrandCode',
+            '@Model.InnerboxDetails?.TxnRequestId',
+            '@Model.InnerboxDetails?.MaterialSampleBox'
+        );
 
-			OpenDocument_Sample('displayImage_SampleOuter', '@Model.OuterDetails.CustomerCode',
-				'@Model.OuterDetails.BrandCode', '@Model.OuterDetails.TxnRequestId',
-				'@Model.OuterDetails.MaterialSampleBox');
+        OpenDocument_Artwork(
+            'displayImage_ArtworkInnerbox',
+            '@Model.InnerboxDetails?.CustomerCode',
+            '@Model.InnerboxDetails?.BrandCode',
+            '@Model.InnerboxDetails?.TxnRequestId',
+            '@Model.InnerboxDetails?.MaterialArtwork'
+        );
 
-			OpenDocument_Artwork('displayImage_ArtworkOuter', '@Model.OuterDetails.CustomerCode',
-				'@Model.OuterDetails.BrandCode', '@Model.OuterDetails.TxnRequestId',
-				'@Model.OuterDetails.MaterialArtwork');
+        OpenDocument_Sample(
+            'displayImage_SampleOuterbox',
+            '@Model.OuterboxDetails?.CustomerCode',
+            '@Model.OuterboxDetails?.BrandCode',
+            '@Model.OuterboxDetails?.TxnRequestId',
+            '@Model.OuterboxDetails?.MaterialSampleBox'
+        );
 
-			OpenDocument_Sample('displayImage_SampleInnerbox', '@Model.InnerboxDetails.CustomerCode',
-				'@Model.InnerboxDetails.BrandCode', '@Model.InnerboxDetails.TxnRequestId',
-				'@Model.InnerboxDetails.MaterialSampleBox');
+        OpenDocument_Artwork(
+            'displayImage_ArtworkOuterbox',
+            '@Model.OuterboxDetails?.CustomerCode',
+            '@Model.OuterboxDetails?.BrandCode',
+            '@Model.OuterboxDetails?.TxnRequestId',
+            '@Model.OuterboxDetails?.MaterialArtwork'
+        );
 
-			OpenDocument_Artwork('displayImage_ArtworkInnerbox', '@Model.InnerboxDetails.CustomerCode',
-				'@Model.InnerboxDetails.BrandCode', '@Model.InnerboxDetails.TxnRequestId',
-				'@Model.InnerboxDetails.MaterialArtwork');
+        OpenDocument_Sample(
+            'displayImage_SamplePallet',
+            '@Model.PalletDetails?.CustomerCode',
+            '@Model.PalletDetails?.BrandCode',
+            '@Model.PalletDetails?.TxnRequestId',
+            '@Model.PalletDetails?.MaterialSampleBox'
+        );
 
-			OpenDocument_Sample('displayImage_SampleOuterbox', '@Model.OuterboxDetails.CustomerCode',
-				'@Model.OuterboxDetails.BrandCode', '@Model.OuterboxDetails.TxnRequestId',
-				'@Model.OuterboxDetails.MaterialSampleBox');
+        OpenDocument_Artwork(
+            'displayImage_ArtworkPallet',
+            '@Model.PalletDetails?.CustomerCode',
+            '@Model.PalletDetails?.BrandCode',
+            '@Model.PalletDetails?.TxnRequestId',
+            '@Model.PalletDetails?.MaterialArtwork'
+        );
 
-			OpenDocument_Artwork('displayImage_ArtworkOuterbox', '@Model.OuterboxDetails.CustomerCode',
-				'@Model.OuterboxDetails.BrandCode', '@Model.OuterboxDetails.TxnRequestId',
-				'@Model.OuterboxDetails.MaterialArtwork');
+        OpenDocument_Cellotape(
+            'displayImage_Cellotape',
+            '@Model.OtherPackingForEditDetails?.CelloTapeImageName'
+        );
 
-			OpenDocument_Sample('displayImage_SamplePallet', '@Model.PalletDetails.CustomerCode',
-				'@Model.PalletDetails.BrandCode', '@Model.PalletDetails.TxnRequestId',
-				'@Model.PalletDetails.MaterialSampleBox');
+        OpenDocument_PackingDrawingImage(
+            'displayImage_DrawingWrapper2',
+            '@Model.Wrapper2Details?.PackingDrawingImage'
+        );
 
-			OpenDocument_Artwork('displayImage_ArtworkPallet', '@Model.PalletDetails.CustomerCode',
-				'@Model.PalletDetails.BrandCode', '@Model.PalletDetails.TxnRequestId',
-				'@Model.PalletDetails.MaterialArtwork');
+        OpenDocument_PackingDrawingImage(
+            'displayImage_DrawingInnerbox',
+            '@Model.InnerboxDetails?.PackingDrawingImage'
+        );
 
+        OpenDocument_PackingDrawingImage(
+            'displayImage_DrawingOuterbox',
+            '@Model.OuterboxDetails?.PackingDrawingImage'
+        );
 
-			OpenDocument_Cellotape('displayImage_Cellotape', '@Model.OtherPackingForEditDetails.CelloTapeImageName');
+        OpenDocument_PackingDrawingImage(
+            'displayImage_DrawingOuter',
+            '@Model.OuterDetails?.PackingDrawingImage'
+        );
 
-		@*  OpenDocument_PackingDrawingImage('displayImage_DrawingWrapper1', '@Model.Wrapper1Details.PackingDrawingImage'); *@
-				OpenDocument_PackingDrawingImage('displayImage_DrawingWrapper2', '@Model.Wrapper2Details.PackingDrawingImage');
-			OpenDocument_PackingDrawingImage('displayImage_DrawingInnerbox', '@Model.InnerboxDetails.PackingDrawingImage');
-			OpenDocument_PackingDrawingImage('displayImage_DrawingOuterbox', '@Model.OuterboxDetails.PackingDrawingImage');
-			OpenDocument_PackingDrawingImage('displayImage_DrawingOuter', '@Model.OuterDetails.PackingDrawingImage');
-			OpenDocument_PackingDrawingImage('displayImage_DrawingPallet', '@Model.PalletDetails.PackingDrawingImage');
-	@{
-									var g = 1;
-									var h = 1;
-									var j = 1;
-									var k = 1;
-									var m = 1;
-									var n = 1;
-		}
-		@if (Model.LabelDetailsList != null)
-		{
-									foreach (var item in Model.LabelDetailsList)
-									{
-																if (item.CategoryName == "Wrapper1")
-																{
-																							<text>
-																									OpenDocument_Label('displayImage_LabelWrapper1_@g', '@item.CustomerCode', '@item.BrandCode', '@item.TxnRequestId', '@item.CategoryName', '@item.PositionName', '@item.LabelType', '@item.ImageFileName');
-																							</text>
-																							g++;
-																}
-									}
-		}
+        OpenDocument_PackingDrawingImage(
+            'displayImage_DrawingPallet',
+            '@Model.PalletDetails?.PackingDrawingImage'
+        );
 
-		@if (Model.LabelDetailsList != null)
-		{
-									foreach (var item in Model.LabelDetailsList)
-									{
-																if (item.CategoryName == "Wrapper2")
-																{
-																							<text>
-																									OpenDocument_Label('displayImage_LabelWrapper2_@h', '@item.CustomerCode', '@item.BrandCode', '@item.TxnRequestId', '@item.CategoryName', '@item.PositionName', '@item.LabelType', '@item.ImageFileName');
-																							</text>
-																							h++;
-																}
-									}
-		}
-		@if (Model.LabelDetailsList != null)
-		{
-									foreach (var item in Model.LabelDetailsList)
-									{
-																if (item.CategoryName == "InnerBox")
-																{
-																							<text>
-																									OpenDocument_Label('displayImage_LabelInnerBox_@j', '@item.CustomerCode', '@item.BrandCode', '@item.TxnRequestId', '@item.CategoryName', '@item.PositionName', '@item.LabelType', '@item.ImageFileName');
-																							</text>
-																							j++;
-																}
-									}
-		}
-		@if (Model.LabelDetailsList != null)
-		{
-									foreach (var item in Model.LabelDetailsList)
-									{
-																if (item.CategoryName == "OuterBox")
-																{
-																							<text>
-																									OpenDocument_Label('displayImage_LabelOuterBox_@k', '@item.CustomerCode', '@item.BrandCode', '@item.TxnRequestId', '@item.CategoryName', '@item.PositionName', '@item.LabelType', '@item.ImageFileName');
-																							</text>
-																							k++;
-																}
-									}
-		}
-		@if (Model.LabelDetailsList != null)
-		{
-									foreach (var item in Model.LabelDetailsList)
-									{
-																if (item.CategoryName == "Outer")
-																{
-																							<text>
-																									OpenDocument_Label('displayImage_LabelOuter_@m', '@item.CustomerCode', '@item.BrandCode', '@item.TxnRequestId', '@item.CategoryName', '@item.PositionName', '@item.LabelType', '@item.ImageFileName');
-																							</text>
-																							m++;
-																}
-									}
-		}
-		@if (Model.LabelDetailsList != null)
-		{
-									foreach (var item in Model.LabelDetailsList)
-									{
-																if (item.CategoryName == "Pallet")
-																{
-																							<text>
-																									OpenDocument_Label('displayImage_LabelPallet_@n', '@item.CustomerCode', '@item.BrandCode', '@item.TxnRequestId', '@item.CategoryName', '@item.PositionName', '@item.LabelType', '@item.ImageFileName');
-																							</text>
-																							n++;
-																}
-									}
-		}
+        </text>
+    }
 
-
-			});
-
+});
 </script>
