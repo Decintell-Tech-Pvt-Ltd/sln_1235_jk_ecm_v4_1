@@ -280,8 +280,20 @@
                                            // copyFile(selectedImageNameSample, targetPathSample, uploadedFileSample);
                                         }
                                         alert('Stamp Added Successfully')
-                                        url = "@Url.Action("StampMaster", "Master")";
-                                        window.location.href = url;
+                                           var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+      var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+      var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+      var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+      // Construct the full URL
+      url = "@Url.Action("StampMaster", "Master")" +
+          "?PageID=" + pageID +
+          "&ParentID=" + parentID +
+          "&ModuleID=" + moduleID +
+          "&ModulePageID=" + modulePageID;
+
+      // Redirect
+      window.location.href = url;
                                     }
                                 }
                             });
