@@ -817,7 +817,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
             lstFileType.Insert(0, new FileType { Id = -1, FileTypeName = "Add New" });
             ItemMasters.FileType_List = lstFileType.ToArray(); // Convert List back to array
 
-
+            
             string apiEndSubFileType = "Masters/GetSubFileTypes";
             ItemMasters.FileSubType_List = JsonSerializer.Deserialize<FileSubTypeMaster[]>(await _iGenericMethods.GetDataEcm(apiEndSubFileType));
 
@@ -846,7 +846,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
             string apiEndPoint = "ItemMaster/GetDrawingSKU";
             ItemMasters.DrawingNewSetList = JsonSerializer.Deserialize<DrawingNewSet[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
 
-            apiEndPoint = "ItemMaster/GetStampMaster";
+            apiEndPoint = "ItemMaster/GetStampMasterApproved";
             ItemMasters.StampMaster_List = JsonSerializer.Deserialize<StampMaster[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
 
             apiEndPoint = "Masters/GetStampProcess";
