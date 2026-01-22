@@ -239,7 +239,7 @@
                 beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
                 success: async function (data) {
                     var StampId = data.response;
-                    if (StampId != '') {
+                          if (StampId != ''|| StampId!='Already Exists') {
                         if (filename.length != 0) {
                             var selectedImageNameSample = cleanFileName(filename);
                             var targetPathSample = 'others\\stamps\\' + BrandCode.toLowerCase() + '\\';
@@ -264,6 +264,8 @@
                         // Redirect
                         window.location.href = url;
                      //   window.location.href = url;
+                    }else{
+                               alert('Already Exists')
                     }
 
                 }

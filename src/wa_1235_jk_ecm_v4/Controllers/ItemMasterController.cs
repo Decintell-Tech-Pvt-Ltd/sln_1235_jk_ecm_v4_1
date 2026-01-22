@@ -778,7 +778,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
         public async Task<ActionResult> comingsoon()
         {
             ItemMaster objMaster = new ItemMaster();
-            string apiEndPointCustomer = "ItemMaster/i";
+            string apiEndPointCustomer = "ItemMaster/GetComingSoonApprovedSKUList";
             objMaster.ApprovedCommingSKUDetails_List = JsonSerializer.Deserialize<ApprovedCommingSKUDetails[]>(await _iGenericMethods.GetDataEcm(apiEndPointCustomer));
 
             return View(objMaster);
