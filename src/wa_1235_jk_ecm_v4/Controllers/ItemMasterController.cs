@@ -866,8 +866,9 @@ namespace wa_1235_jk_ecm_v4.Controllers
                 string jsonData = JsonSerializer.Serialize(json);
                 apiEndPoint = "changeNote/GetProductionDetailsFromReqNo";
                 ItemMasters.ProductionDetails_List = JsonSerializer.Deserialize<ProductionDetails>(await _iGenericMethods.PostDataEcm(apiEndPoint, jsonData));
+                ViewBag.RequestStartDate = ItemMasters.ProductionDetails_List.RequestStartDate;
+                ViewBag.RequestEndDate = ItemMasters.ProductionDetails_List.RequestEndDate;
 
-                 
                 //  apiEndPointCustomer = "ItemMaster/GetDetailsForSKUSet";
                 //ItemMasters.SKUSetList = JsonSerializer.Deserialize<SKUSet[]>(await _iGenericMethods.PostDataEcm(apiEndPointCustomer, jsonData));
 

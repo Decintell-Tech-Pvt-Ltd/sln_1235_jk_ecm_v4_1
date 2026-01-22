@@ -276,6 +276,30 @@
 								</div>
 								<br />
 								<div class="col-md-12">
+
+									<div class="row">
+										<div class="col-md-2 form-group">
+											<label>Start Date</label>
+											<div class="input-group date"  id="todate" data-target-input="nearest">
+												<input type="text" id="txtStartDate" @(isView ? "disabled" : "") class="form-control datetimepicker-input" data-target="#todate">
+												<div class="input-group-append" data-target="#todate" data-toggle="datetimepicker">
+													<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-md-2 form-group">
+											<label>End Date</label>
+											<div class="input-group date"  id="fromdate" data-target-input="nearest">
+												<input type="text" id="txtEndDate" @(isView ? "disabled" : "") onchange="checkDateValidity();" class="form-control datetimepicker-input" data-target="#fromdate">
+												<div class="input-group-append" data-target="#fromdate" data-toggle="datetimepicker">
+													<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+												</div>
+											</div>
+										</div>
+
+
+									</div>
 									<div class="row">
 
 										<div class="form-group col-md-3">
@@ -591,6 +615,71 @@
 	</section>
 </div>
 
+<script>
+
+
+	$(document).ready(function () {
+
+		let serverStartDate = '@ViewBag.RequestStartDate';
+		let serverEndDate   = '@ViewBag.RequestEndDate';
+		// -------- START DATE --------
+		if (serverStartDate) {
+			$('#txtStartDate').val(serverStartDate);
+			 // Disable input
+			$('#txtStartDate').prop('disabled', true);
+		}
+
+		else {
+			let today = new Date();
+			let dd = String(today.getDate()).padStart(2, '0');
+			let mm = String(today.getMonth() + 1).padStart(2, '0');
+			let yyyy = today.getFullYear();
+			$('#txtStartDate').val(`${dd}/${mm}/${yyyy}`);
+		}
+
+		// -------- END DATE --------
+		if (serverEndDate) {
+			$('#txtEndDate').val(serverEndDate);
+			 // Disable input
+			$('#txtEndDate').prop('disabled', true);
+		}
+		else {
+			$('#txtEndDate').val('31/12/2099');
+		}
+
+	});
+
+</script>
+<script>
+	function checkDateValidity() {
+		let startDateVal = $('#txtStartDate').val();
+		let endDateVal = $('#txtEndDate').val();
+
+		if (startDateVal && endDateVal) {
+			let startDate = moment(startDateVal, 'DD/MM/YYYY');
+			let endDate = moment(endDateVal, 'DD/MM/YYYY');
+
+			if (startDate.isValid() && endDate.isValid()) {
+				if (startDate.isAfter(endDate)) {
+					alert('Start date cannot be greater than end date');
+					$('#txtEndDate').val('').focus();
+				}
+			}
+		}
+	}
+
+	$(function () {
+		// Initialize the datetimepickers
+		$('#todate, #fromdate').datetimepicker({
+			format: 'DD/MM/YYYY'
+		});
+
+		// Listen for changes using datetimepicker-specific event
+		$('#todate, #fromdate').on('change.datetimepicker', function () {
+			checkDateValidity();
+		});
+	});
+</script>
 <script type="text/javascript">
 // 	$(document).ready(function () {
 //     $('#addButton').on('click', function () {
@@ -834,6 +923,11 @@
 		alert("Please add at least one Handle Drawing entry.");
 		return;
 	}
+		var RequestStartDate = $("#txtStartDate").val();
+			var RequestEndDate = $("#txtEndDate").val();
+		// Convert to UTC ISO format
+			RequestStartDate = moment(RequestStartDate, "DD/MM/YYYY").utc().format();
+			RequestEndDate = moment(RequestEndDate, "DD/MM/YYYY").utc().format();
 	var ProdSKU = [];
 
 	table.rows().every(function () {
@@ -896,6 +990,8 @@
 	var JsonData = {
 		TxnRequestId: RequestNumber,
 		SetSKU: "",
+		RequestStartDate: RequestStartDate,
+		RequestEndDate: RequestEndDate,
 		ProdSKUs: ProdSKU,
 		Customerid: Customerid,
 		Brandid: Brandid,
