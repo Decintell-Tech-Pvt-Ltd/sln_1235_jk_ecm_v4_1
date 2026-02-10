@@ -271,34 +271,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
         }
 
 
-        public async Task<ActionResult> EditRawMaterial(int RawMaterialId)
-        {
-            //-------------------------GetRawMaterialById
-            Master objList = new Master();
-            string apiEndPoint = "Masters/GetRawMaterialById";
-            var JsonData = new
-            {
-
-                RawMaterialId = RawMaterialId
-
-            };
-            string RawMaterialIdJson = JsonSerializer.Serialize(JsonData);
-
-            //selected data for RawMaterial
-            objList.RawMaterialList = JsonSerializer.Deserialize<RawMaterial[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, RawMaterialIdJson));
-
-            string? RawMaterialCode = objList.RawMaterialList.FirstOrDefault()?.RawMaterialCode;
-            string? RawMaterialDescription = objList.RawMaterialList.FirstOrDefault()?.RawMaterialDescription;
-
-            ViewBag.RawMaterialId = RawMaterialId;
-            ViewBag.RawMaterialCode = RawMaterialCode;
-            ViewBag.RawMaterialDescription = RawMaterialDescription;
-            return View(objList);
-        }
-        public IActionResult AddRawMaterial()
-        {
-            return View();
-        }
+      
         public async Task<ActionResult> Labellayout()
         {
             Master objList = new Master();
@@ -321,18 +294,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
             return View(objList);
         }
 
-        public IActionResult Packingattributes()
-        {
-            return View();
-        }
-        public IActionResult AddPackingattributes()
-        {
-            return View();
-        }
-        public IActionResult EditPackingattributes()
-        {
-            return View();
-        }
+      
         public async Task<IActionResult> Handlemaster()
         {
             ViewBag.JWTToken = JwtToken;
@@ -2464,7 +2426,59 @@ namespace wa_1235_jk_ecm_v4.Controllers
         {
             return View();
         }
-        
+        public IActionResult Lookup()
+        {
+            return View();
+        }
+        public IActionResult AddLookup()
+        {
+            return View();
+        }
+        public IActionResult RawMaterial()
+        {
+            return View();
+        }
+        public async Task<ActionResult> EditRawMaterial(int RawMaterialId)
+        {
+            //-------------------------GetRawMaterialById
+            Master objList = new Master();
+            string apiEndPoint = "Masters/GetRawMaterialById";
+            var JsonData = new
+            {
+
+                RawMaterialId = RawMaterialId
+
+            };
+            string RawMaterialIdJson = JsonSerializer.Serialize(JsonData);
+
+            //selected data for RawMaterial
+            objList.RawMaterialList = JsonSerializer.Deserialize<RawMaterial[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, RawMaterialIdJson));
+
+            string? RawMaterialCode = objList.RawMaterialList.FirstOrDefault()?.RawMaterialCode;
+            string? RawMaterialDescription = objList.RawMaterialList.FirstOrDefault()?.RawMaterialDescription;
+
+            ViewBag.RawMaterialId = RawMaterialId;
+            ViewBag.RawMaterialCode = RawMaterialCode;
+            ViewBag.RawMaterialDescription = RawMaterialDescription;
+            return View(objList);
+        }
+        public IActionResult AddRawMaterial()
+        {
+            return View();
+        }
+
+        public IActionResult Packingattributes()
+        {
+            return View();
+        }
+        public IActionResult AddPackingattributes()
+        {
+            return View();
+        }
+        public IActionResult EditPackingattributes()
+        {
+            return View();
+        }
         public IActionResult AddValueStream()
         {
             return View();

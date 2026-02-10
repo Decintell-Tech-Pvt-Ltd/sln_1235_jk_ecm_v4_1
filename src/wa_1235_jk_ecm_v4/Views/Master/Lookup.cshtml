@@ -1,0 +1,220 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "ValueStream";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>Lookup</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="../login/marketing-page.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="index.html">ECM</a></li>
+                        <li class="breadcrumb-item">Masters</li>
+                        <li class="breadcrumb-item">
+                            Lookup
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button" class="btn btn-block bg-gradient-danger btn-xs" onclick="window.history.back()" title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+                    <div class="btnwidth50 float-right mr-1">
+                       <button type="button"
+        class="btn btn-block bg-gradient-primary btn-xs float-left"
+        title="Add new record"
+        onclick="location.href='@Url.Action(
+            "AddLookup",
+            "Master",
+            new {
+                PageID = Context.Request.Query["PageID"].ToString(),
+                ParentID = Context.Request.Query["ParentID"].ToString(),
+                ModuleID = Context.Request.Query["ModuleID"].ToString(),
+                ModulePageID = Context.Request.Query["ModulePageID"].ToString()
+            })'">
+    Add
+</button>
+
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="card card-outline card-primary">
+                        <!-- /.card-header -->
+                        <div class="card-body">
+
+
+                            <div>
+
+                                <div class="table-responsive">
+                                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                        <div class="row"><div class="col-sm-12 col-md-6"><div class="dt-buttons btn-group flex-wrap"><button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="DataTables_Table_0" type="button"><span>CSV</span></button> </div></div><div class="col-sm-12 col-md-6"><div id="DataTables_Table_0_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_0"></label></div></div></div><div class="row">
+                                            <div class="col-sm-12">
+                                                <table class="table table-bordered example1 nowrap dataTable no-footer dtr-inline" style="width:100%;" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+                                                    <thead>
+
+                                                        <tr><th width="8%" style="text-align:center;" class="sorting sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Sr No.: activate to sort column descending">Sr No.</th><th width="15%" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Product Line: activate to sort column ascending"><div align="left">Product Line</div></th><th width="20%" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Lookup Type: activate to sort column ascending"><div align="left">Lookup Type</div></th><th width="25%" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Lookup Value&amp;nbsp;: activate to sort column ascending"><div align="left">Lookup Value&nbsp;</div></th><th width="25%" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Image File Name: activate to sort column ascending"><div align="left">Image File Name</div></th><th width="8%" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Delete: activate to sort column ascending"><div align="center">Delete</div></th></tr>
+                                                    </thead>
+                                                    <tbody>
+
+
+
+
+                                                        <tr class="odd">
+                                                            <td class="dtr-control sorting_1" tabindex="0"><div align="center">1</div></td>
+
+                                                            <td><div align="left">File</div></td>
+                                                            <td><a href="Add-lookup.html" title="Edit">Cello Tape</a></td>
+                                                            <td>PLAIN 12 mm</td>
+                                                            <td><a href="https://decintellai.com/ui/all-Modules/UI_Repository/dist/img/PLAIN 12 mm1.jpg" target="_blank">PLAIN 12 mm1.jpg</a></td>
+                                                            <td>
+                                                                <div style="margin-left:auto; margin-right:auto; float:none; display:table;">
+                                                                    <div align="center">
+                                                                        <a href="#" class="btn btn-block  bg-gradient-danger mt-1  btn-xs float-none">
+                                                                            Delete
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="even">
+                                                            <td class="dtr-control sorting_1" tabindex="0"><div align="center">2</div></td>
+                                                            <td><div align="left">File</div></td>
+                                                            <td><a href="Add-lookup.html" title="Edit">Cello Tape</a></td>
+                                                            <td><div align="left">Brown Size 1</div></td>
+                                                            <td><a href="https://decintellai.com/ui/all-Modules/UI_Repository/dist/img/BROWN SIZE 11.jpg" target="_blank">BROWN SIZE 11.jpg</a></td>
+                                                            <td>
+                                                                <div style="margin-left:auto; margin-right:auto; float:none; display:table;">
+                                                                    <div align="center"><a href="#" class="btn btn-block  bg-gradient-danger mt-1  btn-xs float-none">Delete </a></div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="odd">
+                                                            <td class="dtr-control sorting_1" tabindex="0"><div align="center">3</div></td>
+                                                            <td><div align="left">File</div></td>
+                                                            <td><a href="Add-lookup.html" title="Edit">Cello Tape</a></td>
+                                                            <td><div align="left">JK PRINTED SIZE 1</div></td>
+                                                            <td><a href="https://decintellai.com/ui/all-Modules/UI_Repository/dist/img/JK PRINTED SIZE 1.jpg" target="_blank">JK PRINTED SIZE 1.jpg</a></td>
+                                                            <td>
+                                                                <div style="margin-left:auto; margin-right:auto; float:none; display:table;">
+                                                                    <div align="center"><a href="#" class="btn btn-block  bg-gradient-danger mt-1  btn-xs float-none">Delete </a></div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="even">
+                                                            <td class="dtr-control sorting_1" tabindex="0"><div align="center">4</div></td>
+                                                            <td><div align="left">File</div></td>
+                                                            <td><a href="Add-lookup.html" title="Edit">Cello Tape</a></td>
+                                                            <td>JK LOGO PRINTED</td>
+                                                            <td><a href="https://decintellai.com/ui/all-Modules/UI_Repository/dist/img/vonderimage.jpg" target="_blank">vonderimage.jpg</a></td>
+                                                            <td>
+                                                                <div style="margin-left:auto; margin-right:auto; float:none; display:table;">
+                                                                    <div align="center"><a href="#" class="btn btn-block  bg-gradient-danger mt-1  btn-xs float-none">Delete </a></div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to 4 of 4 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">Next</a></li></ul></div></div></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+
+            <div class="modal fade" id="ApprovalList">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"> View Approval List </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+
+                            <div class="table-responsive">
+                                <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
+                                    <div class="row"><div class="col-sm-12 col-md-6"><div class="dt-buttons btn-group flex-wrap"><button class="btn btn-secondary buttons-csv buttons-html5" tabindex="0" aria-controls="DataTables_Table_1" type="button"><span>CSV</span></button> </div></div><div class="col-sm-12 col-md-6"><div id="DataTables_Table_1_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_1"></label></div></div></div><div class="row">
+                                        <div class="col-sm-12">
+                                            <table class="table table-bordered example1 nowrap dataTable no-footer dtr-inline" style="width:100%;" id="DataTables_Table_1" aria-describedby="DataTables_Table_1_info">
+                                                <thead>
+
+                                                    <tr><th width="2%" style="text-align:center;" class="sorting sorting_asc" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Sr.No.: activate to sort column descending">Sr.No.</th><th width="103" class="sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Stage ID: activate to sort column ascending"><div align="center">Stage ID</div></th><th width="314" class="sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Stage Name: activate to sort column ascending"><div align="left">Stage Name</div></th><th width="335" class="sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Approval Name: activate to sort column ascending"><div align="left">Approval Name</div></th><th width="184" class="sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Role: activate to sort column ascending"><div align="left">Role</div></th><th width="184" class="sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Approval Type: activate to sort column ascending"><div align="center">Approval Type</div></th><th width="66" class="sorting" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1" aria-label="Sequence: activate to sort column ascending"><div align="center">Sequence</div></th></tr>
+                                                </thead>
+                                                <tbody>
+
+
+
+                                                    <tr class="odd">
+                                                        <td class="dtr-control sorting_1" tabindex="0"><div align="center">1</div></td>
+                                                        <td><div align="center">0</div></td>
+
+                                                        <td><div align="left">stage 1</div></td>
+                                                        <td><div align="left">	Akhil Kulkarni(Admin2)</div></td>
+                                                        <td><div align="left">Admin2</div></td>
+
+                                                        <td><div align="center">3</div></td>
+                                                        <td><div align="center">1</div></td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="DataTables_Table_1_info" role="status" aria-live="polite">Showing 1 to 1 of 1 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_1_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="DataTables_Table_1_previous"><a href="#" aria-controls="DataTables_Table_1" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="DataTables_Table_1" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item next disabled" id="DataTables_Table_1_next"><a href="#" aria-controls="DataTables_Table_1" data-dt-idx="2" tabindex="0" class="page-link">Next</a></li></ul></div></div></div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+        </div>
+
+
+        <!-- /.content -->
+
+    </section>
+
+    <!-- InstanceEndEditable -->
+</div>
