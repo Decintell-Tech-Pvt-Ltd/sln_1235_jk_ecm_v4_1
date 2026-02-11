@@ -17,9 +17,9 @@
                 </div>
                 <div class="col-lg-9">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="../login/marketing-page.html">Home</a></li>
-                        <li class="breadcrumb-item"><a href="index.html">ECM</a></li>
-                        <li class="breadcrumb-item"><a href="#">Masters</a></li>
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item active">Master</li>
                         <li class="breadcrumb-item active">
                             Operations
                         </li>
@@ -54,116 +54,201 @@
 
 
             <div class="row equal">
+
+                <!-- LEFT CARD -->
                 <div class="col-md-5">
                     <div class="card card-outline card-primary p-a-2" style="height: 100%;">
-
-                        <!-- /.card-header -->
                         <div class="card-body">
                             <div class="row">
 
-                                <div class="form-group col-md-2">
-                                    <label for="">Product Line</label>
-                                    <select class="form-control select2" id="dllProductLine">
-                                        <option>Select</option>
-                                        <option>DRILLS </option>
-                                        <option>TAPS </option>
-                                        <option>DIES </option>
-
+                                <div class="form-group col-md-4">
+                                    <label>Product Line</label>
+                                    <select class="form-control select2" id="ddlProductLine">
+                                        <option value="">Select</option>
+                                        <option value="DRILLS">DRILLS</option>
+                                        <option value="TAPS">TAPS</option>
+                                        <option value="DIES">DIES</option>
                                     </select>
+                                    <!-- ✅ Error span -->
+                                    <span class="text-danger" id="errProductLine"></span>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>Operation Sq No. </label>
-                                        <input name="" type="text" class="form-control">
 
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>Operation Sq No.</label>
+                                        <input type="text" class="form-control" id="txtOperationSeqNo">
+                                        <!-- ✅ Error span -->
+                                        <span class="text-danger" id="errOperationSeqNo"></span>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+
+                                <div class="col-lg-4">
                                     <div class="form-group">
-                                        <label>Operation Name </label>
-                                        <input name="" type="text" class="form-control">
+                                        <label>Operation Name</label>
+                                        <input type="text" class="form-control" id="txtOperationName">
+                                        <!-- ✅ Error span -->
+                                        <span class="text-danger" id="errOperationName"></span>
                                     </div>
                                 </div>
 
                             </div>
-
-
                         </div>
-                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card -->
                 </div>
+
+                <!-- RIGHT CARD -->
                 <div class="col-md-7">
                     <div class="card card-outline card-warning p-a-2" style="height: 100%;">
-
-                        <!-- /.card-header -->
                         <div class="card-body">
 
                             <div class="row">
 
                                 <div class="col-lg-4">
                                     <div class="form-group">
-                                        <label>Restriction </label>
-                                        <select class="form-control select2">
+                                        <label>Restriction</label>
+                                        <select class="form-control select2" id="ddlRestriction">
                                             <option value="">Select</option>
                                             <option value="Yes">Yes</option>
                                             <option value="No">No</option>
-
                                         </select>
+                                        <!-- ✅ Error span -->
+                                        <span class="text-danger" id="errRestriction"></span>
                                     </div>
                                 </div>
-
 
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label>Customer Defined Operation</label>
-                                        <select class="form-control select2">
+                                        <select class="form-control select2" id="ddlCustomerDefined">
                                             <option value="">Select</option>
                                             <option value="Yes">Yes</option>
                                             <option value="No">No</option>
-
                                         </select>
-
+                                        <!-- ✅ Error span -->
+                                        <span class="text-danger" id="errCustomerDefined"></span>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-4">
                                     <div class="form-group">
                                         <label>Norms Required</label>
-                                        <div class="input-group">
-                                            <select class="form-control select2">
-                                                <option value="">Select</option>
-                                                <option value="Yes">Yes</option>
-                                                <option value="No">No</option>
-
-                                            </select>
-                                        </div>
+                                        <select class="form-control select2" id="ddlNormsRequired">
+                                            <option value="">Select</option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                        </select>
+                                        <!-- ✅ Error span -->
+                                        <span class="text-danger" id="errNormsRequired"></span>
                                     </div>
                                 </div>
-
 
                                 <div class="col-lg-12">
                                     <div class="btnwidth120 float-right">
-                                        <a href="operations.html" class="btn btn-block  bg-gradient-primary  btn-xs float-right">
+                                        <button type="button"
+                                                class="btn btn-block bg-gradient-primary btn-xs float-right"
+                                                onclick="SaveOperation()">
                                             Submit
-                                        </a>
+                                        </button>
                                     </div>
-
-
-
                                 </div>
+
                             </div>
 
                         </div>
-                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card -->
                 </div>
-
-                <!-- /.card -->
             </div>
 
         </div>
     </section>
 </div>
 
+<script>
+        function SaveOperation() {
+
+        // 🔹 Clear all previous errors
+        $('.text-danger').text('');
+        $('input, select').removeClass('input-error');
+
+        let isValid = true;
+
+        // 🔹 Collect values
+        let model = {
+            ProductLine: $('#ddlProductLine').val(),
+            OperationSeqNo: $('#txtOperationSeqNo').val(),
+            OperationName: $('#txtOperationName').val(),
+            Restriction: $('#ddlRestriction').val(),
+            CustomerDefinedOperation: $('#ddlCustomerDefined').val(),
+            NormsRequired: $('#ddlNormsRequired').val()
+        };
+
+        // 🔹 Validation
+        if (!model.ProductLine) {
+            $('#errProductLine').text('Please select product line');
+            $('#ddlProductLine').addClass('input-error');
+            isValid = false;
+        }
+
+        if (!model.OperationSeqNo) {
+            $('#errOperationSeqNo').text('Operation sequence no is required');
+            $('#txtOperationSeqNo').addClass('input-error');
+            isValid = false;
+        }
+
+        if (!model.OperationName) {
+            $('#errOperationName').text('Operation name is required');
+            $('#txtOperationName').addClass('input-error');
+            isValid = false;
+        }
+
+        if (!model.Restriction) {
+            $('#errRestriction').text('Please select restriction');
+            $('#ddlRestriction').addClass('input-error');
+            isValid = false;
+        }
+
+        if (!model.CustomerDefinedOperation) {
+            $('#errCustomerDefined').text('Please select customer defined operation');
+            $('#ddlCustomerDefined').addClass('input-error');
+            isValid = false;
+        }
+
+        if (!model.NormsRequired) {
+            $('#errNormsRequired').text('Please select norms required');
+            $('#ddlNormsRequired').addClass('input-error');
+            isValid = false;
+        }
+
+        // ❌ Stop if validation fails
+        if (!isValid) return;
+
+        // 🔹 AJAX call
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("CreateOperation", "Master")',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(model),
+            dataType: "json",
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+
+            success: function (res) {
+                alert(res.message);
+               window.location.href = '@Url.Action(
+    "Operations",
+    "Master",
+    new {
+        PageID = Context.Request.Query["PageID"],
+        ParentID = Context.Request.Query["ParentID"],
+        ModuleID = Context.Request.Query["ModuleID"],
+        ModulePageID = Context.Request.Query["ModulePageID"]
+    })';
+
+            },
+            error: function () {
+                alert("Something went wrong");
+            }
+        });
+    }
+
+</script>

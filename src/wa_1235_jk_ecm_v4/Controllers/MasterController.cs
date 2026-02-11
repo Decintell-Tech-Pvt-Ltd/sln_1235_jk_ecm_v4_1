@@ -2487,10 +2487,28 @@ namespace wa_1235_jk_ecm_v4.Controllers
         {
             return View();
         }
-        public IActionResult Operations()
+        public async Task<ActionResult> Operations()
         {
-            return View();
+            Master objList = new Master();
+            string apiEndPoint = "Masters/GetOperation";
+            objList.mstoperations = JsonSerializer.Deserialize<mstoperation[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            return View(objList);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteOperation(string JsonData)
+        {
+            string apiEndPoint = "Masters/DeleteOperation";
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
+        }
+
+
         public IActionResult AddOperations()
         {
             return View();

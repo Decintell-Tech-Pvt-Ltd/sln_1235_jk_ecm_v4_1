@@ -912,6 +912,68 @@ namespace api_1235_jk_ecm_v4.Controllers
 
         }
 
+        [HttpPost]
+        [Route("DeleteOperation")]
+        public async Task<IActionResult> DeleteOperation()
+        {
+
+            string spName = "usp_DeleteOperation";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+
+        [HttpPost]
+        [Route("InsertOperation")]
+        public async Task<IActionResult> InsertOperation()
+        {
+
+            string spName = "usp_InsertOperation";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+
+
+        [HttpGet]
+        [Route("GetOperation")]
+        public async Task<IActionResult> GetOperation()
+        {
+
+            string spName = "usp_GetOperation";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+
+
 
         [HttpPost]
         [Route("GetFileSubTypeParameters")]

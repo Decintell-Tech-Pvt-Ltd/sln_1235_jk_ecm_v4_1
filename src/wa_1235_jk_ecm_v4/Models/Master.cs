@@ -32,6 +32,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public FileParemeter[] FileParemeter_List { get; set; }
         public Parameters[] Parameters_LIst { get; set; }
         public Customer[] CustomerList { get; set; }
+              public mstoperation[] mstoperations { get; set; }
         public RawMaterial[] RawMaterialList { get; set; }
         public Brand[] Brand_List { get; set; }
         public BrandList[] BrandCodeList { get; set; }
@@ -82,6 +83,22 @@ namespace wa_1235_jk_ecm_v4.Models
             public string insertChart { get; set; }
         }
 
+
+        public class mstoperation
+        {
+            public int opr_operation_seq { get; set; }
+            public string opr_operation_name { get; set; }
+            public string opr_operation_image { get; set; }
+            public string opr_isApproved { get; set; }
+            public bool opr_isActive { get; set; }
+            public DateTime opr_createdate { get; set; }
+            public string opr_operation_restricted { get; set; }
+            public string opr_operation_process { get; set; }
+            public string opr_disp_flg { get; set; }
+            public string opr_ProductLine { get; set; }            
+            public string opr_norms_reqd_flg { get; set; }
+            public int opr_SetupTime { get; set; }
+        }
 
 
 
@@ -293,7 +310,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public string CutSpecCode { get; set; }
     }
 
- 
+
     public class CutSpecificationsList
     {
         public int Id { get; set; }
