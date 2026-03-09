@@ -63,19 +63,25 @@
 
 
                                     </div>
+                                    <div class="form-group col-md-1">
+                                        <label>Type Code</label>
+
+                                        <input type="text" class="form-control" id="TxtFileTypeCode" oninput="validateInputCode()">
+                                        <span id="spTxtFileTypeCode" class="text-danger"></span>
+                                    </div>
                                     <div class="form-group col-md-2">
-                                        <label>Type</label>                                        
+                                        <label>Type Name</label>                                        
                                          <input type="text" class="form-control" id="TxtFileType">
                                         <input type="hidden" id="hdnSizeId">
                                         <span id="spTxtFileType" class="text-danger"></span>
                                     </div>
-
-                                    <div class="form-group col-md-1">
-                                        <label>Type Code</label>
-                                        
-                                        <input type="text" class="form-control" id="TxtFileTypeCode" oninput="validateInputCode()">
-                                        <span id="spTxtFileTypeCode" class="text-danger"></span>
+                                    <div class="form-group col-md-2">
+                                        <label>Type Description</label>
+                                        <input type="text" class="form-control" id="txtTypeDesc">
+           
+                                        <span id="sptxtTypeDesc" class="text-danger"></span>
                                     </div>
+                                
 
                                     <div class="form-group col-md-3">
                                         <label class="control-label padd0">Upload Images</label> &nbsp;
@@ -86,11 +92,12 @@
                                                 <label class="custom-file-label" for="FileUploadIMG">Choose file</label>
 
                                             </div>
+                                            <input type="hidden" id="hdnExistingImage">
                                         </div>
                                         <span id="spTxtFileUploadIMG" class="text-danger"></span>
                                     </div>
 
-                                    <div class="form-group col-md-3">
+                                   @*  <div class="form-group col-md-3">
                                         <label class="control-label padd0">Upload CSV</label> &nbsp;
                                         <div class="input-group">
                                             <div class="custom-file">
@@ -100,7 +107,7 @@
                                             </div>
                                         </div>
                                         <span id="spTxtFileUploadCSV" class="text-danger"></span>
-                                    </div>
+                                    </div> *@
 
                                     <div class="btnwidth50 float-right mr-1 " style="margin-top:35px;">
                                         <button type="button" id="btnsubmit" class="btn btn-block bg-gradient-primary   btn-xs float-left"
@@ -111,10 +118,10 @@
 
                                 </div>
 
-                                <div class="form-group row">
+                               @*  <div class="form-group row">
 
                                     <div class="col-md-4">
-                                        <label>Download Reference CSV File Type Code</label>
+                                        <label>Download Reference CSV Type Code</label>
                                         @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.FileTypeMasters, "ID", "FileTypeNamecode"), "Select", new { @class = "form-control select2", @id = "ddlFileTypeCVS" })
                                     </div>
 
@@ -126,7 +133,7 @@
                                         </button>
                                     </div>
 
-                                </div>
+                                </div> *@
 
 
 
@@ -204,166 +211,286 @@
 </script>
 
 <script>
+        async function SaveData() {
 
-    async function SaveData() {
-         // Read values from UI
+        // Read values
         let ProductLineId = $("#ddlproductline").val();
         let productLineText = $("#ddlproductline option:selected").text();
-        var FileType = $('#TxtFileType').val();
-        var FileTypeCode = $('#TxtFileTypeCode').val();
+        let FileType = $('#TxtFileType').val();
+          let TypeDesc = $('#txtTypeDesc').val();
+        let FileTypeCode = $('#TxtFileTypeCode').val();
 
-        var filenameCSV = ($('#FileUploadCSV')[0].files[0]) ? $('#FileUploadCSV')[0].files[0].name : '';
-        var filenameIMG = ($('#FileUploadIMG')[0].files[0]) ? $('#FileUploadIMG')[0].files[0].name : '';
+        let filenameIMG =
+            ($('#FileUploadIMG')[0].files[0])
+                ? $('#FileUploadIMG')[0].files[0].name
+                : '';
 
-        var ValidationFlag = false;
+        let ValidationFlag = false;
 
-        // Validation
+        // ---------- Validation ----------
         if (!ProductLineId || ProductLineId === "Select") {
             $("#spddlproductline").text("Product Line is required.");
-            ValidationFlag = false;
+            ValidationFlag = true;   // 🔥 FIXED
+        } else {
+            $("#spddlproductline").text("");
         }
 
-        // Validate FileType
         if (FileType === "") {
-            $("#spTxtFileType").html("Enter FileType");
-            $("#spTxtFileType").css("display", "block");
+            $("#spTxtFileType").html("Enter Type");
             ValidationFlag = true;
         } else {
             $("#spTxtFileType").html("");
         }
 
-        // Validate FileTypeCode
         if (FileTypeCode === "") {
-            $("#spTxtFileTypeCode").html("Enter FileTypeCode");
-            $("#spTxtFileTypeCode").css("display", "block");
+            $("#spTxtFileTypeCode").html("Enter Type Code");
             ValidationFlag = true;
         } else {
             $("#spTxtFileTypeCode").html("");
         }
 
-        // Validate image file
         if (!filenameIMG) {
             $("#spTxtFileUploadIMG").html("Select Image");
-            $("#spTxtFileUploadIMG").css("display", "block");
             ValidationFlag = true;
         } else {
             $("#spTxtFileUploadIMG").html("");
         }
 
-        // Validate CSV file
-        if (!filenameCSV) {
-            $("#spTxtFileUploadCSV").html("Select CSV File");
-            $("#spTxtFileUploadCSV").css("display", "block");
-            ValidationFlag = true;
-        } else {
-            $("#spTxtFileUploadCSV").html("");
-        }
+        if (ValidationFlag) return;
 
+        // ---------- Build JSON ----------
+        let iLoggedInUserID =
+            parseInt('@Context.Session.GetInt32("CreatedBy")');
 
+        let jsonData = JSON.stringify({
+            TxnId: 0,
+            ProductLineRowId: parseInt(ProductLineId),
+            CTTypeCode: FileTypeCode,
+            CTTypeName: FileType,
+            TypeDesc:TypeDesc,
+            ProfileImage: filenameIMG,
+            CreatedBy: iLoggedInUserID
 
-        if (ValidationFlag) {
-            return; // Don't proceed further if any validation fails
-        }
+        });
 
-        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
-        var CreatedDate = moment.utc(new Date()).format();
+        // ---------- AJAX ----------
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("DroAddFileType", "DrillMaster")',
+            data: { JsonData: jsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
 
+            success: async function (data) {
 
-        var fileInput = document.getElementById('FileUploadCSV');
-        if (fileInput.files.length === 0) {
-            alert('Please select a file!');
-            return;
-        }
+                if (data && data.response === "Insert Successfully") {
 
-        var formData = new FormData();
-        formData.append('file', fileInput.files[0]);
+                    let selectedImageNameSample =
+                        cleanFileName(filenameIMG);
 
+                            let targetPathSample =
+            'others\\ct\\types\\' + FileTypeCode;
 
-        // Ensure a file has been selected
-        if (fileInput.files.length === 0) {
-            alert('Please select a CSV file.');
-            return;
-        }
+                    let uploadedFileSample =
+                        document.getElementById('FileUploadIMG').files[0];
 
-        var file = fileInput.files[0];
-        var reader = new FileReader();
-        var jsonArrayObj = [];
+                    await copyFile(
+                        uploadedFileSample,
+                        targetPathSample,
+                        selectedImageNameSample
+                    );
 
-        // When file is loaded, process its content
-        reader.onload = function (event) {
-            var csvContent = event.target.result;
-            var  jsonArray = csvToJson(csvContent);
-            jsonArrayObj = jsonArray;
-            console.log("CSV to JSON Array:", jsonArray);
+                    alert("Type added successfully.");
 
-            // Now you can do something with the jsonArray, such as displaying it in a table
+                    let pageID =
+                        encodeURIComponent('@Context.Request.Query["PageID"]');
+                    let parentID =
+                        encodeURIComponent('@Context.Request.Query["ParentID"]');
+                    let moduleID =
+                        encodeURIComponent('@Context.Request.Query["ModuleID"]');
+                    let modulePageID =
+                        encodeURIComponent('@Context.Request.Query["ModulePageID"]');
 
-            var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
-            var FileTypeJobj = {
-                FileTypeProfileImage: filenameIMG,
-                ProdLineId: ProductLineId,
-                FileTypeName: FileType,
-                FileTypeCode: FileTypeCode,
-                CreatedBy: iLoggedInUserID,
-                CreatedDate: moment.utc(new Date()).format(),
-                ParameterJarr: jsonArrayObj
-            };
+                    let url =
+                        '@Url.Action("DrillType", "DrillMaster")' +
+                        '?PageID=' + pageID +
+                        '&ParentID=' + parentID +
+                        '&ModuleID=' + moduleID +
+                        '&ModulePageID=' + modulePageID;
 
-            var jsonData = JSON.stringify({
-                FileTypeJobj: FileTypeJobj
-                
-            });
-
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("DroAddFileType", "DrillMaster")',
-                data: { JsonData: jsonData },
-                dataType: 'json',
-                beforeSend: function () { $('#loader').show(); },
-                complete: function () { $('#loader').hide(); },
-                success: async function (data) {
-                    if (data && data.response === "Insert Successfully") {
-
-
-                        var selectedImageNameSample = cleanFileName(filenameIMG);
-                       // var targetPathSample = 'others\\""+productLineText+""\\types\\';
-                       var targetPathSample = 'others\\' + productLineText + '\\types\\';
-                       var uploadedFileSample = document.getElementById('FileUploadIMG').files[0];
-
-                        //copyFile(selectedImageNameSample, targetPathSample, uploadedFileSample);
-                           await copyFile(uploadedFileSample, targetPathSample, selectedImageNameSample);
-                        alert("File Type added successfully.");
-                       var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
-                       var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
-                       var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
-                       var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
-
-                       // Construct the full URL
-                       var url = '@Url.Action("DrillType", "DrillMaster")' +
-                           '?PageID=' + pageID +
-                           '&ParentID=' + parentID +
-                           '&ModuleID=' + moduleID +
-                           '&ModulePageID=' + modulePageID;
-
-                       // Redirect
-                       window.location.href = url;
-                    } else {
-                        alert("File Type Code already exist");
-
-                    }
-                },
-                error: function (xhr, status, error) {
-                    alert("Error occurred while saving file type.");
-                    console.error(xhr.responseText);
+                    window.location.href = url;
                 }
-            });
-        };
+                else {
+                    alert("Type Code already exists");
+                }
+            },
 
-        // Read the file as text
-        reader.readAsText(file);
-
-
+            error: function (xhr) {
+                alert("Error occurred while saving Type.");
+                console.error(xhr.responseText);
+            }
+        });
     }
+    // async function SaveData() {
+    //      // Read values from UI
+    //     let ProductLineId = $("#ddlproductline").val();
+    //     let productLineText = $("#ddlproductline option:selected").text();
+    //     var FileType = $('#TxtFileType').val();
+    //     var FileTypeCode = $('#TxtFileTypeCode').val();
+
+    //    // var filenameCSV = ($('#FileUploadCSV')[0].files[0]) ? $('#FileUploadCSV')[0].files[0].name : '';
+    //     var filenameIMG = ($('#FileUploadIMG')[0].files[0]) ? $('#FileUploadIMG')[0].files[0].name : '';
+
+    //     var ValidationFlag = false;
+
+    //     // Validation
+    //     if (!ProductLineId || ProductLineId === "Select") {
+    //         $("#spddlproductline").text("Product Line is required.");
+    //         ValidationFlag = false;
+    //     }
+
+    //     // Validate FileType
+    //     if (FileType === "") {
+    //         $("#spTxtFileType").html("Enter Type");
+    //         $("#spTxtFileType").css("display", "block");
+    //         ValidationFlag = true;
+    //     } else {
+    //         $("#spTxtFileType").html("");
+    //     }
+
+    //     // Validate FileTypeCode
+    //     if (FileTypeCode === "") {
+    //         $("#spTxtFileTypeCode").html("Enter Type Code");
+    //         $("#spTxtFileTypeCode").css("display", "block");
+    //         ValidationFlag = true;
+    //     } else {
+    //         $("#spTxtFileTypeCode").html("");
+    //     }
+
+    //     // Validate image file
+    //     if (!filenameIMG) {
+    //         $("#spTxtFileUploadIMG").html("Select Image");
+    //         $("#spTxtFileUploadIMG").css("display", "block");
+    //         ValidationFlag = true;
+    //     } else {
+    //         $("#spTxtFileUploadIMG").html("");
+    //     }
+
+    //     // Validate CSV file
+    //     // if (!filenameCSV) {
+    //     //     $("#spTxtFileUploadCSV").html("Select CSV File");
+    //     //     $("#spTxtFileUploadCSV").css("display", "block");
+    //     //     ValidationFlag = true;
+    //     // } else {
+    //     //     $("#spTxtFileUploadCSV").html("");
+    //     // }
+
+
+
+    //     if (ValidationFlag) {
+    //         return; // Don't proceed further if any validation fails
+    //     }
+
+    //     var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+    //     var CreatedDate = moment.utc(new Date()).format();
+
+
+    //     // var fileInput = document.getElementById('FileUploadCSV');
+    //     // if (fileInput.files.length === 0) {
+    //     //     alert('Please select a file!');
+    //     //     return;
+    //     // }
+
+    //     // var formData = new FormData();
+    //     // formData.append('file', fileInput.files[0]);
+
+
+    //     // // Ensure a file has been selected
+    //     // if (fileInput.files.length === 0) {
+    //     //     alert('Please select a CSV file.');
+    //     //     return;
+    //     // }
+
+    //     // var file = fileInput.files[0];
+    //     // var reader = new FileReader();
+    //     // var jsonArrayObj = [];
+
+    //     // // When file is loaded, process its content
+    //     // reader.onload = function (event) {
+    //     //     var csvContent = event.target.result;
+    //     //     var  jsonArray = csvToJson(csvContent);
+    //     //     jsonArrayObj = jsonArray;
+    //     //     console.log("CSV to JSON Array:", jsonArray);
+
+    //         // Now you can do something with the jsonArray, such as displaying it in a table
+
+    //         var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+    //         var FileTypeJobj = {
+    //             FileTypeProfileImage: filenameIMG,
+    //             ProdLineId: ProductLineId,
+    //             FileTypeName: FileType,
+    //             FileTypeCode: FileTypeCode,
+    //             CreatedBy: iLoggedInUserID,
+    //             CreatedDate: moment.utc(new Date()).format(),
+    //             // ParameterJarr: jsonArrayObj
+    //         };
+
+    //         var jsonData = JSON.stringify({
+    //             FileTypeJobj: FileTypeJobj
+                
+    //         });
+
+    //         $.ajax({
+    //             type: "POST",
+    //             url: '@Url.Action("DroAddFileType", "DrillMaster")',
+    //             data: { JsonData: jsonData },
+    //             dataType: 'json',
+    //             beforeSend: function () { $('#loader').show(); },
+    //             complete: function () { $('#loader').hide(); },
+    //             success: async function (data) {
+    //                 if (data && data.response === "Insert Successfully") {
+
+
+    //                     var selectedImageNameSample = cleanFileName(filenameIMG);
+    //                    // var targetPathSample = 'others\\""+productLineText+""\\types\\';
+    //                    var targetPathSample = 'others\\ct\\' + productLineText + '\\types\\';
+    //                    var uploadedFileSample = document.getElementById('FileUploadIMG').files[0];
+
+    //                     //copyFile(selectedImageNameSample, targetPathSample, uploadedFileSample);
+    //                        await copyFile(uploadedFileSample, targetPathSample, selectedImageNameSample);
+    //                     alert("Type added successfully.");
+    //                    var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+    //                    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+    //                    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+    //                    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+    //                    // Construct the full URL
+    //                    var url = '@Url.Action("DrillType", "DrillMaster")' +
+    //                        '?PageID=' + pageID +
+    //                        '&ParentID=' + parentID +
+    //                        '&ModuleID=' + moduleID +
+    //                        '&ModulePageID=' + modulePageID;
+
+    //                    // Redirect
+    //                    window.location.href = url;
+    //                 } else {
+    //                     alert("Type Code already exist");
+
+    //                 }
+    //             },
+    //             error: function (xhr, status, error) {
+    //                 alert("Error occurred while saving Type.");
+    //                 console.error(xhr.responseText);
+    //             }
+    //         });
+    //    // };
+
+    //     // Read the file as text
+    //     reader.readAsText(file);
+
+
+    // }
 
 
       // Function to convert CSV to JSON
@@ -543,7 +670,15 @@
        //                 // 🔒 Disable controls
         $("#ddlproductline").prop("disabled", true);
           // ✅ Bind image / file name to label (IMPORTANT)
-    if (data.imageFileName && data.imageFileName !== "") {
+    // if (data.imageFileName && data.imageFileName !== "") {
+    //     $("#FileUploadIMG")
+    //         .next(".custom-file-label")
+    //         .text(data.imageFileName);
+    // }
+        if (data.imageFileName && data.imageFileName !== "") {
+
+        $("#hdnExistingImage").val(data.imageFileName);
+
         $("#FileUploadIMG")
             .next(".custom-file-label")
             .text(data.imageFileName);
@@ -573,14 +708,19 @@
         var FileTypeCode = $('#TxtFileTypeCode').val();
         let ProductLineId = $("#ddlproductline").val();
         let productLineText = $("#ddlproductline option:selected").text();
-        var filenameCSV = ($('#FileUploadCSV')[0].files[0]) ? $('#FileUploadCSV')[0].files[0].name : '';
-        var filenameIMG = ($('#FileUploadIMG')[0].files[0]) ? $('#FileUploadIMG')[0].files[0].name : '';
-        
+        //var filenameCSV = ($('#FileUploadCSV')[0].files[0]) ? $('#FileUploadCSV')[0].files[0].name : '';
+        // var filenameIMG = ($('#FileUploadIMG')[0].files[0]) ? $('#FileUploadIMG')[0].files[0].name : '';
+            var fileInput = $('#FileUploadIMG')[0];
+    var uploadedFile = fileInput.files[0];
+
+    var filenameIMG = uploadedFile
+        ? uploadedFile.name
+        : $("#hdnExistingImage").val();
         var ValidationFlag = false;
 
         // Validate FileType
         if (FileType === "") {
-            $("#spTxtFileType").html("Enter FileType");
+            $("#spTxtFileType").html("Enter Type");
             $("#spTxtFileType").css("display", "block");
             ValidationFlag = true;
         } else {
@@ -589,7 +729,7 @@
 
         // Validate FileTypeCode
         if (FileTypeCode === "") {
-            $("#spTxtFileTypeCode").html("Enter FileTypeCode");
+            $("#spTxtFileTypeCode").html("Enter Type Code");
             $("#spTxtFileTypeCode").css("display", "block");
             ValidationFlag = true;
         } else {
@@ -597,22 +737,27 @@
         }
 
         // Validate image file
-        if (!filenameIMG) {
-            $("#spTxtFileUploadIMG").html("Select Image");
-            $("#spTxtFileUploadIMG").css("display", "block");
-            ValidationFlag = true;
-        } else {
+        // if (!filenameIMG) {
+        //     $("#spTxtFileUploadIMG").html("Select Image");
+        //     $("#spTxtFileUploadIMG").css("display", "block");
+        //     ValidationFlag = true;
+        // } else {
+        //     $("#spTxtFileUploadIMG").html("");
+        // }
+            if (!filenameIMG || filenameIMG === "") {
+        $("#spTxtFileUploadIMG").html("Select Image");
+        ValidationFlag = true;
+    } else {
             $("#spTxtFileUploadIMG").html("");
         }
-
         // Validate CSV file
-        if (!filenameCSV) {
-            $("#spTxtFileUploadCSV").html("Select CSV File");
-            $("#spTxtFileUploadCSV").css("display", "block");
-            ValidationFlag = true;
-        } else {
-            $("#spTxtFileUploadCSV").html("");
-        }
+        // if (!filenameCSV) {
+        //     $("#spTxtFileUploadCSV").html("Select CSV File");
+        //     $("#spTxtFileUploadCSV").css("display", "block");
+        //     ValidationFlag = true;
+        // } else {
+        //     $("#spTxtFileUploadCSV").html("");
+        // }
 
 
 
@@ -624,32 +769,32 @@
         var CreatedDate = moment.utc(new Date()).format();
 
 
-        var fileInput = document.getElementById('FileUploadCSV');
-        if (fileInput.files.length === 0) {
-            alert('Please select a file!');
-            return;
-        }
+        // var fileInput = document.getElementById('FileUploadCSV');
+        // if (fileInput.files.length === 0) {
+        //     alert('Please select a file!');
+        //     return;
+        // }
 
-        var formData = new FormData();
-        formData.append('file', fileInput.files[0]);
+        // var formData = new FormData();
+        // formData.append('file', fileInput.files[0]);
 
 
-        // Ensure a file has been selected
-        if (fileInput.files.length === 0) {
-            alert('Please select a CSV file.');
-            return;
-        }
+        // // Ensure a file has been selected
+        // if (fileInput.files.length === 0) {
+        //     alert('Please select a CSV file.');
+        //     return;
+        // }
 
-        var file = fileInput.files[0];
-        var reader = new FileReader();
-        var jsonArrayObj = [];
+        // var file = fileInput.files[0];
+        // var reader = new FileReader();
+        // var jsonArrayObj = [];
 
         // When file is loaded, process its content
-        reader.onload = function (event) {
-            var csvContent = event.target.result;
-            var jsonArray = csvToJson(csvContent);
-            jsonArrayObj = jsonArray;
-            console.log("CSV to JSON Array:", jsonArray);
+        //reader.onload = function (event) {
+            // var csvContent = event.target.result;
+            // var jsonArray = csvToJson(csvContent);
+            // jsonArrayObj = jsonArray;
+            // console.log("CSV to JSON Array:", jsonArray);
 
             // Now you can do something with the jsonArray, such as displaying it in a table
 
@@ -660,7 +805,7 @@
                 FileTypeCode: FileTypeCode,
                 CreatedBy: iLoggedInUserID,
                 CreatedDate: moment.utc(new Date()).format(),
-                ParameterJarr: jsonArrayObj
+                //ParameterJarr: jsonArrayObj
             };
 
             var jsonData = JSON.stringify({
@@ -681,9 +826,16 @@
 
                         var selectedImageNameSample = cleanFileName(filenameIMG);
                       
-                         var targetPathSample = 'others\\' + productLineText + '\\types\\';
+                         var targetPathSample = 'others\\ct\\' + productLineText + '\\types\\';
                         var uploadedFileSample = document.getElementById('FileUploadIMG').files[0];
-                         await copyFile(uploadedFileSample, targetPathSample, selectedImageNameSample);
+                            if (uploadedFileSample) {
+        await copyFile(
+            uploadedFileSample,
+            targetPathSample,
+            selectedImageNameSample
+        );
+    }
+                         // await copyFile(uploadedFileSample, targetPathSample, selectedImageNameSample);
                        // copyFile(selectedImageNameSample, targetPathSample, uploadedFileSample);
                         alert(data.response);
                             var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
@@ -700,19 +852,19 @@
     // Redirect
     window.location.href = url;
                     } else {
-                        alert("Error occurred while saving file type.");
+                        alert("Error occurred while saving Type.");
 
                     }
                 },
                 error: function (xhr, status, error) {
-                    alert("Error occurred while saving file type.");
+                    alert("Error occurred while saving Type.");
                     console.error(xhr.responseText);
                 }
             });
-        };
+        //};
 
         // Read the file as text
-        reader.readAsText(file);
+       // reader.readAsText(file);
 
 
     }

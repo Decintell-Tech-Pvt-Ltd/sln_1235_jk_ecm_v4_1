@@ -64,10 +64,13 @@ namespace wa_1235_jk_ecm_v4.Controllers
             objList.CustomerList = JsonSerializer.Deserialize<Customer[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
             return View(objList);
         }
-        public IActionResult AddCustomer(string CustomerId)
+        public async Task<IActionResult> AddCustomer(string CustomerId)
         {
             ViewBag.CustomerId = CustomerId;
-            return View();
+            Master objList = new Master();
+            string apiEndPoint = "DrillMaster/GetDroProdLine";
+            objList.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            return View(objList);
         }
         public async Task<ActionResult> EditStampMaster(int Id)
         {
@@ -146,37 +149,95 @@ namespace wa_1235_jk_ecm_v4.Controllers
             ViewBag.insertChart = insertChart;
             return View(objList);
         }
-
         public async Task<ActionResult> EditCustomer(int CustomerId)
         {
-            //-------------------------GetParameterById
             Master objList = new Master();
+
+            // Get customer by ID
             string apiEndPoint = "Masters/GetCustomerById";
+
             var JsonData = new
             {
-
                 CustomerId = CustomerId
-
             };
+
             string CustomerIdJson = JsonSerializer.Serialize(JsonData);
 
-            //selected data for CustomerId
-            objList.CustomerList = JsonSerializer.Deserialize<Customer[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, CustomerIdJson));
+            objList.EditCustomer_List =JsonSerializer.Deserialize<EditCustomerList[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, CustomerIdJson));
 
-            int? customerId = objList.CustomerList.FirstOrDefault()?.CustomerId;
+            // Get Product Line dropdown list
+            string apiEndPoint1 = "DrillMaster/GetDroProdLine";
 
-            string? customerName = objList.CustomerList.FirstOrDefault()?.CustomerName;
-            string? CustomerCode = objList.CustomerList.FirstOrDefault()?.CustomerCode;
-            decimal CustomerRejectionPercentage = Convert.ToDecimal(objList.CustomerList.FirstOrDefault()?.CustomerPct);
-            int? PackingDays = objList.CustomerList.FirstOrDefault()?.PackingDays;
+            objList.ProdLine_List =JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint1));
 
-            ViewBag.CustomerId = customerId;
-            ViewBag.CustomerName = customerName;
-            ViewBag.CustomerCode = CustomerCode;
-            ViewBag.CustomerRejectionPercentage = CustomerRejectionPercentage;
-            ViewBag.PackingDays = PackingDays;
             return View(objList);
         }
+        public async Task<ActionResult> ProductLine()
+        {
+            Master objList = new Master();
+            string apiEndPoint = "Masters/GetProductList";
+            objList.ProductLineDatas = JsonSerializer.Deserialize<ProductLineData[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            return View(objList);
+        }
+        public async Task<ActionResult> EditProductLine(int Id)
+        {
+            Master objList = new Master();
+
+            // Get customer by ID
+            string apiEndPoint = "Masters/GetProductById";
+
+            var JsonData = new
+            {
+                ID = Id
+            };
+
+            string CustomerIdJson = JsonSerializer.Serialize(JsonData);
+
+            objList.EditProductLineLists = JsonSerializer.Deserialize<EditProductLineList[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, CustomerIdJson));
+
+            return View(objList);
+        }
+        public async Task<ActionResult> AddProductLine()
+        {
+            return View();
+        }
+        //public async Task<ActionResult> AddProductLine()
+        //{
+        //    return View();
+        //}
+        //public async Task<ActionResult> EditCustomer(int CustomerId)
+        //{
+        //    //-------------------------GetParameterById
+        //    Master objList = new Master();
+        //    string apiEndPoint = "Masters/GetCustomerById";
+        //    var JsonData = new
+        //    {
+
+        //        CustomerId = CustomerId
+
+        //    };
+        //    string CustomerIdJson = JsonSerializer.Serialize(JsonData);
+
+        //    //selected data for CustomerId
+        //    objList.CustomerList = JsonSerializer.Deserialize<Customer[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, CustomerIdJson));
+
+        //    int? customerId = objList.CustomerList.FirstOrDefault()?.CustomerId;
+
+        //    string? customerName = objList.CustomerList.FirstOrDefault()?.CustomerName;
+        //    string? CustomerCode = objList.CustomerList.FirstOrDefault()?.CustomerCode;
+        //    decimal CustomerRejectionPercentage = Convert.ToDecimal(objList.CustomerList.FirstOrDefault()?.CustomerPct);
+        //    int? PackingDays = objList.CustomerList.FirstOrDefault()?.PackingDays;
+        //    var ProductLine = objList.CustomerList.FirstOrDefault()?.ProductLine;
+        //    ViewBag.CustomerId = customerId;
+        //    ViewBag.CustomerName = customerName;
+        //    ViewBag.CustomerCode = CustomerCode;
+        //    ViewBag.CustomerRejectionPercentage = CustomerRejectionPercentage;
+        //    ViewBag.PackingDays = PackingDays;
+
+        //    string apiEndPoint1 = "DrillMaster/GetDroProdLine";
+        //    objList.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint1));
+        //    return View(objList);
+        //}
 
         [HttpPost]
         public async Task<ActionResult> AddCustomerData(string JsonData)
@@ -620,9 +681,12 @@ namespace wa_1235_jk_ecm_v4.Controllers
             return View(objList);
         }
 
-        public IActionResult AddBrand()
+        public async Task<IActionResult> AddBrand()
         {
-            return View();
+            Master objList = new Master();
+            string apiEndPoint = "DrillMaster/GetDroProdLine";
+            objList.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            return View(objList);
         }
         [HttpPost]
         public async Task<IActionResult> AddBrand(string JsonData)
@@ -638,7 +702,20 @@ namespace wa_1235_jk_ecm_v4.Controllers
             }
             return Json(new { response = resultMessage });
         }
+        [HttpPost]
+        public async Task<IActionResult> AddProduct(string JsonData)
+        {
+            string apiEndPoint = "Masters/AddProductLine";
 
+
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
+        }
         public async Task<IActionResult> EditFileType(int Id)
         {
             ViewBag.JWTToken = JwtToken;
@@ -740,17 +817,19 @@ namespace wa_1235_jk_ecm_v4.Controllers
             string BrandIdJson = JsonSerializer.Serialize(JsonData);
 
             //selected data for CustomerId
-            objList.Brand_List = JsonSerializer.Deserialize<Brand[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, BrandIdJson));
+            objList.EditBrands = JsonSerializer.Deserialize<EditBrand[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, BrandIdJson));
 
-            int? brandId = objList.Brand_List.FirstOrDefault()?.BrandId;
+            int? brandId = objList.EditBrands.FirstOrDefault()?.BrandId;
 
-            string? brandName = objList.Brand_List.FirstOrDefault()?.BrandName;
-            string? BrandCode = objList.Brand_List.FirstOrDefault()?.BrandCode;
+            string? brandName = objList.EditBrands.FirstOrDefault()?.BrandName;
+            string? BrandCode = objList.EditBrands.FirstOrDefault()?.BrandCode;
 
             ViewBag.BrandId = brandId;
             ViewBag.BrandName = brandName;
             ViewBag.BrandCode = BrandCode;
-
+  
+            string apiEndPoint1 = "DrillMaster/GetDroProdLine";
+            objList.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint1));
             return View(objList);
         }
         public async Task<IActionResult> FileSize()
@@ -1567,7 +1646,19 @@ namespace wa_1235_jk_ecm_v4.Controllers
                         .ToList();
             return Json(filteredData);
         }
+        public async Task<IActionResult> GetExistingProductList(string term)
+        {
+            //Note : you can bind same list from database
+            Master objList = new Master();
+            string apiEndPoint = "Masters/GetProductList";
+            objList.ProductLineDatas = JsonSerializer.Deserialize<ProductLineData[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
 
+            var filteredData = objList.ProductLineDatas
+                        .Where(x => x.ProductLine.ToUpper() == term.ToUpper())
+                        .Select(x => new { label = x.ProductLineCode })
+                        .ToList();
+            return Json(filteredData);
+        }
         [HttpPost]
         public async Task<IActionResult> SaveFileSubType(string JsonData)
         {
@@ -2426,13 +2517,55 @@ namespace wa_1235_jk_ecm_v4.Controllers
         {
             return View();
         }
-        public IActionResult Lookup()
+        public async Task<ActionResult> Lookup()
         {
-            return View();
+            Master objList = new Master();
+            string apiEndPoint = "Masters/GetLookupMasterData";
+            objList.LookUp_MasterData = JsonSerializer.Deserialize<LookUpMasterData[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            return View(objList);
+
+
         }
-        public IActionResult AddLookup()
+        public async Task<ActionResult> AddLookup()
         {
-            return View();
+            ViewBag.JWTToken = JwtToken;
+            ViewBag.ApiUrl = appSettings?.API_blob_1231;
+            ViewBag.BaseBlobPath = appSettings?.BaseBlobPath;
+            Master objList = new Master();
+            string apiEndPoint = "Masters/GetLookupMaster";
+            objList.LookupTypes_List = JsonSerializer.Deserialize<LookupTypes[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+
+
+            string apiEndPoint1 = "DrillMaster/GetDroProdLine";
+            objList.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint1));
+            return View(objList);
+        
+        }
+        public async Task<ActionResult> EditLookup(int LookupId)
+        {
+            Master objList = new Master();
+            string apiEndPoint = "Masters/GetLookupMaster";
+            objList.LookupTypes_List = JsonSerializer.Deserialize<LookupTypes[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+
+
+            string apiEndPoint1 = "DrillMaster/GetDroProdLine";
+            objList.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint1));
+
+          
+            string apiEndPoint2 = "Masters/GetLookupById";
+            var JsonData = new
+            {
+
+                LookupId = LookupId
+
+            };
+            string Lookupjson = JsonSerializer.Serialize(JsonData);
+
+            //selected data for RawMaterial
+            objList.LookUp_MasterData = JsonSerializer.Deserialize<LookUpMasterData[]>(await _iGenericMethods.PostDataEcm(apiEndPoint2, Lookupjson));
+
+            return View(objList);
+
         }
         public IActionResult RawMaterial()
         {

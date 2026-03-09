@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http
+@using System.Text.Json
 @inject IHttpContextAccessor HttpContextAccessor
-
+@model wa_1235_jk_ecm_v4.Models.Master
 @{
     ViewData["Title"] = "EditBrand";
     Layout = "~/Views/Shared/_ECMMaster.cshtml";
@@ -56,10 +57,20 @@
 
                     <!-- /.card-header -->
                     <div class="card-body">
-
+                        @{
+                            var brand = Model.EditBrands?.FirstOrDefault();
+                        }
                         <div class="col-md-12">
 
                             <div class="row">
+                                <div class="form-group col-md-2 mt-2">
+                                 
+                                    <label>Product Line</label>
+                                    @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "ProductLineCode", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline", onchange = "clearError('spddlproductline')" ,disabled="disabled",multiple="multiple"})
+                                    <span id="spddlproductline" class="text-danger"></span>
+
+
+                                </div>
                                 <div class="form-group col-md-2 mt-2">
                                     <label>Brand Code  </label>
                                   @*   <input id="txtCustomerCode" type="text" maxlength="2" value="AF" class="form-control" disabled />
@@ -98,7 +109,38 @@
 </section>
 
 
+<script>
+    var BrandData = {
+        brandId: '@brand?.BrandId',
+        brandName: '@brand?.BrandName',
+        brandCode: '@brand?.BrandCode',
+       productLine: @Html.Raw(
+                JsonSerializer.Serialize(brand?.ProductLine ?? new string[] { })
+        )
+    };
+        function bindBrandData() {
 
+        $('#txtBrandName').val(BrandData.brandName);
+        $('#txtBrandCode').val(BrandData.brandCode);
+        $('#hdBrandId').val(BrandData.brandId);
+
+        // ProductLine dropdown bind
+        $('#ddlproductline')
+            .val(BrandData.productLine)
+            .trigger('change');
+    }
+
+    $(document).ready(function () {
+
+        $('#ddlproductline').select2({
+            placeholder: "Select",
+            allowClear: true,
+            width: '100%'
+        });
+
+        bindBrandData();
+    });
+</script>
 <script>
 
 
@@ -189,6 +231,7 @@
         var BrandName = $("#txtBrandName").val().trim();
         var BrandCode = $("#txtBrandCode").val();
         var hdBrandId = $("#hdBrandId").val();
+         var ProductLine = $("#ddlproductline").val() || [];
         //alert(BrandName + "," + BrandCode);
         var OperationFlag = 2;
         ValidationFlag = false;
@@ -221,7 +264,7 @@
         if ($("#spBrandName").text() == "" && $("#spBrandCode").text() == "") {
 
             let BrandDetailsJson = {
-
+                ProductLine:ProductLine,
                 CreatedBy: iLoggedInUserID,
                 CreatedDate: moment.utc(new Date()).format()
 

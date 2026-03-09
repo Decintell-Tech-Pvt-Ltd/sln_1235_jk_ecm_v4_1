@@ -48,6 +48,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+   
 }
 
 //for logging http requests mostly used for API code -- by satish 26jul2023

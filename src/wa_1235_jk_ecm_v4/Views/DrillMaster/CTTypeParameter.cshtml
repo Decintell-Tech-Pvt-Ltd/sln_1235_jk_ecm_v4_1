@@ -7,7 +7,7 @@
 }
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-	
+
 
 	<div class="modal fade" id="approve">
 		<div class="modal-dialog modal-lg">
@@ -25,9 +25,9 @@
 				<div class="modal-body">
 					<input type="hidden" id="txtID">
 					<p>
-						<b>Request No.:</b> <span id="txtRequest"></span>, &nbsp;&nbsp;
-						<b>Product Line:</b> <span id="txtProdLine"></span>, &nbsp;&nbsp;
 						
+						<b>Product Line:</b> <span id="txtProdLine"></span>, &nbsp;&nbsp;
+						<b>Product Line Code.:</b> <span id="txtRequest"></span>, &nbsp;&nbsp;
 						<b>Type Name:</b> <span id="txtFileName"></span>, &nbsp;&nbsp;
 						<b>Type Code:</b> <span id="txtFileTypeCode"></span>
 					</p>
@@ -58,20 +58,20 @@
 						</tbody>
 					</table>
 				</div>
-		
+
 				<!-- Footer Buttons -->
 				<div class="modal-footer">
 					<div class="float-right">
 						<button type="button"
 								class="btn btn-danger btn-xs btnwidth50" id="btn_DrillTypeReject"
 								title="Reject the selected item"
-								onclick="ApproveFileType(document.getElementById('txtID').value, 4); $('#approve').modal('hide');">
+								onclick="ApproveFileType(document.getElementById('txtID').value, 7); $('#approve').modal('hide');">
 							Reject
 						</button>
 						<button type="button"
 								class="btn btn-success btn-xs btnwidth60" id="btn_DrillTypeApprove"
 								title="Approve the selected item"
-								onclick="ApproveFileType(document.getElementById('txtID').value, 3); $('#approve').modal('hide');">
+								onclick="ApproveFileType(document.getElementById('txtID').value, 6); $('#approve').modal('hide');">
 							Approve
 						</button>
 					</div>
@@ -97,9 +97,9 @@
 				<!-- Modal Body - File Info -->
 				<div class="modal-body">
 					<input type="hidden" id="txtID1" />
-					<b>Request No.:</b> <span id="txtRequest1"></span>, &nbsp;&nbsp;
-					<b>Product Line:</b> <span id="txtProdLine1"></span>, &nbsp;&nbsp;
 					
+					<b>Product Line:</b> <span id="txtProdLine1"></span>, &nbsp;&nbsp;
+					<b>Product Line Code.:</b> <span id="txtRequest1"></span>, &nbsp;&nbsp;
 					<b> Type Name:</b> <span id="txtFileName1"></span>, &nbsp;&nbsp;
 					<b> Type Code:</b> <span id="txtFileTypeCode1"></span>
 
@@ -109,7 +109,7 @@
 					<label class="mt-3">Remark:</label><br>
 					<span id="txtremarklbl"></span>
 				</div>
-				
+
 				<!-- Modal Body - Parameters Table -->
 				<div class="modal-body" style="display:none;">
 					<h4 class="top10">Parameters</h4>
@@ -126,6 +126,18 @@
 						</tbody>
 					</table>
 				</div>
+				<div class="modal-footer">
+					<div class="float-right">
+						
+						<button type="button"
+								class="btn btn-primary btn-xs btnwidth60" id="btn_DrillTypeApprove"
+								title="Approve the selected item"
+								onclick="ApproveFileType(document.getElementById('txtID1').value, 5); $('#image').modal('hide');">
+							Submit For Approval
+						</button>
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>
@@ -159,7 +171,7 @@
 					</div>
 					<div class="btnwidth50 float-right mr-1">
 						<a id="btnadd" class="btn btn-block bg-gradient-primary   btn-xs float-left"
-						   href="@Url.Action("DrillAddType", "DrillMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" title="Add new record">
+						   href="@Url.Action("AddCTTypeParameter", "DrillMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })" title="Add new record">
 							Add
 						</a>
 					</div>
@@ -193,39 +205,46 @@
 									<thead>
 
 										<tr>
-
-											<th width="13%"><div align="center">Request No.	</div></th>
-											<th width="32.5%">Product Line</th>
-											<th width="25.5%"> <div align="center">Type Code</div></th>
+											<th width="13%"><div align="center">Product Line	</div></th>
+											<th width="32.5%">Product Line Code</th>
 											<th width="30.5%"><div align="Left"> Type Name</div></th>
-											<th width="25.5%"> <div align="Left">Type Description</div></th>
+											<th width="25.5%"> <div align="center">Type Code</div></th>
 											<th width="15%"><div align="center">Action</div></th>
 										</tr>
 									</thead>
 									<tbody>
-										@if (Model.FileType_List != null)
+										@if (Model.TypeParameterList != null)
 										{
-											foreach (var item in Model.FileType_List)
+											foreach (var item in Model.TypeParameterList)
 											{
 												if (item.GridNo == 1)
 												{
 													<tr>
-														<td class="text-center"><a href="#" title="Edit" onclick="EditFileType('@item.Id',@item.RequestNo);">@item.Id</a></td>
-														<td class="text-left">@item.ProductLine</td>
-														<td class="text-center">@item.FileTypeCode</td>
+@* 														<td class="text-center"><a href="#" title="Edit" onclick="EditFileType('@item.Id',@item.RequestNo);">@item.RequestNo</a></td>
+ *@														<td class="text-left">@item.ProductLine</td>
+														<td class="text-left">@item.ProductLineCode</td>
 														<td>
-															<a href="#" title="View" onclick="ModelFileType('@item.Id','@item.RequestNo','@item.FileTypeName','@item.FileTypeCode','@item.ProductLine','@item.Remark');" data-toggle="modal">
-																@item.FileTypeName
+															<a href="#" title="View" onclick="ModelFileType('@item.TypeDetailsRowId','@item.ProductLineCode','@item.CTTypeName','@item.CTTypeCode','@item.ProductLine','@item.Remark');" data-toggle="modal">
+																@item.CTTypeName
 															</a>
 														</td>
-														<td class="text-left">@item.TypeDesc</td>
+														<td class="text-center">@item.CTTypeCode</td>
 														<td class="text-center">
 															@*   <a href="#" class="btn btn-sm btn-warning" onclick="EditFileType('@item.Id',@item.RequestNo);" title="Edit">
                                                                 <i class="fas fa-edit"></i>
                                                             </a> *@
-															<button type="button" class="btn btn-primary btn-xs btnwidth95" onclick="ApproveFileType(@item.Id,2);">
-																Submit for Approval
-															</button>
+															@if (@item.StatusId == "2220"){
+																<div align="left"><span class="badge badge-info">Saved</span></div>
+															}
+															else if (@item.StatusId == "2225")
+															{
+																<div align="left"><span class= "badge badge-danger" > Rejected </span></div>
+															}
+															else
+															{
+																<div align="left"><span class="badge badge-info">Saved</span></div>
+															}
+															
 														</td>
 													</tr>
 												}
@@ -261,31 +280,29 @@
 
 									<tr>
 
-										<th width="13%"><div align="center">Request No.	</div></th>
-										<th width="25.5%">Product Line</th>
-										<th width="30.5%"> <div align="center">Type Code</div></th>
+										<th width="13%"><div align="center">Product Line	</div></th>
+										<th width="25.5%">Product Line Code</th>
 										<th width="35.5%"><div align="Left"> Type Name</div></th>
-										<th width="30.5%"> <div align="Left">Type Description</div></th>
+										<th width="30.5%"> <div align="center">Type Code</div></th>
 									</tr>
 								</thead>
 								<tbody>
-									@if (Model.FileType_List != null)
+									@if (Model.TypeParameterList != null)
 									{
-										foreach (var item in Model.FileType_List)
+										foreach (var item in Model.TypeParameterList)
 										{
 											if (item.GridNo == 2)
 											{
 												<tr>
-													<td class="text-center">@item.RequestNo</td>
-													<td class="text-left">@item.ProductLine</td>
-													
-													<td class="text-center">@item.FileTypeCode</td>
+													<td class="text-center">@item.ProductLine</td>
+													<td class="text-left">@item.ProductLineCode</td>
 													<td>
-														<a href="#" title="View" data-toggle="modal" data-target="#approve" onclick="setApproveItems('@item.Id','@item.RequestNo','@item.FileTypeName','@item.FileTypeCode','@item.ProductLine');">
-															@item.FileTypeName
+														<a href="#" title="View" data-toggle="modal" data-target="#approve" onclick="setApproveItems('@item.TypeDetailsRowId','@item.ProductLineCode','@item.CTTypeName','@item.CTTypeCode','@item.ProductLine');">
+															@item.CTTypeName
 														</a>
 													</td>
-													<td class="text-center">@item.TypeDesc</td>
+													<td class="text-center">@item.CTTypeCode</td>
+
 												</tr>
 											}
 										}
@@ -320,31 +337,29 @@
 
 									<tr>
 
-										<th width="13%"><div align="center">Request No.	</div></th>
-										<th width="25.5%">Product Line</th>
-										<th width="30.5%"> <div align="center">Type Code</div></th>
+										<th width="13%"><div align="center">Product Line	</div></th>
+										<th width="25.5%">Product Line Code</th>
 										<th width="35.5%"><div align="Left"> Type Name</div></th>
-										<th width="35.5%"><div align="Left"> Type Description</div></th>
+										<th width="30.5%"> <div align="center">Type Code</div></th>
 									</tr>
 								</thead>
 								<tbody>
-									@if (Model.FileType_List != null)
+									@if (Model.TypeParameterList != null)
 									{
-										foreach (var item in Model.FileType_List)
+										foreach (var item in Model.TypeParameterList)
 										{
 											if (item.GridNo == 3)
 											{
 												<tr>
-													<td class="text-center">@item.RequestNo</td>
-													<td class="text-left">@item.ProductLine</td>
-													<td class="text-center">@item.FileTypeCode</td>
+													<td class="text-center">@item.ProductLine</td>
+													<td class="text-left">@item.ProductLineCode</td>
 													<td>
-														<a href="#" title="View" onclick="ModelFileType('@item.Id','@item.RequestNo','@item.FileTypeName','@item.FileTypeCode','@item.ProductLine');">
-															@item.FileTypeName
+														<a href="#" title="View" onclick="ModelFileType('@item.TypeDetailsRowId','@item.ProductLineCode','@item.CTTypeName','@item.CTTypeCode','@item.ProductLine');">
+															@item.CTTypeName
 														</a>
 													</td>
-													<td class="text-center">@item.TypeDesc</td>
-									
+													<td class="text-center">@item.CTTypeCode</td>
+
 												</tr>
 											}
 										}
@@ -373,11 +388,11 @@
 		});
 
 
-	function setApproveItems(itemId, RequestNo, FileTypeName, FileTypeCode,ProdLine) {
+	function setApproveItems(itemId, ProductLineCode, FileTypeName, FileTypeCode,ProdLine) {
 		document.getElementById('approveItemId').textContent = itemId;
 
-		ModelFileSize(itemId, RequestNo, FileTypeName, FileTypeCode,ProdLine);
-		// OpenDocument(BrandCode, ImageFile, 'displayImage1');
+		ModelFileSize(itemId, ProductLineCode, FileTypeName, FileTypeCode,ProdLine);
+		//  OpenDocument(BrandCode, ImageFile, 'displayImage1');
 	}
 
 	function EditFileType(Id, RequestNo) {
@@ -465,13 +480,14 @@
 	}
 
 
-	function ModelFileSize(ID, RequestNo, FileTypeName, FileTypeCode, ProdLine) {
-
+	function ModelFileSize(ID, ProductLineCode, FileTypeName, FileTypeCode,ProdLine) {
 		$('#txtID').val(ID);
-		$('#txtRequest').text(RequestNo);
+		$('#txtRequest').text(ProductLineCode);
 		$('#txtFileName').text(FileTypeName);
 		$('#txtFileTypeCode').text(FileTypeCode);
-		$('#txtProdLine').text(ProdLine);
+			$('#txtProdLine').text(ProdLine);
+
+
 
 		var JsonData = JSON.stringify({
 			ID: ID
@@ -484,42 +500,55 @@
 			dataType: 'json',
 			beforeSend: function () { $('#loader').show(); },
 			complete: function () { $('#loader').hide(); },
-
 			success: function (data) {
+				var html = '';
+				$("#tblshowAddedFileTypeParameters").dataTable().fnClearTable();
+				$("#tblshowAddedFileTypeParameters").dataTable().fnDestroy()
+				var dtParameter = $('#tblshowAddedFileTypeParameters').DataTable({
+					"columnDefs": [
+						{ "className": "dt-center", "targets": "_all" }
+					],
+				});
 
-				// 🔥 ONLY IMAGE BINDING LEFT
-				var fileTypeProfileImage = "";
+				var rows = [];
 
-				if (data.parametersLists &&
-					data.parametersLists.length > 0) {
+				//  var cutside = data.objList.cutSidesarr_list;
+				var parametersLists = data.parametersLists;
+				for (var i = 0; i < parametersLists.length; i++) {
 
-					fileTypeProfileImage =
-						data.parametersLists[0].fileTypeProfileImage;
+					rows =
+						[
+							'<div align="center">' + data.parametersLists[i].parameterCategorySequence + '</div>',
+							'<div align="left">' + data.parametersLists[i].parameterCategory + '</div>',
+							'<div align="left">' + data.parametersLists[i].parameterName + '</div>',
+						];
+					var backgroundImage = "url('" + parametersLists[i].fileTypeProfileImage + "')";
+
+
+					// Preload image
+					$('<img src="' + parametersLists[i].fileTypeProfileImage + '" style="display: none;" />').appendTo('#imageDiv');
+					dtParameter.row.add(rows).draw(false);
+					var fileTypeProfileImage = data.parametersLists[i].fileTypeProfileImage;
 				}
-
-					OpenDocument(
-		fileTypeProfileImage,
-		'displayImage1',
-		FileTypeCode
-	);
-
-				$('#approve').modal('show');
+				   OpenDocument(fileTypeProfileImage,'displayImage1',ProdLine);
+				//$('#showAddedParameters').html(html);
+				$('#approve').modal('show'); // Show the modal
 			},
-
 			error: function () {
 				alert('Error occurred while fetching data.');
 			}
 		});
 	}
 
-	function ModelFileType(ID, RequestNo, FileTypeName, FileTypeCode, ProdLine, Remark) {
 
-		document.getElementById('txtRequest1').textContent = RequestNo;
+
+	function ModelFileType(ID, ProductLineCode, FileTypeName, FileTypeCode,ProdLine,Remark) {
+		$('#txtID1').val(ID);
+		document.getElementById('txtRequest1').textContent = ProductLineCode;
 		document.getElementById('txtFileName1').textContent = FileTypeName;
 		document.getElementById('txtFileTypeCode1').textContent = FileTypeCode;
 		document.getElementById('txtProdLine1').textContent = ProdLine;
 		document.getElementById('txtremarklbl').textContent = Remark;
-
 		var JsonData = JSON.stringify({
 			ID: ID
 		});
@@ -531,84 +560,80 @@
 			dataType: 'json',
 			beforeSend: function () { $('#loader').show(); },
 			complete: function () { $('#loader').hide(); },
-
 			success: function (data) {
+				var html = '';
+				$("#tblshowAddedParametersList").dataTable().fnClearTable();
+				$("#tblshowAddedParametersList").dataTable().fnDestroy()
+				var dtParameter = $('#tblshowAddedParametersList').DataTable({
+					"columnDefs": [
+						{ "className": "dt-center", "targets": "_all" }
+					],
+				});
 
-				// 🔥 ONLY IMAGE BINDING LEFT
-				var fileTypeProfileImage = "";
+				var rows = [];
+				for (var i = 0; i < data.parametersLists.length; i++) {
 
-				if (data.parametersLists &&
-					data.parametersLists.length > 0) {
+					rows =
+						[
+							'<div align="center">' + data.parametersLists[i].parameterCategorySequence + '</div>',
+							'<div align="left">' + data.parametersLists[i].parameterCategory + '</div>',
+							'<div align="left">' + data.parametersLists[i].parameterName + '</div>',
+						];
 
-					fileTypeProfileImage =
-						data.parametersLists[0].fileTypeProfileImage;
+					dtParameter.row.add(rows).draw(false);
+					var fileTypeProfileImage = data.parametersLists[i].fileTypeProfileImage;
+
 				}
-
-					OpenDocument(
-		fileTypeProfileImage,
-		'displayImage',
-		FileTypeCode
-	);
-
-				$('#image').modal('show');
+				OpenDocument(fileTypeProfileImage,'displayImage',ProdLine);
+				$('#image').modal('show'); // Show the modal
 			},
-
 			error: function () {
 				alert('Error occurred while fetching data.');
 			}
 		});
 	}
-		async function OpenDocument(FileName, ImageId, FileTypeCode) {
 
+	async function OpenDocument(FileName, ImageId,ProdLine) {
 	   var JwToken = '@ViewBag.JWTToken';
 	   var blobStorageUrl = '@ViewBag.ApiUrl';
 	   let blobPathPrefix = '@ViewBag.BaseBlobPath';
+		//var path = 'others\\filetypes' + '\\';
+	var path = 'others\\' + ProdLine + '\\types\\';
+		const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
 
-	   var path = 'others\\ct\\types\\' + FileTypeCode + '\\';
+			const JSONData = {
+				blobPath: blobpath,
+				asSas: false,
+				downloadFileName: FileName
+			};
 
-	   const blobpath =
-		   (normalizePathPrefix(blobPathPrefix) +
-			normalizePathPrefix(path)).toLowerCase() + FileName;
+			try {
+				$('#loader').show();
 
-	   const JSONData = {
-		   blobPath: blobpath,
-		   asSas: false,
-		   downloadFileName: FileName
-	   };
+				const response = await $.ajax({
+					url: blobStorageUrl + 'Files/get',
+					headers: { Authorization: 'Bearer ' + JwToken },
+					type: "POST",
+					contentType: "application/json",
+					data: JSON.stringify(JSONData),
+					xhrFields: { responseType: 'blob' }
+				});
 
-	   try {
+				if (response && response.size > 0) {
+					const objectURL = URL.createObjectURL(response);
+					// Display the image in the img tag
+					const imgElement = document.getElementById(ImageId);
+				imgElement.src = objectURL;
+				}
+			}
+			catch (error) {
+				console.error("Error:", error);
+				const imgElement = document.getElementById(ImageId);
+				imgElement.src = '';
 
-		   $('#loader').show();
-
-		   const response = await $.ajax({
-			   url: blobStorageUrl + 'Files/get',
-			   headers: { Authorization: 'Bearer ' + JwToken },
-			   type: "POST",
-			   contentType: "application/json",
-			   data: JSON.stringify(JSONData),
-			   xhrFields: { responseType: 'blob' }
-		   });
-
-		   if (response && response.size > 0) {
-
-			   const objectURL = URL.createObjectURL(response);
-
-			   const imgElement = document.getElementById(ImageId);
-			   imgElement.src = objectURL;
-
-		   }
-
-	   } catch (error) {
-
-		   console.error("Error:", error);
-
-		   const imgElement = document.getElementById(ImageId);
-		   imgElement.src = '';
-
-	   } finally {
-
-		   $('#loader').hide();
-
-	   }
+			}
+			finally {
+			 $('#loader').hide();
+			}
 	}
 </script>

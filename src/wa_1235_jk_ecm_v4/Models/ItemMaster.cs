@@ -4,6 +4,8 @@ namespace wa_1235_jk_ecm_v4.Models
 {
     public class ItemMaster
     {
+        public int SubTypeId { get; set; }
+        public SubtypeDD[] SubtypeDD { get; set; }
         public int CategoryId { get; set; }
         public CategoryList[] CategoryList { get; set; }
         public int MaterialId { get; set; }
@@ -11,7 +13,11 @@ namespace wa_1235_jk_ecm_v4.Models
         //HandleTypeMaster
         public CutType[] CutTypelist { get; set; }
         public CutType[] StampProcesslist { get; set; }
-
+        public ProdLineList[] ProdLine_List { get; set; }
+        public FileTypeCodeList[] FileTypeCodeList { get; set; }
+        public CTSizeList[] CTSizeList { get; set; }
+        public CTStampDetails[] CTStampDetails { get; set; }
+        public int ProdId { get; set; }
         public CutType[] HandlePresencelist { get; set; }
 
         public HandleTypeMaster[] HandleTypeList { get; set; }
@@ -25,6 +31,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public StampMaster[] StampMaster_List { get; set; }
         public CutSpecificationsList[] CutSpecification_List { get; set; }
         public FileSizes[] FileSizes_List { get; set; }
+
         public LookupTypes[] LookupTypes_List { get; set; }
         public LookupTypes[] TangTempering_List { get; set; }
         public LookupTypes[] TangColor_List { get; set; }
@@ -59,6 +66,9 @@ namespace wa_1235_jk_ecm_v4.Models
         public OtherPackingForEdit OtherPackingForEditDetails { get; set; }
         public int Position { get; set; }
         public int LabelTypeId { get; set; }
+        public int TypeId { get; set; }
+        public int SizeID { get; set; }
+        
         public ApprovedSKUDetails[] ApprovedSKUDetails_List { get; set; }
         public ApprovedCommingSKUDetails[] ApprovedCommingSKUDetails_List { get; set; }
         public PackingMaterialList[] PackingMaterialLists { get; set; }
@@ -82,6 +92,26 @@ namespace wa_1235_jk_ecm_v4.Models
     }
 
 
+
+
+    public class CTSizeList
+    {
+        public int SizeID { get; set; }
+        public int ProductLineId { get; set; }
+        public string DimensionCode { get; set; }
+        public float DimensionValue { get; set; }
+        public int DimensionType { get; set; }
+        public string Size { get; set; }
+    }
+
+
+
+    public class FileTypeCodeList
+    {
+        public string CTTypeName { get; set; }
+        public int TypeId { get; set; }
+        public string CTTypeCode { get; set; }
+    }
 
     public class PackingMaterialList
     {

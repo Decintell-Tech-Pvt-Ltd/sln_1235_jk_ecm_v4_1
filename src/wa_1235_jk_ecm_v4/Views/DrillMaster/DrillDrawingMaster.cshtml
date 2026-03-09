@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-
+@model wa_1235_jk_ecm_v4.Models.DrillMaster
 @{
 	ViewData["Title"] = "DrillDrawingMaster";
 	Layout = "~/Views/Shared/_ECMMaster.cshtml";
@@ -137,114 +137,188 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Operation</h5>
+                    <h5 class="modal-title">View Sub Type</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
                 <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-4 form-group">
-                            <label for="">Value Stream</label>
-                            <select name="" id="" class="form-control select2">
-                                <option value="">Select</option>
-                                <option value="" selected>Half Round</option>
-                                <option>Square</option>
-                                <option>Rasp</option>
-                                <option>Taper</option>
-                                <option>Chain Saw</option>
-                                <option>Needle</option>
-                            </select>
-                        </div>
-                    </div>
-                    <table width="100%" class="table table-bordered example1">
+                    <input type="hidden" id="txtID" value="68">
+                    <b>Request No.: </b><span>10</span>,&nbsp;&nbsp;
+                    <b>Product Line: </b><span>Drills</span>,&nbsp;&nbsp;
+                    <b>Type: </b><span>PARALLEL-HSS CENTRE DRILL (CD)</span>,&nbsp;&nbsp;<br>
+                    <b>Size: </b><span>0100 - 1.0 mm (dia)</span>,&nbsp;&nbsp;
+
+                    <b>Sub Type: </b><span>Regular (R)</span>,&nbsp;
+
+                    <b>Code: </b><span>D0100CDRM</span>
+                    <div style="clear: both;"></div>
+                    <br>
+                    <img id="displayImage" class="img-fluid" src="https://decintellai.com/ui/all-Modules/UI_Repository/dist/img/drill.jpg">
+
+                    <table width="100%" class="table table-bordered example3">
                         <thead>
                             <tr>
-                                <th style="width:10%; text-align: center;">Seq.No</th>
-                                <th style="width:80%;  text-align: Left;">Operation ID-Name</th>
-                                <th style="width:10%;  text-align: center;"></th>
-
+                                <th style="width:10%; text-align: center;">Sq. No.</th>
+                                <th style="width:40%; text-align: Left;">Process Name</th>
+                                <th style="width:40%;  text-align: Left;">Parameter Name</th>
+                                <th style="width:10%;  text-align: Left;"><div align="center">Value</div></th>
+                                <th style="width:10%;  text-align: Left;"><div align="center">UOM</div></th>
+                                <th style="width:10%;  text-align: Left;"><div align="center">Tolerance</div></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-
-                                <td style="text-align: center;">10</td>
-                                <td style="text-align: Left;">10 - Cropping</td>
-                                <td>
-                                    <div align="center">
-                                        <button type="button"
-                                                class="btn btn-danger btn-xs btnwidth50"
-                                                onclick="location.href=''"
-                                                title="Delete the selected record">
-                                            Delete
-                                        </button>
-                                    </div>
-                                </td>
-
+                                <td style="text-align: center;">1</td>
+                                <td style="text-align: Left;">RAW MATERIAL</td>
+                                <td style="text-align: Left;">Diameter</td>
+                                <td style="text-align: Left;"><div align="center">10</div></td>
+                                <td style="text-align: Left;"><div align="center">mm</div></td>
+                                <td style="text-align: Left;"><div align="center"></div></td>
                             </tr>
                             <tr>
-
-                                <td style="text-align: center;">50</td>
-                                <td style="text-align: Left;">50 - Annealing</td>
-                                <td>
-                                    <div align="center">
-                                        <button type="button"
-                                                class="btn btn-danger btn-xs btnwidth50"
-                                                onclick="location.href=''"
-                                                title="Delete the selected record">
-                                            Delete
-                                        </button>
-                                    </div>
-                                </td>
+                                <td style="text-align: center;">2</td>
+                                <td style="text-align: Left;">Parting</td>
+                                <td style="text-align: Left;">Diameter</td>
+                                <td style="text-align: Left;"><div align="center">10</div></td>
+                                <td style="text-align: Left;"><div align="center">mm</div></td>
+                                <td style="text-align: Left;"><div align="center">± 2 mm</div></td>
                             </tr>
                             <tr>
-
-                                <td style="text-align: center;">60</td>
-                                <td style="text-align: Left;">60 - Tang Punching</td>
-                                <td>
-                                    <div align="center">
-                                        <button type="button"
-                                                class="btn btn-danger btn-xs btnwidth50"
-                                                onclick="location.href=''"
-                                                title="Delete the selected record">
-                                            Delete
-                                        </button>
-                                    </div>
-                                </td>
+                                <td style="text-align: center;">2</td>
+                                <td style="text-align: Left;">Parting</td>
+                                <td style="text-align: Left;">Length</td>
+                                <td style="text-align: Left;"><div align="center">10</div></td>
+                                <td style="text-align: Left;"><div align="center">mm</div></td>
+                                <td style="text-align: Left;"><div align="center"></div></td>
                             </tr>
                             <tr>
-                                <td style="text-align: center;">80</td>
-                                <td style="text-align: Left;">80 - Tang Pressing</td>
-                                <td>
-                                    <div align="center">
-                                        <button type="button"
-                                                class="btn btn-danger btn-xs btnwidth50"
-                                                onclick="location.href=''"
-                                                title="Delete the selected record">
-                                            Delete
-                                        </button>
-                                    </div>
-                                </td>
+                                <td style="text-align: center;">2</td>
+                                <td style="text-align: Left;">Parting</td>
+                                <td style="text-align: Left;">Chamfer</td>
+                                <td style="text-align: Left;"><div align="center">10</div></td>
+                                <td style="text-align: Left;"><div align="center">mm</div></td>
+                                <td style="text-align: Left;"><div align="center">± 2 mm</div></td>
                             </tr>
-
-
+                            <tr>
+                                <td style="text-align: center;">2</td>
+                                <td style="text-align: Left;">Parting</td>
+                                <td style="text-align: Left;">Cone Angle</td>
+                                <td style="text-align: Left;"><div align="center">10</div></td>
+                                <td style="text-align: Left;"><div align="center">deg</div></td>
+                                <td style="text-align: Left;"><div align="center">± 2 mm</div></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">3</td>
+                                <td style="text-align: Left;">Heat Treatment</td>
+                                <td style="text-align: Left;">Hardness</td>
+                                <td style="text-align: Left;"><div align="center">10</div></td>
+                                <td style="text-align: Left;"><div align="center">vhn</div></td>
+                                <td style="text-align: Left;"><div align="center"></div></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">3</td>
+                                <td style="text-align: Left;">Heat Treatment</td>
+                                <td style="text-align: Left;">Hardness</td>
+                                <td style="text-align: Left;"><div align="center">10</div></td>
+                                <td style="text-align: Left;"><div align="center">vhn</div></td>
+                                <td style="text-align: Left;"><div align="center"></div></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">4</td>
+                                <td style="text-align: Left;">Centreless Grinding</td>
+                                <td style="text-align: Left;">Rough Diameter</td>
+                                <td style="text-align: Left;"><div align="center">10</div></td>
+                                <td style="text-align: Left;"><div align="center">mm</div></td>
+                                <td style="text-align: Left;"><div align="center"></div></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">4</td>
+                                <td style="text-align: Left;">Centreless Grinding</td>
+                                <td style="text-align: Left;">Finish Diameter (d1)</td>
+                                <td style="text-align: Left;"><div align="center">10</div></td>
+                                <td style="text-align: Left;"><div align="center">mm</div></td>
+                                <td style="text-align: Left;"><div align="center"></div></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">5</td>
+                                <td style="text-align: Left;">Flute Grinding</td>
+                                <td style="text-align: Left;">Flute Length (L1)</td>
+                                <td style="text-align: Left;"><div align="center">10</div></td>
+                                <td style="text-align: Left;"><div align="center">mm</div></td>
+                                <td style="text-align: Left;"><div align="center">± 2 mm</div></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">5</td>
+                                <td style="text-align: Left;">Flute Grinding</td>
+                                <td style="text-align: Left;">Overall Length (L)</td>
+                                <td style="text-align: Left;"><div align="center">10</div></td>
+                                <td style="text-align: Left;"><div align="center">mm</div></td>
+                                <td style="text-align: Left;"><div align="center"></div></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">5</td>
+                                <td style="text-align: Left;">Flute Grinding</td>
+                                <td style="text-align: Left;">Helix Angle (β)</td>
+                                <td style="text-align: Left;"><div align="center">10</div></td>
+                                <td style="text-align: Left;"><div align="center">deg</div></td>
+                                <td style="text-align: Left;"><div align="center">± 2 mm</div></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">5</td>
+                                <td style="text-align: Left;">Flute Grinding</td>
+                                <td style="text-align: Left;">Land Width (B)</td>
+                                <td style="text-align: Left;"><div align="center">10</div></td>
+                                <td style="text-align: Left;"><div align="center">mm</div></td>
+                                <td style="text-align: Left;"><div align="center"></div></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center;">5</td>
+                                <td style="text-align: Left;">Flute Grinding</td>
+                                <td style="text-align: Left;">Web Thickness (k)</td>
+                                <td style="text-align: Left;"><div align="center">10</div></td>
+                                <td style="text-align: Left;"><div align="center">mm</div></td>
+                                <td style="text-align: Left;"><div align="center"></div></td>
+                            </tr>
                         </tbody>
                     </table>
 
 
-                    <small>Note: The Operations table is displayed based on the selected Value Stream from the dropdown.</small>
-
-                    <div class="btnwidth50 float-right mr-1 " style="margin-top:35px;">
-                        <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
-                                onclick="location.href='Drawing.html'" title="Go to the next page">
-                            Submit
-                        </button>
-                    </div>
+                    <label for="">Remark</label><br>
+                    <input type="text" class="form-control">
 
 
                 </div>
 
+
+                <div class="modal-footer">
+                    <div class="float-right text-right" style="width: 100%;">
+                        <button type="button"
+                                class="btn btn-danger btn-xs btnwidth50"
+                                onclick="RequestApprovalRejection(7);"
+                                title="Reject the selected item">
+                            Reject
+                        </button>
+                        <button type="button"
+                                class="btn btn-success btn-xs btnwidth60"
+                                onclick="RequestApprovalRejection(6);"
+                                title="Approve the selected item">
+                            Approve
+                        </button>
+                       @*  <button type="button" class="btn btn-danger btn-xs btnwidth50" title="Reject the selected item">
+                            Reject
+                        </button>
+
+                        <button type="button" class="btn btn-success btn-xs btnwidth60" onclick="location.href=''" title="Approve the selected item">
+                            Approve
+                        </button> *@
+                    </div>
+                    <div>
+                        <div style="clear: both;"></div>
+                        <small><i>Note: After approval, the request will be sent to Subtype Master and Drawing Grid 1.</i></small>
+                    </div>
+                </div>
 
 
 
@@ -759,217 +833,72 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td><div align="center">10</div></td>
-                                            <td><div align="left">Drills</div></td>
-                                            <td><div align="center"><a href="#" title="View Parameters" data-toggle="modal" data-target="#nonstandard">D0100CDRM</a></div></td>
 
-                                            <td><div align="left">HSS CENTRE DRILL REGULAR 1MM PILOT DIA METRIC STANDARD TYPE A</div></td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth120"
-                                                            onclick="window.open('https://decintellai.com/ui/all-Modules/UI_Repository/pdf/04FLF1AS.pdf','_blank')"
-                                                            title="Generate Drawing">
-                                                        Generate Drawing
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button" data-toggle="modal" data-target="#nonstandard3"
-                                                            class="btn btn-primary btn-xs btnwidth50"
-                                                            title="Add Operation">
-                                                        Add
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth95"
-                                                            onclick="location.href=''"
-                                                            title="Go to the next page">
-                                                        Submit for Approval
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center">11</div></td>
-                                            <td><div align="left">Drills</div></td>
-                                            <td><div align="center"><a href="#" title="View Parameters" data-toggle="modal" data-target="#nonstandard">D0050PGRM</a></div></td>
-                                            <td>PARALLEL SHANK DRILL HSS GROUND FLUTE JOBBER REGULAR 0.5MM SIZE DIA METRIC STANDARD</td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth120" id="btn_GenerateDrawing"
-                                                            onclick="window.open('https://decintellai.com/ui/all-Modules/UI_Repository/pdf/04FLF1AS.pdf','_blank')"
-                                                            title="Generate Drawing">
-                                                        Generate Drawing
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div align="center">
-                                                    <button id="btn_AddDrillDrawingMaster" type="button" data-toggle="modal" data-target="#nonstandard3"
-                                                            class="btn btn-primary btn-xs btnwidth50"
-                                                            title="Add Operation">
-                                                        Add
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button" d="btn_AddSubmitforApproval"
-                                                            class="btn btn-primary btn-xs btnwidth95"
-                                                            onclick="location.href=''"
-                                                            title="Go to the next page">
-                                                        Submit for Approval
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center">12</div></td>
-                                            <td><div align="left">Drills</div></td>
-                                            <td><div align="center"><a href="#" title="View Parameters" data-toggle="modal" data-target="#nonstandard">D0076TRRM</a></div></td>
-                                            <td>TOOL BIT DRILL ROUND REGULAR 0.76 MM SIZE DIA BS STANDARD</td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth120"
-                                                            onclick="window.open('https://decintellai.com/ui/all-Modules/UI_Repository/pdf/04FLF1AS.pdf','_blank')"
-                                                            title="Generate Drawing">
-                                                        Generate Drawing
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button" data-toggle="modal" data-target="#nonstandard3"
-                                                            class="btn btn-primary btn-xs btnwidth50"
-                                                            title="Add Operation">
-                                                        Add
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth95"
-                                                            onclick="location.href=''"
-                                                            title="Go to the next page">
-                                                        Submit for Approval
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center">13</div></td>
-                                            <td><div align="left">Taps</div></td>
-                                            <td><div align="center"><a href="#" title="View Parameters" data-toggle="modal" data-target="#nonstandard">T0315THRM</a></div></td>
-                                            <td>TAPS HAND TAPS REGULAR03.15 MM NOMINAL DIA METRIC STANDARD</td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth120"
-                                                            onclick="window.open('https://decintellai.com/ui/all-Modules/UI_Repository/pdf/04FLF1AS.pdf','_blank')"
-                                                            title="Generate Drawing">
-                                                        Generate Drawing
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button" data-toggle="modal" data-target="#nonstandard3"
-                                                            class="btn btn-primary btn-xs btnwidth50"
-                                                            title="Add Operation">
-                                                        Add
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth95"
-                                                            onclick="location.href=''"
-                                                            title="Go to the next page">
-                                                        Submit for Approval
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center">14</div></td>
-                                            <td><div align="left">Dies</div></td>
-                                            <td><div align="center"><a href="#" title="View Parameters" data-toggle="modal" data-target="#nonstandard">D0100SDRM</a></div></td>
-                                            <td>DIES SCREWING REGULAR M1 SIZE METRIC STANDARD</td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth120"
-                                                            onclick="window.open('https://decintellai.com/ui/all-Modules/UI_Repository/pdf/04FLF1AS.pdf','_blank')"
-                                                            title="Generate Drawing">
-                                                        Generate Drawing
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button" data-toggle="modal" data-target="#nonstandard3"
-                                                            class="btn btn-primary btn-xs btnwidth50"
-                                                            title="Add Operation">
-                                                        Add
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth95"
-                                                            onclick="location.href=''"
-                                                            title="Go to the next page">
-                                                        Submit for Approval
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center">15</div></td>
-                                            <td><div align="left">Drills</div></td>
-                                            <td><div align="center"><a href="#" title="View Parameters" data-toggle="modal" data-target="#nonstandard">D0300CCRM</a></div></td>
-                                            <td>CARBIDE BURR CONE SHAPE REGULAR 3 MM HEAD DIA SINGLE CUT</td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth120"
-                                                            onclick="window.open('https://decintellai.com/ui/all-Modules/UI_Repository/pdf/04FLF1AS.pdf','_blank')"
-                                                            title="Generate Drawing">
-                                                        Generate Drawing
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button" data-toggle="modal" data-target="#nonstandard3"
-                                                            class="btn btn-primary btn-xs btnwidth50"
-                                                            title="Add Operation">
-                                                        Add
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth95"
-                                                            onclick="location.href=''"
-                                                            title="Go to the next page">
-                                                        Submit for Approval
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        
+                                        @foreach (var item in Model.DrawingDetails.Where(x => x.GridNo == 1))
+
+                                        
+                                           
+                                            {
+                                                <tr>
+
+                                                    <td>
+                                                        <div align="center">@item.Id</div>
+                                                    </td>
+
+                                                    <td>
+                                                        <div align="left">@item.ProductLine</div>
+                                                    </td>
+
+                                                    <td>
+                                                        <div align="center">
+                                                            <a href="#" title="View Parameters"
+                                                               data-toggle="modal"
+                                                               data-target="#nonstandard">
+                                                                @item.SKUCode
+                                                            </a>
+                                                        </div>
+                                                    </td>
+
+                                                    <td>
+                                                        <div align="left">@item.SKUDesc</div>
+                                                    </td>
+
+                                                    <td>
+                                                        <div align="center">
+                                                            <button type="button"
+                                                                    class="btn btn-primary btn-xs btnwidth120"
+                                                                    onclick="window.open('https://decintellai.com/ui/all-Modules/UI_Repository/pdf/04FLF1AS.pdf','_blank')">
+                                                                Generate Drawing
+                                                            </button>
+                                                        </div>
+                                                    </td>
+
+                                                    <td>
+                                                        <div align="center">
+                                                            <button type="button"
+                                                                    data-toggle="modal"
+                                                                    data-target="#nonstandard3"
+                                                                    class="btn btn-primary btn-xs btnwidth50">
+                                                                Add
+                                                            </button>
+                                                        </div>
+                                                    </td>
+
+                                                    <td>
+                                                        <div align="center">
+                                                            <button type="button"
+                                                                    class="btn btn-primary btn-xs btnwidth95"
+                                                                    onclick="UpdateDrawingStatus(@item.Id,5);">
+                                                                Submit for Approval
+                                                            </button>
+                                                        </div>
+                                                    </td>
+
+                                                </tr>
+                                            }
+                                        
+
                                     </tbody>
                                 </table>
                             </div>
@@ -1008,97 +937,54 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td><div align="center"><a href="#" data-toggle="modal" data-target="#nonstandard2">10</a></div></td>
-                                        <td><div align="left">Drills</div></td>
-                                        <td><div align="center"><a href="#" title="View Parameters" data-toggle="modal" data-target="#nonstandard0">D0100CDRM</a></div></td>
 
-                                        <td><div align="left">HSS CENTRE DRILL REGULAR 1MM PILOT DIA METRIC STANDARD TYPE A</div></td>
-                                        <td>
-                                            <div align="center">
-                                                <button type="button" data-toggle="modal" data-target="#nonstandard4"
-                                                        class="btn btn-primary btn-xs btnwidth50"
-                                                        title="Add Operation">
-                                                    View
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center"><a href="#" data-toggle="modal" data-target="#nonstandard2">11</a></div></td>
-                                        <td><div align="left">Drills</div></td>
-                                        <td><div align="center"><a href="#" title="View Parameters" data-toggle="modal" data-target="#nonstandard0">D0050PGRM</a></div></td>
-                                        <td>PARALLEL SHANK DRILL HSS GROUND FLUTE JOBBER REGULAR 0.5MM SIZE DIA METRIC STANDARD</td>
-                                        <td>
-                                            <div align="center">
-                                                <button type="button" data-toggle="modal" data-target="#nonstandard4"
-                                                        class="btn btn-primary btn-xs btnwidth50"
-                                                        title="Add Operation">
-                                                    View
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center"><a href="#" data-toggle="modal" data-target="#nonstandard2">12</a></div></td>
-                                        <td><div align="left">Drills</div></td>
-                                        <td><div align="center"><a href="#" title="View Parameters" data-toggle="modal" data-target="#nonstandard0">D0076TRRM</a></div></td>
-                                        <td>TOOL BIT DRILL ROUND REGULAR 0.76 MM SIZE DIA BS STANDARD</td>
-                                        <td>
-                                            <div align="center">
-                                                <button type="button" data-toggle="modal" data-target="#nonstandard4"
-                                                        class="btn btn-primary btn-xs btnwidth50"
-                                                        title="Add Operation">
-                                                    View
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center"><a href="#" data-toggle="modal" data-target="#nonstandard2">13</a></div></td>
-                                        <td><div align="left">Taps</div></td>
-                                        <td><div align="center"><a href="#" title="View Parameters" data-toggle="modal" data-target="#nonstandard0">T0315THRM</a></div></td>
-                                        <td>TAPS HAND TAPS REGULAR03.15 MM NOMINAL DIA METRIC STANDARD</td>
-                                        <td>
-                                            <div align="center">
-                                                <button type="button" data-toggle="modal" data-target="#nonstandard4"
-                                                        class="btn btn-primary btn-xs btnwidth50"
-                                                        title="Add Operation">
-                                                    View
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center"><a href="#" data-toggle="modal" data-target="#nonstandard2">14</a></div></td>
-                                        <td><div align="left">Dies</div></td>
-                                        <td><div align="center"><a href="#" title="View Parameters" data-toggle="modal" data-target="#nonstandard0">D0100SDRM</a></div></td>
-                                        <td>DIES SCREWING REGULAR M1 SIZE METRIC STANDARD</td>
-                                        <td>
-                                            <div align="center">
-                                                <button type="button" data-toggle="modal" data-target="#nonstandard4"
-                                                        class="btn btn-primary btn-xs btnwidth50"
-                                                        title="Add Operation">
-                                                    View
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center"><a href="#" data-toggle="modal" data-target="#nonstandard2">15</a></div></td>
-                                        <td><div align="left">Drills</div></td>
-                                        <td><div align="center"><a href="#" title="View Parameters" data-toggle="modal" data-target="#nonstandard0">D0300CCRM</a></div></td>
-                                        <td>CARBIDE BURR CONE SHAPE REGULAR 3 MM HEAD DIA SINGLE CUT</td>
-                                        <td>
-                                            <div align="center">
-                                                <button type="button" data-toggle="modal" data-target="#nonstandard4"
-                                                        class="btn btn-primary btn-xs btnwidth50"
-                                                        title="Add Operation">
-                                                    View
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    @if (Model.DrawingDetails != null)
+                                    {
+                                        foreach (var item in Model.DrawingDetails.Where(x => x.GridNo == 2))
+                                        {
+                                            <tr>
+
+                                                <td>
+                                                    <div align="center">
+                                                        <a href="#" data-toggle="modal" data-target="#nonstandard2">
+                                                            @item.Id
+                                                        </a>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <div align="left">@item.ProductLine</div>
+                                                </td>
+
+                                                <td>
+                                                    <div align="center">
+                                                        <a href="#" title="View Parameters"
+                                                           data-toggle="modal"
+                                                           data-target="#nonstandard0">
+                                                            @item.SKUCode
+                                                        </a>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <div align="left">@item.SKUDesc</div>
+                                                </td>
+
+                                                <td>
+                                                    <div align="center">
+                                                        <button type="button"
+                                                                data-toggle="modal"
+                                                                data-target="#nonstandard4"
+                                                                class="btn btn-primary btn-xs btnwidth50">
+                                                            View
+                                                        </button>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+
                                 </tbody>
                             </table>
                         </div>
@@ -1138,75 +1024,44 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td><div align="center">10</div></td>
-                                        <td><div align="left">Drills</div></td>
-                                        <td><div align="center">D0100CDRM</div></td>
 
-                                        <td><div align="left">HSS CENTRE DRILL REGULAR 1MM PILOT DIA METRIC STANDARD TYPE A</div></td>
-                                        <td>
-                                            <div align="center">
-                                                <button type="button" class="btn btn-primary btn-xs" onclick="window.open('https://decintellai.com/ui/all-Modules/UI_Repository/pdf/04FLF2AS.pdf','_blank')" title="Download the file">
-                                                    Download
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center">11</div></td>
-                                        <td><div align="left">Drills</div></td>
-                                        <td><div align="center">D0050PGRM</div></td>
-                                        <td>PARALLEL SHANK DRILL HSS GROUND FLUTE JOBBER REGULAR 0.5MM SIZE DIA METRIC STANDARD</td>
-                                        <td>
-                                            <div align="center">
-                                                <button type="button" class="btn btn-primary btn-xs" onclick="window.open('https://decintellai.com/ui/all-Modules/UI_Repository/pdf/04FLF2AS.pdf','_blank')" title="Download the file"> Download </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center">12</div></td>
-                                        <td><div align="left">Drills</div></td>
-                                        <td><div align="center">D0076TRRM</div></td>
-                                        <td>TOOL BIT DRILL ROUND REGULAR 0.76 MM SIZE DIA BS STANDARD</td>
-                                        <td>
-                                            <div align="center">
-                                                <button type="button" class="btn btn-primary btn-xs" onclick="window.open('https://decintellai.com/ui/all-Modules/UI_Repository/pdf/04FLF2AS.pdf','_blank')" title="Download the file"> Download </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center">13</div></td>
-                                        <td><div align="left">Taps</div></td>
-                                        <td><div align="center">T0315THRM</div></td>
-                                        <td>TAPS HAND TAPS REGULAR03.15 MM NOMINAL DIA METRIC STANDARD</td>
-                                        <td>
-                                            <div align="center">
-                                                <button type="button" class="btn btn-primary btn-xs" onclick="window.open('https://decintellai.com/ui/all-Modules/UI_Repository/pdf/04FLF2AS.pdf','_blank')" title="Download the file"> Download </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center">14</div></td>
-                                        <td><div align="left">Dies</div></td>
-                                        <td><div align="center">D0100SDRM</div></td>
-                                        <td>DIES SCREWING REGULAR M1 SIZE METRIC STANDARD</td>
-                                        <td>
-                                            <div align="center">
-                                                <button type="button" class="btn btn-primary btn-xs" onclick="window.open('https://decintellai.com/ui/all-Modules/UI_Repository/pdf/04FLF2AS.pdf','_blank')" title="Download the file"> Download </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><div align="center">15</div></td>
-                                        <td><div align="left">Drills</div></td>
-                                        <td><div align="center">D0300CCRM</div></td>
-                                        <td>CARBIDE BURR CONE SHAPE REGULAR 3 MM HEAD DIA SINGLE CUT</td>
-                                        <td>
-                                            <div align="center">
-                                                <button type="button" class="btn btn-primary btn-xs" onclick="window.open('https://decintellai.com/ui/all-Modules/UI_Repository/pdf/04FLF2AS.pdf','_blank')" title="Download the file"> Download </button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    @if (Model.DrawingDetails != null)
+                                    {
+                                        foreach (var item in Model.DrawingDetails.Where(x => x.GridNo == 3))
+                                        {
+                                            <tr>
+
+                                                <td>
+                                                    <div align="center">@item.Id</div>
+                                                </td>
+
+                                                <td>
+                                                    <div align="left">@item.ProductLine</div>
+                                                </td>
+
+                                                <td>
+                                                    <div align="center">@item.SKUCode</div>
+                                                </td>
+
+                                                <td>
+                                                    <div align="left">@item.SKUDesc</div>
+                                                </td>
+
+                                                <td>
+                                                    <div align="center">
+                                                        <button type="button"
+                                                                class="btn btn-primary btn-xs"
+                                                                onclick="window.open('https://decintellai.com/ui/all-Modules/UI_Repository/pdf/04FLF2AS.pdf','_blank')"
+                                                                title="Download the file">
+                                                            Download
+                                                        </button>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+
                                 </tbody>
                             </table>
                         </div>
@@ -1221,3 +1076,61 @@
 
     <!-- InstanceEndEditable -->
 </div>
+<script>
+        function UpdateDrawingStatus(DrawingId, StatusID, SKUKey) {
+
+
+
+
+
+        var Remark = $('#textRemark').val();
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+        let jsonData = { ID: DrawingId, StatusID: StatusID, CreatedBy: iLoggedInUserID, Remark: Remark };
+        var JSONInformation = JSON.stringify(jsonData);
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("UpdateDrawingStatus", "Master")',
+            data: { JSONData: JSONInformation },
+            dataType: 'json',
+            success: function (data) {
+                alert(data.response);
+                window.location.reload();
+            },
+            error: function (err) {
+                alert(err.statusText);
+            }
+        });
+    }
+    function RequestApprovalRejection(flag) {
+        var Remark = $("#txtRemark").val();
+
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+        var StatusID ;
+
+        if (flag == 0)
+            StatusID = 4;
+        else
+            StatusID = 3;
+
+        var json = { ID: currentDrawingId, StatusID: StatusID, CreatedBy: iLoggedInUserID, Remark: Remark };
+
+        var JSONInsert = JSON.stringify(json);
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("UpdateDrawingStatus", "Master")',
+            data: { JsonData: JSONInsert },
+            datatype: 'json',
+            success: function (data) {
+                alert(data.response);
+                window.location.reload();
+            },
+            error: function () {
+                alert('Error occurred while processing your request.');
+            }
+        });
+
+
+
+    }
+</script>

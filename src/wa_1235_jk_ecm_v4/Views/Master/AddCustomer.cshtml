@@ -60,14 +60,20 @@
                             <input type="hidden" id="URLGroupName" value="@ViewBag.CustomerId" />
                             <div class="row">
                                     <div class="form-group col-md-2">
-                                        <label for="">Product Line</label>
-                                        <select class="form-control select2" id="dllProductLine">
-                                            <option>Select</option>
-                                            <option>DRILLS </option>
-                                            <option>TAPS </option>
-                                            <option>DIES </option>
-
+                                     @* 
+                                        <label>Product Line</label>
+                                        @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "Id", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline", onchange = "clearError('spddlproductline')" })
+                                        <span id="spddlproductline" class="text-danger"></span>
+ *@                                      <label for="">Product Line</label>
+                                        <select id="ddlproductline" multiple="multiple" class="form-control select2">
+                                            <option></option>
+                                            @foreach (var item in Model.ProdLine_List)
+                                            {
+                                                <option value="@item.ProductLineCode">@item.ProductLine</option>
+                                            }
                                         </select>
+                                        <span id="spddlproductline" class="text-danger"></span>
+
                                     </div>
                                 <div class="form-group col-md-2">
                                     <label>Customer Code  </label>
@@ -323,7 +329,7 @@
     function AddCustomerData() {
         var CustomerName = $("#txtCustomer").val();
         var CustomerCode = $("#txtCustomerCode").val();
-
+       var ProductLine = $("#ddlproductline").val() || [];
         var CustomerRejectionPercent = parseFloat($("#txtCustomerRejectionPercent").val().replace(/,/g, ''));
         var CustomerPackingDays = parseInt($("#txtCustomerPackingDays").val());
 
@@ -339,7 +345,16 @@
             $("#sptxtCustomer").html("");
           //  ValidationFlag = false;
         }
+        if (ProductLine == "") {
+            $("#spddlproductline").html("Enter Product Line");
+            $("#spddlproductline").css("display", "block");
+            ValidationFlag = true;
 
+        }
+        else {
+            $("#spddlproductline").html("");
+          //  ValidationFlag = false;
+        }
         if (CustomerCode == "") {
             $("#sptxtCustomerCode").html("Enter Customer Code");
             $("#sptxtCustomerCode").css("display", "block");
@@ -392,6 +407,7 @@
             let CustomerDetailsJson = {
                 CustomerPct: CustomerRejectionPercent,
                 PackingDays: CustomerPackingDays,
+                ProductLine:ProductLine,
                 CreatedBy: iLoggedInUserID,
                 CreatedDate: moment.utc(new Date()).format()
 

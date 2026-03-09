@@ -1,0 +1,1338 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.DrillMaster
+@{
+    ViewData["Title"] = "DrillAddType";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>Add</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item active">Masters</li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("DrillType", "DrillMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Type</a></li>
+                        <li class="breadcrumb-item active">Add </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button" class="btn btn-block bg-gradient-danger btn-xs float-left"
+                                onclick="history.back()" id="btnback" title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+
+                </div>
+
+            </div><!-- /.container-fluid -->
+        </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div id="typeAccordion">
+          @*   <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline p-a-2" style="height: 100%;">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+
+                            <div class="col-md-12 mr-1">
+
+                                <div class="row">
+                                    <div class="form-group col-md-2">
+                                        <label>Product Line</label>
+                                        @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "Id", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline", onchange = "clearError('spddlproductline')" })
+                                        <span id="spddlproductline" class="text-danger"></span>
+
+
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Type</label>
+                                        <input type="text" class="form-control" id="TxtFileType">
+                                        <input type="hidden" id="hdnSizeId">
+                                        <span id="spTxtFileType" class="text-danger"></span>
+                                    </div>
+
+                                   @*  <div class="form-group col-md-1">
+                                        <label>Type Code</label>
+
+                                        <input type="text" class="form-control" id="TxtFileTypeCode" oninput="validateInputCode()">
+                                        <span id="spTxtFileTypeCode" class="text-danger"></span>
+                                    </div> 
+
+                                    <div class="form-group col-md-3">
+                                        <label class="control-label padd0">Upload Images</label> &nbsp;
+                                        <div class="input-group">
+                                            <div class="custom-file">
+
+                                                <input name="" type="file" class="custom-file-input" id="FileUploadIMG">
+                                                <label class="custom-file-label" for="FileUploadIMG">Choose file</label>
+
+                                            </div>
+                                            <input type="hidden" id="hdnExistingImage">
+                                        </div>
+                                        <span id="spTxtFileUploadIMG" class="text-danger"></span>
+                                    </div>
+
+                                     <div class="form-group col-md-3">
+                                        <label class="control-label padd0">Upload CSV</label> &nbsp;
+                                        <div class="input-group">
+                                            <div class="custom-file">
+                                                <input name="" type="file" id="FileUploadCSV" class="custom-file-input">
+                                                <label class="custom-file-label" for="FileUploadCSV">Choose file</label>
+
+                                            </div>
+                                        </div>
+                                        <span id="spTxtFileUploadCSV" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="btnwidth50 float-right mr-1 " style="margin-top:35px;">
+                                        <button type="button" id="btnsubmit" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                                                onClick="SaveData()" title="Go to the next page">
+                                            Submit
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                                 <div class="form-group row">
+
+                                    <div class="col-md-4">
+                                        <label>Download Reference CSV Type Code</label>
+                                        @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.FileTypeMasters, "ID", "FileTypeNamecode"), "Select", new { @class = "form-control select2", @id = "ddlFileTypeCVS" })
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <button type="button"
+                                                class="btn btn-primary btn-xs " id="downloadButton" onclick="convertJSONToCSV()"
+                                                title="Download the file" style="margin-top:35px;">
+                                            Download
+                                        </button>
+                                    </div>
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div> *@
+
+                <div id="typeAccordion">
+
+                    <!-- ================= FIRST CARD ================= -->
+                    <div class="card card-primary card-outline">
+
+                        <div class="card-header">
+                            <h3 class="card-title">Upload Type Parameter</h3>
+
+                            <div class="card-tools">
+                                <button type="button"
+                                        class="btn btn-tool toggle-btn"
+                                        data-toggle="collapse"
+                                        data-target="#collapseOne">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="collapseOne" class="collapse show" data-parent="#typeAccordion">
+                            <div class="card-body">
+
+                                <!-- ===== YOUR FULL FIRST CARD BODY (UNCHANGED) ===== -->
+
+                                <div class="col-md-12 mr-1">
+                                    <div class="row">
+
+                                        <div class="form-group col-md-2">
+                                            <label>Product Line</label>
+                                            @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "Id", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline", onchange = "clearError('spddlproductline')" })
+                                            <span id="spddlproductline" class="text-danger"></span>
+
+
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label>Type</label>
+                                            @* <input type="text" class="form-control" id=""> *@
+                                            <select id="TxtFileType" class="form-control select2" onchange="onTypeChange()">
+                                                <option value="">Select</option>
+
+                                                @foreach (var item in Model.TypeDropdown)
+                                                {
+                                                    <option value="@item.Id" data-code="@item.CTTypeCode">
+                                                        @item.CTTypeName
+                                                    </option>
+                                                }
+                                            </select>
+                                            <input type="hidden" id="hdnFileCode" />
+                                            <span id="spTxtFileType" class="text-danger"></span>
+                                        </div>
+                                        
+                                        <div class="form-group col-md-3">
+                                            <label class="control-label padd0">Upload CSV</label> &nbsp;
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input name="" type="file" id="FileUploadCSV" class="custom-file-input">
+                                                    <label class="custom-file-label" for="FileUploadCSV">Choose file</label>
+
+                                                </div>
+                                            </div>
+                                            <span id="spTxtFileUploadCSV" class="text-danger"></span>
+                                        </div>
+
+
+                                        <div class="float-right mr-1" style="margin-top:34px;">
+                                            <button type="button" id="btnAdd"
+                                                    class="btn btn-block bg-gradient-primary btn-xs float-left" >
+                                                Add
+                                            </button>
+                                           @*  <button type="button" id="btnsubmit" class="btn btn-block bg-gradient-primary btn-xs float-left"
+                                                    onClick="SaveData()" title="Go to the next page">
+                                                Add
+                                            </button> *@
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group row">
+
+                                        <div class="col-md-4">
+                                            <label>Download Reference CSV Type Code</label>
+                                            @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.FileTypeMasters, "ID", "FileTypeNamecode"), "Select", new { @class = "form-control select2", @id = "ddlFileTypeCVS" })
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <button type="button"
+                                                    class="btn btn-primary btn-xs " id="downloadButton" onclick="convertJSONToCSV()"
+                                                    title="Download the file" style="margin-top:35px;">
+                                                Download
+                                            </button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card card-primary card-outline">
+
+                        <div class="card-header">
+                            <h3 class="card-title">Add Type Parameter</h3>
+
+                            <div class="card-tools">
+                                <button type="button"
+                                        class="btn btn-tool toggle-btn"
+                                        data-toggle="collapse"
+                                        data-target="#collapseTwo">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="collapseTwo" class="collapse" data-parent="#typeAccordion">
+                            <div class="card-body">
+
+                                <!-- ===== YOUR FULL SECOND CARD BODY (UNCHANGED STRUCTURE) ===== -->
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card card-primary" style="height: 100%;">
+
+                                            <!-- /.card-header -->
+                                            <div class="card-body">
+
+                                                <div class="col-md-12 mr-1">
+
+                                                    <div class="row">
+
+
+                                                        <div class="form-group col-md-2">
+                                                            <label>Product Line</label>
+                                                            @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "Id", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline", onchange = "clearError('spddlproductline')" })
+                                                            <span id="spddlproductline" class="text-danger"></span>
+
+
+                                                        </div>
+                                                        <div class="form-group col-md-2">
+                                                            <label>Type</label>
+                                                            @* <input type="text" class="form-control" id=""> *@
+                                                            <select id="TxtFileType" class="form-control select2" onchange="onTypeChange()">
+                                                                <option value="">Select</option>
+
+                                                                @foreach (var item in Model.TypeDropdown)
+                                                                {
+                                                                    <option value="@item.Id" data-code="@item.CTTypeCode">
+                                                                        @item.CTTypeName
+                                                                    </option>
+                                                                }
+                                                            </select>
+                                                            <input type="hidden" id="hdnFileCode" />
+                                                            <span id="spTxtFileType" class="text-danger"></span>
+                                                        </div>
+
+
+
+
+                                                        <div class="form-group col-md-12">
+                                                            <label>Process name </label>
+                                                            <input id="txtProcess" maxlength="50" name="" type="text" class="form-control" />
+                                                            <span id="sptxtProcess" class="text-danger"></span>
+                                                        </div>
+
+
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card card-primary" style="height: 100%;">
+
+                                            <!-- /.card-header -->
+                                            <div class="card-body">
+
+                                                <div class="col-md-12 mr-1">
+
+                                                    <div class="row">
+                                                        <div class="form-group col-md-4">
+                                                            <label>Parameter name </label>
+                                                            <input id="txtParameter" maxlength="50" name="" type="text" class="form-control" />
+                                                            <span id="sptxtParameter" class="text-danger"></span>
+                                                        </div>
+
+                                                        <div class="form-group col-md-4">
+                                                            <label>Parameter Code </label>
+                                                            <input id="txtCode" maxlength="50" name="" type="text" class="form-control" />
+                                                            <span id="sptxtCode" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label>Parameter UOM </label>
+                                                            <select class="form-control select2">
+                                                                <option>Select</option>
+                                                                <option selected>mm </option>
+                                                                <option>cm </option>
+                                                                <option>km </option>
+
+                                                            </select>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-12 mr-1">
+
+                                                    <div class="row">
+                                                        <div class="col-md-5" form-group style="margin-top: 30px; width: 50%;">
+
+                                                            <table width="90%" border="0" cellspacing="0" cellpadding="0">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <div class="custom-control custom-radio">
+                                                                                <input class="custom-control-input" type="radio" id="customRadio1" name="customRadio">
+                                                                                <label for="customRadio1" class="custom-control-label">
+                                                                                    Nominal
+                                                                                </label>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="custom-control custom-radio">
+                                                                                <input class="custom-control-input" type="radio" id="customRadio2" name="customRadio">
+                                                                                <label for="customRadio2" class="custom-control-label">Range</label>
+                                                                            </div>
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                </tbody>
+                                                            </table>
+
+
+
+
+
+                                                        </div>
+
+                                                        <!--   <div class="col-md-1 form-group" style="margin-top: 30px;">
+                                                          <div class="custom-control custom-checkbox">
+                                                                                      <input class="custom-control-input" type="checkbox" id="customCheckbox1" value="option2">
+                                                                                      <label for="customCheckbox1" class="custom-control-label">Nominal</label>
+                                                                                    </div>
+                                                        </div>-->
+                                                        <!--<div class="col-md-1 form-group" style="margin-top: 30px;">
+                                                          <div class="custom-control custom-checkbox">
+                                                                                      <input class="custom-control-input" type="checkbox" id="customCheckbox2" value="option2">
+                                                                                      <label for="customCheckbox2" class="custom-control-label">Range</label>
+                                                                                    </div>
+                                                        </div>-->
+
+                                                        <div class="form-group " style="margin-top: 30px;">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input class="custom-control-input" type="checkbox" id="customCheckbox3" value="option2">
+                                                                <label for="customCheckbox3" class="custom-control-label">key dimention</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class=" float-left ml-3" style="margin-top:30px; display:block;">
+                                                            <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                                                                    onclick="location.href='Type-Attribute.html'" title="Submit">
+                                                                Add
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-12 mt-3">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered example1" id="tblCSVData">
+                                                <thead>
+                                                    <tr>
+                                                       @*  <th>Product Line</th>
+                                                        <th>Type</th> *@
+                                                        <th>Process Sequence</th>
+                                                        <th>Process Name</th>
+                                                        <th>Parameter Name</th>
+                                                        <th>Parameter Code</th>
+                                                        <th>Parameter UOM</th>
+                                                        <th>Range</th>
+                                                        <th>Nominal</th>
+                                                        <th>Key Dimension</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody id="tblBodyCSV">
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+
+                                        <div class=" float-right ml-1" style="margin-top:30px; display:block;">
+                                            <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left" style="display:none;"
+                                                    onclick="SubmitForApproval()" title="Go to the next page">
+                                                Submit for Approval
+                                            </button>
+                                          @*   <button type="button" class="btn btn-primary btn-xs btnwidth95" onclick="ApproveFileType(@item.TypeDetailsRowId,2);">
+                                                Submit for Approval
+                                            </button> *@
+                                        </div>
+
+                                        <div class=" float-right ml-3" style="margin-top:30px; display:block;">
+                                            <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left" id="btnSave"
+                                                    onClick="SaveData()" title="Go to the next page">
+                                                Save
+                                            </button>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            </div>
+       
+        
+    </section>
+</div>
+
+<script>
+        function SubmitForApproval() {
+
+        // 🔹 Get type code (TY / JB etc)
+        
+        var FileType = $("#TxtFileType option:selected").text().trim();
+
+    // Extract TY from "Cutting -TY"
+        var FileTypeCode = FileType.split('-').pop().trim();
+        if (!FileType) {
+            alert("Type Code not found.");
+            return;
+        }
+
+        var iLoggedInUserID =
+            parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+        var jsonData = JSON.stringify({
+            CTTypeCode: FileTypeCode,
+            StatusName: "PendingForApproval",
+            CreatedBy: iLoggedInUserID,
+            Remark: ""
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("UpdateTypeStatus", "DrillMaster")',
+            data: { JsonData: jsonData },
+            dataType: "json",
+
+            beforeSend: function () {
+                $('#loader').show();
+            },
+
+            complete: function () {
+                $('#loader').hide();
+            },
+
+            success: function (data) {
+
+                if (data && data.response === "Status Updated Successfully") {
+
+                    alert("Submitted for approval successfully.");
+
+                    // redirect (optional)
+                    location.reload();
+                }
+                else {
+                    alert(data.response || "Something went wrong.");
+                }
+            },
+
+            error: function (xhr) {
+                alert("Error while updating status.");
+                console.error(xhr.responseText);
+            }
+        });
+    }
+        function onTypeChange() {
+
+        var selectedOption = $('#TxtFileType option:selected');
+
+        var fileCode = selectedOption.data("code");
+
+        $("#hdnFileCode").val(fileCode);
+
+        console.log("Selected File Code:", fileCode);
+    }
+        $("#btnAdd").click(function () {
+        readCSVFile();
+    });
+           function readCSVFile() {
+
+        var fileInput = document.getElementById("FileUploadCSV");
+
+        if (fileInput.files.length === 0) {
+            alert("Please select CSV file.");
+            return;
+        }
+
+        var file = fileInput.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+
+            var csv = e.target.result;
+
+            // split lines safely
+            var rows = csv.split(/\r?\n/);
+
+            var table = $('#tblCSVData').DataTable();
+
+            table.clear();
+
+            for (var i = 1; i < rows.length; i++) {
+
+                if (!rows[i].trim()) continue;
+
+                // basic split
+                var cols = rows[i].split(",");
+
+                if (cols.length < 8) continue;
+
+                table.row.add([
+                    cols[0]?.trim() || "",
+                    cols[1]?.trim() || "",
+                    cols[2]?.trim() || "",
+                    cols[3]?.trim() || "",
+                    cols[4]?.trim() || "",
+                    cols[5]?.trim() || "",
+                    cols[6]?.trim() || "",
+                    cols[7]?.trim() || ""
+                ]);
+            }
+
+            table.draw();
+        };
+
+        reader.readAsText(file);
+    }
+    //   function validateInputCode() {
+    //     var inputElement = document.getElementById('TxtFileTypeCode');
+    //     var inputValue = inputElement.value.trim();
+
+    //     if (inputValue.length === 2 || inputValue === '') {
+    //         // Clear previous error message
+    //         document.getElementById('spTxtFileTypeCode').innerText = '';
+    //     } else {
+    //         // Display error message for invalid input
+    //         document.getElementById('spTxtFileTypeCode').innerText = 'Only two characters/digits are allowed.';
+    //         // Trim input value to ensure only two characters are retained
+    //         inputElement.value = inputValue.substring(0, 2);
+    //     }
+    // }
+    function CutSideTabledata() {
+        // Get selected values from dropdowns
+        var selectedCutSides = $("#TxtCutSide").val();
+        var selectedCutOnSides = $("#TxtCutonside").val();
+
+        // Clear existing table rows
+        $("#TableCutSide tbody").empty();
+
+        // Check if at least one option is selected from both dropdowns
+        if (selectedCutSides.length > 0 && selectedCutOnSides.length > 0) {
+            // Loop through each selected Cut Side
+            selectedCutSides.forEach(function (cutSideID) {
+                var cutSideName = $("#TxtCutSide option[value='" + cutSideID + "']").text();
+
+                // Loop through each selected Cut On Side
+                selectedCutOnSides.forEach(function (cutOnSideID) {
+                    var cutOnSideName = $("#TxtCutonside option[value='" + cutOnSideID + "']").text();
+
+                    var row = "<tr>";
+                    row += "<td>" + cutSideName + "</td>";
+                    row += "<td style='display:none;'>" + cutSideID + "</td>";
+                    row += "<td>" + cutOnSideName + "</td>";
+                    row += "<td style='display:none;'>" + cutOnSideID + "</td>";
+
+                    // Create delete button icon
+                    var deleteIconLink = $('<a></a>').attr('href', '#').addClass('fa-i-small redbt top10');
+                    deleteIconLink.append($('<img>').attr('src', '../decintell/icons/delete.png').addClass('img-responsive'));
+                    var deleteIconDiv = $('<div></div>').css({ 'margin-left': 'auto', 'margin-right': 'auto', 'float': 'none', 'display': 'table' });
+                    deleteIconDiv.append(deleteIconLink);
+                    var deleteButtonCell = $('<td align="center"></td>').append(deleteIconDiv);
+                    row += deleteButtonCell.prop('outerHTML'); // Append delete button cell HTML to the row
+
+                    row += "</tr>";
+
+                    $("#TableCutSide tbody").append(row);
+                });
+            });
+        } else {
+            alert("Please select at least one option from both dropdowns.");
+        }
+    }
+
+</script>
+
+<script>
+        async function SaveData() {
+
+        let ProductLineId = $("#ddlproductline").val();
+        let productLineText = $("#ddlproductline option:selected").text();
+
+        // var FileType = $("#TxtFileType option:selected").text();
+        // var FileTypeCode = $("#hdnFileCode").val();
+            var FileType = $("#TxtFileType option:selected").text().trim();
+
+    // Extract TY from "Cutting -TY"
+    var FileTypeCode = FileType.split('-').pop().trim();
+        var filenameCSV =
+            ($('#FileUploadCSV')[0].files[0])
+                ? $('#FileUploadCSV')[0].files[0].name
+                : '';
+
+        var ValidationFlag = false;
+
+        // ===== VALIDATION =====
+
+        if (!ProductLineId || ProductLineId === "Select") {
+            $("#spddlproductline").text("Product Line is required.");
+            ValidationFlag = true;
+        }
+
+        if (FileType === "") {
+            $("#spTxtFileType").html("Enter Type");
+            ValidationFlag = true;
+        }
+
+        if (!filenameCSV) {
+            $("#spTxtFileUploadCSV").html("Select CSV File");
+            ValidationFlag = true;
+        }
+
+        if (ValidationFlag) return;
+
+        var fileInput = document.getElementById('FileUploadCSV');
+        var file = fileInput.files[0];
+
+        var reader = new FileReader();
+
+        reader.onload = function (event) {
+
+            var csvContent = event.target.result;
+            var jsonArray = csvToJson(csvContent);
+
+            // ===== HEADER NORMALIZATION =====
+            function normalizeKey(key) {
+                return key.replace(/[\s_\-]/g, '').toLowerCase().trim();
+            }
+
+            function getValue(obj, keys) {
+                for (let k of keys) {
+                    let nk = normalizeKey(k);
+                    if (obj[nk] !== undefined)
+                        return obj[nk];
+                }
+                return "";
+            }
+
+            function toBit(val) {
+                if (!val) return 0;
+                val = val.toString().toLowerCase().trim();
+                return (val == "1" || val == "yes" || val == "true") ? 1 : 0;
+            }
+
+            // ===== BUILD CSV ROW JSON =====
+            var detailRows = jsonArray.map(row => {
+
+                let normalized = {};
+
+                Object.keys(row).forEach(k => {
+                    normalized[normalizeKey(k)] = row[k];
+                });
+
+                return {
+
+                    ProcessSequence: getValue(normalized, [
+                        "Process Sequence",
+                        "ProcessSequence"
+                    ]),
+
+                    ProcessName: getValue(normalized, [
+                        "ProcessName"
+                    ]),
+
+                    ParamName: getValue(normalized, [
+                        "ParamName"
+                    ]),
+
+                    ParamCode: getValue(normalized, [
+                        "ParamCode"
+                    ]),
+
+                    ParamUOM: getValue(normalized, [
+                        "ParamUOM"
+                    ]),
+
+                    Range: toBit(getValue(normalized, ["Range"])),
+                    Nominal: toBit(getValue(normalized, ["Nominal"])),
+                    KeyDimension: toBit(getValue(normalized, ["KeyDimension"]))
+                };
+            });
+
+            // ===== FINAL JSON WRAPPER =====
+            var finalJson = {
+
+                CsvFileName: filenameCSV,
+                ProductLine: productLineText,
+                CTTypeCode: FileTypeCode,
+
+                Details: detailRows
+            };
+
+            console.log("FINAL JSON =>", finalJson);
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("InsertCSVTypeDetails", "DrillMaster")',
+                data: { JsonData: JSON.stringify(finalJson) },
+                dataType: "json",
+                beforeSend: function () { $('#loader').show(); },
+                complete: function () { $('#loader').hide(); },
+
+                success: function (data) {
+
+                    if (data && data.response === "Insert Successfully") {
+                        alert("Type added successfully.");
+
+                        window.location.href =
+                            '@Url.Action("CTTypeParameter", "DrillMaster")';
+                    }
+                    else {
+                        alert(data.response || "Error");
+                    }
+                },
+                error: function (xhr) {
+                    console.error(xhr.responseText);
+                    alert("Error while saving.");
+                }
+            });
+
+        };
+
+        reader.readAsText(file);
+    }
+    // async function SaveData() {
+    //      // Read values from UI
+    //     let ProductLineId = $("#ddlproductline").val();
+    //     let productLineText = $("#ddlproductline option:selected").text();
+    //     var FileType = $("#TxtFileType option:selected").text();
+    //    var FileTypeCode = $("#hdnFileCode").val();
+    //    FileTypeId=$("#TxtFileType").val();
+    //    var filenameCSV = ($('#FileUploadCSV')[0].files[0]) ? $('#FileUploadCSV')[0].files[0].name : '';
+    //     //var filenameIMG = ($('#FileUploadIMG')[0].files[0]) ? $('#FileUploadIMG')[0].files[0].name : '';
+
+    //     var ValidationFlag = false;
+
+    //     // Validation
+    //     if (!ProductLineId || ProductLineId === "Select") {
+    //         $("#spddlproductline").text("Product Line is required.");
+    //         ValidationFlag = false;
+    //     }
+
+    //     // Validate FileType
+    //     if (FileType === "") {
+    //         $("#spTxtFileType").html("Enter Type");
+    //         $("#spTxtFileType").css("display", "block");
+    //         ValidationFlag = true;
+    //     } else {
+    //         $("#spTxtFileType").html("");
+    //     }
+
+        
+       
+    //     //Validate CSV file
+    //     if (!filenameCSV) {
+    //         $("#spTxtFileUploadCSV").html("Select CSV File");
+    //         $("#spTxtFileUploadCSV").css("display", "block");
+    //         ValidationFlag = true;
+    //     } else {
+    //         $("#spTxtFileUploadCSV").html("");
+    //     }
+
+
+
+    //     if (ValidationFlag) {
+    //         return; // Don't proceed further if any validation fails
+    //     }
+
+    //     var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+    //     var CreatedDate = moment.utc(new Date()).format();
+
+
+    //     var fileInput = document.getElementById('FileUploadCSV');
+    //     if (fileInput.files.length === 0) {
+    //         alert('Please select a file!');
+    //         return;
+    //     }
+
+    //     var formData = new FormData();
+    //     formData.append('file', fileInput.files[0]);
+
+
+    //     // Ensure a file has been selected
+    //     if (fileInput.files.length === 0) {
+    //         alert('Please select a CSV file.');
+    //         return;
+    //     }
+
+    //     var file = fileInput.files[0];
+    //     var reader = new FileReader();
+    //     var jsonArrayObj = [];
+
+    //     // When file is loaded, process its content
+    //     reader.onload = function (event) {
+    //             var csvContent = event.target.result;
+    // var jsonArray = csvToJson(csvContent);
+
+    // // normalize CSV headers (VERY IMPORTANT)
+    //    function normalizeKey(key) {
+    //     return key.replace(/[\s_\-]/g, '').toLowerCase().trim();
+    // }
+
+    // function getValue(obj, possibleKeys) {
+    //     for (let k of possibleKeys) {
+    //         let nk = normalizeKey(k);
+    //         if (obj[nk] !== undefined && obj[nk] !== null)
+    //             return obj[nk];
+    //     }
+    //     return "";
+    // }
+    //     function toBit(val) {
+
+    //     if (val === undefined || val === null || val === "")
+    //         return 0;
+
+    //     val = val.toString().trim().toLowerCase();
+
+    //     if (val === "1" || val === "yes" || val === "true" || val === "y")
+    //         return 1;
+
+    //     return 0;
+    // }
+    // var finalJson = jsonArray.map(row => {
+
+    //     // normalize all headers once
+    //     let normalized = {};
+    //     Object.keys(row).forEach(k => {
+    //         normalized[normalizeKey(k)] = row[k];
+    //     });
+
+    //     return {
+    //         ProductLine: productLineText,
+    //         CTTypeCode: FileTypeCode,
+
+    //         // 🔥 AUTO HEADER MATCHING
+    //               ProcessSequence
+    // : getValue(normalized, [
+    //                 "Process Sequence",
+    //                 "ProcessSequence"
+
+    //         ]),
+
+    //         ProcessName: getValue(normalized, [
+    //             "ProcessName",
+    //             "Process Name",
+    //             "Process"
+    //         ]),
+
+    //         ParamName: getValue(normalized, [
+    //             "ParamName",
+    //             "ParameterName",
+    //             "Parameter Name"
+    //         ]),
+
+    //         ParamCode: getValue(normalized, [
+    //             "ParamCode",
+    //             "ParameterCode",
+    //             "Parameter Code"
+    //         ]),
+
+    //         ParamUOM: getValue(normalized, [
+    //             "ParamUOM",
+    //             "ParameterUOM",
+    //             "Parameter UOM",
+    //             "UOM"
+    //         ]),
+
+    //            Range: toBit(
+    //     getValue(normalized, ["Range"])
+    // ),
+
+    // Nominal: toBit(
+    //     getValue(normalized, ["Nominal"])
+    // ),
+
+    // KeyDimension: toBit(
+    //     getValue(normalized, [
+    //         "KeyDimension",
+    //         "Key Dimension",
+    //         "KeyDim"
+    //     ])
+    // )
+    //     };
+    // });
+
+    //             console.log("Final JSON:", finalJson);
+
+    //             var jsonData = JSON.stringify(finalJson);
+
+    //         $.ajax({
+    //             type: "POST",
+    //             url: '@Url.Action("InsertCSVTypeDetails", "DrillMaster")',
+    //             data: { JsonData: jsonData },
+    //             dataType: 'json',
+    //             beforeSend: function () { $('#loader').show(); },
+    //             complete: function () { $('#loader').hide(); },
+    //             success: async function (data) {
+    //                 if (data && data.response === "Insert Successfully") {
+
+
+                       
+    //                     alert("Type added successfully.");
+    //                    var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+    //                    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+    //                    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+    //                    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+    //                    // Construct the full URL
+    //                    var url = '@Url.Action("CTTypeParameter", "DrillMaster")' +
+    //                        '?PageID=' + pageID +
+    //                        '&ParentID=' + parentID +
+    //                        '&ModuleID=' + moduleID +
+    //                        '&ModulePageID=' + modulePageID;
+
+    //                    // Redirect
+    //                    window.location.href = url;
+    //                 } else {
+    //                     alert("Type Code already exist");
+
+    //                 }
+    //             },
+    //             error: function (xhr, status, error) {
+    //                 alert("Error occurred while saving Type.");
+    //                 console.error(xhr.responseText);
+    //             }
+    //         });
+    //    };
+
+    //     // Read the file as text
+    //     reader.readAsText(file);
+
+
+    // }
+
+
+      // Function to convert CSV to JSON
+    function csvToJson(csv) {
+        // Split the CSV by newlines to get each row
+        var lines = csv.split("\n");
+
+        // Get the headers from the first row
+        var headers = lines[0].split(",");
+
+        var jsonArray = [];
+
+        // Loop through the remaining lines to convert each to a JSON object
+        for (var i = 1; i < lines.length; i++) {
+            var line = lines[i].trim();
+
+            // Skip empty lines
+            if (line === "") continue;
+
+            var values = line.split(",");
+            var jsonObject = {};
+
+            // Assign the values to the appropriate headers
+            for (var j = 0; j < headers.length; j++) {
+                jsonObject[headers[j].trim()] = values[j] ? values[j].trim() : null;
+            }
+
+            // Push the JSON object to the array
+            jsonArray.push(jsonObject);
+        }
+
+        return jsonArray;
+    }
+
+      async function copyFile(fileInput, path, imageName) {
+        var JwToken = '@ViewBag.JWTToken';
+      var blobStorageUrl = '@ViewBag.ApiUrl';
+      let blobPathPrefix = '@ViewBag.BaseBlobPath';
+        var formdata = new FormData();
+        // ✅ Append file correctly
+        formdata.append("files", fileInput, imageName); // << change 'files' → 'file'
+
+       // let blobPathPrefix = '@ViewBag.BaseBlobPath';
+        blobPathPrefix = (blobPathPrefix || "").replace(/\\/g, "/").trim();
+        if (blobPathPrefix.length > 0 && !blobPathPrefix.endsWith("/")) {
+            blobPathPrefix += "/";
+        }
+        //    normalizePathPrefix(path)
+        var Patths = blobPathPrefix + normalizePathPrefix(path.toLowerCase());
+        formdata.append("blobPathPrefix", Patths);
+        formdata.append("Policy", 0);
+
+
+        $.ajax({
+            url: blobStorageUrl + 'Files/upload',
+            headers: {
+                Authorization: 'Bearer ' + JwToken
+            },
+            method: "POST",
+            contentType: false, // Not to set any content header
+            processData: false, // Not to process data
+            mimeType: "multipart/form-data",
+            data: formdata,
+            //async: false,
+            success: function (result) {
+                let jsonResult = JSON.parse(result); // serialize into JSON string
+                if (jsonResult && jsonResult.length > 0) {
+                    let json = {
+                      //  UserId: parseInt(CreatedBy),
+                        ImageName: imageName,
+                        BlobJson: result,
+                    };
+
+                    var Jsons = JSON.stringify(json);
+                    console.log(`uploading: ${Jsons}`);
+
+
+
+                }
+
+            },
+            error: function (err) {
+                alert(err.message);
+            }
+        });
+
+
+    }
+        function convertJSONToCSV() {
+        var FileTypeId = $('#ddlFileTypeCVS').val();
+        var FileTypeName = $('#ddlFileTypeCVS option:selected').text().trim(); // Get text for filename
+
+        var JsonData = JSON.stringify({
+            ID: FileTypeId
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("CT_GetTypeParametersList", "DrillMaster")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                var JsonData1 = data.response;
+                var JsonData = JSON.stringify({
+                    JsonData: JsonData1
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("DownloadExcel", "Master")',
+                    data: { JsonData: JsonData },
+                    xhrFields: {
+                        responseType: 'blob'
+                    },
+                    success: function (response) {
+                        const blob = new Blob([response], { type: 'text/csv' });
+                        const url = window.URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+
+                        // Set filename based on dropdown text (sanitize if needed)
+                        const fileName = FileTypeName.replace(/[^\w\-]/g, '_') + '.csv';
+
+                        link.href = url;
+                        link.setAttribute('download', fileName);
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        window.URL.revokeObjectURL(url); // Clean up blob URL
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error occurred:", error);
+                        alert("An error occurred while downloading the file.");
+                    }
+                });
+            },
+            error: function () {
+                alert('Error occurred while fetching data.');
+            }
+        });
+    }
+
+</script>
+<script>
+    function LoadEditFileSize(TypeId) {
+
+           let json = {
+               TxnId: TypeId
+           };
+
+           $.ajax({
+               type: "POST",
+               url: '@Url.Action("GetDroFileTypeListId", "DrillMaster")',
+               data: { JsonData: JSON.stringify(json) },
+               dataType: "json",
+               beforeSend: function () { $('#loader').show(); },
+               complete: function () { $('#loader').hide(); },
+               success: function (res) {
+
+                   if (!res || !res.response || res.response.length === 0) {
+                       alert("No data found");
+                       return;
+                   }
+
+                   let data = res.response[0];
+
+                   // Store Id
+                   $("#hdnSizeId").val(data.id);
+
+                   // Bind controls
+                   $("#ddlproductline").val(data.productLineId).trigger("change");
+                 // $("#TxtFileTypeCode").val(data.fileTypeCode);
+                    $("#TxtFileType").val(data.fileTypeName);
+       //             $("#ddlDimensionType").val(data.dimensionType).trigger("change");
+       //             $("#ddlStandard").val(data.standard).trigger("change");
+       //                 // 🔒 Disable controls
+        $("#ddlproductline").prop("disabled", true);
+          // ✅ Bind image / file name to label (IMPORTANT)
+   
+       // $("#txtDimensionValue").prop("disabled", true);
+       // $("#ddlDimensionType").prop("disabled", true);
+       // $("#ddlStandard").prop("disabled", true);
+                   // UI change
+                   $("#btnsubmit")
+                       .text("Submit")
+                       .attr("onclick", "EditSaveData()");
+               },
+               error: function () {
+                   alert("Error loading data");
+               }
+           });
+       }
+           $(document).ready(function () {
+           let editId = '@Context.Request.Query["TypeId"]';
+           if (editId) {
+               LoadEditFileSize(editId);
+           }
+       });
+
+         function EditSaveData() {
+        var FileType = $('#TxtFileType').val();
+        
+        //var FileTypeCode = $('#TxtFileTypeCode').val();
+        let ProductLineId = $("#ddlproductline").val();
+        let productLineText = $("#ddlproductline option:selected").text();
+        var filenameCSV = ($('#FileUploadCSV')[0].files[0]) ? $('#FileUploadCSV')[0].files[0].name : '';
+        
+
+        // Validate FileType
+        if (FileType === "") {
+            $("#spTxtFileType").html("Enter Type");
+            $("#spTxtFileType").css("display", "block");
+            ValidationFlag = true;
+        } else {
+            $("#spTxtFileType").html("");
+        }
+
+       
+        //Validate CSV file
+        if (!filenameCSV) {
+            $("#spTxtFileUploadCSV").html("Select CSV File");
+            $("#spTxtFileUploadCSV").css("display", "block");
+            ValidationFlag = true;
+        } else {
+            $("#spTxtFileUploadCSV").html("");
+        }
+
+
+
+        if (ValidationFlag) {
+            return; // Don't proceed further if any validation fails
+        }
+
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+        var CreatedDate = moment.utc(new Date()).format();
+
+
+        var fileInput = document.getElementById('FileUploadCSV');
+        if (fileInput.files.length === 0) {
+            alert('Please select a file!');
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+
+
+        // Ensure a file has been selected
+        if (fileInput.files.length === 0) {
+            alert('Please select a CSV file.');
+            return;
+        }
+
+        var file = fileInput.files[0];
+        var reader = new FileReader();
+        var jsonArrayObj = [];
+
+        //When file is loaded, process its content
+        reader.onload = function (event) {
+            var csvContent = event.target.result;
+            var jsonArray = csvToJson(csvContent);
+            jsonArrayObj = jsonArray;
+            console.log("CSV to JSON Array:", jsonArray);
+
+            // Now you can do something with the jsonArray, such as displaying it in a table
+
+            var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+            var FileTypeJobj = {
+                FileTypeProfileImage: '',
+                FileTypeName: FileType,
+                FileTypeCode: '',
+                CreatedBy: iLoggedInUserID,
+                CreatedDate: moment.utc(new Date()).format(),
+                //ParameterJarr: jsonArrayObj
+            };
+
+            var jsonData = JSON.stringify({
+                ReqId: encodeURIComponent(@Context.Request.Query["TypeId"]),
+                FileTypeJobj: FileTypeJobj
+            });
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("EditDroSaveFileType", "DrillMaster")',
+                data: { JsonData: jsonData },
+                dataType: 'json',
+                beforeSend: function () { $('#loader').show(); },
+                complete: function () { $('#loader').hide(); },
+                success: async function (data) {
+                    if (data && data.response === "Updated Successfully") {
+
+
+                       
+                         // await copyFile(uploadedFileSample, targetPathSample, selectedImageNameSample);
+                       // copyFile(selectedImageNameSample, targetPathSample, uploadedFileSample);
+                        alert(data.response);
+                            var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+    // Construct the full URL
+    var url = '@Url.Action("CTTypeParameter", "DrillMaster")' +
+        '?PageID=' + pageID +
+        '&ParentID=' + parentID +
+        '&ModuleID=' + moduleID ;
+
+    // Redirect
+    window.location.href = url;
+                    } else {
+                        alert("Error occurred while saving Type.");
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Error occurred while saving Type.");
+                    console.error(xhr.responseText);
+                }
+            });
+        };
+
+        // Read the file as text
+       reader.readAsText(file);
+
+
+    }
+</script>

@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http
+@using System.Text.Json
 @inject IHttpContextAccessor HttpContextAccessor
-
+@model wa_1235_jk_ecm_v4.Models.Master
 @{
     ViewData["Title"] = "EditCustomer";
     Layout = "~/Views/Shared/_ECMMaster.cshtml";
@@ -51,6 +52,9 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
+            @{
+                var customer = Model.EditCustomer_List?.FirstOrDefault();
+            }
             <div class="col-md-12">
                 <div class="card card-primary card-outline p-a-2" style="height: 100%;">
                     <div class="card-body">
@@ -58,18 +62,32 @@
                         <div class="col-md-12">
 
                             <div class="row">
+                                <div class="form-group col-md-2">
+                                    @*  <label for="">Product Line</label>
+                                        <select class="form-control select2" id="dllProductLine">
+                                            <option>Select</option>
+                                            <option>DRILLS </option>
+                                            <option>TAPS </option>
+                                            <option>DIES </option>
+
+                                        </select> *@
+                                    <label>Product Line</label>
+                                    @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "ProductLineCode", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline", onchange = "clearError('spddlproductline')", disabled = "disabled", multiple = "multiple" })
+                                    <span id="spddlproductline" class="text-danger"></span>
+                                    </div>
+
                                 <div class="form-group col-md-2 mt-2">
                                     <label>Customer Code  </label>
                                   @*   <input type="text" maxlength="2" value="AB" class="form-control" disabled />
                                     <span class="text-danger"></span> *@
-                                    <input id="txtCustomerCode" maxlength="2" name="" value="@ViewBag.CustomerCode" type="text" class="form-control" disabled>
+                                    <input id="txtCustomerCode" maxlength="2" name="" value="@customer?.CustomerCode" type="text" class="form-control" disabled>
                                     <span id="sptxtCustomerCode" class="text-danger"></span>
                                 </div>
                                 <div class="form-group col-md-4 mt-2">
                                     <label>Customer Name  </label>
                                   @*   <input maxlength="50" name="" type="text" value="AHLBORN EQUIPMENT INC." class="form-control" disabled />
                                     <span class="text-danger"></span> *@
-                                    <input id="txtCustomer" maxlength="50" name="" value="@ViewBag.CustomerName" type="text" class="form-control" disabled>
+                                    <input id="txtCustomer" maxlength="50" name="" value="@customer?.CustomerName" type="text" class="form-control" disabled>
                                     <span id="sptxtCustomer" class="text-danger"></span>
                                 </div>
 
@@ -79,11 +97,11 @@
                                     <label>Customer Rejection %</label>
                                    @*  <input maxlength="7" name="" type="text" class="form-control" />
                                     <span class="text-danger"></span> *@
-                                    <input id="txtCustomerRejectionPercent" name="" value="@ViewBag.CustomerRejectionPercentage" type="text" class="form-control">
+                                    <input id="txtCustomerRejectionPercent" name="" value="@customer?.CustomerPct" type="text" class="form-control">
                                     <span id="sptxtCustomerRejectionPercent" class="text-danger"></span>
                                 </div>
 
-                                <input id="hdCustomerId" name="" type="hidden" value="@ViewBag.CustomerId" type="text" class="form-control">
+                                <input id="hdCustomerId" name="" type="hidden" value="@customer?.CustomerId" type="text" class="form-control">
                             
 
 
@@ -91,7 +109,7 @@
                                     <label>Customer Packing Days</label>
                                    @*  <input maxlength="3" name="" type="text" class="form-control" />
                                     <span class="text-danger"></span> *@
-                                    <input id="txtCustomerPackingDays" name="" value="@ViewBag.PackingDays" type="text" class="form-control">
+                                    <input id="txtCustomerPackingDays" name="" value="@customer?.PackingDays" type="text" class="form-control">
                                     <span id="sptxtCustomerPackingDays" class="text-danger"></span>
                                 </div>
 
@@ -114,7 +132,38 @@
     </div>
 </section>
 
+<script>
+    var customerData = {
+        customerName: '@Model.EditCustomer_List?.FirstOrDefault()?.CustomerName',
+        customerCode: '@Model.EditCustomer_List?.FirstOrDefault()?.CustomerCode',
+        packingDays: '@Model.EditCustomer_List?.FirstOrDefault()?.PackingDays',
+            productLine: @Html.Raw(
+                JsonSerializer.Serialize(
+                        Model.EditCustomer_List?.FirstOrDefault()?.ProductLine ?? new string[] { }
+                )
+        )
+    };
+        function bindCustomerData() {
 
+        // Customer Name
+        $('#txtCustomer').val(customerData.customerName);
+
+        // Customer Code
+        $('#txtCustomerCode').val(customerData.customerCode);
+
+        // Packing Days
+        $('#txtPackingDays').val(customerData.packingDays);
+
+        // Product Line dropdown
+        $('#ddlproductline').val(customerData.productLine);
+
+        // refresh select2 dropdown (IMPORTANT)
+        $('#ddlproductline').trigger('change');
+    }
+        $(document).ready(function () {
+        bindCustomerData();
+    });
+</script>
 <script>
 
     function Cancel() {
@@ -184,7 +233,7 @@
     function AddCustomerData() {
         var CustomerName = $("#txtCustomer").val();
         var CustomerCode = $("#txtCustomerCode").val();
-
+        var ProductLine = $("#ddlproductline").val() || [];
         var CustomerRejectionPercent = parseFloat($("#txtCustomerRejectionPercent").val().replace(/,/g, ''));
         var CustomerPackingDays = parseInt($("#txtCustomerPackingDays").val());
 
@@ -246,6 +295,7 @@
             let CustomerDetailsJson = {
                 CustomerPct: CustomerRejectionPercent,
                 PackingDays: CustomerPackingDays,
+                    ProductLine:ProductLine,
                 CreatedBy: iLoggedInUserID,
                 CreatedDate: moment.utc(new Date()).format()
                 //  AdditionalMarkupPercent: parseFloat($("#txtAdditionamlMarkup").val().replace(/,/g, '')),

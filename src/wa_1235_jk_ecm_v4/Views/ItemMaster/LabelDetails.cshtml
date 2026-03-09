@@ -625,6 +625,26 @@
 
 
 <script>
+		$('#surfaceUpload').on('shown.bs.modal', function () {
+
+		var customerName = $('#lblCustomerName').text().trim();
+		var brandName = $('#lblBrandName').text().trim();
+
+		// Set Customer dropdown
+		$("#ddcustomer option").filter(function () {
+			return $(this).text().trim() === customerName;
+		}).prop('selected', true);
+
+		// Set Brand dropdown
+		$("#dllBrand option").filter(function () {
+			return $(this).text().trim() === brandName;
+		}).prop('selected', true);
+
+		// refresh select2
+		$('#ddcustomer').trigger('change');
+		$('#dllBrand').trigger('change');
+
+	});
 
 		$(document).ready(function () {
 			// Set the dropdown value from sessionStorage on page load

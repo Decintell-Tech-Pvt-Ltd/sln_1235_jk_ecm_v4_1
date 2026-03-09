@@ -87,6 +87,46 @@ namespace api_1235_jk_ecm_v4.Controllers
             return Content(jsonResult, Application.Json, Encoding.UTF8);
 
         }
+        [HttpGet]
+        [Route("GetLookupMasterData")]
+        public async Task<IActionResult> GetLookupMasterData()
+        {
+
+            string spName = "usp_GetLookupMasterData";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+        
+        [HttpPost]
+        [Route("GetLookupById")]
+        public async Task<IActionResult> GetLookupById()
+        {
+
+            string spName = "usp_GetLookupById";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+
 
         [HttpPost]
         [Route("DeleteLookupData")]
@@ -333,6 +373,26 @@ namespace api_1235_jk_ecm_v4.Controllers
             return Content(jsonResult, Application.Json, Encoding.UTF8);
 
         }
+        [HttpGet]
+        [Route("GetProductList")]
+        public async Task<IActionResult> GetProductList()
+        {
+
+            string spName = "usp_GetProductList";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+        
         [HttpPost]
         [Route("AddBrand")]
         public async Task<IActionResult> AddBrand()
@@ -352,7 +412,45 @@ namespace api_1235_jk_ecm_v4.Controllers
             return Content(jsonResult, Application.Json, Encoding.UTF8);
 
         }
+        [HttpPost]
+        [Route("AddProductLine")]
+        public async Task<IActionResult> AddProductLine()
+        {
 
+            string spName = "usp_AddProductLine";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+        [HttpPost]
+        [Route("GetProductById")]
+        public async Task<IActionResult> GetProductById()
+        {
+
+            string spName = "usp_GetProductById";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+        
         [HttpPost]
         [Route("GetBrandById")]
         public async Task<IActionResult> GetBrandById()

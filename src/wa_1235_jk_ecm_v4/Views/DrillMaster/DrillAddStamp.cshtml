@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-
+@model wa_1235_jk_ecm_v4.Models.DrillMaster
 @{
 	ViewData["Title"] = "DrillAddStamp";
 	Layout = "~/Views/Shared/_ECMMaster.cshtml";
@@ -58,13 +58,8 @@
 
                                     <div class="form-group col-md-2">
                                         <label>Product Line</label>
-                                        <select class="form-control select2">
-                                            <option>Select</option>
-                                            <option selected>DRILLS </option>
-                                            <option>TAPS </option>
-                                            <option>DIES </option>
+                                        @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "Id", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline" })
 
-                                        </select>
 
 
                                     </div>
@@ -72,23 +67,8 @@
 
                                     <div class="form-group col-md-2">
                                         <label>Brand</label>
-                                        <select name="" class="form-control select2">
-                                            <option>Select</option>
-                                            <option value="2E">TWO FILES  (2E)</option>
-                                            <option value="2Q">Second Quality (2Q)</option>
-                                            <option value="3E">THREE FILES (3E)</option>
-                                            <option value="AB">ARCHER  BRAND (AB)</option>
-                                            <option value="AC">ABC (AC)</option>
-                                            <option value="AF">AFILE (AF)</option>
-                                            <option value="AG">AGROMEC (AG)</option>
-                                            <option value="AK">AKSI (AK)</option>
-                                            <option value="AL">ALFAERRE (AL)</option>
-                                            <option value="AM">AMEX  (AM)</option>
-                                            <option value="AR">ASEER (AR)</option>
-                                            <option value="AS">ASIAN (AS)</option>
-                                            <option value="AT">ATLAS (AT)</option>
+                                        @Html.DropDownListFor(m => m.BrandCode, new SelectList(Model.Brand_List, "BrandCode", "BrandName"), "Select", new { @class = "form-control select2", @id = "ddlBrand" })
 
-                                        </select>
 
                                     </div>
 
@@ -96,56 +76,37 @@
 
                                     <div class="form-group col-md-2">
                                         <label>Size </label>
-                                        <select class="form-control select2" style="width: 100%;">
-                                            <option>Select</option>
+                                        @Html.DropDownListFor(m => m.SizeID, new SelectList(Model.GetSizeList, "SizeID", "Size"), "Select", new { @class = "form-control select2", @id = "ddlSize", onchange = "clearError('spddlproductline')" })
 
-                                            <option value="1">0100 - 1.0 mm (Dia)</option>
-                                            <option value="1">0132 - 1/32 inch (Dia)</option>
-                                        </select>
 
                                     </div>
 
 
                                     <div class="form-group col-md-4">
                                         <label>Type </label>
-                                        <select class="form-control select2">
-                                            <option>Select</option>
+                                        <select id="TxtFileType" class="form-control select2" >
+                                            <option value="">Select</option>
 
-                                            <option>PARALLEL-HSS CENTRE DRILL (CD) </option>
-                                            <option>
-                                                PARALLEL-HSS GROUND FLUTE JOBBER SERIES (PG)
-                                            </option>
-                                            <option>
-                                                TOOL BIT-ROUND (TR)
-                                            </option>
-                                            <option>
-                                                TAPS-HAND TAPS (TH)
-                                            </option>
-                                            <option>
-                                                DIES-SCREWING (SD)
-                                            </option>
-                                            <option>
-                                                CARBIDE BURR-CONE SHAPE (CC)
-                                            </option>
+                                            @foreach (var item in Model.TypeDropdown)
+                                            {
+                                                <option value="@item.Id" data-code="@item.CTTypeCode">
+                                                    @item.CTTypeName
+                                                </option>
+                                            }
                                         </select>
                                     </div>
 
                                     <div class="form-group col-md-2">
                                         <label>Sub Type </label>
-                                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllFileSubType" onChange="FileCodeAdd();">
-                                            <option value="0">Select</option>
+                                        @Html.DropDownListFor(m => m.SubTypeId, new SelectList(Model.SubtypeDD, "SubTypeId", "SubTypeName"), "Select", new { @class = "form-control select2", @id = "dllCTFileSubType", onchange = "clearError('spCTddlSize');" })
 
-                                            <option value="2">Regular (R)</option>
-
-
-                                        </select>
                                     </div>
 
 
 
                                     <div class="form-group col-md-2">
                                         <label>Sales </label>
-                                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllFileSubType" onChange="FileCodeAdd();">
+                                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllFileSubType">
                                             <option value="0">Select</option>
 
                                             <option value="1">Export</option>
@@ -156,7 +117,7 @@
 
 
 
-                                    <div class="col-md-2">
+                                    @* <div class="col-md-2">
                                         <label class="control-label padd0">Image Upload</label> &nbsp;
                                         <div class="input-group">
                                             <div class="custom-file">
@@ -164,11 +125,24 @@
                                                 <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                             </div>
                                         </div>
+                                    </div> *@
+                                    <div class="form-group col-md-2">
+                                        <label class="control-label padd0">Image Upload</label> &nbsp;
+                                        <div class="input-group">
+                                            <div class="custom-file">
+
+                                                <input name="" type="file" class="custom-file-input" id="FileUploadIMG">
+                                                <label class="custom-file-label" for="FileUploadIMG">Choose file</label>
+
+                                            </div>
+                                            <input type="hidden" id="hdnExistingImage">
+                                        </div>
+                                        <span id="spTxtFileUploadIMG" class="text-danger"></span>
                                     </div>
 
                                     <div class="btnwidth50 float-right mr-1 " style="margin-top:35px;">
                                         <button id="btn_DrillAddStamp" type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
-                                                onclick="location.href='non-file-Stamp.html'" title="Go to the next page">
+                                                onclick="SaveStampDetails()" title="Go to the next page">
                                             Submit
                                         </button>
                                     </div>
@@ -196,3 +170,154 @@
 
     <!-- InstanceEndEditable -->
 </div>
+<script>
+       async function  SaveStampDetails() {
+
+        var ProductLineRowId = $("#ddlproductline").val();
+        var BrandCode = $("#ddlBrand").val();
+        var SizeRowId = $("#ddlSize").val();
+        var CTTypeRowId = $("#TxtFileType").val();
+        var SubTypeRowId = $("#dllCTFileSubType").val();
+        var Sales = $("#dllFileSubType").val();
+
+        var fileInput = document.getElementById("FileUploadIMG");
+        var imageName = "";
+
+        if (fileInput.files.length > 0) {
+            imageName = fileInput.files[0].name;
+        }
+
+        var CreatedBy = parseInt('@Context.Session.GetInt32("CreatedBy")');
+        var CreatedDate = moment.utc().format();
+          let filenameIMG =
+            ($('#FileUploadIMG')[0].files[0])
+                ? $('#FileUploadIMG')[0].files[0].name
+                : '';
+        var JsonData = {
+            ProductLineRowId: ProductLineRowId,
+            CTTypeRowId: CTTypeRowId,
+            SizeRowId: SizeRowId,
+            SubTypeRowId: SubTypeRowId,
+            BrandRowId: BrandCode,
+            Sales: Sales,
+            ImageName: imageName,
+            CreatedBy: CreatedBy,
+            CreatedDate: CreatedDate
+        };
+
+        var JSONInsert = JSON.stringify(JsonData);
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("CT_AddStampDetail", "DrillMaster")',
+            data: { JsonData: JSONInsert },
+            dataType: "json",
+            beforeSend: function () {
+                $("#loader").show();
+            },
+            success:  async function (data)  {
+
+           
+                 if (data && data.response  === "Stamp details inserted successfully") {
+
+                    let selectedImageNameSample =
+                        cleanFileName(filenameIMG);
+
+                            let targetPathSample =
+            'others\\ct\\stamps\\' + BrandCode.toLowerCase();
+           
+
+                    let uploadedFileSample =
+                        document.getElementById('FileUploadIMG').files[0];
+
+                    await copyFile(
+                        uploadedFileSample,
+                        targetPathSample,
+                        selectedImageNameSample
+                    );
+
+                    alert("Type added successfully.");
+
+                   var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+    // Construct the full URL
+    url = "@Url.Action("DrillStamp", "DrillMaster")" +
+        "?PageID=" + pageID +
+        "&ParentID=" + parentID +
+        "&ModuleID=" + moduleID +
+        "&ModulePageID=" + modulePageID;
+
+    // Redirect
+    window.location.href = url;
+                }
+                
+               
+                
+            },
+            error: function () {
+                alert("Error while saving stamp details");
+            },
+            complete: function () {
+                $("#loader").hide();
+            }
+        });
+
+    }
+         async function copyFile(fileInput, path, imageName) {
+        var JwToken = '@ViewBag.JWTToken';
+      var blobStorageUrl = '@ViewBag.ApiUrl';
+      let blobPathPrefix = '@ViewBag.BaseBlobPath';
+        var formdata = new FormData();
+        // ✅ Append file correctly
+        formdata.append("files", fileInput, imageName); // << change 'files' → 'file'
+
+       // let blobPathPrefix = '@ViewBag.BaseBlobPath';
+        blobPathPrefix = (blobPathPrefix || "").replace(/\\/g, "/").trim();
+        if (blobPathPrefix.length > 0 && !blobPathPrefix.endsWith("/")) {
+            blobPathPrefix += "/";
+        }
+        //    normalizePathPrefix(path)
+        var Patths = blobPathPrefix + normalizePathPrefix(path.toLowerCase());
+        formdata.append("blobPathPrefix", Patths);
+        formdata.append("Policy", 0);
+
+
+        $.ajax({
+            url: blobStorageUrl + 'Files/upload',
+            headers: {
+                Authorization: 'Bearer ' + JwToken
+            },
+            method: "POST",
+            contentType: false, // Not to set any content header
+            processData: false, // Not to process data
+            mimeType: "multipart/form-data",
+            data: formdata,
+            //async: false,
+            success: function (result) {
+                let jsonResult = JSON.parse(result); // serialize into JSON string
+                if (jsonResult && jsonResult.length > 0) {
+                    let json = {
+                      //  UserId: parseInt(CreatedBy),
+                        ImageName: imageName,
+                        BlobJson: result,
+                    };
+
+                    var Jsons = JSON.stringify(json);
+                    console.log(`uploading: ${Jsons}`);
+
+
+
+                }
+
+            },
+            error: function (err) {
+                alert(err.message);
+            }
+        });
+
+
+    }
+</script>

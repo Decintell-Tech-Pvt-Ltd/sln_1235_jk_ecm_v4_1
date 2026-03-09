@@ -45,7 +45,140 @@
                 </div>
             </div>
         </div><!-- /.container-fluid -->
+        <div class="modal fade" id="approve">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+            <div class="modal-header">
+                  <h5 class="modal-title">View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                      </button>
+             </div>
 
+       <div class="modal-body">
+              <input type="hidden" id="txtID">
+                <b>Request No.:</b><span id="txtRequest"></span>,&nbsp;&nbsp;
+          @*       <b>Dimension Value :</b><span id="txtDimensionValue"></span>,&nbsp;&nbsp;
+                <b>Dimension Code:</b><span id="txtDimensionCode"></span> *@
+
+<b>Product Line:</b> <span id="txtProdLine1"></span>,
+<b>Type:</b> <span id="txtType1"></span>
+<br><br>
+<div style="clear: both;"></div>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered example1 mt-3">
+  <thead>
+  <tr>
+   <th style="width: 30.5%;"><div align="center">UOM</div></th>
+    <th style="width: 30.5%;"><div align="center">Size Value</div></th>
+    <th style="width: 30.5%;"><div align="center">Size Code</div></th>
+   
+   
+  </tr>
+  </thead>
+<tbody id="sizeApproveTableBody"></tbody>
+  
+</table>
+             
+  <label for="" class="mt-3">Remark</label>
+<input type="text" id="txtRemark" class="form-control">
+            </div>
+
+            
+
+        <div class="modal-footer">
+          <div class="float-left text-right"> 
+                               <button type="button"
+                            class="btn btn-danger btn-xs btnwidth50"
+                            onclick="RejectFileSize(); $('#approve').modal('hide');"
+                            title="Reject the selected item">
+                        Reject
+                    </button>
+
+                    <button type="button"
+                            class="btn btn-success btn-xs btnwidth60"
+                            onclick="ApproveFileSize(); $('#approve').modal('hide');"
+                            title="Approve the selected item">
+                        Approve
+                    </button>             
+                </div>
+        </div>
+            
+
+        
+
+            
+      
+  
+        
+
+
+
+
+    
+  
+ </div>
+          
+   </div>       
+</div>
+
+<div class="modal fade" id="view">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+            <div class="modal-header">
+                  <h5 class="modal-title">View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                      </button>
+             </div>
+
+                               <div class="modal-body">
+                                      
+                       <b>Request ID:</b> <span id="txtRequest1"></span>,
+<b>Product Line:</b> <span id="txtProdLine"></span>,
+<b>Type:</b> <span id="txtType"></span>
+
+                        <br><br>
+                        <div style="clear: both;"></div>
+
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered example1 mt-3">
+                          <thead>
+                          <tr>
+                           <th style="width: 30.5%;"><div align="center">UOM</div></th>
+                            <th style="width: 30.5%;"><div align="center">Size Value</div></th>
+                            <th style="width: 30.5%;"><div align="center">Size Code</div></th>
+   
+   
+                          </tr>
+                          </thead>
+                          <tbody id="sizeTableBody">
+                          
+                          </tbody>
+                        </table>
+               
+                          <label for="" class="mt-3">Remark</label><br>
+                       <span id="txtremarklbl"></span>
+                                    </div>
+
+            
+
+
+        
+
+            
+      
+  
+        
+
+
+
+
+    
+  
+                         </div>
+          
+                           </div> 
+                           </div>
     </section>
 
     <section class="content">
@@ -74,11 +207,11 @@
                                         <tr>
                                             <th width="10%"><div align="center">Request No.</div></th>
                                             <th width="13%"><div align="left">Product Line</div></th>
-
-                                            <th width="13%"><div align="center">Dimension Code</div></th>
-                                            <th width="15%"><div align="center">Dimension Value</div></th>
-                                            <th width="15%"><div align="left">Dimension Type</div></th>
-                                            <th width="13%"><div align="left"> Standard</div></th>
+                                             <th width="15%"><div align="left">Type</div></th>
+                                                  <th width="15%"><div align="left">Key Parameter</div></th>
+                                                    <th width="15%"><div align="left">Key Parameter Code</div></th>
+                                            <th width="13%"><div align="center">Key Parameter Type</div></th>
+                                         
                                             <th width="25%"><div align="center">Action</div></th>
                                         </tr>
                                     </thead>
@@ -97,10 +230,16 @@
                                                 @item.Id
                                             </a> </div></td>
                                     <td><div align="left">@item.ProductLine</div></td>
-                                    <td><div align="center">@item.DimensionCode</div></td>
-                                    <td><div align="center">@item.DimensionValue</div></td>
-                                    <td><div align="left">@item.Dimensionname</div></td>
-                                    <td><div align="left">@item.Standardname</div></td>
+                                    <td><div align="center">@item.CTTypeName</div></td>
+                                    <td><div align="center">
+                                      <a href="#" title="View" data-toggle="modal"
+onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.ProductLineRowId','@item.CTTypeRowId','@item.Remarks');">
+    @item.ParamName
+</a>
+                                                        </div>
+                                                        </td>
+                                    <td><div align="left">@item.ParamCode</div></td>
+                                    <td><div align="left">@item.CTTypeName</div></td>
                                   
                                     <td>
                                         <div align="center">
@@ -142,13 +281,13 @@
                                 <thead>
 
                                     <tr>
-                                        <th width="12%"><div align="center">Request No.</div></th>
-                                        <th width="18%"><div align="left">Product Line</div></th>
-
-                                        <th width="16.6%"><div align="center">Dimension Code</div></th>
-                                        <th width="16.6%"><div align="center">Dimension Value</div></th>
-                                        <th width="16.6%"><div align="left">Dimension Type</div></th>
-                                        <th width="16.6%"> <div align="left">Standard</div></th>
+                                           <th width="10%"><div align="center">Request No.</div></th>
+                                            <th width="13%"><div align="left">Product Line</div></th>
+                                             <th width="15%"><div align="left">Type</div></th>
+                                                  <th width="15%"><div align="left">Key Parameter</div></th>
+                                                    <th width="15%"><div align="left">Key Parameter Code</div></th>
+                                            <th width="13%"><div align="center">Key Parameter Type</div></th>
+                                         
                                     </tr>
                                 </thead>
                                   <tbody>
@@ -158,16 +297,16 @@
                                    
                                     <td>
                                         <div align="center">
-                                            <a href="#" title="View" onclick="ModelFileSize(@item.Id,@item.RequestId,'@item.DimensionValue','@item.DimensionCode');">
+                                            <a href="#" title="View" >
                                                 @item.Id
                                             </a>
                                         </div>
                                     </td>
                                      <td><div align="left">@item.ProductLine</div></td>
-                                    <td><div align="center">@item.DimensionCode</div></td>
-                                    <td><div align="center">@item.DimensionValue</div></td>
-                                    <td><div align="left">@item.Dimensionname</div></td>
-                                    <td><div align="left">@item.Standardname</div></td>
+                                    <td><div align="center">@item.CTTypeName</div></td>
+                                    <td><div align="center"><a href="#" data-toggle="modal" onclick="ModelFileSize('@item.Id','@item.ProductLine','@item.CTTypeName','@item.ProductLineRowId','@item.CTTypeRowId');">@item.ParamName</a>&nbsp;</div></td>
+                                    <td><div align="left">@item.ParamCode</div></td>
+                                    <td><div align="left">@item.CTTypeName</div></td>
                                 
                                 </tr>
                             }
@@ -202,13 +341,13 @@
                                 <thead>
 
                                     <tr>
-                                        <th width="12%"><div align="center">Request No.</div></th>
-                                        <th width="18%"><div align="left">Product Line</div></th>
-
-                                        <th width="16.6%"><div align="center">Dimension Code</div></th>
-                                        <th width="16.6%"><div align="center">Dimension Value</div></th>
-                                        <th width="16.6%"><div align="left">Dimension Type</div></th>
-                                        <th width="16.6%"> <div align="left">Standard</div></th>
+                                           <th width="10%"><div align="center">Request No.</div></th>
+                                            <th width="13%"><div align="left">Product Line</div></th>
+                                             <th width="15%"><div align="left">Type</div></th>
+                                                  <th width="15%"><div align="left">Key Parameter</div></th>
+                                                    <th width="15%"><div align="left">Key Parameter Code</div></th>
+                                            <th width="13%"><div align="center">Key Parameter Type</div></th>
+                                         
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -217,10 +356,13 @@
                                 <tr>
                                     <td><div align="center">@item.Id</div></td>
                                     <td><div align="left">@item.ProductLine</div></td>
-                                    <td><div align="center">@item.DimensionCode</div></td>
-                                    <td><div align="center">@item.DimensionValue</div></td>
-                                    <td><div align="left">@item.Dimensionname</div></td>
-                                    <td><div align="left">@item.Standardname</div></td>
+                                    <td><div align="center">@item.CTTypeName</div></td>
+                                    <td><div align="center"> <a href="#" title="View" data-toggle="modal"
+onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.ProductLineRowId','@item.CTTypeRowId','@item.Remarks');">
+    @item.ParamName
+</a>&nbsp;</div></td>
+                                    <td><div align="left">@item.ParamCode</div></td>
+                                    <td><div align="left">@item.CTTypeName</div></td>
                                 </tr>
                             }
                         </tbody>
@@ -238,55 +380,126 @@
     <!-- InstanceEndEditable -->
 </div>
 
-<div class="modal fade" id="approve">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <!-- Optional header with logos from first modal -->
-          
-            <!-- Modal Header (from second modal for cleaner UI) -->
-            <div class="modal-header">
-                <h5 class="modal-title">Remark</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            
-            <!-- Modal Body -->
-            <div class="modal-body">
-                <input type="hidden" id="txtID">
-                <b>Request No.:</b><span id="txtRequest"></span>,&nbsp;&nbsp;
-                <b>Dimension Value :</b><span id="txtDimensionValue"></span>,&nbsp;&nbsp;
-                <b>Dimension Code:</b><span id="txtDimensionCode"></span>
 
-                <textarea rows="5" class="form-control" id="textRemark"></textarea>
-            </div>
-
-            <!-- Modal Footer: Buttons styled like second modal, functions from first -->
-            <div class="modal-footer">
-                <div class="text-right w-100">
-                    <button type="button"
-                            class="btn btn-danger btn-xs btnwidth50"
-                            onclick="RejectFileSize(); $('#approve').modal('hide');"
-                            title="Reject the selected item">
-                        Reject
-                    </button>
-
-                    <button type="button"
-                            class="btn btn-success btn-xs btnwidth60"
-                            onclick="ApproveFileSize(); $('#approve').modal('hide');"
-                            title="Approve the selected item">
-                        Approve
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <Script>
+  function ModelFileSize(RequestId, ProductLineName, TypeName, ProductLineRowId, CTTypeRowId) {
 
+    $('#txtID').val(RequestId);
+    $('#txtRequest').text(RequestId);
+    $('#txtProdLine1').text(ProductLineName);
+    $('#txtType1').text(TypeName);
+
+    var JsonData = JSON.stringify({
+        ProductLineRowId: parseInt(ProductLineRowId),
+        CTTypeRowId: parseInt(CTTypeRowId)
+    });
+
+    $.ajax({
+        type: "POST",
+        url: '@Url.Action("GetSizeDetailsByTypeAndProductLine", "DrillMaster")',
+        data: { JsonData: JsonData },
+        dataType: "json",
+
+        beforeSend: function () {
+            $('#loader').show();
+        },
+        complete: function () {
+            $('#loader').hide();
+        },
+
+        success: function (data) {
+
+            var rows = "";
+
+            if (data.response && data.response.length > 0) {
+
+                $.each(data.response, function (i, item) {
+
+                    rows += "<tr>";
+                    rows += "<td align='center'>" + item.sizeUOM + "</td>";
+                    rows += "<td align='center'>" + item.sizeValue + "</td>";
+                    rows += "<td align='center'>" + item.sizeCode + "</td>";
+                    rows += "</tr>";
+
+                });
+
+            } else {
+
+                rows = "<tr><td colspan='3' align='center'>No Data Found</td></tr>";
+
+            }
+
+            $("#sizeApproveTableBody").html(rows);
+
+            $('#approve').modal('show');
+        },
+
+        error: function () {
+            alert("Error occurred while fetching size details.");
+        }
+    });
+}
+function ModelFileType(RequestId, ProductLineName, TypeName, ProductLineRowId, CTTypeRowId,Remark) {
+
+    $('#txtRequest1').text(RequestId);
+    $('#txtProdLine').text(ProductLineName);
+    $('#txtType').text(TypeName);
+        $('#txtremarklbl').text(Remark);
+    
+
+    var JsonData = JSON.stringify({
+        ProductLineRowId: parseInt(ProductLineRowId),
+        CTTypeRowId: parseInt(CTTypeRowId)
+    });
+
+    $.ajax({
+        type: "POST",
+        url: '@Url.Action("GetSizeDetailsByTypeAndProductLine", "DrillMaster")',
+        data: { JsonData: JsonData },
+        dataType: "json",
+
+        beforeSend: function () {
+            $('#loader').show();
+        },
+        complete: function () {
+            $('#loader').hide();
+        },
+
+        success: function (data) {
+
+            var rows = "";
+
+            if (data.response && data.response.length > 0) {
+
+                $.each(data.response, function (i, item) {
+
+                    rows += "<tr>";
+                    rows += "<td align='center'>" + item.sizeUOM + "</td>";
+                    rows += "<td align='center'>" + item.sizeValue + "</td>";
+                    rows += "<td align='center'>" + item.sizeCode + "</td>";
+                    rows += "</tr>";
+
+                });
+
+            } else {
+
+                rows = "<tr><td colspan='3' align='center'>No Data Found</td></tr>";
+
+            }
+
+            $("#sizeTableBody").html(rows);
+
+            $('#view').modal('show');
+        },
+
+        error: function () {
+            alert("Error occurred while fetching size data.");
+        }
+    });
+}
     function ApprovesFileSize(ID) {
-        var Remark = $('#textRemark').val();
+        var Remark = $('#txtRemark').val();
         var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
         
         let jsonData = { ID: ID, StatusID: 2, CreatedBy: iLoggedInUserID, Remark: Remark };
@@ -308,7 +521,7 @@
 
 
     function ApproveFileSize() {
-        var Remark = $('#textRemark').val();
+        var Remark = $('#txtRemark').val();
         var FileStatus = $('#txtID').val();
         var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
          
@@ -333,7 +546,7 @@
     //RejectFileSize
     function RejectFileSize() {
         //textRemark
-        var Remark = $('#textRemark').val();
+        var Remark = $('#txtRemark').val();
 
         var FileStatus = $('#txtID').val();
         var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
@@ -357,11 +570,5 @@
         });
     }
 
-    function ModelFileSize(ID, RequestId, DimensionValue, DimensionCode) {
-        $('#txtID').val(ID);
-        $('#txtRequest').text(RequestId);
-        $('#txtDimensionValue').text(DimensionValue);
-        $('#txtDimensionCode').text(DimensionCode);
-        $('#approve').modal('show');
-    }
+
 </Script>

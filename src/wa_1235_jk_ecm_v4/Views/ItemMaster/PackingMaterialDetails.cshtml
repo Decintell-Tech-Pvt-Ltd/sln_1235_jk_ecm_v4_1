@@ -322,7 +322,7 @@
                             <div class="card-header p-0 pt-1">
                                 @{
                                     string cssClass = ""; // Define the default CSS class variable
-
+                                    string productLine = Context.Request.Query["ProductLine"].ToString();
                                     if (Context.Request.Query["Display"].ToString() == "View")
                                     {
                                         cssClass = "disabledbutton"; // Reset cssClass if the condition is met
@@ -401,6 +401,7 @@
 
                                 <div class="card-header p-2">
                                     <ul class="nav nav-pills" id="custom-tabs-one-tab" role="tablist">
+
                                         @{
                                             if (Context.Request.Query["Mode"].ToString() != null && Context.Request.Query["Mode"].ToString() != "")
                                             {

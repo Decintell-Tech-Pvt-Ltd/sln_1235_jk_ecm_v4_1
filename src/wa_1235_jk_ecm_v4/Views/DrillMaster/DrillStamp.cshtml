@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-
+@model wa_1235_jk_ecm_v4.Models.DrillMaster
 @{
 	ViewData["Title"] = "DrillStamp";
 	Layout = "~/Views/Shared/_ECMMaster.cshtml";
@@ -20,76 +20,20 @@
 
                 <div class="modal-body text-center">
                     <input type="hidden" id="txtID" value="68">
-                    <b>Request No.:</b><span>10</span>,&nbsp;&nbsp;
+                 @*    <b>Request No.:</b><span>10</span>,&nbsp;&nbsp;
                     <b>Brand:</b><span>DICK LOGO</span>,<br>
                     <b>Image Name:</b><span>
-                        h_205.jpg
+                        h_205.jpg *@
+                    <span>
+                        <b>Request No.:</b> <span id="txtRequest"></span>, &nbsp;&nbsp;
+                        <b>Brand:</b> <span id="txtBrandName"></span>, &nbsp;&nbsp;
+
+                        <b>Image Name:</b> <span id="txtImagename"></span>, &nbsp;&nbsp;
                     </span>
 
                     <div class="mt-1">
-                        <center>
-                            <img id="displayImage" class="img-fluid" src="https://decintellai.com/ui/all-Modules/UI_Repository/dist/img/FDRP.jpg">
-                        </center>
-                    </div>
-                </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-            </div>
-
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="nonstandard1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">View</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <b>Request No.:</b><span>10</span> ,&nbsp;&nbsp;
-                    <b>Brand:</b><span>DICK LOGO</span>,&nbsp;&nbsp;
-                    <b>Chart No:</b><span>h_11a</span>
-
-                    <div>
-                        <img id="displayImage" class="img-fluid" src="https://decintellai.com/ui/all-Modules/UI_Repository/dist/img/FDRP.jpg">
-
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <div class="col-lg-2form-group">
-                        <div class="">
-                            <div class="float-left text-right" style="margin-top: 36px;">
-                                <button type="button" id="btn_RejectDrillStamp"
-                                        class="btn btn-danger btn-xs btnwidth50"
-                                        onclick="location.href=''"
-                                        title="Reject the selected item">
-                                    Reject
-                                </button>
-
-                                <button type="button" id="btn_ApproveDrillStamp"
-                                        class="btn btn-success btn-xs btnwidth60"
-                                        onclick="location.href=''"
-                                        title="Approve the selected item">
-                                    Approve
-                                </button>
-                            </div>
+                        <div>
+                            <img id="displayImage1" class="img-fluid" src="" alt="File Image" />
                         </div>
                     </div>
                 </div>
@@ -110,6 +54,126 @@
 
         </div>
     </div>
+    <div class="modal fade" id="nonstandard">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body text-center">
+                    <input type="hidden" id="txtID" value="68">
+                    @*    <b>Request No.:</b><span>10</span>,&nbsp;&nbsp;
+                    <b>Brand:</b><span>DICK LOGO</span>,<br>
+                    <b>Image Name:</b><span>
+                        h_205.jpg *@
+                    <span>
+                        <b>Request No.:</b> <span id="txtRequest"></span>, &nbsp;&nbsp;
+                        <b>Brand:</b> <span id="txtBrandName"></span>, &nbsp;&nbsp;
+
+                        <b>Image Name:</b> <span id="txtImagename"></span>, &nbsp;&nbsp;
+                    </span>
+
+                    <div class="mt-1">
+                        <div>
+                            <img id="displayImage1" class="img-fluid" src="" alt="File Image" />
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="modal fade" id="approve">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="txtID" value="68">
+                    <b>Request No.:</b> <span id="txtRequest1"></span>, &nbsp;&nbsp;
+                    <b>Product Line:</b><span id="txtProductLine"></span>,&nbsp;&nbsp;
+                    <b>Brand:</b> <span id="txtBrandName1"></span>, &nbsp;&nbsp;
+                    <b>Size:</b><span id="txtSize1"></span>,&nbsp;&nbsp;
+                   
+                    
+                    
+
+                    
+                    <br>
+                    <b>Image Name:</b> <span id="txtImagename1"></span>, &nbsp;&nbsp;<span>
+                        
+                    </span>
+                    <p style="display:none">ID: <span id="approveItemId"></span></p>
+                    <div class="mt-1">
+                        <div>
+                            <img id="displayImage2" class="img-fluid" src="" alt="File Image" />
+                        </div>
+                    </div>
+
+                    <label>Remark</label>
+                    <input type="text" class="form-control">
+
+                </div>
+
+
+                <div class="modal-footer">
+                    <div class="float-left text-right">
+                        <button type="button" id="btn_stampReject"
+                                class="btn btn-danger btn-xs btnwidth50"
+                                onclick="ApprovalStamp(document.getElementById('approveItemId').textContent, 7)"
+                                data-dismiss="modal"
+                                title="Reject the selected item">
+                            Reject
+                        </button>
+
+                        <button type="button" id="btn_stampApprove"
+                                class="btn btn-success btn-xs btnwidth60"
+                                onclick="ApprovalStamp(document.getElementById('approveItemId').textContent, 6)"
+                                data-dismiss="modal"
+                                title="Approve the selected item">
+                            Approve
+                        </button>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+  
 
     <div class="modal fade" id="nonstandard2">
         <div class="modal-dialog modal-lg">
@@ -226,26 +290,52 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td><div align="center"><a href="Edit-non-file-Stamp.html" title="Edit">10</a></div></td>
-                                            <td><div align="left">Drills</div></td>
-                                            <td><div align="Left"><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Two Files</a></div></td>
-                                            <td><div align="center">0100 - 1.0 mm (Dia)</div></td>
-                                            <td><div align="left">PARALLEL-HSS CENTRE DRILL (CD) &nbsp;</div></td>
-                                            <td><div align="left">Regular (R)</div></td>
-                                            <td><div align="left">Export</div></td>
-                                            <td><div align="center">h_205.jpg</div></td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button"
-                                                            class="btn btn-primary btn-xs btnwidth95"
-                                                            onclick="location.href=''"
-                                                            title="Go to the next page">
-                                                        Submit for Approval
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
+
+                                        @if (Model.CTStampDetails != null)
+                                        {
+                                            foreach (var item in Model.CTStampDetails)
+                                            {
+                                                if (item.GridNo == 1)
+                                                {
+                                                    <tr>
+
+                                                        <td class="text-center">
+                                                            <a href="#" onclick="EditStamp('@item.Id','@item.RequestNo');">
+                                                                @item.RequestNo
+                                                            </a>
+                                                        </td>
+
+                                                        <td>@item.ProductLine</td>
+
+                                                        <td>
+                                                            <a href="#" data-toggle="modal"
+                                                               onclick="ModelFileType('@item.Id','@item.RequestNo','@item.BrandName','@item.ImageName','@item.BrandCode');">
+                                                                @item.BrandName
+                                                            </a>
+                                                        </td>
+
+                                                        <td class="text-center">@item.Size</td>
+
+                                                        <td>@item.Type</td>
+
+                                                        <td>@item.SubType</td>
+
+                                                        <td>@item.Sales</td>
+
+                                                        <td class="text-center">@item.ImageName</td>
+
+                                                        <td class="text-center">
+                                                            <button class="btn btn-primary btn-xs btnwidth95"
+                                                                    onclick="ApprovalStamp(@item.Id,5)">
+                                                                Submit for Approval
+                                                            </button>
+                                                        </td>
+
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+
                                     </tbody>
                                 </table>
                             </div>
@@ -286,16 +376,35 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td><div align="center">10</div></td>
-                                        <td><div align="left">Drills</div></td>
-                                        <td><div align="Left"><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Two Files</a></div></td>
-                                        <td><div align="center">0100 - 1.0 mm (Dia)</div></td>
-                                        <td><div align="left">PARALLEL-HSS CENTRE DRILL (CD) &nbsp;</div></td>
-                                        <td><div align="left">Regular (R)</div></td>
-                                        <td><div align="left">Export</div></td>
-                                        <td><div align="center">h_205.jpg</div></td>
-                                    </tr>
+
+                                    @if (Model.CTStampDetails != null)
+                                    {
+                                        foreach (var item in Model.CTStampDetails)
+                                        {
+                                            if (item.GridNo == 2)
+                                            {
+                                                <tr>
+
+                                                    <td class="text-center">@item.RequestNo</td>
+                                                    <td>@item.ProductLine</td>
+                                                    <td>
+                                                        <a href="#" data-toggle="modal" data-target="#approve"
+                                                           onclick="setApproveItems('@item.Id','@item.RequestNo','@item.ProductLine','@item.BrandName','@item.Size','@item.ImageName')"
+                                                           title="View">
+                                                            @item.BrandName
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-center">@item.Size</td>
+                                                    <td>@item.Type</td>
+                                                    <td>@item.SubType</td>
+                                                    <td>@item.Sales</td>
+                                                    <td class="text-center">@item.ImageName</td>
+
+                                                </tr>
+                                            }
+                                        }
+                                    }
+
                                 </tbody>
                             </table>
                         </div>
@@ -336,16 +445,35 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td><div align="center">10</div></td>
-                                        <td><div align="left">Drills</div></td>
-                                        <td><div align="Left"><a href="#" title="View" data-toggle="modal" data-target="#nonstandard">Two Files</a></div></td>
-                                        <td><div align="center">0100 - 1.0 mm (Dia)</div></td>
-                                        <td><div align="left">PARALLEL-HSS CENTRE DRILL (CD) &nbsp;</div></td>
-                                        <td><div align="left">Regular (R)</div></td>
-                                        <td><div align="left">Export</div></td>
-                                        <td><div align="center">h_205.jpg</div></td>
-                                    </tr>
+
+                                    @if (Model.CTStampDetails != null)
+                                    {
+                                        foreach (var item in Model.CTStampDetails)
+                                        {
+                                            if (item.GridNo == 3)
+                                            {
+                                                <tr>
+
+                                                    <td class="text-center">@item.RequestNo</td>
+                                                    <td>@item.ProductLine</td>
+                                                    <td>
+                                                        <a href="#" data-toggle="modal" 
+                                                           onclick="ModelFileType('@item.Id','@item.RequestNo','@item.BrandName','@item.ImageName','@item.BrandCode');"
+                                                           title="View">
+                                                            @item.BrandName
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-center">@item.Size</td>
+                                                    <td>@item.Type</td>
+                                                    <td>@item.SubType</td>
+                                                    <td>@item.Sales</td>
+                                                    <td class="text-center">@item.ImageName</td>
+
+                                                </tr>
+                                            }
+                                        }
+                                    }
+
                                 </tbody>
                             </table>
                         </div>
@@ -360,3 +488,196 @@
 
     <!-- InstanceEndEditable -->
 </div>
+<script>
+        function ModelFileType(ID, RequestNo, BrandName,Imagename,BrandCode) {
+
+        document.getElementById('txtRequest').textContent = RequestNo;
+        document.getElementById('txtBrandName').textContent = BrandName;
+        document.getElementById('txtImagename').textContent = Imagename;
+        // document.getElementById('txtProdLine1').textContent = ProdLine;
+        // document.getElementById('txtremarklbl').textContent = Remark;
+
+        var JsonData = JSON.stringify({
+            ID: ID
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetStampModalList", "DrillMaster")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+
+            success: function (data) {
+
+                // 🔥 ONLY IMAGE BINDING LEFT
+                var imageName = "";
+            var brandCode = "";
+
+            if (data.response && data.response.length > 0) {
+
+                imageName = data.response[0].imageName;
+                brandCode = data.response[0].brandCode.toLowerCase();
+            }
+
+            OpenDocument(
+                imageName,
+                'displayImage1',
+                brandCode
+            );
+
+
+                $('#nonstandard').modal('show');
+            },
+
+            error: function () {
+                alert('Error occurred while fetching data.');
+            }
+        });
+    }
+     function ViewApprovedDetails(RequestNo, BrandName, StampChartNo, BrandCode, ImageFile) {
+        document.getElementById('ApprovedRequestNo').textContent = RequestNo;
+        document.getElementById('ApprovedBrandName').textContent = BrandName;
+        document.getElementById('ApprovedStampChartNo').textContent = StampChartNo;
+      
+    }
+      function setApproveItems(itemId, RequestNo,ProdLine, BrandName, Size, BrandCode, ImageFile) {
+        document.getElementById('approveItemId').textContent = itemId;
+        document.getElementById('txtRequest1').textContent = RequestNo;
+        document.getElementById('txtProductLine').textContent = ProdLine;
+            document.getElementById('txtBrandName1').textContent = BrandName;
+             document.getElementById('txtSize1').textContent = Size;
+    
+           document.getElementById('txtImagename1').textContent = ImageFile;
+        
+        ModelFileSize(itemId, RequestNo,ProdLine, BrandName, Size, BrandCode, ImageFile);
+          
+
+    }
+    function ModelFileSize(ID, RequestNo, ProdLine, BrandName, Size, BrandCode, ImageFile) {
+
+        $('#txtID').val(ID);
+        $('#txtRequest1').text(RequestNo);
+        $('#txtSize1').text(Size);
+        $('#txtBrandName1').text(BrandName);
+        $('#txtProductLine').text(ProdLine);
+          $('#txtImagename1').text(ImageFile);
+        var JsonData = JSON.stringify({
+            ID: ID
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetStampModalList", "DrillMaster")',
+            data: { JsonData: JsonData },
+            dataType: 'json',
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+
+            success: function (data) {
+
+                   var imageName = "";
+            var brandCode = "";
+
+            if (data.response && data.response.length > 0) {
+
+                imageName = data.response[0].imageName;
+                brandCode = data.response[0].brandCode.toLowerCase();
+            }
+
+            OpenDocument(
+                imageName,
+                'displayImage2',
+                brandCode
+            );
+
+
+                
+                $('#approve').modal('show');
+            },
+
+            error: function () {
+                alert('Error occurred while fetching data.');
+            }
+        });
+    }
+     function ApprovalStamp(Id, StatusId) {
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+        var json = {
+            Id: Id,
+            StatusId: StatusId,
+            CreatedDate: moment.utc(new Date()).format(),
+            CreatedBy: iLoggedInUserID
+        };
+        var JsonData = JSON.stringify(json);
+
+        // First Ajax request
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("CT_ApproveStamp", "DrillMaster")',
+            data: { JsonData: JsonData },
+            datatype: 'json',
+            beforeSend: function () { $('#loader').show(); }, complete: function () { $('#loader').hide(); },
+            success: function (data) {
+                alert(data.response);
+                location.reload();
+            }
+        });
+
+
+
+
+    }
+        async function OpenDocument(FileName, ImageId, BrandCode) {
+
+        var JwToken = '@ViewBag.JWTToken';
+        var blobStorageUrl = '@ViewBag.ApiUrl';
+        let blobPathPrefix = '@ViewBag.BaseBlobPath';
+
+        var path = 'others\\ct\\stamps\\' + BrandCode + '\\';
+
+        const blobpath =
+            (normalizePathPrefix(blobPathPrefix) +
+                normalizePathPrefix(path)).toLowerCase() + FileName;
+
+        const JSONData = {
+            blobPath: blobpath,
+            asSas: false,
+            downloadFileName: FileName
+        };
+
+        try {
+
+            $('#loader').show();
+
+            const response = await $.ajax({
+                url: blobStorageUrl + 'Files/get',
+                headers: { Authorization: 'Bearer ' + JwToken },
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(JSONData),
+                xhrFields: { responseType: 'blob' }
+            });
+
+            if (response && response.size > 0) {
+
+                const objectURL = URL.createObjectURL(response);
+                document.getElementById(ImageId).src = objectURL;
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+            document.getElementById(ImageId).src = '';
+
+        } finally {
+
+            $('#loader').hide();
+
+        }
+    }
+
+</script>

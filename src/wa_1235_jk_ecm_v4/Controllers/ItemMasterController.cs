@@ -66,6 +66,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
             ItemMaster objMaster = new ItemMaster();
             string apiEndPointCustomer = "ItemMaster/GetItemMasterApprovedSKUList";
             objMaster.ApprovedSKUDetails_List = JsonSerializer.Deserialize<ApprovedSKUDetails[]>(await _iGenericMethods.GetDataEcm(apiEndPointCustomer));
+
           
             return View(objMaster);
         }
@@ -85,8 +86,13 @@ namespace wa_1235_jk_ecm_v4.Controllers
             string apiEndFileType = "ItemMaster/GetFileTypeMaster";
             ItemMasters.FileType_List = JsonSerializer.Deserialize<FileType[]>(await _iGenericMethods.GetDataEcm(apiEndFileType)).OrderBy(b => b.FileTypeName).ToArray();
 
+            string apiEndFileType1 = "ItemMaster/FileTypeForDropdown";
+            ItemMasters.FileTypeCodeList = JsonSerializer.Deserialize<FileTypeCodeList[]>(await _iGenericMethods.GetDataEcm(apiEndFileType1));
 
-            var fileType_List = ItemMasters.FileType_List;
+            string apiEndFileType2 = "ItemMaster/Get_CTSizeDropdown";
+            ItemMasters.CTSizeList = JsonSerializer.Deserialize<CTSizeList[]>(await _iGenericMethods.GetDataEcm(apiEndFileType2));
+            
+                       var fileType_List = ItemMasters.FileType_List;
             // Add the "Add New" option
             var lstFileType = fileType_List.ToList();
             lstFileType.Insert(0, new FileType { Id = -1, FileTypeName = "Add New" });
@@ -149,10 +155,26 @@ namespace wa_1235_jk_ecm_v4.Controllers
                 }
 
             }
+            string apiEndPoint1 = "DrillMaster/GetDroProdLine";
+            ItemMasters.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint1));
+            string apiEndPoint2 = "DrillMaster/CTSubTypeDropdown";
+            ItemMasters.SubtypeDD = JsonSerializer.Deserialize<SubtypeDD[]>(await _iGenericMethods.GetDataEcm(apiEndPoint2));
+            
             return View(ItemMasters);
         }
 
-       
+        [HttpPost]
+        public async Task<IActionResult> CT_AddNewRequest(string JsonData)
+        {
+            string apiEndPoint = "ItemMaster/CT_AddNewRequest";
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
+        }
         public async Task<ActionResult> Dispatchdetails(string Mode, int ReqValue)
         {
             ViewBag.JWTToken = JwtToken;
@@ -186,6 +208,9 @@ namespace wa_1235_jk_ecm_v4.Controllers
 
 
             }
+            string apiEndPoint1 = "DrillMaster/CT_GetStampDetailsList";
+            ItemMasters.CTStampDetails = JsonSerializer.Deserialize<CTStampDetails[]>(await _iGenericMethods.GetDataEcm(apiEndPoint1));
+
             return View(ItemMasters);
         }
 

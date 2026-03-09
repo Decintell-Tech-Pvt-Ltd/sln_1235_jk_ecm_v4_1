@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-
+@model wa_1235_jk_ecm_v4.Models.Master
 @{
     ViewData["Title"] = "AddBrand";
     Layout = "~/Views/Shared/_ECMMaster.cshtml";
@@ -62,14 +62,27 @@
 
                             <div class="row">
                                     <div class="form-group col-md-2">
-                                        <label for="">Product Line</label>
+                                       @*  <label for="">Product Line</label>
                                         <select class="form-control select2" id="dllProductLine">
                                             <option>Select</option>
                                             <option>DRILLS </option>
                                             <option>TAPS </option>
                                             <option>DIES </option>
 
+                                        </select> *@
+                                      @*   <label>Product Line</label>
+                                        @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "Id", "ProductLine"),, new { @class = "form-control select2", @id = "ddlproductline", onchange = "clearError('spddlproductline')", multiple = "multiple" })
+                                        <span id="spddlproductline" class="text-danger"></span>
+ *@                                     <label for="">Product Line</label>
+                                        <select id="ddlproductline" multiple="multiple" class="form-control select2">
+                                            <option></option>
+                                            @foreach (var item in Model.ProdLine_List)
+                                            {
+                                                <option value="@item.ProductLineCode">@item.ProductLine</option>
+                                            }
                                         </select>
+                                        <span id="spddlproductline" class="text-danger"></span>
+
                                     </div>
                                     <div class="form-group col-md-2">
                                     <label>Brand Code  </label>
@@ -108,6 +121,16 @@
 </div>
 
 <script>
+        $(document).ready(function () {
+
+        $('#ddlproductline').select2({
+            placeholder: "Select",
+            allowClear: true,
+            width: "100%"
+        });
+
+    });
+
      function validateInputCode() {
         var inputElement = document.getElementById('txtBrandCode');
         var errorElement = document.getElementById('spBrandCode');
@@ -213,8 +236,9 @@
     function AddBrandData() {
         var BrandName = $("#txtBrandName").val().trim();
         var BrandCode = $("#txtBrandCode").val();
+        var ProductLine = $("#ddlproductline").val() || [];
         //alert(BrandName + "," + BrandCode);
-
+        
         var OperationFlag = 1;
         ValidationFlag = false;
 
@@ -228,6 +252,14 @@
         }
         else {
             $("#spBrandName").html("");
+        }
+        if (ProductLine == "") {
+            $("#spddlproductline").html("Enter Product Line");
+            $("#spddlproductline").css("display", "block");
+            ValidationFlag = true;
+        }
+        else {
+            $("#spddlproductline").html("");
         }
 
         if (BrandCode == "") {
@@ -245,7 +277,7 @@
         if ($("#spBrandName").text() == "" && $("#spBrandCode").text() == "") {
 
             let BrandDetailsJson = {
-
+                  ProductLine:ProductLine,
                 CreatedBy: iLoggedInUserID,
                 CreatedDate: moment.utc(new Date()).format()
 
@@ -272,19 +304,19 @@
                     alert(data.response);
 
                     var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
-    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
-    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
-    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+                    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+                    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+                    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
 
-    // Construct the full URL
-    var url = '@Url.Action("BrandList", "Master")' +
-        '?PageID=' + pageID +
-        '&ParentID=' + parentID +
-        '&ModuleID=' + moduleID +
-        '&ModulePageID=' + modulePageID;
+                    // Construct the full URL
+                    var url = '@Url.Action("BrandList", "Master")' +
+                        '?PageID=' + pageID +
+                        '&ParentID=' + parentID +
+                        '&ModuleID=' + moduleID +
+                        '&ModulePageID=' + modulePageID;
 
-    // Redirect to the URL
-    window.location.href = url;
+                    // Redirect to the URL
+                    window.location.href = url;
                 }
 
 

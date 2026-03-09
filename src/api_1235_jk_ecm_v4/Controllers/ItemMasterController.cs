@@ -751,7 +751,83 @@ namespace api_1235_jk_ecm_v4.Controllers
             return Content(jsonResult, Application.Json, Encoding.UTF8);
 
         }
+        
+        [HttpGet]
+        [Route("FileTypeForDropdown")]
+        public async Task<IActionResult> FileTypeForDropdown()
+        {
+            string spName = "usp_CTTypeDropdown";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
 
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+        [HttpGet]
+        [Route("CTSubTypeDropdown")]
+        public async Task<IActionResult> CTSubTypeDropdown()
+        {
+            string spName = "usp_CTSubTypeDropdown";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+        [HttpPost]
+        [Route("CT_AddNewRequest")]
+        public async Task<IActionResult> CT_AddNewRequest()
+        {
+
+
+            string spName = "usp_CT_AddNewRequest";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+        }
+        [HttpGet]
+        [Route("Get_CTSizeDropdown")]
+        public async Task<IActionResult> Get_CTSizeDropdown()
+        {
+            string spName = "usp_Get_CTSizeDropdown";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
         [HttpGet]
         [Route("GetItemMasterApprovedSKUListArchive")]
         public async Task<IActionResult> GetItemMasterApprovedSKUListArchive()

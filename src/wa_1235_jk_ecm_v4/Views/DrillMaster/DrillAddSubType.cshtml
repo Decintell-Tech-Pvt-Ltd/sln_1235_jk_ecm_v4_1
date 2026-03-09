@@ -1,12 +1,270 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-
+@model wa_1235_jk_ecm_v4.Models.DrillMaster
 @{
 	ViewData["Title"] = "DrillAddSubType";
 	Layout = "~/Views/Shared/_ECMMaster.cshtml";
 }
 <!-- Content Wrapper. Contains page content -->
+
 <div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>Add</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                       
+                        <li class="breadcrumb-item">Masters</li>
+                        <li class="breadcrumb-item">Cutting Tools</li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("DrillSubType", "DrillMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Sub Type</a></li>
+
+                        <li class="breadcrumb-item">Add</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button" class="btn btn-block bg-gradient-danger btn-xs float-left"
+                                onclick="location.href='subtype.html'" title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+
+                </div>
+
+            </div><!-- /.container-fluid -->
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-primary card-outline p-a-2">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+
+                            <div class="col-md-12 mr-1">
+
+                                <div class="row">
+                                    <div class="form-group col-md-2">
+                                        <label>Product Line</label>
+                                        @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "Id", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline" })
+                                        <span id="spddlproductline" class="text-danger"></span>
+
+
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Type</label>
+                                        @* <input type="text" class="form-control" id=""> *@
+                                        <select id="TxtFileType" class="form-control select2" onchange="onTypeChange()">
+                                            <option value="">Select</option>
+
+                                            @foreach (var item in Model.TypeDropdown)
+                                            {
+                                                <option value="@item.Id" data-code="@item.CTTypeCode">
+                                                    @item.CTTypeName
+                                                </option>
+                                            }
+                                        </select>
+                                        <input type="hidden" id="hdnFileCode" />
+                                        <span id="spTxtFileType" class="text-danger"></span>
+                                    </div>
+
+                                        <label>&nbsp;</label>
+
+                                        <div class="form-group col-md-2">
+                                            <label>Key Parameter</label>
+                                            <span id="spParamName" style="margin-top:4px;display:block;"></span>
+                                        </div>
+
+                                        <div class="form-group col-md-2">
+                                            <label>Key Parameter Code</label>
+                                            <span id="spParamCode" style="margin-top:4px;display:block;"></span>
+                                        </div>
+
+                                        <div class="form-group col-md-2">
+                                            <label>Key Parameter Type</label>
+                                            <span id="spParamType" style="margin-top:4px;display:block;"></span>
+                                        </div>
+                                 
+
+                                </div>
+
+                                <div class="row">
+
+
+                                    <div class="form-group col-md-2">
+                                        <label>Size</label>
+                                        @Html.DropDownListFor(m => m.SizeID, new SelectList(Model.GetSizeList, "SizeID", "Size"), "Select", new { @class = "form-control select2", @id = "ddlSize", onchange = "clearError('spddlproductline')" })
+
+
+                                    </div>
+
+
+
+
+
+                                    <div class="form-group col-md-2">
+                                        <label>Sub Type</label>
+                                        <input id="txtCustomer" maxlength="50" name="" type="text" class="form-control" />
+                                        <span id="sptxtCustomer" class="text-danger"></span>
+                                    </div>
+
+                                    <!--  <div class="form-group col-md-2">
+                                                                                <label> Standard</label>
+                                                                                <select class="form-control select2">
+                                                                                <option>Select</option>
+                                                                                <option>Metrics
+                                     </option>
+                                                                                 <option>British
+
+
+                                                                                </select>
+
+
+                                                                            </div>-->
+
+
+
+                                    <div class="form-group col-md-2">
+                                        <label>Code </label>
+                                        <input id="txtSubTypeCode" maxlength="50" name="" type="text" class="form-control" />
+                                        <span id="sptxtCustomer" class="text-danger"></span>
+                                    </div>
+
+
+                                        <div class="form-group col-md-3">
+                                            <label class="control-label padd0">Upload CSV</label> &nbsp;
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <input name="" type="file" id="FileUploadCSV" class="custom-file-input">
+                                                    <label class="custom-file-label" for="FileUploadCSV">Choose file</label>
+
+                                                </div>
+                                            </div>
+                                            <span id="spTxtFileUploadCSV" class="text-danger"></span>
+                                        </div>
+                                    <div class=" float-right mr-1 " style="margin-top:34px; display:block;">
+                                        <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left" title="Add"  onclick="AddSubTypeData()">
+                                            Add
+                                        </button>
+                                    </div>
+
+
+
+                                </div>
+                                <hr>
+                                <div class="form-group row">
+
+                                    <div class="col-md-3">
+                                        <label>Download CSV Template </label>
+                                        <select name="" class="form-control select2">
+                                            <option>Select</option>
+                                            <!--<option value="1">06RC0</option>
+                                            <option value="2">08RC0</option>
+                                            <option value="3">06RC1</option>
+                                            <option value="4">08RC1</option>
+                                            <option value="5">08RC2</option>
+                                            <option value="6">08RC3</option>
+                                            <option value="7">08RC4</option>
+                                            <option value="8">08RC5</option>
+                                            <option value="9">08RC6</option>
+                                            <option value="10">08RC6</option>-->
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <button type="button"
+                                                class="btn btn-primary btn-xs " onclick="location.href='#'"
+                                                title="Download the file" style="margin-top:33px; display:block;">
+                                            Download
+                                        </button>
+                                    </div>
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="card card-primary card-outline p-a-2">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+
+                            <div class="col-md-12 mr-1">
+
+                                <div class="table-responsive">
+                                    <table width="100%" class="table table-bordered example3" id="tblSubTypeData">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:10%; text-align: center;">Sq. No.</th>
+                                                <th style="width:20%; text-align: Left;">Process Name</th>
+                                                <th style="width:20%;  text-align: Left;">Parameter Name</th>
+                                                <th style="width:15%;  text-align: Left;"><div align="center">Value</div></th>
+                                                <th style="width:15%;  text-align: Left;"><div align="center">UOM</div></th>
+                                                <th style="width:15%;  text-align: Left;"><div align="center">Tolerance</div></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                         
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                                <div class=" float-right ml-1 " style="margin-top:35px; display:none;">
+                                    <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left" onclick="location.href='subtype.html'" title="Go to the next page">
+                                        Submit for Approval
+                                    </button>
+                                </div>
+
+
+                                <div class=" float-right ml-2 " style="margin-top:35px; display:block;">
+                                    <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left" onclick="SaveSizeData()" title="Go to the next page">
+                                        Save
+                                    </button>
+                                </div>
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- InstanceEndEditable -->
+</div>
+<!-- /.content-wrapper -->
+@* <div class="content-wrapper">
 	<!-- InstanceBeginEditable name="EditRegion1" -->
 
 
@@ -206,4 +464,285 @@
 
 
 	<!-- InstanceEndEditable -->
-</div>
+</div> *@
+<script>
+           function SaveSizeData() {
+
+        // success message
+        alert("Sub Type details saved successfully");
+              var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+        var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+        var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+        var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+        // redirect
+        var url = '@Url.Action("DrillSubType", "DrillMaster")' +
+            '?PageID=' + pageID +
+            '&ParentID=' + parentID +
+            '&ModuleID=' + moduleID;
+
+        window.location.href = url;
+    }
+     function readCSVFile() {
+
+        var fileInput = document.getElementById("FileUploadCSV");
+
+        if (fileInput.files.length === 0) {
+            alert("Please select CSV file.");
+            return;
+        }
+
+        var file = fileInput.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+
+            var csv = e.target.result;
+
+            // split lines safely
+            var rows = csv.split(/\r?\n/);
+
+            var table = $('#tblCSVData').DataTable();
+
+            table.clear();
+
+            for (var i = 1; i < rows.length; i++) {
+
+                if (!rows[i].trim()) continue;
+
+                // basic split
+                var cols = rows[i].split(",");
+
+                if (cols.length < 8) continue;
+
+                table.row.add([
+                    cols[0]?.trim() || "",
+                    cols[1]?.trim() || "",
+                    cols[2]?.trim() || "",
+                    cols[3]?.trim() || "",
+                    cols[4]?.trim() || "",
+                    cols[5]?.trim() || "",
+                    cols[6]?.trim() || "",
+                    cols[7]?.trim() || ""
+                ]);
+            }
+
+            table.draw();
+        };
+
+        reader.readAsText(file);
+    }
+   function AddSubTypeData() {
+
+    let ProductLineRowId = $("#ddlproductline").val();
+    let CTTypeRowId = $("#TxtFileType").val();
+    let SizeDetailsRowId = $("#ddlSize").val();
+    let SubTypeName = $("#txtCustomer").val().trim();
+    let SubTypeCode = $("#txtSubTypeCode").val().trim();
+    let fileInput = document.getElementById("FileUploadCSV");
+
+    let iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+    if (!fileInput || fileInput.files.length === 0)
+        return alert("Upload CSV file");
+
+    let fileName = fileInput.files[0].name;   // ⭐ GET FILE NAME
+
+    let reader = new FileReader();
+
+    reader.onload = function (e) {
+
+        let csvText = e.target.result.trim();
+        let rows = csvText.split(/\r?\n/);
+
+        let headers = rows[0].split(",").map(h => h.trim());
+        let csvJson = [];
+
+        for (let i = 1; i < rows.length; i++) {
+
+            if (!rows[i].trim()) continue;
+
+            let values = rows[i].split(",");
+            let rowObj = {};
+
+            for (let j = 0; j < headers.length; j++) {
+                rowObj[headers[j]] =
+                    values[j] ? values[j].trim() : "";
+            }
+
+            csvJson.push(rowObj);
+        }
+
+        // ⭐ Include CsvFileName
+        let jsonData = {
+            ProductLineRowId: parseInt(ProductLineRowId),
+            CTTypeRowId: parseInt(CTTypeRowId),
+            SizeDetailsRowId: parseInt(SizeDetailsRowId),
+            SubTypeCode: SubTypeCode,
+            SubTypeName: SubTypeName,
+            CsvFileName: fileName,   // ⭐ NEW FIELD
+            CsvData: csvJson,
+            CreatedBy: iLoggedInUserID,
+            CreatedDate: moment.utc(new Date()).format()
+        };
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("AddSubType", "DrillMaster")',
+            data: { JsonData: JSON.stringify(jsonData) },
+            success: function (res) {
+                alert(res.response || "SubType inserted successfully");
+                location.reload();
+            },
+            error: function () {
+                alert("Error while saving SubType.");
+            }
+        });
+    };
+
+    reader.readAsText(fileInput.files[0]);
+}
+    // function onTypeChange() {
+
+    //         var FileType = $("#TxtFileType option:selected").text().trim();
+
+    //    // Extract TY from "Cutting -TY"
+    //    var FileTypeCode = FileType.split('-').pop().trim();
+    //    // ⭐ IMPORTANT CHANGE
+
+
+    //        $("#hdnFileCode").val(FileTypeCode);
+
+    //        if (!FileTypeCode) return;
+
+    //        var JsonData = JSON.stringify({
+    //            TypeCode: FileTypeCode
+    //        });
+
+    //        $.ajax({
+    //            type: "POST",
+    //            url: '@Url.Action("GetCTKeyDimensionsByTypeCode", "DrillMaster")',
+    //            data: { JsonData: JsonData },
+    //            dataType: "json",
+
+    //            success: function (data) {
+
+    //                if (!data || !data.response || data.response.length === 0)
+    //                    return;
+
+    //                // assuming first key dimension
+    //                var obj = data.response[0];
+
+    //                // Bind data
+    //                $("#spParamName").text(obj.paramName);
+    //                $("#spParamCode").text(obj.paramCode);
+    //                $("#spParamType").text(obj.paramType);
+
+    //                // Bind UOM dropdown
+    //                var ddl = $("#ddlUOM");
+    //                ddl.empty();
+
+    //                ddl.append('<option value="' + obj.paramUOM + '">' + obj.paramUOM + '</option>');
+    //            },
+
+    //            error: function () {
+    //                alert("Error loading key dimensions.");
+    //            }
+    //        });
+              
+    //    }
+        function onTypeChange() {
+
+        var productLineId = $("#ddlproductline").val();
+        var ctTypeRowId = $("#TxtFileType").val();
+
+        if (!productLineId || !ctTypeRowId)
+            return;
+
+        /* -------------------------------------
+           1️⃣ Existing Key Dimension Logic
+        ------------------------------------- */
+
+        var FileType = $("#TxtFileType option:selected").text().trim();
+        var FileTypeCode = FileType.split('-').pop().trim();
+
+        $("#hdnFileCode").val(FileTypeCode);
+
+        var JsonDataKeyDim = JSON.stringify({
+            TypeCode: FileTypeCode
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetCTKeyDimensionsByTypeCode", "DrillMaster")',
+            data: { JsonData: JsonDataKeyDim },
+            dataType: "json",
+            success: function (data) {
+
+                if (data && data.response && data.response.length > 0) {
+
+                    var obj = data.response[0];
+
+                    $("#spParamName").text(obj.paramName);
+                    $("#spParamCode").text(obj.paramCode);
+                    $("#spParamType").text(obj.paramType);
+                }
+            }
+        });
+
+
+        /* -------------------------------------
+           2️⃣ Bind SubType Table
+        ------------------------------------- */
+
+        var JsonDataTable = JSON.stringify({
+            ProductLineRowId: parseInt(productLineId),
+            CTTypeRowId: parseInt(ctTypeRowId)
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetSubTypeTableData", "DrillMaster")',
+            data: { JsonData: JsonDataTable },
+            dataType: "json",
+
+            beforeSend: function () {
+                $('#loader').show();
+            },
+            complete: function () {
+                $('#loader').hide();
+            },
+
+            success: function (res) {
+
+                let tbody = $("#tblSubTypeData tbody");
+                tbody.empty();
+
+                if (!res || !res.response || res.response.length === 0) {
+
+                    tbody.append(`
+                        <tr>
+                            <td colspan="6" style="text-align:center;">
+                                No Data Found
+                            </td>
+                        </tr>
+                    `);
+                    return;
+                }
+
+                $.each(res.response, function (index, item) {
+
+                    tbody.append(`
+                        <tr>
+                            <td style="text-align:center;">${item.sqNo}</td>
+                            <td>${item.processName}</td>
+                            <td>${item.parameterName}</td>
+                            <td style="text-align:center;">${item.value ?? ''}</td>
+                            <td style="text-align:center;">${item.uom ?? ''}</td>
+                            <td style="text-align:center;">${item.tolerance ?? ''}</td>
+                        </tr>
+                    `);
+                });
+            }
+        });
+    }
+</script>

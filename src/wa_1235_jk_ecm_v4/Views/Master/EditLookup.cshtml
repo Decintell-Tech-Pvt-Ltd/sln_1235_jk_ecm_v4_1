@@ -1,4 +1,6 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿
+@using Microsoft.AspNetCore.Http
+@using System.Text.Json
 @inject IHttpContextAccessor HttpContextAccessor
 @model wa_1235_jk_ecm_v4.Models.Master
 
@@ -14,7 +16,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-3">
-                    <h5>Add</h5>
+                    <h5>Edit</h5>
                 </div>
                 <div class="col-lg-9">
                     <ol class="breadcrumb float-sm-right">
@@ -61,7 +63,7 @@
                                 <div class="form-group col-md-2">
                                     <label>Product Line</label>
 
-                                    @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "ProductLineCode", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline", onchange = "clearError('spddlproductline')" })
+                                    @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "ProductLineCode", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline", onchange = "clearError('spddlproductline')",disabled="disabled" })
                                     <span id="spddlproductline" class="text-danger"></span>
 
 
@@ -75,16 +77,16 @@
                                         new {
                                             @class = "form-control select2",
                                             @id = "ddlLookuptype",
-                                            onchange = "toggleAddNewType(); clearError('spddlLookuptype')"
+                                            onchange = "toggleAddNewType(); clearError('spddlLookuptype')",disabled="disabled" 
                                         })                                    <span id="spddlLookuptype" class="text-danger"></span>
 
                                 </div>
 
-                                <div class="col-md-2 form-group">
+                              @*   <div class="col-md-2 form-group">
                                     <label>Add New Type</label>
                                     <input id="txtAddNewType" type="text" class="form-control"  disabled />
                                       <span id="sptxtAddNewType" class="text-danger"></span>
-                                </div>
+                                </div> *@
 
                                 <div class="col-md-2 form-group">
                                     <label>Lookup Value</label>
@@ -93,7 +95,7 @@
                                 </div>
 
 
-                   @*              <div class="col-md-3 form-group">
+                                <div class="col-md-3 form-group">
                                     <label>Image File Upload</label>
                                     <div class="input-group">
                                         <div class="custom-file">
@@ -103,19 +105,9 @@
                                         </div>
 
                                     </div>
-                                </div> *@
-                                <div class="form-group col-md-3">
-                                        <label class="control-label padd0">Image File Upload</label> &nbsp;
-                                        <div class="input-group">
-                                            <div class="custom-file">
+                                      <input id="hdBrandId" name="" type="hidden" value="@ViewBag.BrandId" type="text" class="form-control">
+                                </div>
 
-                                                <input name="" type="file" class="custom-file-input" id="exampleInputFile">
-                                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-
-                                            </div>
-                                        </div>
-                                       @*  <span id="spTxtFileUploadIMG" class="text-danger"></span> *@
-                                    </div>
                                 <div style="margin-top:35px;">
                                     <a type="button" onclick="SubmitLookupData()" id="btnSubmitLookup" class="btn btn-primary btn-xs btnwidth50" href="#">
                                         Submit
@@ -144,6 +136,51 @@
     <!-- InstanceEndEditable -->
 </div>
 <script>
+    var lookupData = @Html.Raw(
+        JsonSerializer.Serialize(
+            Model.LookUp_MasterData?.FirstOrDefault()
+        )
+    );
+    function BindLookupData() {
+
+    if (!lookupData) return;
+
+    // ⭐ Product Line dropdown
+    $("#ddlproductline")
+        .val(lookupData.ProductLineCode)
+        .trigger("change");
+    $('#hdBrandId').val(lookupData.LookupId);
+
+    // ⭐ Lookup Type dropdown
+    $("#ddlLookuptype")
+        .val(lookupData.LookupTypeId)
+        .trigger("change");
+
+    // ⭐ Lookup Value textbox
+    $("#txtLookupValue").val(lookupData.LookupValue);
+
+    // ⭐ Add New Type (optional)
+    if (lookupData.AddNewType != null &&
+        lookupData.AddNewType !== "") {
+
+        $("#txtAddNewType")
+            .prop("disabled", false)
+            .val(lookupData.AddNewType);
+    }
+
+    // ⭐ Image file label (cannot set file input)
+    if (lookupData.ImageFileName) {
+        $(".custom-file-label")
+            .text(lookupData.ImageFileName);
+    }
+}
+$(document).ready(function () {
+
+    BindLookupData();
+
+});
+</script>
+<script>
     $(document).ready(function () {
 
     // Add Add New option
@@ -169,19 +206,20 @@ function toggleAddNewType() {
         $("#txtAddNewType").val("");
     }
 }
-async function SubmitLookupData() {
+function SubmitLookupData() {
 
     var productLine = $("#ddlproductline").val();
+    var lookupType = $("#ddlLookuptype option:selected").text();
     var lookupTypeId = $("#ddlLookuptype").val();
     var addNewType = $("#txtAddNewType").val().trim();
     var lookupValue = $("#txtLookupValue").val().trim();
-       var filenameIMG = ($('#exampleInputFile')[0].files[0]) ? $('#exampleInputFile')[0].files[0].name : '';
-    // ⭐ File name
+    var hdBrandId = $("#hdBrandId").val();
+    // ⭐ Get file name only
     var fileInput = document.getElementById("exampleInputFile");
     var imageName = "";
 
     if (fileInput.files.length > 0) {
-        imageName = fileInput.files[0].name;
+        imageName = fileInput.files[0].name;   // e.g. a1.jpg
     }
 
     var createdBy = parseInt('@Context.Session.GetInt32("CreatedBy")');
@@ -196,44 +234,36 @@ async function SubmitLookupData() {
         $("#spddlproductline").text("");
     }
 
-    // ⭐ Either LookupType OR AddNewType required
-    if (!lookupTypeId && addNewType === "") {
-        $("#spddlLookuptype").text("Select Lookup Type OR Add New Type");
+    if (!lookupTypeId) {
+        $("#spddlLookuptype").text("Select Lookup Type");
         validation = true;
     } else {
         $("#spddlLookuptype").text("");
     }
 
     if (lookupValue === "") {
-        $("#sptxtLookupValue").text("Enter Lookup Value");
+         $("#sptxtLookupValue").text("Enter Lookup Value");
         validation = true;
-    } else {
-        $("#sptxtLookupValue").text("");
-    }
-
-    if (validation) return;
-
-    // -------------------------------------------------
-    // ⭐ MAIN LOGIC
-    // -------------------------------------------------
-
-    let json = {
-        ProductLine: productLine,
-        LookupName: lookupValue,
-        ImageName: imageName,
-        CreatedBy: createdBy,
-        OperationFlag: 1
-    };
-
-    // ⭐ IF AddNewType entered → send only that
-    if (addNewType !== "") {
-        json.AddNewType = addNewType;
-        json.LookupType = null;
     }
     else {
-        json.LookupType = lookupTypeId;
-        json.AddNewType = null;
+        $("#sptxtLookupValue").text("");
     }
+    if (validation) return;
+
+    // ---------- JSON ----------
+    let json = {
+        LookupId:hdBrandId,
+        ProductLine: productLine,
+        LookupType: lookupTypeId,
+        AddNewType: addNewType,
+        LookupName: lookupValue,
+
+        // ⭐ IMAGE NAME ADDED
+        ImageName: imageName,
+
+        CreatedBy: createdBy,
+        OperationFlag: 2
+    };
 
     var JsonData = JSON.stringify(json);
 
@@ -243,92 +273,35 @@ async function SubmitLookupData() {
         url: '@Url.Action("AddLookupData", "Master")',
         data: { JsonData: JsonData },
         datatype: "json",
-        beforeSend: function () { $('#loader').show(); },
-        complete: function () { $('#loader').hide(); },
 
-        success: async function (response) {
-           
-              if (response && response.response === "Inserted Successfully") {
-                        var selectedImageNameSample = cleanFileName(filenameIMG);
-                        var targetPathSample = 'others\\lookup\\';
-                        var uploadedFileSample = document.getElementById('exampleInputFile').files[0];
+        beforeSend: function () {
+            $('#loader').show();
+        },
+        complete: function () {
+            $('#loader').hide();
+        },
 
-                        //copyFile(selectedImageNameSample, targetPathSample, uploadedFileSample);
-                           await copyFile(uploadedFileSample, targetPathSample, selectedImageNameSample);
-                            alert(response.response);
-                                     var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
-                            var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
-                            var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
-                            var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+        success: function (response) {
+            alert(response.response);
+           var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
 
-                            // Construct the full URL
-                            var url = '@Url.Action("Lookup", "Master")' +
-                                '?PageID=' + pageID +
-                                '&ParentID=' + parentID +
-                                '&ModuleID=' + moduleID +
-                                '&ModulePageID=' + modulePageID;
+    // Construct the full URL
+    var url = '@Url.Action("Lookup", "Master")' +
+        '?PageID=' + pageID +
+        '&ParentID=' + parentID +
+        '&ModuleID=' + moduleID +
+        '&ModulePageID=' + modulePageID;
 
-                            // Redirect to the URL
-                            window.location.href = url;
-                            }else{}
-                                },
-                                error: function () {
-                                    alert("Error while saving lookup data");
-                                }
-                            });
-                        }
-   async function copyFile(fileInput, path, imageName) {
-        var JwToken = '@ViewBag.JWTToken';
-      var blobStorageUrl = '@ViewBag.ApiUrl';
-      let blobPathPrefix = '@ViewBag.BaseBlobPath';
-        var formdata = new FormData();
-        // ✅ Append file correctly
-        formdata.append("files", fileInput, imageName); // << change 'files' → 'file'
+    // Redirect to the URL
+    window.location.href = url;
+        },
 
-       // let blobPathPrefix = '@ViewBag.BaseBlobPath';
-        blobPathPrefix = (blobPathPrefix || "").replace(/\\/g, "/").trim();
-        if (blobPathPrefix.length > 0 && !blobPathPrefix.endsWith("/")) {
-            blobPathPrefix += "/";
+        error: function () {
+            alert("Error while saving lookup data");
         }
-        //    normalizePathPrefix(path)
-        var Patths = blobPathPrefix + normalizePathPrefix(path.toLowerCase());
-        formdata.append("blobPathPrefix", Patths);
-        formdata.append("Policy", 0);
-
-
-        $.ajax({
-            url: blobStorageUrl + 'Files/upload',
-            headers: {
-                Authorization: 'Bearer ' + JwToken
-            },
-            method: "POST",
-            contentType: false, // Not to set any content header
-            processData: false, // Not to process data
-            mimeType: "multipart/form-data",
-            data: formdata,
-            //async: false,
-            success: function (result) {
-                let jsonResult = JSON.parse(result); // serialize into JSON string
-                if (jsonResult && jsonResult.length > 0) {
-                    let json = {
-                      //  UserId: parseInt(CreatedBy),
-                        ImageName: imageName,
-                        BlobJson: result,
-                    };
-
-                    var Jsons = JSON.stringify(json);
-                    console.log(`uploading: ${Jsons}`);
-
-
-
-                }
-
-            },
-            error: function (err) {
-                alert(err.message);
-            }
-        });
-
-
-    }
+    });
+}
 </script>

@@ -8,6 +8,10 @@ namespace wa_1235_jk_ecm_v4.Models
 
         public ProfileParameterData_List[] ProfileParameterData_List { get; set; }
         public ParametersList[] ParametersLists { get; set; }
+        public ProdLineList[] ProdLine_List { get; set; }
+        public int ProdId { get; set; }
+        public int LookupTypeId { get; set; }
+
         //CutType
         public CutSpecParametersjarr[] CutSpecParameterslist { get; set; }
 
@@ -32,7 +36,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public FileParemeter[] FileParemeter_List { get; set; }
         public Parameters[] Parameters_LIst { get; set; }
         public Customer[] CustomerList { get; set; }
-              public mstoperation[] mstoperations { get; set; }
+        public mstoperation[] mstoperations { get; set; }
         public RawMaterial[] RawMaterialList { get; set; }
         public Brand[] Brand_List { get; set; }
         public BrandList[] BrandCodeList { get; set; }
@@ -40,7 +44,8 @@ namespace wa_1235_jk_ecm_v4.Models
         public FileSizes[] FileSizes_List { get; set; }
         //cutSidesarr
         public cutSidesarr[] cutSidesarr_list { get; set; }
-
+        public LookUpMasterData[] LookUp_MasterData { get; set; }
+        
         public Valuestream[] Valuestream_List { get; set; }
 
         public FileTypeMaster[] FileTypeMasters { get; set; }
@@ -48,9 +53,13 @@ namespace wa_1235_jk_ecm_v4.Models
         public FileType[] FileType_List { get; set; }
         public Stamp[] Stamp_List { get; set; }
         public ddBrandList[] ddBrandList { get; set; }
+        public EditProductLineList[] EditProductLineLists { get; set; }
+
         // CutOnSidesList,CutsidesList
         public CutOnSidesList[] CutOnSides_List { get; set; }
         public CutsidesList[] Cutsides_List { get; set; }
+        public EditCustomerList[] EditCustomer_List { get; set; }
+        public ProductLineData[] ProductLineDatas { get; set; }
 
         public Stamp[] StampRequestApproval_List { get; set; }
         public Stamp[] StampRequestApproved_List { get; set; }
@@ -62,6 +71,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public int BrandId { get; set; }
         public string? BrandCode { get; set; }
         public int FileSubTypeId { get; set; }
+        public EditBrand[] EditBrands { get; set; }
 
         public SubmittedRequestList[] SubmittedRequest_List { get; set; }
 
@@ -69,6 +79,19 @@ namespace wa_1235_jk_ecm_v4.Models
 
         public Drawing[] Drawing_List { get; set; }
 
+
+
+
+        public class LookUpMasterData
+        {
+            public int LookupTypeId { get; set; }
+            public string LookupValue { get; set; }
+            public int LookupId { get; set; }
+            public string ImageFileName { get; set; }
+            public object ProductLineCode { get; set; }
+            public string LookupType { get; set; }
+            public object ProductLine { get; set; }
+        }
 
 
 
@@ -95,7 +118,7 @@ namespace wa_1235_jk_ecm_v4.Models
             public string opr_operation_restricted { get; set; }
             public string opr_operation_process { get; set; }
             public string opr_disp_flg { get; set; }
-            public string opr_ProductLine { get; set; }            
+            public string opr_ProductLine { get; set; }
             public string opr_norms_reqd_flg { get; set; }
             public int opr_SetupTime { get; set; }
         }
@@ -176,7 +199,10 @@ namespace wa_1235_jk_ecm_v4.Models
             public int? PackingDays { get; set; }
             public string? CustomerDetailsJobj { get; set; }
             public string? CustomerHistoryJarr { get; set; }
+            public object? ProductLine { get; set; }
         }
+
+
         public class RawMaterial
         {
             public int RawMaterialId { get; set; }
@@ -211,11 +237,55 @@ namespace wa_1235_jk_ecm_v4.Models
         }
 
 
+
+
+        public class EditProductLineList
+        {
+            public int ProductId { get; set; }
+            public string ProductLine { get; set; }
+            public string ProductLineCode { get; set; }
+        }
+
+
+        public class EditCustomerList
+        {
+            public int CustomerId { get; set; }
+            public string CustomerName { get; set; }
+            public string CustomerCode { get; set; }
+            public float CustomerPct { get; set; }
+            public int PackingDays { get; set; }
+            public string[] ProductLine { get; set; }
+        }
+
+
+
+        public class EditBrand
+        {
+            public int BrandId { get; set; }
+            public string BrandCode { get; set; }
+            public string BrandName { get; set; }
+            public string[] ProductLine { get; set; }
+        }
+
+
+
+        public class ProductLineData
+        {
+            public int Id { get; set; }
+            public string ProductLineCode { get; set; }
+            public string ProductLine { get; set; }
+            public bool IsActive { get; set; }
+            public int CreatedBy { get; set; }
+            public DateTime CreatedDateUtc { get; set; }
+        }
+
         public class Brand
         {
             public int BrandId { get; set; }
             public string? BrandName { get; set; }
             public string? BrandCode { get; set; }
+            public string? ProductLineName { get; set; }
+
         }
         public class FileSize
         {

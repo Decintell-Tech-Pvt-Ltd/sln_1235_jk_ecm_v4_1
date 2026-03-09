@@ -8,7 +8,7 @@
 <style>
 	.disabledApprovebutton {
 		pointer-events: none; /* Disables all click, focus, and hover */
-		opacity: 1; /* Makes it look grayed out */		
+		opacity: 1; /* Makes it look grayed out */
 	}
 
 </style>
@@ -83,7 +83,7 @@
 						<div class="card card-primary card-tabs p-a-2" style="height: 100%;">
 							<div class="card-header p-0 pt-1">
 								<ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
-									
+
 									@{
 										string cssClass = ""; // Define the default CSS class variable
 
@@ -100,7 +100,7 @@
 												</a>
 											</li>
 											<li class="nav-item">
-												<a href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval" , Status = "SKU" })" class="nav-link">
+												<a href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval", Status = "SKU" })" class="nav-link">
 													Dispatch Details
 												</a>
 											</li>
@@ -131,7 +131,7 @@
 												</a>
 											</li>
 											<li class="nav-item">
-										<a href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), Status = "SKU" })" class="nav-link">
+												<a href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), Status = "SKU" })" class="nav-link">
 													Dispatch Details
 												</a>
 											</li>
@@ -144,362 +144,468 @@
 
 							<div class="@cssClass">
 
-							<div class="card-body">
+								<div class="card-body">
 
-								<div class="row" >
-									<div class="col-md-2 form-group">
-										<label>Start Date</label>
-										<div class="input-group date @cssClass" id="todate" data-target-input="nearest">
-											<input type="text" id="txtStartDate" class="form-control datetimepicker-input" data-target="#todate">
-											<div class="input-group-append" data-target="#todate" data-toggle="datetimepicker">
-												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+									<div class="row">
+										<div class="col-md-2">
+											<label>Product Line</label>
+
+											@Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "ProductLineCode", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline", onchange = "clearError('spddlproductline'); toggleDrillDiv();" })
+											<span id="spddlproductline" class="text-danger"></span>
+
+
+										</div>
+										<div class="col-md-2 form-group">
+											<label>Start Date</label>
+											<div class="input-group date @cssClass" id="todate" data-target-input="nearest">
+												<input type="text" id="txtStartDate" class="form-control datetimepicker-input" data-target="#todate">
+												<div class="input-group-append" data-target="#todate" data-toggle="datetimepicker">
+													<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+												</div>
 											</div>
 										</div>
-									</div>
 
-									<div class="col-md-2 form-group">
-										<label>End Date</label>
-										<div class="input-group date @cssClass" id="fromdate" data-target-input="nearest">
-											<input type="text" id="txtEndDate" onchange="checkDateValidity();" class="form-control datetimepicker-input" data-target="#fromdate">
-											<div class="input-group-append" data-target="#fromdate" data-toggle="datetimepicker">
-												<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+										<div class="col-md-2 form-group">
+											<label>End Date</label>
+											<div class="input-group date @cssClass" id="fromdate" data-target-input="nearest">
+												<input type="text" id="txtEndDate" onchange="checkDateValidity();" class="form-control datetimepicker-input" data-target="#fromdate">
+												<div class="input-group-append" data-target="#fromdate" data-toggle="datetimepicker">
+													<div class="input-group-text"><i class="fa fa-calendar"></i></div>
+												</div>
 											</div>
 										</div>
+
+
 									</div>
 
 
-								</div>
 
 
+									<div class="row ">
+										<div class="col-md-3">
+											<h5 style="font-weight:600;" class="top10">Customer Details</h5>&nbsp;
+										</div>
 
+										<br />
+										<div class="col-md-12">
+											<div class="row">
 
-								<div class="row ">
-									<div class="col-md-3">
-										<h5 style="font-weight:600;" class="top10">Customer Details</h5>&nbsp;
-									</div>
-
-									<br />
-									<div class="col-md-12">
-										<div class="row">
-
-											<div class="form-group col-md-3">
-												<label>Customer</label>
-												<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllCustomer" onchange="CustomerCode();">
-													<option value="0">Select</option>
-													@if (Model.ecm_CustomerMaster != null)
-													{
-														@foreach (var item in Model.ecm_CustomerMaster)
+												<div class="form-group col-md-3">
+													<label>Customer</label>
+													<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllCustomer" onchange="CustomerCode();">
+														<option value="0">Select</option>
+														@if (Model.ecm_CustomerMaster != null)
 														{
-															@if (Model.ProductionDetails_List != null && item.CustomerCode == Model.ProductionDetails_List.CustomerCode)
+															@foreach (var item in Model.ecm_CustomerMaster)
 															{
-																<option selected="selected" value="@item.CustomerCode">@item.CustomerName</option>
-															}
-															else
-															{
-																<option value="@item.CustomerCode">@item.CustomerName</option>
+																@if (Model.ProductionDetails_List != null && item.CustomerCode == Model.ProductionDetails_List.CustomerCode)
+																{
+																	<option selected="selected" value="@item.CustomerCode">@item.CustomerName</option>
+																}
+																else
+																{
+																	<option value="@item.CustomerCode">@item.CustomerName</option>
+																}
 															}
 														}
-													}
-												</select>
+													</select>
 													<span id="spdllCustomer" class="text-danger" style="display:none;"></span>
-											</div>
+												</div>
 
-											<div class="form-group col-md-2" style="display:none">
-												@Html.TextBoxFor(m => m.ProductionDetails_List.CustomerCode, new { @class = "form-control", id = "txtcustId" })
-											</div>
+												<div class="form-group col-md-2" style="display:none">
+													@Html.TextBoxFor(m => m.ProductionDetails_List.CustomerCode, new { @class = "form-control", id = "txtcustId" })
+												</div>
 
-											<div class="form-group col-md-2">
-												<label>Customer Code</label>
-												@if (Model.ProductionDetails_List != null)
-												{
-													<input name="" type="text" id="txtCustomer" class="form-control" value="@Model.ProductionDetails_List.CustomerCode" disabled>
-												}
-												else
-												{
-													<input name="" type="text" id="txtCustomer" class="form-control" disabled>
-
-												}
-
-											</div>
-
-											<div class="form-group col-md-3">
-												<label>Brand</label>
-												<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllBrand" onchange="BrandCode();">
-													<option value="0">Select</option>
-													@foreach (var item in Model.ecm_BrandMaster)
+												<div class="form-group col-md-2">
+													<label>Customer Code</label>
+													@if (Model.ProductionDetails_List != null)
 													{
-														@if (Model.ProductionDetails_List != null && item.BrandCode == Model.ProductionDetails_List.BrandCode)
-														{
-															<option selected="selected" value="@item.BrandCode">@item.BrandName</option>
-														}
-														else
-														{
-															<option value="@item.BrandCode">@item.BrandName</option>
-														}
-													}
-												</select>
-													<span id="spdllBrand" class="text-danger" style="display:none;"></span>
-											</div>
-
-											<div class="form-group col-md-2">
-												<label>Brand Code</label>
-												@if (Model.ProductionDetails_List != null)
-												{
-													<input name="" type="text" class="form-control" value="@Model.ProductionDetails_List.BrandCode" id="txtBrand" disabled>
-												}
-												else
-												{
-													<input name="" type="text" class="form-control" id="txtBrand" disabled>
-
-												}
-											</div>
-
-											<div class="form-group col-md-3">
-												<label>Ship to Country </label>
-												<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllCountryName" onchange="CountryContinent();">
-													<option value="0">Select</option>
-													@foreach (var item in Model.ShipToCountry_List)
-													{
-														@if (Model.ProductionDetails_List != null && item.CountryCode == Model.ProductionDetails_List.CountryCode)
-														{
-															<option selected="selected" value="@item.CountryCode">@item.CountryName</option>
-														}
-														else
-														{
-															<option value="@item.CountryCode">@item.CountryName</option>
-														}
-													}
-												</select>
-													<span id="spdllCountryName" class="text-danger" style="display:none;"></span>
-											</div>
-
-											<div class="form-group col-md-2">
-												<label>Continent</label>
-												@Html.TextBoxFor(m => m.ProductionDetails_List.Continent, new { @class = "form-control", id = "txtContinent", @disabled = "disabled" })
-											</div>
-
-										</div>
-
-										<div class="row">
-											<div class="form-group col-md-3">
-												<label>Customer Part No.</label>
-												@Html.TextBoxFor(m => m.ProductionDetails_List.CustomerPartNumber, new { @class = "form-control", id = "txtCustomerPart" })
-											</div>
-
-											<div class="form-group col-md-2">
-												<label>Sales  </label>
-												<select name="" class="form-control select2" id="dllSales">
-													<option value="Select">Select</option>
-													@if (Model.ProductionDetails_List != null && "Export Sales" == Model.ProductionDetails_List.Sales)
-													{
-														<option selected="selected" value="Export Sales">Export Sales</option>
-														<option value="Domestic Sales">Domestic Sales</option>
-													}
-													else if (Model.ProductionDetails_List != null && "Domestic Sales" == Model.ProductionDetails_List.Sales)
-													{
-														<option selected="selected" value="Domestic Sales">Domestic Sales</option>
-														<option value="Export Sales">Export Sales</option>
+														<input name="" type="text" id="txtCustomer" class="form-control" value="@Model.ProductionDetails_List.CustomerCode" disabled>
 													}
 													else
 													{
-														<option value="Export Sales">Export Sales</option>
-														<option value="Domestic Sales">Domestic Sales</option>
+														<input name="" type="text" id="txtCustomer" class="form-control" disabled>
+
 													}
-												</select>
-													<span id="spdllSales" class="text-danger" style="display:none;"></span>
-											</div>
 
-										</div>
+												</div>
 
-									</div>
-
-
-									<div class="col-md-12">
-											@{
-												bool disableControls =
-												Model?.ProductionDetails_List?.ReqType == "A" ||
-												Model?.ProductionDetails_List?.ReqType == "R";
-											}
-										<h5 style="font-weight:600;" class="top10">File & Cut Specs</h5>&nbsp;
-										<div class="row top10">
-
-											<div class="form-group col-md-2">
-												<label>File Size(Inch) </label>
-													<select class="form-control select2 select2-hidden-accessible" @(disableControls ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllFileSize" onchange="FileSubTypeChange();">
-													<option value="0">Select</option>
-						
-														@foreach (var item in Model.FileSizes_List)
-													{
-														@if (Model.ProductionDetails_List != null && item.FileSizeCode == Model.ProductionDetails_List.FileSizeCode)
+												<div class="form-group col-md-3">
+													<label>Brand</label>
+													<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllBrand" onchange="BrandCode();">
+														<option value="0">Select</option>
+														@foreach (var item in Model.ecm_BrandMaster)
 														{
-															<option selected="selected" value="@item.FileSizeCode" >@item.FileSizeInch1</option>
-														}
-														else
-														{
-															<option value="@item.FileSizeCode">@item.FileSizeInch1</option>
-														}
-													}
-												</select>
-													<span id="spdllFileSize" class="text-danger" style="display:none;"></span>
-											</div>
-
-											<div class="form-group col-md-2">
-												<label>File Type </label>
-													<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" @(disableControls ? "disabled" : "") tabindex="-1" aria-hidden="true" id="dllFileType" onchange="FileSubTypeChange();">
-													<option value="0">Select</option>
-													@foreach (var item in Model.FileType_List)
-													{
-														@if (Model.ProductionDetails_List != null && item.Id == Model.ProductionDetails_List.FileTypeCodeId)
-														{
-															<option selected="selected" value="@item.Id">@item.FileTypeName</option>
-														}
-														else
-														{
-															<option value="@item.Id">@item.FileTypeName</option>
-														}
-													}
-												</select>
-													<span id="spdllFileType" class="text-danger" style="display:none;"></span>
-											</div>
-
-											<div class="form-group col-md-2">
-												<label>File Sub Type </label>
-													<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" @(disableControls ? "disabled" : "") tabindex="-1" aria-hidden="true" id="dllFileSubType" onchange="FileCodeAdd();">
-													<option value="0">Select</option>
-													@foreach (var item in Model.FileSubType_List)
-													{
-														@if (Model.ProductionDetails_List != null && item.Id == Model.ProductionDetails_List.FileSubType)
-														{
-															<option selected="selected" value="@item.Id">@item.SubType</option>
-														}
-														else
-														{
-															<option value="@item.Id">@item.FileSubTypeName</option>
-														}
-													}
-												</select>
-													<span id="spdllFileSubType" class="text-danger" style="display:none;"></span>
-											</div>
-
-											<div class="form-group col-md-1">
-												<label>File Code</label>
-												@if (Model.ProductionDetails_List != null)
-												{
-														<input name="" type="text" value="@Model.ProductionDetails_List.FileCode" @(disableControls ? "disabled" : "") class="form-control" disabled="" id="FileCode">
-												}
-												else
-												{
-													<input name="" type="text" class="form-control" disabled="" id="FileCode">
-												}
-											</div>
-
-
-											<div style="margin-top:36px;">
-												<button type="button" id="btn_ProductionView"
-														class="btn btn-primary btn-xs btnwidth50"
-														data-toggle="modal" onclick="Filesubtypedata()"
-														title="View details">
-													View
-												</button>
-
-											</div>
-
-											<div class="form-group col-md-2">
-												<label>Cut Type  </label>
-													<select class="form-control select2 select2-hidden-accessible" @(disableControls ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllCutType" onchange="FillCutSpecList();">
-													<option value="0">Select</option>
-													@foreach (var item in Model.CutTypelist)
-													{
-														@if (Model.ProductionDetails_List != null && item.LookupId == Model.ProductionDetails_List.CutType)
-														{
-															<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
-														}
-														else
-														{
-															<option value="@item.LookupId">@item.LookupValue</option>
-														}
-													}
-												</select>
-
-											</div>
-
-											<div class="form-group col-md-2">
-												<label>Cut Specification  </label>
-													<select class="form-control select2 select2-hidden-accessible" @(disableControls ? "disabled" : "") style="width: 100%;" id="dllCutStandard" onchange="CutSpecification();">
-													<option value="0">Select</option>
-
-													@if (Model.CutSpecification_List != null)
-													{
-														@foreach (var item in Model.CutSpecification_List)
-														{
-															@if (Model.ProductionDetails_List != null)
+															@if (Model.ProductionDetails_List != null && item.BrandCode == Model.ProductionDetails_List.BrandCode)
 															{
-																if (item.Id == Model.ProductionDetails_List.CutStandard)
-																{
-																	<option selected="selected" value="@item.Id">@item.CutSpecName</option>
-																}
+																<option selected="selected" value="@item.BrandCode">@item.BrandName</option>
 															}
 															else
 															{
-																<option value="@item.Id">@item.CutSpecName</option>
+																<option value="@item.BrandCode">@item.BrandName</option>
 															}
-
 														}
+													</select>
+													<span id="spdllBrand" class="text-danger" style="display:none;"></span>
+												</div>
+
+												<div class="form-group col-md-2">
+													<label>Brand Code</label>
+													@if (Model.ProductionDetails_List != null)
+													{
+														<input name="" type="text" class="form-control" value="@Model.ProductionDetails_List.BrandCode" id="txtBrand" disabled>
 													}
-												</select>
+													else
+													{
+														<input name="" type="text" class="form-control" id="txtBrand" disabled>
+
+													}
+												</div>
+
+												<div class="form-group col-md-3">
+													<label>Ship to Country </label>
+													<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllCountryName" onchange="CountryContinent();">
+														<option value="0">Select</option>
+														@foreach (var item in Model.ShipToCountry_List)
+														{
+															@if (Model.ProductionDetails_List != null && item.CountryCode == Model.ProductionDetails_List.CountryCode)
+															{
+																<option selected="selected" value="@item.CountryCode">@item.CountryName</option>
+															}
+															else
+															{
+																<option value="@item.CountryCode">@item.CountryName</option>
+															}
+														}
+													</select>
+													<span id="spdllCountryName" class="text-danger" style="display:none;"></span>
+												</div>
+
+												<div class="form-group col-md-2">
+													<label>Continent</label>
+													@Html.TextBoxFor(m => m.ProductionDetails_List.Continent, new { @class = "form-control", id = "txtContinent", @disabled = "disabled" })
+												</div>
+
+											</div>
+
+											<div class="row">
+												<div class="form-group col-md-3">
+													<label>Customer Part No.</label>
+													@Html.TextBoxFor(m => m.ProductionDetails_List.CustomerPartNumber, new { @class = "form-control", id = "txtCustomerPart" })
+												</div>
+
+												<div class="form-group col-md-2">
+													<label>Sales  </label>
+													<select name="" class="form-control select2" id="dllSales">
+														<option value="Select">Select</option>
+														@if (Model.ProductionDetails_List != null && "Export Sales" == Model.ProductionDetails_List.Sales)
+														{
+															<option selected="selected" value="Export Sales">Export Sales</option>
+															<option value="Domestic Sales">Domestic Sales</option>
+														}
+														else if (Model.ProductionDetails_List != null && "Domestic Sales" == Model.ProductionDetails_List.Sales)
+														{
+															<option selected="selected" value="Domestic Sales">Domestic Sales</option>
+															<option value="Export Sales">Export Sales</option>
+														}
+														else
+														{
+															<option value="Export Sales">Export Sales</option>
+															<option value="Domestic Sales">Domestic Sales</option>
+														}
+													</select>
+													<span id="spdllSales" class="text-danger" style="display:none;"></span>
+												</div>
+
 											</div>
 
 										</div>
 
+										<div id="filediv" class="col-md-12">
+											<div class="col-md-12">
+												@{
+													bool disableControls =
+													Model?.ProductionDetails_List?.ReqType == "A" ||
+													Model?.ProductionDetails_List?.ReqType == "R";
+												}
+												<h5 style="font-weight:600;" class="top10">File & Cut Specs</h5>&nbsp;
+												<div class="row top10">
+
+													<div class="form-group col-md-2">
+														<label>File Size(Inch) </label>
+														<select class="form-control select2 select2-hidden-accessible" @(disableControls ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllFileSize" onchange="FileSubTypeChange();">
+															<option value="0">Select</option>
+
+															@foreach (var item in Model.FileSizes_List)
+															{
+																@if (Model.ProductionDetails_List != null && item.FileSizeCode == Model.ProductionDetails_List.FileSizeCode)
+																{
+																	<option selected="selected" value="@item.FileSizeCode">@item.FileSizeInch1</option>
+																}
+																else
+																{
+																	<option value="@item.FileSizeCode">@item.FileSizeInch1</option>
+																}
+															}
+														</select>
+														<span id="spdllFileSize" class="text-danger" style="display:none;"></span>
+													</div>
+
+													<div class="form-group col-md-2">
+														<label>File Type </label>
+														<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" @(disableControls ? "disabled" : "") tabindex="-1" aria-hidden="true" id="dllFileType" onchange="FileSubTypeChange();">
+															<option value="0">Select</option>
+															@foreach (var item in Model.FileType_List)
+															{
+																@if (Model.ProductionDetails_List != null && item.Id == Model.ProductionDetails_List.FileTypeCodeId)
+																{
+																	<option selected="selected" value="@item.Id">@item.FileTypeName</option>
+																}
+																else
+																{
+																	<option value="@item.Id">@item.FileTypeName</option>
+																}
+															}
+														</select>
+														<span id="spdllFileType" class="text-danger" style="display:none;"></span>
+													</div>
+
+													<div class="form-group col-md-2">
+														<label>File Sub Type </label>
+														<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" @(disableControls ? "disabled" : "") tabindex="-1" aria-hidden="true" id="dllFileSubType" onchange="FileCodeAdd();">
+															<option value="0">Select</option>
+															@foreach (var item in Model.FileSubType_List)
+															{
+																@if (Model.ProductionDetails_List != null && item.Id == Model.ProductionDetails_List.FileSubType)
+																{
+																	<option selected="selected" value="@item.Id">@item.SubType</option>
+																}
+																else
+																{
+																	<option value="@item.Id">@item.FileSubTypeName</option>
+																}
+															}
+														</select>
+														<span id="spdllFileSubType" class="text-danger" style="display:none;"></span>
+													</div>
+
+													<div class="form-group col-md-1">
+														<label>File Code</label>
+														@if (Model.ProductionDetails_List != null)
+														{
+															<input name="" type="text" value="@Model.ProductionDetails_List.FileCode" @(disableControls ? "disabled" : "") class="form-control" disabled="" id="FileCode">
+														}
+														else
+														{
+															<input name="" type="text" class="form-control" disabled="" id="FileCode">
+														}
+													</div>
+
+
+													<div style="margin-top:36px;">
+														<button type="button" id="btn_ProductionView"
+																class="btn btn-primary btn-xs btnwidth50"
+																data-toggle="modal" onclick="Filesubtypedata()"
+																title="View details">
+															View
+														</button>
+
+													</div>
+
+													<div class="form-group col-md-2">
+														<label>Cut Type  </label>
+														<select class="form-control select2 select2-hidden-accessible" @(disableControls ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllCutType" onchange="FillCutSpecList();">
+															<option value="0">Select</option>
+															@foreach (var item in Model.CutTypelist)
+															{
+																@if (Model.ProductionDetails_List != null && item.LookupId == Model.ProductionDetails_List.CutType)
+																{
+																	<option selected="selected" value="@item.LookupId">@item.LookupValue</option>
+																}
+																else
+																{
+																	<option value="@item.LookupId">@item.LookupValue</option>
+																}
+															}
+														</select>
+
+													</div>
+
+													<div class="form-group col-md-2">
+														<label>Cut Specification  </label>
+														<select class="form-control select2 select2-hidden-accessible" @(disableControls ? "disabled" : "") style="width: 100%;" id="dllCutStandard" onchange="CutSpecification();">
+															<option value="0">Select</option>
+
+															@if (Model.CutSpecification_List != null)
+															{
+																@foreach (var item in Model.CutSpecification_List)
+																{
+																	@if (Model.ProductionDetails_List != null)
+																	{
+																		if (item.Id == Model.ProductionDetails_List.CutStandard)
+																		{
+																			<option selected="selected" value="@item.Id">@item.CutSpecName</option>
+																		}
+																	}
+																	else
+																	{
+																		<option value="@item.Id">@item.CutSpecName</option>
+																	}
+
+																}
+															}
+														</select>
+													</div>
+
+												</div>
+
+
+											</div>
+
+											<div class="table-responsive">
+												<table class="table table-bordered example1" id="bodyCutSides">
+													<thead>
+														<tr>
+
+															<th width="15%"><div align="left">Name</div></th>
+															<th width="20%"><div align="left">Details​</div></th>
+															<th width="5%"><div align="center">Value</div></th>
+
+														</tr>
+													</thead>
+													<tbody>
+													</tbody>
+												</table>
+
+												<br />
+
+
+											</div>
+										</div>
+									</div>
+									<div id="drillDiv" style="display:none;">
+
+										<div class="row">
+											<div class="col-md-12">
+
+												<h5 style="font-weight:600;" class="top10">Production Details</h5>&nbsp;
+												<div class="row top10">
+													<div class="form-group col-md-3">
+														<label>Type </label>
+														@Html.DropDownListFor(m => m.TypeId, new SelectList(Model.FileTypeCodeList, "TypeId", "CTTypeName"), "Select", new { @class = "form-control select2", @id = "ddlType", onchange = "clearError('spCTddlType');" })
+														<span id="spCTddlType" class="text-danger"></span>
+
+													</div>
+													<div class="form-group col-md-2">
+														<label>Size </label>
+														@Html.DropDownListFor(m => m.SizeID, new SelectList(Model.CTSizeList, "SizeID", "Size"), "Select", new { @class = "form-control select2", @id = "ddlSize", onchange = "clearError('spCTddlSize');" })
+
+														<span id="spCTddlSize" class="text-danger"></span>
+
+													</div>
+
+
+
+
+
+
+
+
+
+
+													<div class="form-group col-md-1">
+														<label>Sub Type </label>
+														@Html.DropDownListFor(m => m.SubTypeId, new SelectList(Model.SubtypeDD, "SubTypeId", "SubTypeName"), "Select", new { @class = "form-control select2", @id = "dllCTFileSubType", onchange = "clearError('spCTddlSize');" })
+
+													</div>
+
+													<div class="form-group col-md-1" style="display:none;">
+														<label>Standard </label>
+														<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" id="dllCTCutStandard" >
+															<option value="0">Select</option>
+															<option value="1">Metrics</option>
+															<option value="2">British</option>
+
+														</select>
+
+													</div>
+
+													<div class="form-group col-md-2">
+														<label>Code</label>
+														<input type="text" id="txtCode" class="form-control" readonly />
+													</div>
+
+
+
+
+
+
+
+													@* <div class="col-md-2" style="margin-top: 35px;">
+
+														<div class="btnwidth50 float-left mr-1 ">
+															<button type="button"
+																	class="btn btn-primary btn-xs btnwidth50"
+																	data-toggle="modal" data-target="#code"
+																	title="View details">
+																View
+															</button>
+
+														</div>
+
+
+														<div class="btnwidth50 float-left mr-1 ">
+															<button type="button"
+																	class="btn btn-primary btn-xs btnwidth60"
+																	onclick="window.open('https://decintellai.com/ui/all-Modules/UI_Repository/pdf/04FLF1AS.pdf', '_blank')" title="View Drawing">
+																Drawing
+															</button>
+														</div>
+														<div class="btnwidth50 float-left">
+															<button type="button"
+																	class="btn btn-primary btn-xs btnwidth50"
+																	onclick="showAlertDrill().href='Drill-Dispatch-Details.html'"
+																	title="Save the current record">
+																Save
+															</button>
+
+
+														</div>
+
+													</div> *@
+												</div>
+												<div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="btnwidth50 float-right ">
+										<button type="button" id="btn_ProductionSave"
+												class="btn btn-primary btn-xs btnwidth50"
+												onclick="SaveNewProduct();" 
+												title="Save the current record">
+											Save
+										</button>
+
 
 									</div>
 
-									<div class="table-responsive">
-											<table class="table table-bordered example1" id="bodyCutSides">
-											<thead>
-												<tr>
-
-													<th width="15%"><div align="left">Name</div></th>
-													<th width="20%"><div align="left">Details​</div></th>
-													<th width="5%"><div align="center">Value</div></th>
-
-												</tr>
-											</thead>
-											<tbody>
-											</tbody>
-										</table>
-
-										<br />
-										<div class="btnwidth50 float-right ">
-											<button type="button" id="btn_ProductionSave"
-													class="btn btn-primary btn-xs btnwidth50"
-													onclick="SaveNewProduct();" id="btnSave"
-													title="Save the current record">
-												Save
+									@if (Model.ProductionDetails_List != null)
+									{
+										<div class="btnwidth50 float-right mr-1 ">
+											<button type="button" id="btn_ProductionDrawing"
+													class="btn btn-primary btn-xs btnwidth60"
+													onclick="ShowDocument();" id="btnDrawingShow"
+													title="View Drawing">
+												Drawing
 											</button>
-
-
 										</div>
+									}
 
-										@if (Model.ProductionDetails_List != null)
-										{
-											<div class="btnwidth50 float-right mr-1 ">
-												<button type="button" id="btn_ProductionDrawing"
-														class="btn btn-primary btn-xs btnwidth60"
-														onclick="ShowDocument();" id="btnDrawingShow"
-														title="View Drawing">
-													Drawing
-												</button>
-											</div>
-										}
-
-
-									</div>
 								</div>
 							</div>
-							</div>
 						</div>
-					</div>
+						</div>
 				</div>
 			</div>
 		</div>
@@ -510,7 +616,50 @@
 
 
 <script>
-	
+		$("#ddlproductline, #ddlType, #ddlSize, #dllCTFileSubType").change(function () {
+		generateCode();
+	});
+		function generateCode() {
+
+		// Product Line Code
+		var productLine = $("#ddlproductline").val(); // D
+
+		// Type Code from (TY)
+		var typeText = $("#ddlType option:selected").text();
+		var typeMatch = typeText.match(/\((.*?)\)/);
+		var typeCode = typeMatch ? typeMatch[1] : "";
+
+		// Size Code and UOM
+		var sizeText = $("#ddlSize option:selected").text();
+		var sizeCode = sizeText.split('-')[0].trim(); // 0466
+
+		var uomMatch = sizeText.match(/\((.*?)\)/);
+		var uomFirst = uomMatch ? uomMatch[1].charAt(0) : ""; // M
+
+		// SubType Code
+			var subTypeText = $("#dllCTFileSubType option:selected").text();
+
+	var match = subTypeText.match(/\((.*?)\)/);
+
+	var subTypeCode = match ? match[1] : ""; // T
+
+		// Final SKU
+		var sku = productLine + sizeCode + typeCode + subTypeCode + uomFirst;
+
+		$("#txtCode").val(sku);
+	}
+		function toggleDrillDiv() {
+
+		var productLine = $('#ddlproductline').val();
+
+		if (productLine != "F") {
+			$('#drillDiv').show();
+			$('#filediv').hide();
+		} else {
+			$('#drillDiv').hide();
+			$('#filediv').show();
+		}
+	}
 
 	$(document).ready(function () {
 
@@ -522,7 +671,7 @@
 			 // Disable input
 			$('#txtStartDate').prop('disabled', true);
 		}
-		
+
 		else {
 			let today = new Date();
 			let dd = String(today.getDate()).padStart(2, '0');
@@ -536,7 +685,7 @@
 			$('#txtEndDate').val(serverEndDate);
 			 // Disable input
 			$('#txtEndDate').prop('disabled', true);
-		} 		
+		}
 		else {
 			$('#txtEndDate').val('31/12/2099');
 		}
@@ -741,7 +890,7 @@
 					var Cutdata = data.objList.cutSpecificationEdit_List;
 					var tbody = $('#bodyCutSides tbody');
 					tbody.empty(); // Clear existing content if any
-					
+
 					// Cutdata.forEach(function (item) {
 					// 	var row = $('<tr>');
 					// 	row.append($('<td>').text(item.cutSides));
@@ -904,11 +1053,40 @@
 
 
 <script>
-	
-		function validateFormInputs() {
-		let isValid = true; // moved inside
 
-		// Reset all error spans
+	// 	function validateFormInputs() {
+	// 	let isValid = true; // moved inside
+
+	// 	// Reset all error spans
+	// 	$(".text-danger").hide().text("");
+
+	// 	function checkDropdown(id, spanId, message) {
+	// 		const value = $("#" + id).val();
+	// 		if (!value || value === "0") {
+	// 			$("#" + spanId).text(message).show();
+	// 			isValid = false;
+	// 		}
+	// 	}
+
+	// 	// Validate dropdowns
+	// 	checkDropdown("dllCustomer", "spdllCustomer", "Please select a Customer.");
+	// 	checkDropdown("dllBrand", "spdllBrand", "Please select a Brand.");
+	// 	checkDropdown("dllCountryName", "spdllCountryName", "Please select a Country.");
+	// 	checkDropdown("dllSales", "spdllSales", "Please select Sales.");
+	// 	checkDropdown("dllFileSize", "spdllFileSize", "Please select File Size.");
+	// 	// checkDropdown("dllFileType", "spdllFileType", "Please select File Type.");
+	// 	// checkDropdown("dllFileSubType", "spdllFileSubType", "Please select File SubType.");
+	// 	// checkDropdown("dllCutType", "spdllCutType", "Please select Cut Type.");
+	// 	// checkDropdown("dllCutStandard", "spdllCutStandard", "Please select Cut Standard.");
+
+
+
+	// 	return isValid;
+	// }
+		function validateFormInputs() {
+
+		let isValid = true;
+
 		$(".text-danger").hide().text("");
 
 		function checkDropdown(id, spanId, message) {
@@ -919,26 +1097,48 @@
 			}
 		}
 
-		// Validate dropdowns
-		checkDropdown("dllCustomer", "spdllCustomer", "Please select a Customer.");
-		checkDropdown("dllBrand", "spdllBrand", "Please select a Brand.");
-		checkDropdown("dllCountryName", "spdllCountryName", "Please select a Country.");
+		// COMMON VALIDATIONS (always required)
+		checkDropdown("dllCustomer", "spdllCustomer", "Please select Customer.");
+		checkDropdown("dllBrand", "spdllBrand", "Please select Brand.");
+		checkDropdown("dllCountryName", "spdllCountryName", "Please select Country.");
 		checkDropdown("dllSales", "spdllSales", "Please select Sales.");
-		checkDropdown("dllFileSize", "spdllFileSize", "Please select File Size.");
-		// checkDropdown("dllFileType", "spdllFileType", "Please select File Type.");
-		// checkDropdown("dllFileSubType", "spdllFileSubType", "Please select File SubType.");
-		// checkDropdown("dllCutType", "spdllCutType", "Please select Cut Type.");
-		// checkDropdown("dllCutStandard", "spdllCutStandard", "Please select Cut Standard.");
 
-		
+		// ⭐ CHECK WHICH DIV IS ACTIVE
+		if ($("#filediv").is(":visible")) {
+
+			// FILE MODE VALIDATION
+			checkDropdown("dllFileSize", "spdllFileSize", "Please select File Size.");
+			// checkDropdown("dllFileType", "spdllFileType", "Please select File Type");
+			// checkDropdown("dllFileSubType", "spdllFileSubType", "Please select File Sub Type");
+
+		}
+
+		if ($("#drillDiv").is(":visible")) {
+
+			// DRILL MODE VALIDATION
+			checkDropdown("ddlType", "spddlType", "Please select Type.");
+			checkDropdown("ddlSize", "spddlSize", "Please select Size.");
+
+		}
 
 		return isValid;
 	}
+		function SaveNewProduct() {
 
-	function SaveNewProduct() {
+		var ProductLine = $("#ddlproductline").val();
+
+		if (ProductLine == "F") {
+			SaveFileProduct();   // existing logic
+		}
+		else {
+			SaveCTProduct();     // new CT logic
+		}
+
+	}
+	function SaveFileProduct() {
 		var RequestStartDate = $("#txtStartDate").val();
 		var RequestEndDate = $("#txtEndDate").val();
-	// Convert to UTC ISO format
+	    // Convert to UTC ISO format
 		RequestStartDate = moment(RequestStartDate, "DD/MM/YYYY").utc().format();
 		RequestEndDate = moment(RequestEndDate, "DD/MM/YYYY").utc().format();
 		var Customerid = $("#dllCustomer").val();
@@ -957,9 +1157,10 @@
 		var iOperationalFlag = 1;
 		var redirectUrl = '';
 		var RequestNumber = '';
-		var JsonData;
+		var ProductLine= $("#ddlproductline").val();
+			var JsonData;
 			
-		    if (validateFormInputs()) {
+			if (validateFormInputs()) {
 
 		if (txtcustId != '' && txtcustId != 'undefined') {
 			RequestNumber = encodeURIComponent(@Context.Request.Query["ReqValue"]);
@@ -990,6 +1191,7 @@
 			FileType: FileType,
 			CutType: CutType,
 			CutStandard: CutStandard,
+			ProductLine:ProductLine,
 			//  Remark: Remark,
 			iOperationalFlag: iOperationalFlag,
 			NewRequestDetailsJobj: NewRequestDetailsJobj
@@ -1021,7 +1223,8 @@
 						'&ParentID=' + parentID +
 						'&ModuleID=' + moduleID +
 						'&ModulePageID=' + modulePageID +
-						'&Mode=Edit&ReqValue=' + intValue+'&Status=' + Status;
+						'&Mode=Edit&ReqValue=' + intValue+'&Status=' + Status+
+							'&ProductLine=' + ProductLine;
 
 				}
 				else if (iOperationalFlag == 2) {
@@ -1032,7 +1235,8 @@
 						'&ModuleID=' + moduleID +
 						'&ModulePageID=' + modulePageID +
 						'&ReqValue=' + intValue +
-						'&Mode=Edit&Status=' + Status;
+						'&Mode=Edit&Status=' + Status+
+							'&ProductLine=' + ProductLine;
 				}
 
 				window.location.href = redirectUrl;
@@ -1043,13 +1247,97 @@
 				alert('Error occurred while processing your request.');
 			}
 		});
-		}else {
-						alert('Please fill all required fields.');
-						return ;
 		}
 	}
 
+		function SaveCTProduct() {
 
+		var RequestStartDate = moment($("#txtStartDate").val(), "DD/MM/YYYY").utc().format();
+		var RequestEndDate = moment($("#txtEndDate").val(), "DD/MM/YYYY").utc().format();
+		var ProductLine= $("#ddlproductline").val();
+		var txtcustId = $("#txtcustId").val();
+		var iOperationalFlag = 1;
+		if (txtcustId != '' && txtcustId != 'undefined') {
+			RequestNumber = encodeURIComponent(@Context.Request.Query["ReqValue"]);
+			iOperationalFlag = 2;
+		}
+		else {
+			RequestNumber = '';
+			iOperationalFlag = 1;
+		}
+
+		var JsonData = {
+
+			RequestStartDate: RequestStartDate,
+			RequestEndDate: RequestEndDate,
+
+			Customerid: $("#dllCustomer").val(),
+			Brandid: $("#dllBrand").val(),
+			CountryName: $("#dllCountryName").val(),
+
+			CustomerPart: $("#txtCustomerPart").val(),
+			Sales: $("#dllSales").val(),
+
+			ProductLine: $("#ddlproductline").val(),
+			TypeId: $("#ddlType").val(),
+			SizeId: $("#ddlSize").val(),
+			SubTypeId: $("#dllCTFileSubType").val(),
+
+			SKUCode: $("#txtCode").val(),
+
+			iOperationalFlag: 1,
+
+			NewRequestDetailsJobj: {
+				CreatedBy: parseInt('@Context.Session.GetInt32("CreatedBy")'),
+				CreatedDate: moment.utc().format()
+			}
+
+		};
+
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("CT_AddNewRequest", "ItemMaster")',
+			data: { JsonData: JSON.stringify(JsonData) },
+			success: function (data) {
+				var Insertdata = data.response;
+				var parts = Insertdata.split(' '); // Split the string into parts based on spaces
+				var message = parts.slice(0, -1).join(' ');
+				//  alert(message);
+				var intValue = Insertdata.match(/\d+/)[0];
+
+				var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+				var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+				var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+				var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+				var Status = encodeURIComponent('@Context.Request.Query["Status"]');
+				if (iOperationalFlag == 1) {
+					alert("Request N-" + intValue + " created successfully");
+					redirectUrl = '@Url.Action("Dispatchdetails", "ItemMaster")' +
+						'?PageID=' + pageID +
+						'&ParentID=' + parentID +
+						'&ModuleID=' + moduleID +
+						'&ModulePageID=' + modulePageID +
+						'&Mode=Edit&ReqValue=' + intValue+'&Status=' + Status+
+							'&ProductLine=' + ProductLine;
+
+				}
+				else if (iOperationalFlag == 2) {
+					alert("Request updated successfully");
+					redirectUrl = '@Url.Action("Dispatchdetails", "ItemMaster")' +
+						'?PageID=' + pageID +
+						'&ParentID=' + parentID +
+						'&ModuleID=' + moduleID +
+						'&ModulePageID=' + modulePageID +
+						'&ReqValue=' + intValue +
+						'&Mode=Edit&Status=' + Status+
+							'&ProductLine=' + ProductLine;
+				}
+
+				window.location.href = redirectUrl;
+			}
+		});
+
+	}
 
 	function GetProdSKU() {
 
@@ -1138,8 +1426,8 @@
 	// }
 	async function OpenDocument() {
 		 var JwToken = '@ViewBag.JWTToken';
-	     var blobStorageUrl = '@ViewBag.ApiUrl';
-	     let blobPathPrefix = '@ViewBag.BaseBlobPath';
+		 var blobStorageUrl = '@ViewBag.ApiUrl';
+		 let blobPathPrefix = '@ViewBag.BaseBlobPath';
 
 		ProdSKU = '@ViewBag.ProdSKU';
 
@@ -1147,7 +1435,7 @@
 			var originalString = $("#FileCode").val();
 
 			var part1 = originalString.substring(0, 2); // "05"
-			var part2 = originalString.substring(2, 4); // "FL"		
+			var part2 = originalString.substring(2, 4); // "FL"
 			var Folder = 'drawings' + '\\' ;
 			var path = Folder;
 			var FileName = ProdSKU + '.pdf';
@@ -1174,10 +1462,10 @@
 
 				if (response && response.size > 0) {
 					 const objectURL = URL.createObjectURL(response);
-   
 
-    // Open the PDF in a new tab
-    const newTab = window.open(objectURL, '_blank');
+
+	// Open the PDF in a new tab
+	const newTab = window.open(objectURL, '_blank');
 			//	const newTab = window.open(objectURL, '_blank');
 
 			// Add a download button in the new tab
@@ -1193,10 +1481,10 @@
 			}
 
 			//Revoke the object URL after some time (optional cleanup)
-			setTimeout(() => URL.revokeObjectURL(objectURL), 60000); 
+			setTimeout(() => URL.revokeObjectURL(objectURL), 60000);
 
 				}
-			
+
 			}
 				catch (error) {
 					console.error("Error:", error);
