@@ -64,14 +64,14 @@
                                  
                                  
                                     <div class="form-group col-md-2">
-                                        <label>Product Code  </label>
+                                        <label>Product Line Code </label>
                                         @* <input id="txtCustomerCode" type="text" maxlength="2" class="form-control" />
                                     <span id="sptxtCustomerCode" class="text-danger"></span> *@
                                         <input id="txtProductCode" type="text" class="form-control" maxlength="2" oninput="validateInputCode()">
                                             <span id="spProductCode" class="text-danger" style="display:none;"></span>
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label>Product Name  </label>
+                                        <label>Product Line Name  </label>
                                         @*   <input id="txtCustomer" maxlength="50" name="" type="text" class="form-control" />
                                     <span id="sptxtCustomer" class="text-danger"></span> *@
                                         <input id="txtProductName" type="text" class="form-control" oninput="validateInput(event)">
@@ -216,7 +216,7 @@
         var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
 
         if (ProductName == "") {
-            $("#spProductName").html("Enter Product Name");
+            $("#spProductName").html("Enter Product Line Name");
             $("#spProductName").css("display", "block");
             ValidationFlag = true;
         }
@@ -226,7 +226,7 @@
      
 
         if (ProductCode == "") {
-            $("#spProductCode").html("Enter Product Code");
+            $("#spProductCode").html("Enter Product Line Code");
             $("#spProductCode").css("display", "block");
             ValidationFlag = true;
         }

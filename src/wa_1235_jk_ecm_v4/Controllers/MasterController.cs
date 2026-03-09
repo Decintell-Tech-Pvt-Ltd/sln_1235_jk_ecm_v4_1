@@ -253,6 +253,20 @@ namespace wa_1235_jk_ecm_v4.Controllers
             }
             return Json(new { response = resultMessage });
         }
+        [HttpPost]
+        public async Task<ActionResult> DeleteProductLine(string JsonData)
+        {
+            string apiEndPoint = "Masters/DeleteProductLine";
+
+
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
+        }
 
         public async Task<IActionResult> RawMaterialList()
         {
