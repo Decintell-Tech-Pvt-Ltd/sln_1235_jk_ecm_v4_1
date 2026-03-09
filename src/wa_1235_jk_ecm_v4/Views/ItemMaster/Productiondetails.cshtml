@@ -519,16 +519,7 @@
 
 													</div>
 
-													<div class="form-group col-md-1" style="display:none;">
-														<label>Standard </label>
-														<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" id="dllCTCutStandard" >
-															<option value="0">Select</option>
-															<option value="1">Metrics</option>
-															<option value="2">British</option>
-
-														</select>
-
-													</div>
+												
 
 													<div class="form-group col-md-2">
 														<label>Code</label>
@@ -1256,7 +1247,11 @@
 		var RequestEndDate = moment($("#txtEndDate").val(), "DD/MM/YYYY").utc().format();
 		var ProductLine= $("#ddlproductline").val();
 		var txtcustId = $("#txtcustId").val();
-		var iOperationalFlag = 1;
+		var iOperationalFlag = 1; 
+			var brandCode = $("#txtBrand").val();
+	var customerCode = $("#txtCustomer").val();
+	var SKUCode = $("#txtCode").val();
+	var finalSKUCode = brandCode + SKUCode + customerCode;
 		if (txtcustId != '' && txtcustId != 'undefined') {
 			RequestNumber = encodeURIComponent(@Context.Request.Query["ReqValue"]);
 			iOperationalFlag = 2;
@@ -1283,7 +1278,7 @@
 			SizeId: $("#ddlSize").val(),
 			SubTypeId: $("#dllCTFileSubType").val(),
 
-			SKUCode: $("#txtCode").val(),
+			SKUCode: finalSKUCode,
 
 			iOperationalFlag: 1,
 

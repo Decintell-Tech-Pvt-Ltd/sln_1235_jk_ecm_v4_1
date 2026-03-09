@@ -791,6 +791,26 @@ namespace api_1235_jk_ecm_v4.Controllers
 
         }
         [HttpPost]
+        [Route("CT_GetSKUByRequest")]
+        public async Task<IActionResult> CT_GetSKUByRequest()
+        {
+
+
+            string spName = "usp_CT_GetSKUByRequest";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+        }
+
+        [HttpPost]
         [Route("CT_AddNewRequest")]
         public async Task<IActionResult> CT_AddNewRequest()
         {

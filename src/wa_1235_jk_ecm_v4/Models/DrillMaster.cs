@@ -9,7 +9,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public SubtypeDD[] SubtypeDD { get; set; }
         public CTStampDetails[] CTStampDetails { get; set; }
         public SizeModalList[] SizeModalList { get; set; }
-        
+
         public DrillFileSize[] FileSize_List { get; set; }
         public ProdLineList[] ProdLine_List { get; set; }
         public TypeParameterList[] TypeParameterList { get; set; }
@@ -18,6 +18,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public DrillFileSize[] DrillFileSize { get; set; }
         public CTCSVData[] CTCSVData { get; set; }
 
+        
         public int ProdId { get; set; }
         public int Id { get; set; }
         public int SizeID { get; set; }
@@ -116,7 +117,7 @@ namespace wa_1235_jk_ecm_v4.Models
 
 
 
- 
+
     public class SizeModalList
     {
         public int Id { get; set; }
@@ -224,6 +225,8 @@ namespace wa_1235_jk_ecm_v4.Models
     }
 
 
+ 
+  
     public class CTStampDetails
     {
         public int Id { get; set; }
