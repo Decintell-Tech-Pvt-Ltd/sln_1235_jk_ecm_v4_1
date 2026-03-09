@@ -9,6 +9,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public int CategoryId { get; set; }
         public CategoryList[] CategoryList { get; set; }
         public int MaterialId { get; set; }
+        public SKUlist[] SKUlist { get; set; }
         public MaterialList[] MaterialList { get; set; }
         //HandleTypeMaster
         public CutType[] CutTypelist { get; set; }
@@ -92,6 +93,21 @@ namespace wa_1235_jk_ecm_v4.Models
     }
 
 
+    public class SKUlist
+    {
+        public int RequestId { get; set; }
+        public object SKUCode { get; set; }
+        public string ProductLine { get; set; }
+        public string ProductLineCode { get; set; }
+        public string CTTypeName { get; set; }
+        public string CTTypeCode { get; set; }
+        public string SizeCode { get; set; }
+        public float SizeValue { get; set; }
+        public string SizeUOM { get; set; }
+        public string SubTypeName { get; set; }
+        public string SubTypeCode { get; set; }
+        public string SKUDesc { get; set; }
+    }
 
 
     public class CTSizeList

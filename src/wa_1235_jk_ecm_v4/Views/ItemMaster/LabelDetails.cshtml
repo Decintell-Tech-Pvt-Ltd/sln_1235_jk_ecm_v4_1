@@ -356,6 +356,10 @@
 								<div class="card-header p-2">
 									<ul class="nav nav-pills" id="custom-tabs-one-tab" role="tablist">
 										@{
+											var productLine1 = Context.Request.Query["ProductLine"].ToString();
+											bool showHandle = productLine1 == "F";
+										}
+										@{
 											if (Context.Request.Query["Mode"].ToString() != null && Context.Request.Query["Mode"].ToString() != "")
 											{
 												if (Context.Request.Query["Display"].ToString() == "Approval")
