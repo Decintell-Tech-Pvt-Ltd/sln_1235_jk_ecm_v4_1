@@ -13,16 +13,15 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-3">
-                    <h5>Value Stream</h5>
+                    <h5>Add</h5>
                 </div>
                 <div class="col-lg-9">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="../login/marketing-page.html">Home</a></li>
                         <li class="breadcrumb-item"><a href="index.html">ECM</a></li>
-                        <li class="breadcrumb-item"><a href="#">Masters</a></li>
-                        <li class="breadcrumb-item active">
-                            Value Stream
-                        </li>
+                        <li class="breadcrumb-item">Masters</li>
+                        <li class="breadcrumb-item"><a href="value-stream.html">Value Stream</a></li>
+                        <li class="breadcrumb-item">Add</li>
                     </ol>
                 </div>
             </div>
@@ -54,37 +53,40 @@
 
 
             <div class="row equal">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="card card-outline card-primary p-a-2" style="height: 100%;">
 
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="row">
-
                                 <div class="form-group col-md-2">
                                     <label for="">Product Line</label>
-                                    <select class="form-control select2" id="dllProductLine">
+                                    <select class="form-control select2">
                                         <option>Select</option>
-                                        <option>DRILLS </option>
-                                        <option>TAPS </option>
-                                        <option>DIES </option>
+                                        <option value="2">Drill (D)</option>
+                                        <option value="3">Taps (T)</option>
+                                        <option value="4">DIES (I)</option>
+
 
                                     </select>
                                 </div>
-                                <div class="col-lg-4">
+
+
+
+                                <div class="col-lg-2">
                                     <div class="form-group">
                                         <label>Value Stream Code </label>
                                         <input name="" type="text" class="form-control">
 
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-2">
                                     <div class="form-group">
                                         <label>Value Stream Name </label>
                                         <input name="" type="text" class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-3">
                                     <div class="form-group">
                                         <label>Add Operations</label>
                                         <select class="form-control select2" multiple>
@@ -112,16 +114,7 @@
 
 
 
-
-
-
-
-                            </div>
-                            <div class="row">
-
-
-
-                                <div class="col-lg-4">
+                                <div class="col-lg-1">
                                     <div class="form-group">
                                         <label>Sequence </label>
                                         <div class="input-group">
@@ -131,27 +124,195 @@
                                     </div>
                                 </div>
 
+                                <div class="col-lg-2" style="margin-top: 34px;">
+                                    <a href="#" style="width: 50px;" class="btn btn-block  bg-gradient-primary  btn-xs float-left">
+                                        Add
+                                    </a>
+                                </div>
 
-                                <div class="col-lg-8" style="margin-top: 35px;">
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 mt-2">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
+                                        <tr>
+                                            <td style="width: 90%;"><strong>Operations</strong></td>
+                                            <td style="width: 10%;">&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div>
+                                                    <div>Balancia Grinding </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div align="center">
+                                                    <a href="#" style="width: 60px;" class="btn btn-block  bg-gradient-danger  btn-xs">
+                                                        Delete
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Belt Grinding</td>
+                                            <td>
+                                                <div align="center">
+                                                    <a href="#" style="width: 60px;" class="btn btn-block  bg-gradient-danger  btn-xs">
+                                                        Delete
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Bending</td>
+                                            <td>
+                                                <div align="center">
+                                                    <a href="#" style="width: 60px;" class="btn btn-block  bg-gradient-danger  btn-xs">
+                                                        Delete
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Blackodizing</td>
+                                            <td>
+                                                <div align="center">
+                                                    <a href="#" style="width: 60px;" class="btn btn-block  bg-gradient-danger  btn-xs">
+                                                        Delete
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Centreless Grinding</td>
+                                            <td>
+                                                <div align="center">
+                                                    <a href="#" style="width: 60px;" class="btn btn-block  bg-gradient-danger  btn-xs">
+                                                        Delete
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label>Type </label>
+                                        <div class="input-group">
+                                            <select class="form-control select2">
+                                                <option>Select</option>
+                                                <option value="2">JOBBER DRILL -  JD</option>
+                                                <option value="3">LONG DRILL - LD</option>
+                                                <option value="4">ANNULAR CUTTER -  AC</option>
+                                                <option>TAP SET / MACHINE TAPS - TT</option>
+                                                <option>DIES - DI</option>
+                                                <option>SQUARE TOOL BITS - TS</option>
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-2">
+                                    <label>
+                                        Key Parameter
+                                    </label>  <span style="margin-top: 4px; display: block;">Pilot Dia</span>
+
+                                </div>
+
+
+                                <div class="form-group col-md-1">
+                                    <label>
+                                        UOM
+                                    </label>  <span style="margin-top: 4px; display: block;">mm</span>
+
+                                </div>
+
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <label>Min (Size) </label>
+                                        <input class="form-control" type="number">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <label>Max (Size) </label>
+                                        <input class="form-control" type="number">
+                                    </div>
+                                </div>
 
 
 
+                                <div class="col-lg-1" style="margin-top: 34px;">
+                                    <a href="#" style="width: 50px;" class="btn btn-block  bg-gradient-primary  btn-xs float-left">
+                                        Add
+                                    </a>
+                                </div>
 
 
-                                    <div class="btnwidth120 float-left mr-2">
-                                        <a href="" class="btn btn-block  bg-gradient-danger  btn-xs float-right">
-                                            Delete
+                                <div class="col-lg-10 mt-2">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
+                                        <tr>
+                                            <td style="width: 50%;"><strong>Type</strong></td>
+                                            <td style="width: 17%;">
+                                                <strong>
+                                                    <label>Key Parameter</label>
+                                                    <br />
+                                                </strong>
+                                            </td>
+                                            <td style="width: 10%;"><div align="center"><strong>UOM</strong></div></td>
+                                            <td style="width: 10%;"><div align="center"><strong>Min (Size)</strong></div></td>
+                                            <td style="width: 13%;"><div align="center"><strong>Max (Size)</strong></div></td>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div>
+                                                    <div><a href="#" title="Edit">JOBBER DRILL -  JD</a></div>
+                                                </div>
+                                            </td>
+                                            <td><div>Pilot Dia</div>     </td>
+                                            <td><div align="center">mm</div></td>
+                                            <td><div align="center">2</div></td>
+                                            <td><div align="center">3</div></td>
+                                            <td>
+                                                <div align="center">
+                                                    <a href="#" style="width: 60px;" class="btn btn-block  bg-gradient-danger  btn-xs">
+                                                        Delete
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div class="col-lg-12">
+
+                                    <div class="btnwidth120 float-right mr-2">
+                                        <a href="value-stream.html" class="btn btn-block  bg-gradient-primary  btn-xs float-right">
+                                            Submit
                                         </a>
                                     </div>
-                                    <div class="btnwidth120 float-left mr-2">
+                                    <div class="btnwidth120 float-right mr-2">
                                         <a href="value-stream.html" class="btn btn-block  bg-gradient-primary  btn-xs float-right">
                                             Save
                                         </a>
                                     </div>
 
 
+
                                 </div>
+
+
+
                             </div>
+
 
                         </div>
                         <!-- /.card-body -->

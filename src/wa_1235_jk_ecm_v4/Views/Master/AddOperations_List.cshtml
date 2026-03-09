@@ -1,0 +1,219 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.Master
+
+@{
+    ViewData["Title"] = "AddOperations";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>Add</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item">Masters</li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Operations_List", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Operations</a></li>
+                        <li class="breadcrumb-item active">Add</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs"
+                                onclick="window.history.back()"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+
+        <div class="container-fluid">
+
+            <div class="row equal">
+                <div class="col-md-5">
+                    <div class="card card-outline card-primary p-a-2" style="height: 100%;">
+                 <!-- /.card-header -->
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label for="">Product Line</label>
+                                  
+                              @Html.DropDownListFor(
+    m => m.valcode,
+    new SelectList(
+        Model.ProductLineDatas.Select(x => new {
+            ProductLineCode = x.ProductLineCode,
+            ProductLine = x.ProductLine + " (" + x.ProductLineCode + ")"
+        }),
+        "ProductLineCode",
+        "ProductLine"
+    ),
+    "Select",
+    new { @class = "form-control select2", @id = "ddlProductLine" }
+)
+<span id="spddlProductLine" class="text-danger"></span>
+                                </div>
+
+                               <div class="col-lg-4">
+    <div class="form-group">
+        <label>Operation Sq No.</label>
+        <input type="text" id="txtOperationSqNo" name="OperationSqNo" class="form-control"
+               oninput="clearError('spOperationSqNo')">
+        <span id="spOperationSqNo" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="col-lg-4">
+    <div class="form-group">
+        <label>Operation Name</label>
+        <input type="text" id="txtOperationName" name="OperationName" class="form-control"
+               oninput="clearError('spOperationName')">
+        <span id="spOperationName" class="text-danger"></span>
+    </div>
+</div>
+                            </div>
+
+
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <div class="col-md-7">
+                    <div class="card card-outline card-warning p-a-2" style="height: 100%;">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+
+                            <div class="row">
+
+                              <div class="col-lg-4">
+    <div class="form-group">
+        <label>Restriction</label>
+        <select id="ddlRestriction" class="form-control select2" onchange="clearError('spRestriction')">
+            <option value="">Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+        <span id="spRestriction" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="col-lg-4">
+    <div class="form-group">
+        <label>Customer Defined Operation</label>
+        <select id="ddlCustomerDefinedOperation" class="form-control select2" onchange="clearError('spCustomerDefinedOperation')">
+            <option value="">Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+        <span id="spCustomerDefinedOperation" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="col-lg-4">
+    <div class="form-group">
+        <label>Norms Required</label>
+        <select id="ddlNormsRequired" class="form-control select2" onchange="clearError('spNormsRequired')">
+            <option value="">Select</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+        <span id="spNormsRequired" class="text-danger"></span>
+    </div>
+</div>
+
+                                <div class="col-lg-12">
+                                    <div class="btnwidth120 float-right">
+                                        <a href="#" onclick="SaveOperation()"class="btn btn-block  bg-gradient-primary  btn-xs float-right">
+                                            Submit
+                                        </a>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+
+                <!-- /.card -->
+            </div>
+
+        </div>
+         </section>
+</div>
+
+<script>
+
+function clearError(id) {
+    $("#" + id).text("");
+}
+
+function SaveOperation() {
+
+    var ProductLine = $("#ddlProductLine").val();
+    var OperationSqNo = $("#txtOperationSqNo").val();
+    var OperationName = $("#txtOperationName").val();
+   var Restriction = $("#ddlRestriction").val() == "Yes" ? "Y" : "N";
+var CustomerDefinedOperation = $("#ddlCustomerDefinedOperation").val() == "Yes" ? "Y" : "N";
+var NormsRequired = $("#ddlNormsRequired").val() == "Yes" ? "Y" : "N";
+   
+let json = {
+        ProductLine: ProductLine,
+        OperationSqNo: OperationSqNo,
+        OperationName: OperationName,
+        Restriction: Restriction,
+        CustomerDefinedOperation: CustomerDefinedOperation,
+        NormsRequired: NormsRequired
+    };
+
+    var JsonData = JSON.stringify(json);
+
+    $.ajax({
+        url: '@Url.Action("SaveOperation", "Master")',
+        type: 'POST',
+        data: { JsonData: JsonData },
+
+        success: function (response) {
+            if (response.success) {
+                alert("Data saved successfully");
+                location.reload();
+            }
+            else {
+                alert("Save failed");
+            }
+        },
+
+        error: function () {
+            alert("Error occurred");
+        }
+    });
+}
+
+</script>

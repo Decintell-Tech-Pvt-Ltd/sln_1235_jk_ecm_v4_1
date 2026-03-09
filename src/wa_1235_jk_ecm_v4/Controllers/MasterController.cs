@@ -270,10 +270,10 @@ namespace wa_1235_jk_ecm_v4.Controllers
 
         public async Task<IActionResult> RawMaterialList()
         {
-            Master objList = new Master();
-            string apiEndPoint = "Masters/GetRawMaterialList";
-            objList.RawMaterialList = JsonSerializer.Deserialize<RawMaterial[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
-            return View(objList);
+            //Master objList = new Master();
+            //string apiEndPoint = "Masters/GetRawMaterialList";
+            //objList.RawMaterialList = JsonSerializer.Deserialize<RawMaterial[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            return View();
         }
 
         public async Task<ActionResult> LookupMasters()
@@ -2399,6 +2399,18 @@ namespace wa_1235_jk_ecm_v4.Controllers
             return Json(new { response = resultMessage });
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SaveOperation(string JsonData)
+        {
+            string apiEndPoint = "Masters/SaveOperation";
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
+        }
 
         [HttpPost]
         public async Task<ActionResult> UpdateWorkFlowApprovalStatus(string JsonData, string TransactionId, string Type, string Status, string EventName)
@@ -2547,11 +2559,11 @@ namespace wa_1235_jk_ecm_v4.Controllers
             ViewBag.BaseBlobPath = appSettings?.BaseBlobPath;
             Master objList = new Master();
             string apiEndPoint = "Masters/GetLookupMaster";
-            objList.LookupTypes_List = JsonSerializer.Deserialize<LookupTypes[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            objList.LookupTypes_List = JsonSerializer.Deserialize<LookupTypes[]>(await _iGenericMethods.GetDataEcm(apiEndPoint)).OrderBy(x => x.LookupType).ToArray();
 
 
             string apiEndPoint1 = "DrillMaster/GetDroProdLine";
-            objList.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint1));
+            objList.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint1)).OrderBy(x => x.ProductLine).ToArray();
             return View(objList);
         
         }
@@ -2559,8 +2571,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
         {
             Master objList = new Master();
             string apiEndPoint = "Masters/GetLookupMaster";
-            objList.LookupTypes_List = JsonSerializer.Deserialize<LookupTypes[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
-
+            objList.LookupTypes_List = JsonSerializer.Deserialize<LookupTypes[]>(await _iGenericMethods.GetDataEcm(apiEndPoint)).OrderByDescending(x => x.LookupType).ToArray();
 
             string apiEndPoint1 = "DrillMaster/GetDroProdLine";
             objList.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint1));
@@ -2634,6 +2645,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
         {
             return View();
         }
+       
         public async Task<ActionResult> Operations()
         {
             Master objList = new Master();
@@ -2641,7 +2653,20 @@ namespace wa_1235_jk_ecm_v4.Controllers
             objList.mstoperations = JsonSerializer.Deserialize<mstoperation[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
             return View(objList);
         }
-
+        public async Task<ActionResult> Operations_List()
+        {
+            Master objList = new Master();
+            string apiEndPoint = "Masters/GetOperationList";
+            objList.OprationLists = JsonSerializer.Deserialize<OprationList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            return View(objList);
+        }
+        public async Task<ActionResult> AddOperations_List()
+        {
+            Master objList = new Master();
+            string apiEndPoint = "Masters/GetProductList";
+            objList.ProductLineDatas = JsonSerializer.Deserialize<ProductLineData[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            return View(objList);
+        }
         [HttpPost]
         public async Task<ActionResult> DeleteOperation(string JsonData)
         {

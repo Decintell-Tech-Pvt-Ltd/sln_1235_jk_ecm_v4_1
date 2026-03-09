@@ -1,0 +1,144 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "ValueStream";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>Raw Material</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="../login/marketing-page.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="index.html">ECM</a></li>
+                        <li class="breadcrumb-item">Masters</li>
+                        <li class="breadcrumb-item">Raw Material</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs"
+                                onclick="window.history.back()"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+                    <div class="btnwidth50 float-right mr-1">
+                       <button type="button"
+        class="btn btn-block bg-gradient-primary btn-xs float-left"
+        title="Add new record"
+        onclick="location.href='@Url.Action(
+            "AddRawMaterial",
+            "Master",
+            new {
+                PageID = Context.Request.Query["PageID"].ToString(),
+                ParentID = Context.Request.Query["ParentID"].ToString(),
+                ModuleID = Context.Request.Query["ModuleID"].ToString(),
+                ModulePageID = Context.Request.Query["ModulePageID"].ToString()
+            })'">
+    Add
+</button>
+
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+
+        <div class="container-fluid">
+
+
+
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-outline card-primary">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered example1">
+                                        <thead>
+                                            <tr>
+                                                <th width="7%"><div align="left">Product Line</div></th>
+                                                <th width="10%"><div align="center">Raw Material Code​</div></th>
+                                                <th width="45%"><div align="left">Raw Material Description</div></th>
+                                                <th width="4%"><div align="Center"></div></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><div align="left">DRILLS</div></td>
+                                                <td><div align="center"><a href="Edit-Raw-Material.html" title="Edit">BG</a></div></td>
+                                                <td><div align="left">FILE STEEL TRI BAR & ROD 11.0 MM GAZELLE</div></td>
+                                                <td>
+                                                    <div align="center">
+                                                        <button type="button"
+                                                                class="btn btn-danger btn-xs btnwidth50"
+                                                                onclick="location.href='#'"
+                                                                title="Delete the selected record">
+                                                            Delete
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody>
+                                            <tr>
+                                                <td><div align="left">DRILLS</div></td>
+                                                <td><div align="center"><a href="Edit-Raw-Material.html" title="Edit">RO</a></div></td>
+                                                <td><div align="left">RASP STEEL H/RD WOOD RASP BAR & ROD 10"</div></td>
+                                                <td>
+                                                    <div align="center">
+                                                        <button type="button"
+                                                                class="btn btn-danger btn-xs btnwidth50"
+                                                                onclick="location.href='#'"
+                                                                title="Delete the selected record">
+                                                            Delete
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <!-- /.tab-pane -->
+
+
+
+
+
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+
+            </div>
+
+
+    </section>
+
+
+    <!-- InstanceEndEditable -->
+</div>
