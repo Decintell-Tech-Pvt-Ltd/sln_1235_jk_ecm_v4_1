@@ -15,6 +15,9 @@ namespace wa_1235_jk_ecm_v4.Models
         //CutType
         public CutSpecParametersjarr[] CutSpecParameterslist { get; set; }
 
+        public valuestream[] valuestreams { get; set; }
+
+        
         public CutType[] CutTypelist { get; set; }
 
         public GetFileSubTypeParametersList[] GetFileSubTypeParametersList { get; set; }
@@ -62,7 +65,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public ProductLineData[] ProductLineDatas { get; set; }
         public OprationList[] OprationLists { get; set; }
 
-        
+
         public Stamp[] StampRequestApproval_List { get; set; }
         public Stamp[] StampRequestApproved_List { get; set; }
         public Handle[] Handle_List { get; set; }
@@ -282,7 +285,24 @@ namespace wa_1235_jk_ecm_v4.Models
         }
 
 
-    
+      
+        public class valuestream
+        {
+            public string val_valuestream_code { get; set; }
+            public string val_valuestream_name { get; set; }
+            public string val_valuestream_processcode { get; set; }
+            public string val_vs_isApproved { get; set; }
+            public bool val_vs_isActive { get; set; }
+            public int val_ID { get; set; }
+            public string Operations { get; set; }
+            public string ProductLine { get; set; }
+
+            public string Status { get; set; }
+
+
+        }
+
+
         public class OprationList
         {
             public int Id { get; set; }
@@ -292,8 +312,11 @@ namespace wa_1235_jk_ecm_v4.Models
             public string opr_operation_process { get; set; }
             public string opr_norms_reqd_flg { get; set; }
             public string opr_ProductLine { get; set; }
+            public string ProductLine { get; set; }
 
-            
+
+
+
             public DateTime opr_createdate { get; set; }
         }
 

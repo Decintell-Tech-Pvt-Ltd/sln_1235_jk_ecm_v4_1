@@ -268,6 +268,24 @@ namespace wa_1235_jk_ecm_v4.Controllers
             return Json(new { response = resultMessage });
         }
 
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteOpration(string JsonData)
+        {
+            string apiEndPoint = "Masters/DeleteOpration";
+
+
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
+        }
+
+
+
         public async Task<IActionResult> RawMaterialList()
         {
             //Master objList = new Master();
@@ -2539,10 +2557,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
 
 
 
-        public IActionResult ValueStream()
-        {
-            return View();
-        }
+        
         public async Task<ActionResult> Lookup()
         {
             Master objList = new Master();
@@ -2637,9 +2652,23 @@ namespace wa_1235_jk_ecm_v4.Controllers
         {
             return View();
         }
-        public IActionResult AddValueStream()
+        public async Task<ActionResult> ValueStream()
         {
-            return View();
+            Master objList = new Master();
+            string apiEndPoint = "Masters/GetValuestreamData";
+            objList.valuestreams = JsonSerializer.Deserialize<valuestream[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+
+            return View(objList);
+        }
+        public async Task<ActionResult> AddValueStream()
+        {
+            Master objList = new Master();
+            string apiEndPoint = "Masters/GetProductList";
+            objList.ProductLineDatas = JsonSerializer.Deserialize<ProductLineData[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+             apiEndPoint = "Masters/GetOperationList";
+            objList.OprationLists = JsonSerializer.Deserialize<OprationList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+
+            return View(objList);
         }
         public IActionResult ViewValueStream()
         {

@@ -21,7 +21,7 @@
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
                         <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
-                        <li class="breadcrumb-item">Masters</li>
+                        <li class="breadcrumb-item active">Masters</li>
                         <li class="breadcrumb-item"><a href="@Url.Action("Operations_List", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Operations</a></li>
                         <li class="breadcrumb-item active">Add</li>
                     </ol>
@@ -70,7 +70,7 @@
         "ProductLine"
     ),
     "Select",
-    new { @class = "form-control select2", @id = "ddlProductLine" }
+    new { @class = "form-control select2", @id = "ddlProductLine",onchange="clearError('spddlProductLine');" }
 )
 <span id="spddlProductLine" class="text-danger"></span>
                                 </div>
@@ -78,7 +78,7 @@
                                <div class="col-lg-4">
     <div class="form-group">
         <label>Operation Sq No.</label>
-        <input type="text" id="txtOperationSqNo" name="OperationSqNo" class="form-control"
+        <input type="number" min="0" id="txtOperationSqNo" name="OperationSqNo"  class="form-control"
                oninput="clearError('spOperationSqNo')">
         <span id="spOperationSqNo" class="text-danger"></span>
     </div>
@@ -180,11 +180,53 @@ function SaveOperation() {
     var ProductLine = $("#ddlProductLine").val();
     var OperationSqNo = $("#txtOperationSqNo").val();
     var OperationName = $("#txtOperationName").val();
-   var Restriction = $("#ddlRestriction").val() == "Yes" ? "Y" : "N";
-var CustomerDefinedOperation = $("#ddlCustomerDefinedOperation").val() == "Yes" ? "Y" : "N";
-var NormsRequired = $("#ddlNormsRequired").val() == "Yes" ? "Y" : "N";
-   
-let json = {
+    var Restriction = $("#ddlRestriction").val();
+    var CustomerDefinedOperation = $("#ddlCustomerDefinedOperation").val();
+    var NormsRequired = $("#ddlNormsRequired").val();
+
+    var isValid = true;
+
+    // Product Line
+    if (ProductLine == "") {
+        $("#spddlProductLine").text("Please select product line");
+        isValid = false;
+    }
+
+    // Operation Sq No
+    if (OperationSqNo == "") {
+        $("#spOperationSqNo").text("Please enter operation sq no");
+        isValid = false;
+    }
+
+    // Operation Name
+    if (OperationName.trim() == "") {
+        $("#spOperationName").text("Please enter operation name");
+        isValid = false;
+    }
+
+    // Restriction
+    if (Restriction == "") {
+        $("#spRestriction").text("Please select restriction");
+        isValid = false;
+    }
+
+    // Customer Defined Operation
+    if (CustomerDefinedOperation == "") {
+        $("#spCustomerDefinedOperation").text("Please select customer defined operation");
+        isValid = false;
+    }
+
+    // Norms Required
+    if (NormsRequired == "") {
+        $("#spNormsRequired").text("Please select norms required");
+        isValid = false;
+    }
+
+    if (!isValid) {
+        return;
+    }
+
+    let json = {
         ProductLine: ProductLine,
         OperationSqNo: OperationSqNo,
         OperationName: OperationName,
@@ -201,13 +243,26 @@ let json = {
         data: { JsonData: JsonData },
 
         success: function (response) {
-            if (response.success) {
-                alert("Data saved successfully");
-                location.reload();
-            }
-            else {
-                alert("Save failed");
-            }
+
+            alert(response.response);
+
+                      if(response.response =="Inserted Successfully"){
+                      var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+                       var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+                       var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+                       var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+                    
+                    var url = '@Url.Action("Operations_List", "Master")' +
+                           '?PageID=' + pageID +
+                           '&ParentID=' + parentID +
+                           '&ModuleID=' + moduleID +
+                           '&ModulePageID=' + modulePageID;
+
+                       // Redirect
+                       window.location.href = url;
+                }
+                
         },
 
         error: function () {
@@ -215,5 +270,4 @@ let json = {
         }
     });
 }
-
 </script>

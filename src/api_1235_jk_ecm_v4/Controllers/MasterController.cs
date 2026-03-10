@@ -414,6 +414,26 @@ namespace api_1235_jk_ecm_v4.Controllers
 
         }
 
+        [HttpGet]
+        [Route("GetValuestreamData")]
+        public async Task<IActionResult> GetValuestreamData()
+        {
+
+            string spName = "usp_GetValuestream";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+
 
 
         [HttpPost]
@@ -441,7 +461,7 @@ namespace api_1235_jk_ecm_v4.Controllers
         public async Task<IActionResult> SaveOperation()
         {
 
-            string spName = "Sp_InsertOperation";
+            string spName = "usp_InsertOperation";
             string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
             string jsonResult;
             if (string.IsNullOrEmpty(strJsonRequest))
@@ -476,6 +496,29 @@ namespace api_1235_jk_ecm_v4.Controllers
             return Content(jsonResult, Application.Json, Encoding.UTF8);
 
         }
+
+        [HttpPost]
+        [Route("DeleteOpration")]
+        public async Task<IActionResult> DeleteOpration()
+        {
+
+            string spName = "usp_DeleteOperation";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+
+
+
         [HttpPost]
         [Route("GetProductById")]
         public async Task<IActionResult> GetProductById()

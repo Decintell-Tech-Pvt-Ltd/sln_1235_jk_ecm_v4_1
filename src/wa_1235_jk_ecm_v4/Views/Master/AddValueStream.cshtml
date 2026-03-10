@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.Master
 
 @{
     ViewData["Title"] = "AddValueStream";
@@ -17,10 +18,11 @@
                 </div>
                 <div class="col-lg-9">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="../login/marketing-page.html">Home</a></li>
-                        <li class="breadcrumb-item"><a href="index.html">ECM</a></li>
-                        <li class="breadcrumb-item">Masters</li>
-                        <li class="breadcrumb-item"><a href="value-stream.html">Value Stream</a></li>
+                      <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                         <li class="breadcrumb-item active">Masters</li>
+                        <li class="breadcrumb-item"><a  href="@Url.Action("ValueStream", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })"
+                         >Value Stream</a></li>
                         <li class="breadcrumb-item">Add</li>
                     </ol>
                 </div>
@@ -47,11 +49,6 @@
 
         <div class="container-fluid">
 
-
-
-
-
-
             <div class="row equal">
                 <div class="col-md-12">
                     <div class="card card-outline card-primary p-a-2" style="height: 100%;">
@@ -60,15 +57,20 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-md-2">
-                                    <label for="">Product Line</label>
-                                    <select class="form-control select2">
-                                        <option>Select</option>
-                                        <option value="2">Drill (D)</option>
-                                        <option value="3">Taps (T)</option>
-                                        <option value="4">DIES (I)</option>
-
-
-                                    </select>
+                                    <label>Product Line</label>
+                                  @Html.DropDownListFor(
+    m => m.valcode,
+    new SelectList(
+        Model.ProductLineDatas.Select(x => new {
+            ProductLineCode = x.ProductLineCode,
+            ProductLine = x.ProductLine + " (" + x.ProductLineCode + ")"
+        }),
+        "ProductLineCode",
+        "ProductLine"
+    ),
+    "Select",
+    new { @class = "form-control select2", @id = "ddlProductLine",onchange="clearError('spddlProductLine');" }
+)
                                 </div>
 
 
@@ -76,40 +78,29 @@
                                 <div class="col-lg-2">
                                     <div class="form-group">
                                         <label>Value Stream Code </label>
-                                        <input name="" type="text" class="form-control">
-
+                                        <input name="" type="text" class="form-control" id="txtValueCode">
+                                         <span id="spOperationSqNo" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
                                     <div class="form-group">
                                         <label>Value Stream Name </label>
-                                        <input name="" type="text" class="form-control">
+                                        <input name="" type="text" class="form-control" id="txtValueName">
+                                         <span id="spValueName" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="form-group">
                                         <label>Add Operations</label>
-                                        <select class="form-control select2" multiple>
-                                            <option value="">Select</option>
-                                            <option value="34">Balancia Grinding </option>
-                                            <option value="33">Belt Grinding</option>
-                                            <option value="80">Bending</option>
-                                            <option value="100">Blackodizing</option>
-                                            <option value="36">Centreless Grinding</option>
-                                            <option value="39">Centreless Grinding  Point </option>
-                                            <option value="37">Centreless Grinding Finish </option>
-                                            <option value="35">Centreless Grinding Rough</option>
-                                            <option value="38">Centreless Point Grinding</option>
-                                            <option value="51">Chain Saw Cutting</option>
-                                            <option value="50">Chain Saw Cutting-Over Cut</option>
-                                            <option value="49">Chain Saw Cutting-Up Cut</option>
-                                            <option value="42">Corner Setting</option>
-                                            <option value="40">Cross Grinding</option>
-                                            <option value="141">D Test</option>
-                                            <option value="145">DataTest13</option>
-
-                                        </select>
-                                    </div>
+ @Html.DropDownListFor(
+    m => m.ProdId,
+    new SelectList(Model.OprationLists, "opr_operation_seq", "opr_operation_name"),
+    new { @class = "form-control select2", @id = "ddlOperationName", multiple = "multiple", onchange = "GetSequence();clearError('spOperationName');" }
+)                                     
+                                                                                                                                                                                                                                                 
+                                              <span id="spOperationName" class="text-danger"></span>
+                                  
+                                       </div>
                                 </div>
 
 
@@ -118,14 +109,14 @@
                                     <div class="form-group">
                                         <label>Sequence </label>
                                         <div class="input-group">
-                                            <input type="text" class="form-control" disabled>
+                                            <input type="text" id="txtSequence"class="form-control" disabled>
 
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-2" style="margin-top: 34px;">
-                                    <a href="#" style="width: 50px;" class="btn btn-block  bg-gradient-primary  btn-xs float-left">
+                                    <a href="#" style="width: 50px;" class="btn btn-block  bg-gradient-primary  btn-xs float-left" id="AddValuesteam">
                                         Add
                                     </a>
                                 </div>
@@ -136,64 +127,19 @@
                             <div class="row">
                                 <div class="col-lg-4 mt-2">
                                     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
-                                        <tr>
-                                            <td style="width: 90%;"><strong>Operations</strong></td>
-                                            <td style="width: 10%;">&nbsp;</td>
+                                       <thed>
+<tr>
+                                            <th style="width: 90%;"><strong>Operations</strong></th>
+                                          <th style="width: 90%;"><strong>Sequence</strong></th>
+                                          
+                                            <th style="width: 10%;">&nbsp;</th>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <div>
-                                                    <div>Balancia Grinding </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div align="center">
-                                                    <a href="#" style="width: 60px;" class="btn btn-block  bg-gradient-danger  btn-xs">
-                                                        Delete
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Belt Grinding</td>
-                                            <td>
-                                                <div align="center">
-                                                    <a href="#" style="width: 60px;" class="btn btn-block  bg-gradient-danger  btn-xs">
-                                                        Delete
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Bending</td>
-                                            <td>
-                                                <div align="center">
-                                                    <a href="#" style="width: 60px;" class="btn btn-block  bg-gradient-danger  btn-xs">
-                                                        Delete
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Blackodizing</td>
-                                            <td>
-                                                <div align="center">
-                                                    <a href="#" style="width: 60px;" class="btn btn-block  bg-gradient-danger  btn-xs">
-                                                        Delete
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Centreless Grinding</td>
-                                            <td>
-                                                <div align="center">
-                                                    <a href="#" style="width: 60px;" class="btn btn-block  bg-gradient-danger  btn-xs">
-                                                        Delete
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                       </thed>
+                                       <tbody  id="tblOperationBody">
+
+                                       </tbody>
+                                        
+                                        
                                     </table>
                                 </div>
                             </div>
@@ -294,11 +240,11 @@
 
                                 <div class="col-lg-12">
 
-                                    <div class="btnwidth120 float-right mr-2">
+                                    @* <div class="btnwidth120 float-right mr-2">
                                         <a href="value-stream.html" class="btn btn-block  bg-gradient-primary  btn-xs float-right">
                                             Submit
                                         </a>
-                                    </div>
+                                    </div> *@
                                     <div class="btnwidth120 float-right mr-2">
                                         <a href="value-stream.html" class="btn btn-block  bg-gradient-primary  btn-xs float-right">
                                             Save
@@ -332,3 +278,106 @@
 
     <!-- InstanceEndEditable -->
 </div>
+<script>
+    function clearError(id) {
+    $("#" + id).text("");
+}
+function GetSequence() {
+
+    var seq = $('#ddlOperationName').val(); // get selected values
+
+    if (seq != null) {
+        $('#txtSequence').val(seq.join(',')); // show sequence
+    } else {
+        $('#txtSequence').val('');
+    }
+}
+$(document).on("click", "#AddValuesteam", function (e) {
+
+    e.preventDefault();
+
+    var operations = $('#ddlOperationName').select2('data');
+
+    if (operations.length == 0) {
+        alert("Please select operation");
+        return;
+    }
+
+    $.each(operations, function (i, item) {
+
+        var operationName = item.text;
+        var sequence = item.id;
+
+       var row = "<tr>" +
+    "<td>" + operationName + "</td>" +
+    "<td>" + sequence + "</td>" +
+    "<td>" +
+        "<div align='center'>" +
+            "<a href='#' style='width:60px;' class='btn btn-block bg-gradient-danger btn-xs deleteRow'>Delete</a>" +
+        "</div>" +
+    "</td>" +
+"</tr>";
+        $("#tblOperationBody").append(row);
+
+    });
+
+});
+
+$(document).on("click", ".deleteRow", function () {
+    $(this).closest("tr").remove();
+});
+
+
+$('#btnSave').click(function () {
+
+    var productLine = $('#ddlProductLine').val();
+    var valueCode = $('#txtValueCode').val();
+    var valueName = $('#txtValueName').val();
+
+    var operations = [];
+
+    $('#tblOperationBody tr').each(function () {
+
+        var operationName = $(this).find('td:eq(0)').text();
+        var sequence = $(this).find('td:eq(1)').text();
+
+        operations.push({
+            OperationName: operationName,
+            Sequence: sequence
+        });
+
+    });
+
+    var data = {
+        ProductLine: productLine,
+        ValueStreamCode: valueCode,
+        ValueStreamName: valueName,
+        Operations: operations
+    };
+
+       var JsonData = JSON.stringify(data);
+
+    $.ajax({
+        url: '@Url.Action("InsertValueStream", "Master")',
+        type: 'POST',
+        contentType: 'application/json',
+        data: { JsonData: JsonData },
+        success: function (response) {
+           alert(response.response);
+           var url = '@Url.Action("ValueStream", "Master")' +
+                           '?PageID=' + pageID +
+                           '&ParentID=' + parentID +
+                           '&ModuleID=' + moduleID +
+                           '&ModulePageID=' + modulePageID;
+
+                       // Redirect
+                       window.location.href = url;
+        },
+        error: function () {
+            alert("Error saving data");
+        }
+    });
+
+});
+
+</script>

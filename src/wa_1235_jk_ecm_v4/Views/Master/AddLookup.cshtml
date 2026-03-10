@@ -247,7 +247,8 @@ async function SubmitLookupData() {
         complete: function () { $('#loader').hide(); },
 
         success: async function (response) {
-           
+            alert(response.response);
+
               if (response && response.response === "Inserted Successfully") {
                         var selectedImageNameSample = cleanFileName(filenameIMG);
                         var targetPathSample = 'others\\lookup\\';
