@@ -289,8 +289,7 @@
                     let selectedImageNameSample =
                         cleanFileName(filenameIMG);
 
-                            let targetPathSample =
-            'others\\ct\\types\\' + FileTypeCode;
+                            let targetPathSample = 'others\\ct\\types\\' ;
 
                     let uploadedFileSample =
                         document.getElementById('FileUploadIMG').files[0];
@@ -826,7 +825,7 @@
 
                         var selectedImageNameSample = cleanFileName(filenameIMG);
                       
-                         var targetPathSample = 'others\\ct\\' + productLineText + '\\types\\';
+                         var targetPathSample = 'others\\ct\\types\\';
                         var uploadedFileSample = document.getElementById('FileUploadIMG').files[0];
                             if (uploadedFileSample) {
         await copyFile(

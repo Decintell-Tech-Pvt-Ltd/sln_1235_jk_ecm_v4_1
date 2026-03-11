@@ -151,6 +151,11 @@ namespace wa_1235_jk_ecm_v4.Controllers
      
         public async Task<IActionResult> DrillDrawingMaster()
         {
+            ViewBag.JWTToken = JwtToken;
+            ViewBag.ApiUrl = appSettings?.API_blob_1231;
+            ViewBag.API_ECM_1231 = appSettings?.API_ECM_1231;
+            ViewBag.BaseBlobPath = appSettings?.BaseBlobPath;
+            ViewBag.ReportBasePath = appSettings?.ReportBasePath;
             DrillMaster objList = new DrillMaster();
             string apiEndPoint = "DrillMaster/CT_GetDrawingList";
             objList.DrawingDetails = JsonSerializer.Deserialize<DrawingDetails[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
