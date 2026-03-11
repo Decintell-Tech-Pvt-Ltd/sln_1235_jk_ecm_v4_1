@@ -1,0 +1,236 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.Master
+
+@{
+    ViewData["Title"] = "Operations";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>Operations</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="../login/marketing-page.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="index.html">ECM</a></li>
+                        <li class="breadcrumb-item active">Masters</li>
+                        <li class="breadcrumb-item active">Operations</li>
+
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button"
+                                class="btn btn-block bg-gradient-danger btn-xs"
+                                onclick="window.history.back()"
+                                title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+                    <div class="btnwidth50 float-right mr-1">
+                        <a class="btn btn-block bg-gradient-primary btn-xs float-left"
+                           href="@Url.Action("AddOperations_List", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })"
+                           title="Add new record">
+                            Add
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="card card-outline card-primary">
+                        <!-- /.card-header -->
+                        <div class="card-body">
+
+
+                            <div class="row">
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                        <thead>
+
+                                            <tr>
+                                                <th width="5%" style="text-align:center;">Sr.No.</th>
+
+                                                <th width="15%"><div align="left">Product Line</div></th>
+                                                <th width="20%">
+                                                    <div align="center">
+                                                        Operation Sq No.
+                                                    </div>
+                                                </th>
+                                                <th width="20%"><div align="left">Operation Name</div></th>
+                                                <th width="5%"><div align="left">Restriction&nbsp;</div></th>
+                                                <th width="5%"><div align="left">Norms Required</div></th>
+                                                <th width="4%"><div align="left">Customer Defined Operation</div></th>
+                                                <th width="4%"><div align="center">Delete</div></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                int sr = 1;
+                                            }
+
+                                            @foreach (var item in Model.OprationLists)
+                                            {
+                                                <tr>
+                                                    <td style="text-align:center;">@sr</td>
+
+                                                    <td>@item.ProductLine</td>
+                                                    <td style="text-align:center;">
+
+                                                        @item.opr_operation_seq
+
+                                                    </td>
+
+                                                    <td style="white-space: normal;">
+                                                       
+                                                            @item.opr_operation_name
+                                                      
+                                                    </td>
+
+                                                    <td>@(item.opr_operation_restricted == "Y" ? "Yes" : "No")</td>
+
+                                                    <td>@(item.opr_norms_reqd_flg == "Y" ? "Yes" : "No")</td>
+
+                                                    <td>@(item.opr_operation_process == "Y" ? "Yes" : "No")</td>
+                                                    <td style="text-align:center;">
+                                                        <button type="button"
+                                                                class="btn bg-gradient-danger btn-xs"
+                                                                onclick="DeleteOperation(@item.Id)">
+                                                            Delete
+                                                        </button>
+                                                    </td>
+                                                </tr>
+
+                                                sr++;
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+
+            <div class="modal fade" id="ApprovalList">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"> View Approval List </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered example1 nowrap" style="width:100%;">
+                                    <thead>
+
+                                        <tr>
+                                            <th width="2%" style="text-align:center;">Sr.No.</th>
+
+                                            <th width="103"><div align="center">Stage ID</div></th>
+                                            <th width="314"><div align="left">Stage Name</div></th>
+                                            <th width="335"><div align="left">Approval Name</div></th>
+                                            <th width="184"><div align="left">Role</div></th>
+                                            <th width="184"><div align="center">Approval Type</div></th>
+                                            <th width="66"><div align="center">Sequence</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><div align="center">1</div></td>
+                                            <td><div align="center">0</div></td>
+
+                                            <td><div align="left">stage 1</div></td>
+                                            <td><div align="left">	Akhil Kulkarni(Admin2)</div></td>
+                                            <td><div align="left">Admin2</div></td>
+
+                                            <td><div align="center">3</div></td>
+                                            <td><div align="center">1</div></td>
+
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+        </div>
+
+
+        <!-- /.content -->
+
+    </section>
+
+    <!-- InstanceEndEditable -->
+</div>
+<script>
+           function DeleteOperation(Id) {
+
+        if (confirm("Are you sure you want to delete this record?")) {
+
+            let json = {
+                OperationID: Id
+            };
+
+            var JsonData = JSON.stringify(json);
+
+            $.ajax({
+                url: '@Url.Action("DeleteOpration", "Master")',
+                type: 'POST',
+                data: { JsonData: JsonData },
+
+                success: function (response) {
+
+                         alert(response.response);
+                        location.reload();
+
+
+                },
+                error: function () {
+                    alert("Error occurred while deleting");
+                }
+            });
+
+        }
+    }
+
+</script>

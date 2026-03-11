@@ -15,6 +15,9 @@ namespace wa_1235_jk_ecm_v4.Models
         //CutType
         public CutSpecParametersjarr[] CutSpecParameterslist { get; set; }
 
+        public valuestream[] valuestreams { get; set; }
+
+        
         public CutType[] CutTypelist { get; set; }
 
         public GetFileSubTypeParametersList[] GetFileSubTypeParametersList { get; set; }
@@ -45,7 +48,7 @@ namespace wa_1235_jk_ecm_v4.Models
         //cutSidesarr
         public cutSidesarr[] cutSidesarr_list { get; set; }
         public LookUpMasterData[] LookUp_MasterData { get; set; }
-        
+
         public Valuestream[] Valuestream_List { get; set; }
 
         public FileTypeMaster[] FileTypeMasters { get; set; }
@@ -60,6 +63,8 @@ namespace wa_1235_jk_ecm_v4.Models
         public CutsidesList[] Cutsides_List { get; set; }
         public EditCustomerList[] EditCustomer_List { get; set; }
         public ProductLineData[] ProductLineDatas { get; set; }
+        public OprationList[] OprationLists { get; set; }
+
 
         public Stamp[] StampRequestApproval_List { get; set; }
         public Stamp[] StampRequestApproved_List { get; set; }
@@ -277,6 +282,42 @@ namespace wa_1235_jk_ecm_v4.Models
             public bool IsActive { get; set; }
             public int CreatedBy { get; set; }
             public DateTime CreatedDateUtc { get; set; }
+        }
+
+
+      
+        public class valuestream
+        {
+            public string val_valuestream_code { get; set; }
+            public string val_valuestream_name { get; set; }
+            public string val_valuestream_processcode { get; set; }
+            public string val_vs_isApproved { get; set; }
+            public bool val_vs_isActive { get; set; }
+            public int val_ID { get; set; }
+            public string Operations { get; set; }
+            public string ProductLine { get; set; }
+
+            public string Status { get; set; }
+
+
+        }
+
+
+        public class OprationList
+        {
+            public int Id { get; set; }
+            public int opr_operation_seq { get; set; }
+            public string opr_operation_name { get; set; }
+            public string opr_operation_restricted { get; set; }
+            public string opr_operation_process { get; set; }
+            public string opr_norms_reqd_flg { get; set; }
+            public string opr_ProductLine { get; set; }
+            public string ProductLine { get; set; }
+
+
+
+
+            public DateTime opr_createdate { get; set; }
         }
 
         public class Brand

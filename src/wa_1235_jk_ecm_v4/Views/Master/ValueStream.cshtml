@@ -7,8 +7,10 @@
 }
 <div class="content-wrapper">
     <!-- InstanceBeginEditable name="EditRegion1" -->
-    <div class="modal fade" id="Operations">
-        <div class="modal-dialog modal-sm">
+
+
+    <div class="modal fade" id="approve">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Operations</h5>
@@ -16,7 +18,9 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
                 <div class="modal-body">
+
                     <div class="row">
 
 
@@ -26,8 +30,8 @@
                                 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th width="30%"><div align="center">Sq No.</div></th>
-                                            <th width="70%"><div align="left">Operation Name</div></th>
+                                            <th width="10%"><div align="center">Sq No.</div></th>
+                                            <th width="90%"><div align="left">Operation Name</div></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -64,6 +68,172 @@
 
                                 </table>
                             </div>
+
+
+                            <div class="table-responsive">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
+                                    <tr>
+                                        <td style="width: 40%;"><strong>Type</strong></td>
+                                        <td style="width: 17%;">
+                                            <strong>
+                                                <label>Key Parameter</label>
+                                                <br />
+                                            </strong>
+                                        </td>
+                                        <td style="width: 10%;"><div align="center"><strong>UOM</strong></div></td>
+                                        <td style="width: 13%;"><div align="center"><strong>Min (Size)</strong></div></td>
+                                        <td style="width: 13%;"><div align="center"><strong>Max (Size)</strong></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <div>JOBBER DRILL -  JD</div>
+                                            </div>
+                                        </td>
+                                        <td><div>Pilot Dia</div>     </td>
+                                        <td><div align="center">mm</div></td>
+                                        <td><div align="center">2</div></td>
+                                        <td><div align="center">3</div></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <label>Remark</label>
+                            <input type="text" class="form-control">
+
+
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+
+
+                    <div>
+                    </div>
+
+
+
+
+                </div>
+
+
+                <div class="modal-footer">
+                    <div class="float-right text-right">
+                        <a href="#" class="btn btn-danger btn-xs btnwidth50">Reject</a>
+                        <a href="#" class="btn btn-success btn-xs btnwidth50">Approve</a>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="Operations">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="col-lg-4">
+                            <label>Product Line</label>
+
+                            <span id="txtProductline"></span>
+
+                        </div>
+                          <div class="col-lg-3">
+                            <label>Value Stream Code</label>
+
+                            <span id="txtValueStreamCode"></span>
+
+                           
+                            
+                           
+                        </div> 
+                        <div class="col-lg-5">
+                            <label> Value Stream Name</label>
+
+                            <span id="txtValueStreamName"></span>
+
+                          
+
+
+                        </div>
+                        <div class="col-lg-12">
+
+                            <div class="table-responsive">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%"><div align="center">Sq No.</div></th>
+                                            <th width="90%"><div align="left">Operation Name</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    <tbody id="tblOperationsBody"></tbody>
+
+
+                                </table>
+                            </div>
+
+
+                            <div class="table-responsive">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
+                                    <tr>
+                                        <td style="width: 40%;"><strong>Type</strong></td>
+                                        <td style="width: 17%;">
+                                            <strong>
+                                                <label>Key Parameter</label>
+                                                <br />
+                                            </strong>
+                                        </td>
+                                        <td style="width: 10%;"><div align="center"><strong>UOM</strong></div></td>
+                                        <td style="width: 13%;"><div align="center"><strong>Min (Size)</strong></div></td>
+                                        <td style="width: 13%;"><div align="center"><strong>Max (Size)</strong></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <div>JOBBER DRILL -  JD</div>
+                                            </div>
+                                        </td>
+                                        <td><div>Pilot Dia</div>     </td>
+                                        <td><div align="center">mm</div></td>
+                                        <td><div align="center">2</div></td>
+                                        <td><div align="center">3</div></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+
+
+
                         </div>
 
 
@@ -95,8 +265,142 @@
 
 
                 </div>
-                <div class="modal-footer justify-content-between">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-xs btnwidth95" .href="" title=" Submit for Approval">
+                        Submit for Approval
+                    </button>
                 </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+
+
+
+
+    <div class="modal fade" id="master">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+
+                        <div class="col-lg-12">
+
+                            <div class="table-responsive">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%"><div align="center">Sq No.</div></th>
+                                            <th width="90%"><div align="left">Operation Name</div></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr>
+                                            <td><div align="center">10</div></td>
+                                            <td>Cropping</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div align="center">20</div></td>
+                                            <td>Tang swagging</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div align="center">50</div></td>
+                                            <td>Annealing</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div align="center">60</div></td>
+                                            <td>Tang Punching</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div align="center">70</div></td>
+                                            <td>Point Punching</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div align="center">80</div></td>
+                                            <td>Tang Pressing</td>
+                                        </tr>
+                                        <tr>
+                                            <td><div align="center">110</div></td>
+                                            <td>Tang Cutting</td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+
+                            <div class="table-responsive">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
+                                    <tr>
+                                        <td style="width: 40%;"><strong>Type</strong></td>
+                                        <td style="width: 17%;">
+                                            <strong>
+                                                <label>Key Parameter</label>
+                                                <br />
+                                            </strong>
+                                        </td>
+                                        <td style="width: 10%;"><div align="center"><strong>UOM</strong></div></td>
+                                        <td style="width: 13%;"><div align="center"><strong>Min (Size)</strong></div></td>
+                                        <td style="width: 13%;"><div align="center"><strong>Max (Size)</strong></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div>
+                                                <div>JOBBER DRILL -  JD</div>
+                                            </div>
+                                        </td>
+                                        <td><div>Pilot Dia</div>     </td>
+                                        <td><div align="center">mm</div></td>
+                                        <td><div align="center">2</div></td>
+                                        <td><div align="center">3</div></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+
+
+
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                    <label for="" class="mt-2">Remark</label>    <br>
+                    Note For developer: Please show a remark here after rejecting the request for approval.
+
+
+
+
+                    <div style="clear:both;"></div>
+
+
+
+
+
+
+                    <div style="clear:both;"></div>
+
+
+
+                </div>
+
             </div>
             <!-- /.modal-content -->
         </div>
@@ -110,12 +414,10 @@
                 </div>
                 <div class="col-lg-9">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="../login/marketing-page.html">Home</a></li>
-                        <li class="breadcrumb-item"><a href="index.html">ECM</a></li>
-                        <li class="breadcrumb-item"><a href="#">Masters</a></li>
-                        <li class="breadcrumb-item active">
-                            Value Stream
-                        </li>
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item">Masters</li>
+                        <li class="breadcrumb-item">Value Stream</li>
                     </ol>
                 </div>
             </div>
@@ -131,11 +433,9 @@
                         </button>
                     </div>
                     <div class="btnwidth50 float-right mr-1">
-                      @*   <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
-                                onclick="location.href='Add-Value-Stream.html'" title="Add new record">
-                            Add
-                        </button> *@
-                        <a href="@Url.Action("AddValueStream", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })" class="btn btn-block bg-gradient-primary   btn-xs float-left">
+                        <a class="btn btn-block bg-gradient-primary btn-xs float-left"
+                           href="@Url.Action("AddValueStream", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })"
+                           title="Add new record">
                             Add
                         </a>
                     </div>
@@ -175,36 +475,48 @@
 
                                         <tr>
                                             <th width="8%"><div align="center">Sr No. </div></th>
+                                            <th width="35px"><div align="left">Product Line</div></th>
                                             <th width="25px"><div align="left">Code</div></th>
                                             <th width="45%"><div align="left">Name</div></th>
-                                            <th width="15%"><div align="center">Action</div></th>
-
+                                            <th width="10%"><div align="left">Status</div></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td height="28"><div align="center">1</div></td>
-                                            <td>
-                                                <a href="@Url.Action("AddValueStream", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })">
-                                                    TSE
-                                                </a>
-                                            </td>
-                                            <td><div align="left"> <a href="#" data-toggle="modal" data-target="#Operations">Testvalustreamdata1</a></div></td>
-                                            <td>
-                                                <div align="center">
-                                                    <button type="button" class="btn btn-primary btn-xs btnwidth95" onclick="customAlert()" .href="" title="Go to the next page">
-                                                        Submit for Approval
-                                                    </button>
-                                                </div>
+                                        @{
+                                            int sr = 1;
+                                        }
 
-                                                <script>
-                                                    function customAlert() {
-                                                      alert("Submitted for Approval!");
-                                                      window.location.href = "value-stream.html"; // Replace with your desired URL or page
-                                                    }
-                                                </script>
-                                            </td>
-                                        </tr>
+                                        @foreach (var item in Model.valuestreams)
+                                        {
+                                            if (item.Status == "Save")
+    {
+                                            <tr>
+                                                <td height="28"><div align="center">@sr</div></td>
+                                                <td><div align="left">@item.ProductLine</div></td>
+                                                <td><a href="#">@item.val_valuestream_code</a></td>
+                                                    <td>
+                                                        <div align="left">
+                                                            <a href="#"
+                                                               data-toggle="modal"
+                                                               data-target="#Operations"
+                                                               onclick="LoadOperations('@item.ProductLine','@item.val_valuestream_code',' @item.val_valuestream_name','@item.Operations')">
+                                                                @item.val_valuestream_name
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                <td>
+                                                    <div align="left">
+                                                        <div align="left"><span class="badge badge-info">@item.Status</span></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                           
+                                            sr++;
+                                            }
+                                        }
+
+
+                                       
                                     </tbody>
                                 </table>
                             </div>
@@ -219,7 +531,7 @@
                 <div class="col-md-12">
                     <div class="card card-outline card-warning collapsed-card">
                         <div class="card-header">
-                            <h3 class="card-title">Approve</h3>
+                            <h3 class="card-title">Requests for Approval</h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -235,22 +547,33 @@
 
                                     <tr>
                                         <th width="8%"><div align="center">Sr No. </div></th>
+                                        <th width="25px">Product Line</th>
                                         <th width="25px"><div align="left">Code</div></th>
                                         <th width="60%"><div align="left">Name</div></th>
-
-
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td height="28"><div align="center">1</div></td>
-                                        <td>
-                                            <a href="@Url.Action("ViewValueStream", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })">
-                                                TSE
-                                            </a>
-                                        </td>
-                                        <td><div align="left"> <a href="#" data-toggle="modal" data-target="#Operations">Testvalustreamdata1</a></div></td>
-                                    </tr>
+                                    @{
+                                        int srN = 1;
+                                    }
+
+                                    @foreach (var item in Model.valuestreams)
+                                    {
+                                        if (item.Status == "Submit for Approval")
+                                       { <tr>
+                                            <td height="28"><div align="center">@srN</div></td>
+                                            <td><div align="left">@item.ProductLine</div></td>
+                                            <td><a href="#">@item.val_valuestream_code</a></td>
+                                            <td><div align="left"><a href="#" data-toggle="modal" data-target="#approve">@item.val_valuestream_name</a> </div></td>
+                                            
+                                        </tr>
+
+                                        srN++;
+                                        }
+                                    }
+
+
+
                                 </tbody>
                             </table>
                         </div>
@@ -282,19 +605,35 @@
 
                                         <tr>
                                             <th width="8%"><div align="center">Sr No. </div></th>
+                                            <th width="25px">Product Line</th>
                                             <th width="25px"><div align="left">Code</div></th>
                                             <th width="60%"><div align="left">Name</div></th>
-
-
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td height="28"><div align="center">1</div></td>
-                                            <td><div align="left">TSE</div></td>
-                                            <td><div align="left"> <a href="#" data-toggle="modal" data-target="#Operations">Testvalustreamdata1</a></div></td>
+                                        @{
+                                            int srNo = 1;
+                                        }
 
-                                        </tr>
+                                        @foreach (var item in Model.valuestreams)
+                                        {
+    if (item.Status == "Approve")
+    {
+                                            <tr>
+                                                <td height="28"><div align="center">@srNo</div></td>
+                                                <td><div align="left">@item.ProductLine</div></td>
+                                                <td><a href="#">@item.val_valuestream_code</a></td>
+                                                <td><div align="left"><a href="#" data-toggle="modal" data-target="#master">@item.val_valuestream_name</a> </div></td>
+
+                                            </tr>
+
+                                            srNo++;
+                                            }
+                                        }
+
+
+
+                                     
                                     </tbody>
                                 </table>
                             </div>
@@ -305,10 +644,40 @@
                 </div>
             </div>
 
-        </div>
+
     </section>
 
 
     <!-- InstanceEndEditable -->
 </div>
+<script>
+        function LoadOperations(ProductLine,val_valuestream_code,val_valuestream_name,operations) {
 
+             // Set header values
+    $("#txtProductline").text(ProductLine);
+    $("#txtValueStreamCode").text(val_valuestream_code);
+    $("#txtValueStreamName").text(val_valuestream_name);
+
+        var tbody = $("#tblOperationsBody");
+        tbody.empty();
+
+        if (!operations) return;
+
+        var ops = operations.split(",");
+
+        for (var i = 0; i < ops.length; i++) {
+
+            var parts = ops[i].split("-");
+
+            var sqNo = parts[0].trim();
+            var opName = parts[1].trim();
+
+            var row = "<tr>" +
+                "<td align='center'>" + sqNo + "</td>" +
+                "<td>" + opName + "</td>" +
+                "</tr>";
+
+            tbody.append(row);
+        }
+    }
+</script>

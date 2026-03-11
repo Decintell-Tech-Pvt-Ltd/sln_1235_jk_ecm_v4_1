@@ -23,7 +23,7 @@
                         <li class="breadcrumb-item active">Master</li>
                         <li class="breadcrumb-item"><a href="@Url.Action("Lookup", "Master", new { PageID = Context.Request.Query["PageID"], ParentID = Context.Request.Query["ParentID"], ModuleID = Context.Request.Query["ModuleID"] })">Lookup</a></li>
 
-                        <li class="breadcrumb-item">Add</li>
+                        <li class="breadcrumb-item active">Add</li>
                     </ol>
                 </div>
             </div>
@@ -147,12 +147,12 @@
     $(document).ready(function () {
 
     // Add Add New option
-    $("#ddlLookuptype").append(
-        $('<option>', {
-            value: "ADD_NEW",
-            text: "Add New"
-        })
-    );
+   $("#ddlLookuptype").prepend(
+    $('<option>', {
+        value: "ADD_NEW",
+        text: "Add New"
+    })
+);
 
     // Disable textbox initially
     $("#txtAddNewType").prop("disabled", true);
@@ -247,7 +247,8 @@ async function SubmitLookupData() {
         complete: function () { $('#loader').hide(); },
 
         success: async function (response) {
-           
+            alert(response.response);
+
               if (response && response.response === "Inserted Successfully") {
                         var selectedImageNameSample = cleanFileName(filenameIMG);
                         var targetPathSample = 'others\\lookup\\';
