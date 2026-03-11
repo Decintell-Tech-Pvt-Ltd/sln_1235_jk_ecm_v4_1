@@ -246,7 +246,7 @@
                                         </a>
                                     </div> *@
                                     <div class="btnwidth120 float-right mr-2">
-                                        <a href="value-stream.html" class="btn btn-block  bg-gradient-primary  btn-xs float-right">
+                                        <a href="#" class="btn btn-block  bg-gradient-primary  btn-xs float-right" id="btnSave">
                                             Save
                                         </a>
                                     </div>
@@ -299,7 +299,7 @@ $(document).on("click", "#AddValuesteam", function (e) {
     var operations = $('#ddlOperationName').select2('data');
 
     if (operations.length == 0) {
-        alert("Please select operation");
+        //alert("Please select operation");
         return;
     }
 
@@ -308,21 +308,46 @@ $(document).on("click", "#AddValuesteam", function (e) {
         var operationName = item.text;
         var sequence = item.id;
 
-       var row = "<tr>" +
-    "<td>" + operationName + "</td>" +
-    "<td>" + sequence + "</td>" +
-    "<td>" +
-        "<div align='center'>" +
+        var isExist = false;
+
+        // Check duplicate sequence in table
+        $('#tblOperationBody tr').each(function () {
+
+            var existingSeq = $(this).find('td:eq(1)').text().trim();
+
+            if (existingSeq == sequence) {
+                isExist = true;
+                return false; // break loop
+            }
+
+        });
+
+        if (isExist) {
+            alert(operationName + " already added.");
+            return;
+        }
+
+        var row = "<tr>" +
+            "<td>" + operationName + "</td>" +
+            "<td>" + sequence + "</td>" +
+            "<td>" +
+            "<div align='center'>" +
             "<a href='#' style='width:60px;' class='btn btn-block bg-gradient-danger btn-xs deleteRow'>Delete</a>" +
-        "</div>" +
-    "</td>" +
-"</tr>";
+            "</div>" +
+            "</td>" +
+            "</tr>";
+
         $("#tblOperationBody").append(row);
 
     });
 
-});
+    // Clear dropdown
+    $('#ddlOperationName').val(null).trigger('change');
 
+    // Clear sequence textbox
+    $('#txtSequence').val('');
+
+});
 $(document).on("click", ".deleteRow", function () {
     $(this).closest("tr").remove();
 });
@@ -352,26 +377,31 @@ $('#btnSave').click(function () {
         ProductLine: productLine,
         ValueStreamCode: valueCode,
         ValueStreamName: valueName,
+        Createdby:parseInt('@Context.Session.GetInt32("CreatedBy")'),
         Operations: operations
     };
-
-       var JsonData = JSON.stringify(data);
+     var JsonData = JSON.stringify(data);
 
     $.ajax({
         url: '@Url.Action("InsertValueStream", "Master")',
         type: 'POST',
-        contentType: 'application/json',
-        data: { JsonData: JsonData },
+       data: { JsonData: JsonData }, // ✅ correct
         success: function (response) {
-           alert(response.response);
-           var url = '@Url.Action("ValueStream", "Master")' +
-                           '?PageID=' + pageID +
-                           '&ParentID=' + parentID +
-                           '&ModuleID=' + moduleID +
-                           '&ModulePageID=' + modulePageID;
 
-                       // Redirect
-                       window.location.href = url;
+            alert(response.response);
+            var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+                       var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+                       var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+                       var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+                    
+            var url = '@Url.Action("ValueStream", "Master")' +
+                '?PageID=' + pageID +
+                '&ParentID=' + parentID +
+                '&ModuleID=' + moduleID +
+                '&ModulePageID=' + modulePageID;
+
+            window.location.href = url;
         },
         error: function () {
             alert("Error saving data");
@@ -379,5 +409,4 @@ $('#btnSave').click(function () {
     });
 
 });
-
 </script>

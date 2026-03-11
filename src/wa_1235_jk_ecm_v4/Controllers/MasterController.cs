@@ -2670,6 +2670,43 @@ namespace wa_1235_jk_ecm_v4.Controllers
 
             return View(objList);
         }
+        [HttpPost]
+        public async Task<ActionResult> InsertValueStream(string JsonData)
+        {
+            string apiEndPoint = "Masters/InsertValueStream";
+
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>
+                (await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+
+            string resultMessage = "";
+
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+
+            return Json(new { response = resultMessage });
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> UpdateValueStreamStatus(string JsonData)
+        {
+            string apiEndPoint = "Masters/UpdateValueStreamStatus";
+
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>
+                (await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+
+            string resultMessage = "";
+
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+
+            return Json(new { response = resultMessage });
+        }
+
         public IActionResult ViewValueStream()
         {
             return View();

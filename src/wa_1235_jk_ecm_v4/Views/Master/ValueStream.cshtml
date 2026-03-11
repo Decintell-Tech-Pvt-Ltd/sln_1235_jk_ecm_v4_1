@@ -23,48 +23,37 @@
 
                     <div class="row">
 
+                        <div class="col-lg-4">
+                            <label>Product Line</label>
+
+                            <span id="txtProductlines"></span>
+                            <input type="hidden" id="txtvids">
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Value Stream Code</label>
+
+                            <span id="txtValueStreamCodes"></span>
+
+                        </div>
+                        <div class="col-lg-5">
+                            <label> Value Stream Name</label>
+
+                            <span id="txtValueStreamNames"></span>
+
+                        </div>
 
                         <div class="col-lg-12">
 
                             <div class="table-responsive">
-                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
-                                    <thead>
+                                    <table width="100%"  id="tblApprovel"class="table table-bordered example2">
+
+                                        <thead>
                                         <tr>
                                             <th width="10%"><div align="center">Sq No.</div></th>
                                             <th width="90%"><div align="left">Operation Name</div></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-
-                                        <tr>
-                                            <td><div align="center">10</div></td>
-                                            <td>Cropping</td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center">20</div></td>
-                                            <td>Tang swagging</td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center">50</div></td>
-                                            <td>Annealing</td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center">60</div></td>
-                                            <td>Tang Punching</td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center">70</div></td>
-                                            <td>Point Punching</td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center">80</div></td>
-                                            <td>Tang Pressing</td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center">110</div></td>
-                                            <td>Tang Cutting</td>
-                                        </tr>
-                                    </tbody>
+                                    <tbody id="tblOperationsBodyAA"></tbody>
 
                                 </table>
                             </div>
@@ -128,8 +117,8 @@
 
                 <div class="modal-footer">
                     <div class="float-right text-right">
-                        <a href="#" class="btn btn-danger btn-xs btnwidth50">Reject</a>
-                        <a href="#" class="btn btn-success btn-xs btnwidth50">Approve</a>
+                        <a href="#" class="btn btn-danger btn-xs btnwidth50" onclick="StatusUpdate('Rejected');">Reject</a>
+                        <a href="#" class="btn btn-success btn-xs btnwidth50" onclick="StatusUpdate('Approved');">Approve</a>
                     </div>
                 </div>
 
@@ -164,8 +153,7 @@
                             <label>Product Line</label>
 
                             <span id="txtProductline"></span>
-
-                        </div>
+                            <input type="hidden" id="txtvid">                        </div>
                           <div class="col-lg-3">
                             <label>Value Stream Code</label>
 
@@ -187,18 +175,14 @@
                         <div class="col-lg-12">
 
                             <div class="table-responsive">
-                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
+                                <table class="table table-bordered example2" width="100%">
                                     <thead>
                                         <tr>
-                                            <th width="10%"><div align="center">Sq No.</div></th>
-                                            <th width="90%"><div align="left">Operation Name</div></th>
+                                            <th>Sq No.</th>
+                                            <th>Operation Name</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-
                                     <tbody id="tblOperationsBody"></tbody>
-
-
                                 </table>
                             </div>
 
@@ -266,7 +250,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-xs btnwidth95" .href="" title=" Submit for Approval">
+                    <button type="button" class="btn btn-primary btn-xs btnwidth95" .href="" title="Submit for Approval" onclick="StatusUpdate('Submit for Approval');">
                         Submit for Approval
                     </button>
                 </div>
@@ -289,49 +273,43 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
+                        <div class="col-lg-4">
+                            <label>Product Line</label>
+
+                            <span id="txtProductlinem"></span>
+                            <input type="hidden" id="txtvidm">
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Value Stream Code</label>
+
+                            <span id="txtValueStreamCodem"></span>
+
+
+
+
+                        </div>
+                        <div class="col-lg-5">
+                            <label> Value Stream Name</label>
+
+                            <span id="txtValueStreamNamem"></span>
+
+
+
+
+                        </div>
 
 
                         <div class="col-lg-12">
 
                             <div class="table-responsive">
-                                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
+                                <table width="100%" class="table table-bordered example2">
                                     <thead>
                                         <tr>
                                             <th width="10%"><div align="center">Sq No.</div></th>
                                             <th width="90%"><div align="left">Operation Name</div></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-
-                                        <tr>
-                                            <td><div align="center">10</div></td>
-                                            <td>Cropping</td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center">20</div></td>
-                                            <td>Tang swagging</td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center">50</div></td>
-                                            <td>Annealing</td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center">60</div></td>
-                                            <td>Tang Punching</td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center">70</div></td>
-                                            <td>Point Punching</td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center">80</div></td>
-                                            <td>Tang Pressing</td>
-                                        </tr>
-                                        <tr>
-                                            <td><div align="center">110</div></td>
-                                            <td>Tang Cutting</td>
-                                        </tr>
-                                    </tbody>
+                                    <tbody id="tblOperationsBodyA"></tbody>
 
                                 </table>
                             </div>
@@ -488,7 +466,7 @@
 
                                         @foreach (var item in Model.valuestreams)
                                         {
-                                            if (item.Status == "Save")
+                                            if (item.Status == "Saved" || item.Status == "Rejected")
     {
                                             <tr>
                                                 <td height="28"><div align="center">@sr</div></td>
@@ -499,7 +477,7 @@
                                                             <a href="#"
                                                                data-toggle="modal"
                                                                data-target="#Operations"
-                                                               onclick="LoadOperations('@item.ProductLine','@item.val_valuestream_code',' @item.val_valuestream_name','@item.Operations')">
+                                                               onclick="LoadOperations(@item.val_ID,'@item.ProductLine','@item.val_valuestream_code',' @item.val_valuestream_name','@item.Operations')">
                                                                 @item.val_valuestream_name
                                                             </a>
                                                         </div>
@@ -564,7 +542,7 @@
                                             <td height="28"><div align="center">@srN</div></td>
                                             <td><div align="left">@item.ProductLine</div></td>
                                             <td><a href="#">@item.val_valuestream_code</a></td>
-                                            <td><div align="left"><a href="#" data-toggle="modal" data-target="#approve">@item.val_valuestream_name</a> </div></td>
+                                                <td><div align="left"><a href="#" onclick="LoadApprovalOperations(@item.val_ID,'@item.ProductLine','@item.val_valuestream_code',' @item.val_valuestream_name','@item.Operations')">@item.val_valuestream_name</a> </div></td>
                                             
                                         </tr>
 
@@ -617,13 +595,13 @@
 
                                         @foreach (var item in Model.valuestreams)
                                         {
-    if (item.Status == "Approve")
+    if (item.Status == "Approved")
     {
                                             <tr>
                                                 <td height="28"><div align="center">@srNo</div></td>
                                                 <td><div align="left">@item.ProductLine</div></td>
                                                 <td><a href="#">@item.val_valuestream_code</a></td>
-                                                <td><div align="left"><a href="#" data-toggle="modal" data-target="#master">@item.val_valuestream_name</a> </div></td>
+                                                    <td><div align="left"><a href="#" onclick="LoadApproOperations(@item.val_ID,'@item.ProductLine','@item.val_valuestream_code',' @item.val_valuestream_name','@item.Operations')">@item.val_valuestream_name</a> </div></td>
 
                                             </tr>
 
@@ -651,26 +629,33 @@
     <!-- InstanceEndEditable -->
 </div>
 <script>
-        function LoadOperations(ProductLine,val_valuestream_code,val_valuestream_name,operations) {
+         function LoadOperations(val_ID, ProductLine, val_valuestream_code, val_valuestream_name, operations) {
 
-             // Set header values
-    $("#txtProductline").text(ProductLine);
-    $("#txtValueStreamCode").text(val_valuestream_code);
-    $("#txtValueStreamName").text(val_valuestream_name);
+        $("#txtvid").val(val_ID);
+        $("#txtProductline").text(ProductLine);
+        $("#txtValueStreamCode").text(val_valuestream_code);
+        $("#txtValueStreamName").text(val_valuestream_name);
 
         var tbody = $("#tblOperationsBody");
         tbody.empty();
 
-        if (!operations) return;
+         // Destroy previous DataTable
+        if ($.fn.DataTable.isDataTable('.example2')) {
+            $('.example2').DataTable().destroy();
+        }
+        if (!operations || operations.trim() === "") {
+            return;
+        }
 
         var ops = operations.split(",");
 
         for (var i = 0; i < ops.length; i++) {
 
-            var parts = ops[i].split("-");
+            var item = ops[i].trim();
+            var parts = item.split(" - ");
 
-            var sqNo = parts[0].trim();
-            var opName = parts[1].trim();
+            var sqNo = parts[0];
+            var opName = parts.length > 1 ? parts[1] : "";
 
             var row = "<tr>" +
                 "<td align='center'>" + sqNo + "</td>" +
@@ -679,5 +664,148 @@
 
             tbody.append(row);
         }
+
+       
+
+        // Initialize again
+        $('.example2').DataTable({
+            responsive: true,
+            paging: true,
+            pageLength: 10,
+            searching: true,
+            ordering: true,
+            info: true
+        });
+
+        $("#Operations").modal("show");
+    }
+       function LoadApprovalOperations(val_ID, ProductLine, val_valuestream_code, val_valuestream_name, operations) {
+
+        $("#txtvids").val(val_ID);
+        $("#txtProductlines").text(ProductLine);
+        $("#txtValueStreamCodes").text(val_valuestream_code);
+        $("#txtValueStreamNames").text(val_valuestream_name);
+
+        var tbody = $("#tblOperationsBodyAA");
+        tbody.empty();
+        // Destroy old DataTable
+        if ($.fn.DataTable.isDataTable('#tblApprovel')) {
+            $('#tblApprovel').DataTable().destroy();
+        }
+
+
+        if (!operations || operations.trim() === "") {
+            return;
+        }
+
+        var ops = operations.split(",");
+
+        for (var i = 0; i < ops.length; i++) {
+
+            var item = ops[i].trim();
+            var parts = item.split(" - ");
+
+            var sqNo = parts[0];
+            var opName = parts.length > 1 ? parts[1] : "";
+
+            var row = "<tr>" +
+                "<td align='center'>" + sqNo + "</td>" +
+                "<td>" + opName + "</td>" +
+                "</tr>";
+
+            tbody.append(row);
+        }
+
+        
+
+        // Reinitialize
+        $('#tblApprovel').DataTable({
+            responsive: true,
+            paging: true,
+            pageLength: 10,
+            searching: true,
+            ordering: true,
+            info: true
+        });
+
+        $("#approve").modal("show");
+    }
+
+    function LoadApproOperations(val_ID,ProductLine, val_valuestream_code, val_valuestream_name, operations) {
+
+        // Set header values
+        $("#txtvidm").val(val_ID);
+        $("#txtProductlinem").text(ProductLine);
+        $("#txtValueStreamCodem").text(val_valuestream_code);
+        $("#txtValueStreamNamem").text(val_valuestream_name);
+
+        var tbody = $("#tblOperationsBodyA");
+        tbody.empty();
+
+         // Destroy previous DataTable
+        if ($.fn.DataTable.isDataTable('.example2')) {
+            $('.example2').DataTable().destroy();
+        }
+        if (!operations || operations.trim() === "") {
+            return;
+        }
+
+        var ops = operations.split(",");
+
+        for (var i = 0; i < ops.length; i++) {
+
+            var item = ops[i].trim();
+            var parts = item.split(" - ");
+
+            var sqNo = parts[0];
+            var opName = parts.length > 1 ? parts[1] : "";
+
+            var row = "<tr>" +
+                "<td align='center'>" + sqNo + "</td>" +
+                "<td>" + opName + "</td>" +
+                "</tr>";
+
+            tbody.append(row);
+        }
+
+       
+
+        // Initialize again
+        $('.example2').DataTable({
+            responsive: true,
+            paging: true,
+            pageLength: 10,
+            searching: true,
+            ordering: true,
+            info: true
+        });
+
+
+        $("#master").modal("show");
+    }
+
+
+    function  StatusUpdate (Status){
+         var FileTypeJobj = {    
+               valID:$("#txtvid").val(),
+               CreatedBy: parseInt('@Context.Session.GetInt32("CreatedBy")'),
+               Status:Status
+            };
+            var JsonData = JSON.stringify(FileTypeJobj);
+
+    $.ajax({
+        url: '@Url.Action("UpdateValueStreamStatus", "Master")',
+        type: 'POST',
+       data: { JsonData: JsonData }, // ✅ correct
+        success: function (response) {
+
+            alert(response.response);
+
+            window.location.reload();
+        },
+        error: function () {
+            alert("Error saving data");
+        }
+    });
     }
 </script>
