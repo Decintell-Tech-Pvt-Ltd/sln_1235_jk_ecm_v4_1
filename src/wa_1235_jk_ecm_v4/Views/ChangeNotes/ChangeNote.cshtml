@@ -64,7 +64,8 @@
 								<table class="table table-bordered example1">
 									<thead>
 										<tr>
-											<th style="width:20px; text-align:center;">Sr. No.</th>
+                                            <th style="width:20px; text-align:center;">Sr. No.</th>
+                                            <th style="width:20px; text-align:center;">Product Line</th>
 											<th style="width:50px;"><div align="center">Request No.</div></th>
 											<th style="width:50px;"><div align="center">Falco Code</div></th>
 											<th style="width:50px;"><div align="center">Creation Date</div></th>
@@ -81,10 +82,11 @@
 												<tr>
 
 													<td class="text-center">@item.SrNo</td>
+                                                    <td class="text-center">@item.ProductLine</td>
                                                     <td class="text-center">
 														@if (item.RequestStatusName == "Created")
 														{
-															<a href="#" onclick="RedirectToEditRequest(@item.Id,'@item.ReqType');" style="color: blue; cursor: pointer;">
+                                                            <a href="#" onclick="RedirectToEditRequest(@item.Id,'@item.ReqType','@item.ProductLineCode');" style="color: blue; cursor: pointer;">
 																@Html.DisplayFor(modelItem => item.RequestNumber)
 															</a>
 
@@ -92,7 +94,7 @@
 														}
 														else
 														{
-															<a href="#" onclick="RedirectToViewRequest(@item.Id,'@item.ReqType');" style="color: blue; cursor: pointer;">
+                                                            <a href="#" onclick="RedirectToViewRequest(@item.Id,'@item.ReqType','@item.ProductLineCode');" style="color: blue; cursor: pointer;">
 																@Html.DisplayFor(modelItem => item.RequestNumber)
 															</a>
 														}
@@ -137,7 +139,8 @@
     var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
     var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
     var Status = encodeURIComponent('@Context.Request.Query["Status"]');
-       function RedirectToEditRequest(RequestId, ReqType) {
+
+       function RedirectToEditRequest(RequestId, ReqType,ProductLineCode) {
 
         var url;
 
@@ -149,6 +152,7 @@
                 '&ModuleID=' + moduleID +
                 '&ModulePageID=' + modulePageID +
                 '&ReqValue=' + RequestId +
+                '&ProductLine=' + ProductLineCode +
                 '&Mode=Edit&Status=SKU';
         }
         else if (ReqType === "S" || ReqType === "R") {
@@ -159,6 +163,7 @@
                 '&ModuleID=' + moduleID +
                 '&ModulePageID=' + modulePageID +
                 '&ReqValue=' + RequestId +
+                 '&ProductLine=' + ProductLineCode +
                 '&Mode=Edit&Status=SET';
         }
         else {
@@ -170,13 +175,14 @@
                 '&ModulePageID=' + modulePageID +
                 '&ReqValue=' + RequestId +
                 '&ReqType=' + ReqType +
+                 '&ProductLine=' + ProductLineCode +
                 '&Mode=Edit&Status=SET';
         }
 
         window.location.href = url;
     }
 
-       function RedirectToViewRequest(RequestId, ReqType) {
+       function RedirectToViewRequest(RequestId, ReqType,ProductLineCode) {
 
         var url;
 
@@ -188,6 +194,7 @@
                 '&ModuleID=' + moduleID +
                 '&ModulePageID=' + modulePageID +
                 '&ReqValue=' + RequestId +
+                 '&ProductLine=' + ProductLineCode +
                 '&Status=SKU';
         }
         else if (ReqType === "S" || ReqType === "R") {
@@ -198,6 +205,7 @@
                 '&ModuleID=' + moduleID +
                 '&ModulePageID=' + modulePageID +
                 '&ReqValue=' + RequestId +
+                   '&ProductLine=' + ProductLineCode +
                 '&Status=SET';
         }
         else {
@@ -208,6 +216,7 @@
                 '&ModuleID=' + moduleID +
                 '&ModulePageID=' + modulePageID +
                 '&ReqValue=' + RequestId +
+                   '&ProductLine=' + ProductLineCode +
                 '&Status=SKU';
         }
 

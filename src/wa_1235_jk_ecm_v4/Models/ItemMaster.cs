@@ -59,9 +59,11 @@ namespace wa_1235_jk_ecm_v4.Models
         public LookupTypes[] BarCodeWrapper2_List { get; set; }
         public LookupTypes[] BarCodeInner_List { get; set; }
         public LookupTypes[] BarCodeOuter_List { get; set; }
-
+        public stampdetailslabellayout stampdetailslabellayout { get; set; }
+        
         public ProductionDetails ProductionDetails_List { get; set; }
         public StampMaster StampMasterDispatchDetails { get; set; }
+        public StampMaster StampMasterDetails { get; set; }
         public HandleMasterForEdit HandleMasterForEditDetails { get; set; }
 
         public OtherPackingForEdit OtherPackingForEditDetails { get; set; }
@@ -69,7 +71,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public int LabelTypeId { get; set; }
         public int TypeId { get; set; }
         public int SizeID { get; set; }
-        
+
         public ApprovedSKUDetails[] ApprovedSKUDetails_List { get; set; }
         public ApprovedCommingSKUDetails[] ApprovedCommingSKUDetails_List { get; set; }
         public PackingMaterialList[] PackingMaterialLists { get; set; }
@@ -125,7 +127,7 @@ namespace wa_1235_jk_ecm_v4.Models
     public class FileTypeCodeList
     {
         public string CTTypeName { get; set; }
-        public int TypeId { get; set; }
+        public int FileType { get; set; }
         public string CTTypeCode { get; set; }
     }
 
@@ -179,6 +181,20 @@ namespace wa_1235_jk_ecm_v4.Models
         public int StatusId { get; set; }
 
     }
+
+    public class stampdetailslabellayout
+    {
+        public int Id { get; set; }
+        public string BrandName { get; set; }
+        public string BrandCode { get; set; }
+        public string ChartNo { get; set; }
+        public string DrawingFile { get; set; }
+        public string StampChartImage { get; set; }
+        public string ReferenceNo { get; set; }
+        public string StampProcess { get; set; }
+        public string RequestNo { get; set; }
+    }
+
     //CustomerMaster
     public class StampMaster
     {
@@ -289,6 +305,9 @@ namespace wa_1235_jk_ecm_v4.Models
         public string RequestCode { get; set; }
         public int CustomerId { get; set; }
         public int BrandId { get; set; }
+        public int TypeCodesRowId { get; set; }
+        public int SizeRowId { get; set; }
+
         public string CustomerCode { get; set; }
         public string BrandCode { get; set; }
         public string CountryCode { get; set; }
@@ -317,8 +336,9 @@ namespace wa_1235_jk_ecm_v4.Models
         public string RequestEndDate { get; set; }
         public string FileCode { get; set; }
         public string ReqType { get; set; }
-        public int FileTypeCodeId { get; set; }
+        public int? FileTypeCodeId { get; set; }
         public string FileTypeCode { get; set; }
+        public string ProductLineCode { get; set; }
     }
 
 
@@ -327,6 +347,8 @@ namespace wa_1235_jk_ecm_v4.Models
     public class ApprovedSKUDetails
     {
         public int ReqId { get; set; }
+        public string? ProductLine { get; set; }
+        public string? ProductLineCode { get; set; }
         public string RequestNo { get; set; }
         public string FalcoSKU { get; set; }
         public string SKUHistory { get; set; }

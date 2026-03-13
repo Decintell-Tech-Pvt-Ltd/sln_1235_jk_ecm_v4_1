@@ -462,11 +462,11 @@
 															<tr>
 																<td><strong>Sales</strong></td>
 																<td width="25%" style="padding: 5px;">@(Model.ProductionDetails_List?.Sales ?? "")</td>
-																<td height="32"><strong> size</strong></td>
+																<td height="32"><strong> Size</strong></td>
 																<td width="25%" style="padding: 5px;">@(Model.ProductionDetails_List?.FileSizeInch ?? "")</td>
 															</tr>
 															<tr>
-																<td><strong> type</strong></td>
+																<td><strong> Type</strong></td>
 																<td width="25%" style="padding: 5px;">@(Model.ProductionDetails_List?.FileTypeName ?? "")</td>
 																<td><strong> Sub Type</strong></td>
 																<td width="25%" style="padding: 5px;">@(Model.ProductionDetails_List?.FileSubTypeName ?? "")</td>
@@ -605,9 +605,9 @@
 														<tbody id="Stampbodytr">
 															<tr>
 																<td width="25%" height="33" style="padding: 5px;"><p><strong> Stamp Type </strong></p></td>
-																<td width="25%"> @(Model?.StampMasterDispatchDetails?.StampProcess ?? "NA") </td>
+																<td width="25%"> @(Model?.stampdetailslabellayout?.StampProcess ?? "NA") </td>
 																<td width="25%"><strong>Stamp Chart Ref No </strong></td>
-																<td width="25%"> @(Model?.StampMasterDispatchDetails?.ChartNo ?? "NA")</td>
+																<td width="25%"> @(Model?.stampdetailslabellayout?.ChartNo ?? "NA")</td>
 															</tr>
 
 														
@@ -3102,8 +3102,9 @@
 
 		async function OpenDocument_Stamp(BrandCode, FileName) {
 			
-			// G: \static\falco_co_in\1235_jk\ecm_v3\others\stamps\ca
-			var path = 'others\\stamps' + '\\' + BrandCode.toLowerCase() + '\\';
+
+			var path = 'others\\ct\\stamps\\' + BrandCode.toLowerCase() + '\\';
+	
 			
 			 const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
 
@@ -3574,8 +3575,8 @@ $(document).ready(function () {
         <text>
 
         OpenDocument_Stamp(
-            '@Model.StampMasterDispatchDetails?.BrandCode',
-            '@Model.StampMasterDispatchDetails?.StampChartImage'
+            '@Model.stampdetailslabellayout?.BrandCode',
+            '@Model.stampdetailslabellayout?.ChartNo'
         );
 
         OpenDocument_Handle(

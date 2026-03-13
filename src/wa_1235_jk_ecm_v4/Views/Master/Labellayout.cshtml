@@ -66,6 +66,7 @@
 										<tr>
 
 											<th width="10%"><div align="center">Request No.</div></th>
+											<th width="10%"><div align="center">Product Line</div></th>
 											<th width="15%"><div align="center">SKU-Key</div></th>
 											<th width="15%"><div align="center">SAP No.</div></th>
 											<th width="45%"><div align="Left">Description</div></th>
@@ -82,17 +83,18 @@
 													<tr>
 														<td>
 															<div align="center">
-															<a href="#" onclick="RedirectToShowLabelLayout(@item.RequestId);" title="View">
+															<a href="#" onclick="RedirectToShowLabelLayout(@item.RequestId,'@item.ProductLineCode');" title="View">
 																@Html.DisplayFor(modelItem => item.RequestCode)
 															</a>
 															</div>
 														</td>
+														<td><div align="center">@item.ProductLine</div></td>
 														<td>
 															<div align="center">
 															@if (item.RequestStatusName == "Created")
 															{
 																<div style="margin-left:auto; margin-right:auto; float:none; display:table;">
-																	<a href="#" onclick="RedirectToEditRequest(@item.RequestId,'@item.ReqType');" class="fa-i-small orangebt" title="Edit">
+																		<a href="#" onclick="RedirectToEditRequest(@item.RequestId,'@item.ReqType','@item.ProductLineCode');" class="fa-i-small orangebt" title="Edit">
 																		@item.SKUKey
 																	</a>
 																</div>
@@ -101,7 +103,7 @@
 															else
 															{
 																<div style="margin-left:auto; margin-right:auto; float:none; display:table;">
-																	<a href="#" onclick="RedirectToViewRequest(@item.RequestId,'@item.ReqType');" class="fa-i-small orangebt" title="View">
+																		<a href="#" onclick="RedirectToViewRequest(@item.RequestId,'@item.ReqType','@item.ProductLineCode');" class="fa-i-small orangebt" title="View">
 																		@item.SKUKey
 																	</a>
 																</div>
@@ -154,6 +156,7 @@
 
 									<tr>
 										<th width="10%"><div align="center">Request No.</div></th>
+										<th width="10%"><div align="center">Product Line</div></th>
 										<th width="15%"><div align="center">SKU-Key</div></th>
 										<th width="15%"><div align="center">SAP No.</div></th>
 										<th width="60%"><div align="Left">Description</div></th>
@@ -171,14 +174,28 @@
                                            if (item.GridNo == 2)
                                            {
                                                <tr>
+@{
+    var actionName = item.ProductLineCode == "F" ? "ShowLabelLayout" : "CTViewLabelLayout";
+}
 
-                                                   <td>
-													   <div align="center">
-															<a href="@Url.Action("ViewLabelLayout", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = @item.RequestId, Display = "Approval" })" title="View">
-                                                           @Html.DisplayFor(modelItem => item.RequestCode)
-                                                       </a>
-													    </div>
-                                                   </td>
+<td>
+    <div align="center">
+        <a href="@Url.Action(actionName, "ItemMaster", new {
+                PageID = Context.Request.Query["PageID"].ToString(),
+                ParentID = Context.Request.Query["ParentID"].ToString(),
+                ModuleID = Context.Request.Query["ModuleID"].ToString(),
+                ModulePageID = Context.Request.Query["ModulePageID"].ToString(),
+                ReqValue = item.RequestId,
+                Display = "Approval"
+            })"
+           title="View">
+
+            @Html.DisplayFor(modelItem => item.RequestCode)
+
+        </a>
+    </div>
+</td>
+													<td><div align="center">@item.ProductLine</div></td>
                                                    <td><div align="center">@item.SKUKey </div></td>
 
                                                    <td><div align="center">@item.SAPNo </div></td>
@@ -243,7 +260,7 @@
 	var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
 	var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
 
-	function RedirectToEditRequest(RequestId, ReqType) {
+	function RedirectToEditRequest(RequestId, ReqType,ProductLineCode) {
 		var url;
 		if (ReqType == "N") {
 		   // url = '@Url.Action("Productiondetails", "ItemMaster")' + '?ReqValue=' + RequestId + '&Mode=Edit';
@@ -254,6 +271,7 @@
 				'&ModulePageID=' + modulePageID +
 				'&ReqValue=' + RequestId +
 				'&ReqType=' + ReqType +
+				'&ProductLine=' + ProductLineCode +
 				'&Mode=Edit' +
 				'&Display=Approval';
 		}
@@ -266,6 +284,7 @@
 				'&ModulePageID=' + modulePageID +
 				'&ReqValue=' + RequestId +
 				'&ReqType=' + ReqType +
+				'&ProductLine=' + ProductLineCode +
 				'&Mode=Edit';
 		}
 		if (ReqType == "A") {
@@ -276,13 +295,14 @@
 				'&ModulePageID=' + modulePageID +
 				'&ReqValue=' + RequestId +
 				'&ReqType=' + ReqType +
+				'&ProductLine=' + ProductLineCode +
 				'&Mode=Edit' +
 				'&Display=Approval';
 		}
 		window.location.href = url;
 	}
 
-	function RedirectToViewRequest(RequestId, ReqType) {
+	function RedirectToViewRequest(RequestId, ReqType,ProductLineCode) {
 		var url;
 		if (ReqType == "N") {
 
@@ -292,7 +312,8 @@
 				'&ModuleID=' + moduleID +
 				'&ModulePageID=' + modulePageID +
 				'&ReqValue=' + RequestId +
-				'&ReqType=' + ReqType +				
+				'&ReqType=' + ReqType +		
+				'&ProductLine=' + ProductLineCode +
 				'&Mode=Edit&Display=LabelLayout';
 		}
 		else if (ReqType == "S") {
@@ -303,6 +324,7 @@
 				'&ModuleID=' + moduleID +
 				'&ModulePageID=' + modulePageID +
 				'&ReqType=' + ReqType +
+				'&ProductLine=' + ProductLineCode +
 				'&Mode=Edit&Display=LabelLayout&ReqValue=' + RequestId;
 		}
 		else
@@ -314,22 +336,33 @@
 				'&ModuleID=' + moduleID +
 				'&ModulePageID=' + modulePageID +
 				'&ReqType=' + ReqType +
+				'&ProductLine=' + ProductLineCode +
 				'&Mode=Edit&Display=LabelLayout&ReqValue=' + RequestId;
 		}
 		window.location.href = url;
 	}
 
-	 function RedirectToShowLabelLayout(RequestId) {
+		function RedirectToShowLabelLayout(RequestId, ProductLineCode) {
 
-		var url = '@Url.Action("ViewLabelLayout", "ItemMaster")' +
+		var actionUrl = '';
+
+		if (ProductLineCode !== 'F') {
+			actionUrl = '@Url.Action("CTViewLabelLayout", "ItemMaster")';
+		}
+		else {
+			actionUrl = '@Url.Action("ViewLabelLayout", "ItemMaster")';
+		}
+
+		var url = actionUrl +
 			'?PageID=' + pageID +
 			'&ParentID=' + parentID +
 			'&ModuleID=' + moduleID +
 			'&ModulePageID=' + modulePageID +
-			'&ReqValue=' + RequestId;
-		window.location.href = url;
+			'&ReqValue=' + RequestId +
+			'&ProductLine=' + ProductLineCode;
 
-	 }
+		window.location.href = url;
+	}
 
 
 </script>

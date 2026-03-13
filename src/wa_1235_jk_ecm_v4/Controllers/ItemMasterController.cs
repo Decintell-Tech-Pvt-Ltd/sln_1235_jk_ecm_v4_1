@@ -265,6 +265,35 @@ namespace wa_1235_jk_ecm_v4.Controllers
                     ItemMasters.StampMasterDispatchDetails =
                         JsonSerializer.Deserialize<StampMaster>(stampResponse) ?? new StampMaster();
                 }
+
+                ////////////////////////////////////////////////////////////////////////
+                ///
+                var jsonDispatch1 = new { RequestNo = ReqValue, TabName = "Stamp" };
+                string jsonData1 = JsonSerializer.Serialize(jsonDispatch1);
+
+                string apiEndPoint1 = "changeNote/GetstampDetailsFromReqNo";
+                var stampStream1 = await _iGenericMethods.PostDataEcm(apiEndPoint1, jsonData1);
+
+                string stampResponse1 = "";
+                using (var reader = new StreamReader(stampStream1))
+                {
+                    stampResponse1 = await reader.ReadToEndAsync();
+                }
+
+                // 🔥 FIX: handle null, empty, {}, [] safely
+                if (string.IsNullOrWhiteSpace(stampResponse1) ||
+                    stampResponse1.Trim() == "{}" ||
+                    stampResponse1.Trim() == "[]" ||
+                    stampResponse1.Trim() == "null")
+                {
+                    ItemMasters.stampdetailslabellayout = new stampdetailslabellayout();
+                }
+                else
+                {
+                    ItemMasters.stampdetailslabellayout =
+                        JsonSerializer.Deserialize<stampdetailslabellayout>(stampResponse1) ?? new stampdetailslabellayout();
+                }
+
                 var jsonDispatchHandle = new { RequestNo = ReqValue, TabName = "Handle" };
                 jsonData = JsonSerializer.Serialize(jsonDispatchHandle);
 
