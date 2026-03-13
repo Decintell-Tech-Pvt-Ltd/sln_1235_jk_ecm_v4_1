@@ -118,28 +118,28 @@
 									<ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
 										@if (Context.Request.Query["Display"].ToString() == "View")
 										{
-										<li class="nav-item"> <a class="nav-link" href="@Url.Action("Changenoteproductiondetails", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Display = "View", Status = "SKU" })">Production Details</a> </li>
+										<li class="nav-item"> <a class="nav-link" href="@Url.Action("Changenoteproductiondetails", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), ProductLine = Context.Request.Query["ProductLine"].ToString(), Display = "View", Status = "SKU" })">Production Details</a> </li>
 										<li class="nav-item"> <a class="nav-link active" href="@Url.Action("Changenotedispatchdetails", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Display = "View", Status = "SKU" })">Dispatch Details</a> </li>
 										}
 										@if (Context.Request.Query["Display"].ToString() == "Approval")
 										{
-										<li class="nav-item"> <a href="@Url.Action("Productiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval", Status = "SKU" })" class="nav-link "> Production Details </a> </li>
-										<li class="nav-item"> <a href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "Approval", Status = "SKU" })" class="nav-link active"> Dispatch Details </a> </li>
+										<li class="nav-item"> <a href="@Url.Action("Productiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), ProductLine = Context.Request.Query["ProductLine"].ToString(), Mode = "Edit", Display = "Approval", Status = "SKU" })" class="nav-link "> Production Details </a> </li>
+										<li class="nav-item"> <a href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), ProductLine = Context.Request.Query["ProductLine"].ToString(), Mode = "Edit", Display = "Approval", Status = "SKU" })" class="nav-link active"> Dispatch Details </a> </li>
 										}
 										else if (Context.Request.Query["Mode"].ToString() != null && Context.Request.Query["Mode"].ToString() != "" && Context.Request.Query["Status"].ToString() == "SKU")
 										{
-											<li class="nav-item"> <a href="@Url.Action("Productiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Status = "SKU" })" class="nav-link "> Production Details </a> </li>
-											<li class="nav-item"> <a href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Status = "SKU" })" class="nav-link active"> Dispatch Details </a> </li>
+										<li class="nav-item"> <a href="@Url.Action("Productiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), ProductLine = Context.Request.Query["ProductLine"].ToString(),Mode = "Edit", Status = "SKU" })" class="nav-link "> Production Details </a> </li>
+										<li class="nav-item"> <a href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), ProductLine = Context.Request.Query["ProductLine"].ToString(), Mode = "Edit", Status = "SKU" })" class="nav-link active"> Dispatch Details </a> </li>
 										}
 										else if (Context.Request.Query["Mode"].ToString() != null && Context.Request.Query["Mode"].ToString() != "" && Context.Request.Query["Status"].ToString() == "SET")
 										{
-											<li class="nav-item"> <a href="@Url.Action("Newsetproductiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Status = "SET" })" class="nav-link "> Production Details </a> </li>
-											<li class="nav-item"> <a href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Status = "SET" })" class="nav-link active"> Dispatch Details </a> </li>
+										<li class="nav-item"> <a href="@Url.Action("Newsetproductiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), ProductLine = Context.Request.Query["ProductLine"].ToString(), Mode = "Edit", Status = "SET" })" class="nav-link "> Production Details </a> </li>
+										<li class="nav-item"> <a href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), ProductLine = Context.Request.Query["ProductLine"].ToString(), Mode = "Edit", Status = "SET" })" class="nav-link active"> Dispatch Details </a> </li>
 										}
 										else
 										{
-										<li class="nav-item"> <a class="nav-link" href="@Url.Action("Productiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), Status = "SKU" })">Production Details</a> </li>
-										<li class="nav-item"> <a class="nav-link active" href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), Status = "SKU" })">Dispatch Details</a> </li>
+										<li class="nav-item"> <a class="nav-link" href="@Url.Action("Productiondetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ProductLine = Context.Request.Query["ProductLine"].ToString(),Status = "SKU" })">Production Details</a> </li>
+										<li class="nav-item"> <a class="nav-link active" href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ProductLine = Context.Request.Query["ProductLine"].ToString(),Status = "SKU" })">Dispatch Details</a> </li>
 										}
 								</ul>
 
@@ -185,57 +185,57 @@
 										{
 											<li class="nav-item">
 												<a class="nav-link active" href="@Url.Action("Dispatchdetails","ItemMaster",
-												  new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, ReqValue = reqValue, Mode = "Edit", Display = "Approval", Status = status })">Stamp</a>
-										</li>
+													  									  new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, ReqValue = reqValue, ProductLine = productLine, Mode = "Edit", Display = "Approval", Status = status })">Stamp</a>
+										     </li>
 
-										@if (!hideHandle)
+										     @if (!hideHandle)
 											{
 												<li class="nav-item">
 													<a class="nav-link" href="@Url.Action("Handle","ItemMaster",
-												   new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, ReqValue = reqValue, Mode = "Edit", Display = "Approval", Status = status })">Handle</a>
-										</li>
-																				}
+														   							   new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, ReqValue = reqValue, ProductLine = productLine, Mode = "Edit", Display = "Approval", Status = status })">Handle</a>
+										        </li>
+											}
 
 											<li class="nav-item">
 												<a class="nav-link" href="@Url.Action("PackingMaterialDetails","ItemMaster",
-										   new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, ReqValue = reqValue, Mode = "Edit", Display = "Approval", Status = status })">Packing Material Details</a>
-										</li>
-																				}
+													 							   new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, ReqValue = reqValue, ProductLine = productLine, Mode = "Edit", Display = "Approval", Status = status })">Packing Material Details</a>
+										    </li>
+										}
 										else
 										{
 											<li class="nav-item">
 												<a class="nav-link active" href="@Url.Action("Dispatchdetails","ItemMaster",
-												  new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, ReqValue = reqValue, Mode = "Edit", Status = status })">Stamp</a>
-										</li>
+													  									  new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, ReqValue = reqValue, ProductLine = productLine, Mode = "Edit", Status = status })">Stamp</a>
+										     </li>
 
-										@if (!hideHandle)
-											{
+										    @if (!hideHandle)
+											 {
 												<li class="nav-item">
 													<a class="nav-link" href="@Url.Action("Handle","ItemMaster",
-												   new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, ReqValue = reqValue, Mode = "Edit", Status = status })">Handle</a>
-										</li>
-																				}
+														   							   new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, ReqValue = reqValue, ProductLine = productLine, Mode = "Edit", Status = status })">Handle</a>
+										        </li>
+											 }
 
 											<li class="nav-item">
 												<a class="nav-link" href="@Url.Action("PackingMaterialDetails","ItemMaster",
-										   new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId })">Packing Material Details</a>
-										</li>
+																				   							   new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, ProductLine = productLine, ReqValue = reqValue, Mode = "Edit", Status = status })">Packing Material Details</a>
+										    </li>
 
 											<li class="nav-item">
 												<a class="nav-link" href="@Url.Action("Labeldetails","ItemMaster",
-									   new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, Status = status })">Label Details</a>
-										</li>
+																			   new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, Status = status, ProductLine = productLine })">Label Details</a>
+										    </li>
 
 											<li class="nav-item">
 												<a class="nav-link" href="@Url.Action("Otherpackingdetails","ItemMaster",
-									   new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, ReqValue = reqValue, Status = status })">Other Packing Details</a>
-										</li>
+																			   new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, ReqValue = reqValue, Status = status, ProductLine = productLine })">Other Packing Details</a>
+										    </li>
 
 											<li class="nav-item">
 												<a class="nav-link" href="@Url.Action("ShowLabelLayout","ItemMaster",
-									   new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, ReqValue = reqValue, Status = status })">View Label Layout</a>
-										</li>
-																				}
+											   							   new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, ReqValue = reqValue, Status = status, ProductLine = productLine })">View Label Layout</a>
+										      </li>
+											}
 							@* @{
 											if (Context.Request.Query["Display"].ToString() == "Approval")
 											{

@@ -733,6 +733,8 @@ namespace wa_1235_jk_ecm_v4.Models
         public string BatchId { get; set; }
         public string RequestCode { get; set; }
         public string SKUKey { get; set; }
+        public string ProductLine { get; set; }
+        public string ProductLineCode { get; set; }
         public string SAPNo { get; set; }
         public string Description { get; set; }
         public int RequestId { get; set; }

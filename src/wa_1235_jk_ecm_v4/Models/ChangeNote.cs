@@ -14,7 +14,9 @@ namespace wa_1235_jk_ecm_v4.Models
     public class ChangeNoteList
     {
         public int SrNo { get; set; }
-
+        public string? ProductLine { get; set; }
+        public string? ProductLineCode { get; set; }
+        
         public string? ReqType { get; set; }
         public string? BatchId { get; set; }
         public string? RequestNo { get; set; }
@@ -83,6 +85,8 @@ namespace wa_1235_jk_ecm_v4.Models
     }
     public class ChangeNoteApproval
     {
+        public string? ProductLine { get; set; }
+        public string? ProductLineCode { get; set; }
         public int RequestId { get; set; }
         public string RequestNo { get; set; }
         public int SaleFlag { get; set; }

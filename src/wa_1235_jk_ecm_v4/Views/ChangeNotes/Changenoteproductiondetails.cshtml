@@ -541,7 +541,7 @@
                                             </div>
 
 
-                                            <div class="col-md-6 ">
+                                            <div class="col-md-6" id="filediv">
                                                 <h5 style="font-weight:600;" class="top10">File & Cut Specs</h5>
                                                 <br />
                                                 <table width="100%" class="tabledata top10">
@@ -668,7 +668,88 @@
 
                                         </div>
 
+                                           <div class="col-md-6" id="productiondiv">
+                                                <h5 style="font-weight:600;" class="top10">Prodcution Details</h5>
+                                                <br />
+                                                <table width="100%" class="tabledata top10">
+                                                    <tbody>
+                                                        @if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
+                                                        {
+                                                            <tr>
+                                                                <td><strong>Size(Inch)</strong></td>
+                                                                <td>@Model.ProductionDetails_List.FileSizeInch</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Type</strong></td>
+                                                                <td>@Model.ProductionDetails_List.FileTypeName</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Sub Type</strong></td>
+                                                                <td>@Model.ProductionDetails_List.FileSubTypeName</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong> Code</strong></td>
+                                                                <td>@Model.ProductionDetails_List.FileCode</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td width="51%"><strong>View</strong></td>
+                                                                <td>
+                                                                    <div align="left">
+                                                                        <button type="button" id="btnView"
+                                                                                class="btn btn-primary btn-xs btnwidth95"
+                                                                                data-toggle="modal" data-target="#sub"
+                                                                                onclick="GetFileSubTypeParams(@Model.ProductionDetails_List.FileSubType)"
+                                                                                title="View File SubType Parameters">
+                                                                            View
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                    
+                                                        }
+                                                        else
+                                                        {
+                                                          
+                                                            <tr>
+                                                                <td><strong>Stamp Details</strong></td>
+                                                                <td>
+                                                                    <a href="#" data-toggle="modal" data-target="#stampDetails" class="btn btn-primary btn-xs" title="View">
+                                                                        View
+                                                                    </a>
+                                                                </td>
 
+                                                            </tr>
+                                                          
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                                <br />
+
+                                                <div style="clear:both;"></div>
+      
+
+                                               @*  @if (Model.ProductionDetails_List.ReqType != "S" && Model.ProductionDetails_List.ReqType != "R")
+                                                {
+                                                    <br />
+                                                    <div style="clear:both;"></div>
+
+                                                    <table class="table table-bordered example1"
+                                                           style="width:100%;"
+                                                           id="TableCutSides">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width:40%"><div align="left">Side/Edge</div></th>
+                                                                <th style="width:30%"><div align="left">Desc</div></th>
+                                                                <th style="width:30%"><div align="center">Value</div></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="bodyCutSides">
+                                                            <!-- Dynamic rows -->
+                                                        </tbody>
+                                                    </table>
+                                                } *@
+
+                                            </div>
 
 
 
@@ -696,6 +777,20 @@
     <!-- InstanceEndEditable -->
 </div>
 <script>
+
+        $(document).ready(function () {
+
+            var productLine = '@Context.Request.Query["ProductLine"]';
+
+            if (productLine !== "F") {
+                $('#productiondiv').show();
+                $('#filediv').hide();
+            } else {
+                $('#productiondiv').hide();
+                $('#filediv').show();
+            }
+
+        });
          var JwToken = '@ViewBag.JWTToken';
          var blobStorageUrl = '@ViewBag.ApiUrl';
          let blobPathPrefix = '@ViewBag.BaseBlobPath';
