@@ -108,6 +108,29 @@ namespace api_1235_jk_ecm_v4.Controllers
 
         }
 
+
+        [HttpGet]
+        [Route("GetFileProcess")]
+        public async Task<IActionResult> GetFileProcess()
+        {
+
+            string spName = "usp_GetFileProcess";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+
+
+
         [HttpPost]
         [Route("UpdateValueStreamStatus")]
         public async Task<IActionResult> UpdateValueStreamStatus()

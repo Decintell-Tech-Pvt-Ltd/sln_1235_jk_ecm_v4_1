@@ -250,7 +250,9 @@ async function SubmitLookupData() {
             alert(response.response);
 
               if (response && response.response === "Inserted Successfully") {
-                        var selectedImageNameSample = cleanFileName(filenameIMG);
+                  if(fileInput && fileInput.files.length > 0) {
+                 
+                   var selectedImageNameSample = cleanFileName(filenameIMG);
                         var targetPathSample = 'others\\lookup\\';
                         var uploadedFileSample = document.getElementById('exampleInputFile').files[0];
 
@@ -271,8 +273,26 @@ async function SubmitLookupData() {
 
                             // Redirect to the URL
                             window.location.href = url;
-                            }else{}
-                                },
+                            }
+                  else{
+ var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+                            var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+                            var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+                            var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+                            // Construct the full URL
+                            var url = '@Url.Action("Lookup", "Master")' +
+                                '?PageID=' + pageID +
+                                '&ParentID=' + parentID +
+                                '&ModuleID=' + moduleID +
+                                '&ModulePageID=' + modulePageID;
+
+                            // Redirect to the URL
+                            window.location.href = url;
+                         
+                  }
+                  }
+},
                                 error: function () {
                                     alert("Error while saving lookup data");
                                 }

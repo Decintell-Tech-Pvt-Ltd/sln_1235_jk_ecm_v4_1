@@ -1,0 +1,99 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.Master
+@{
+    ViewData["Title"] = "StampMaster";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>Add</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="../login/marketing-page.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="index.html">ECM</a></li>
+                        <li class="breadcrumb-item">Masters</li>
+                        <li class="breadcrumb-item">Files</li>
+                        <li class="breadcrumb-item"><a href="Files-Process-Names.html">Process Names</a></li>
+                        <li class="breadcrumb-item">Add</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button" class="btn btn-block bg-gradient-danger btn-xs float-left"
+                                onclick="location.href='Files-Process-Names.html'" title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+
+                </div>
+
+            </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-primary card-outline p-a-2">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="col-md-12">
+
+                                <div class="row">
+
+
+                                    <div class="form-group col-md-3">
+                                        <label for="">Product Line</label><br>
+                                        <span class="mt-1" style="display: block;">Files</span>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label>Sequence  </label>
+                                        <input id="txtCustomerCode" type="number" class="form-control" />
+                                        <span id="sptxtCustomerCode" class="text-danger"></span>
+                                    </div>
+
+
+
+                                    <div class="form-group col-md-7">
+                                        <label for="">Process Name</label>
+                                        <input type="text" class="form-control" />
+                                    </div>
+
+                                    <div class="form-group col-md-12">
+                                        <div class="btnwidth50 float-right mr-1">
+                                            <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                                                    onclick="location.href='Files-Process-Names.html'" title="Go to the next page">
+                                                Submit
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- InstanceEndEditable -->
+</div>

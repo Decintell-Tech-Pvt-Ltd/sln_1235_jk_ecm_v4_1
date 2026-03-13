@@ -64,6 +64,25 @@ namespace wa_1235_jk_ecm_v4.Controllers
             objList.CustomerList = JsonSerializer.Deserialize<Customer[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
             return View(objList);
         }
+
+
+        public async Task<IActionResult> FileProcessNames()
+        {
+            Master objList = new Master();
+            string apiEndPoint = "Masters/GetCustomerList";
+            objList.CustomerList = JsonSerializer.Deserialize<Customer[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            return View(objList);
+        }
+
+
+        public async Task<IActionResult> FileAddProcessNames()
+        {
+            Master objList = new Master();
+            string apiEndPoint = "Masters/GetFileProcess";
+            objList.CustomerList = JsonSerializer.Deserialize<Customer[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            return View(objList);
+        }
+
         public async Task<IActionResult> AddCustomer(string CustomerId)
         {
             ViewBag.CustomerId = CustomerId;
