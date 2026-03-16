@@ -22,7 +22,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public CutType[] HandlePresencelist { get; set; }
 
         public HandleTypeMaster[] HandleTypeList { get; set; }
-
+        public ViewSubType[] ViewSubType { get; set; }
         public DimentionAttribute[] DimentionAttribute { get; set; }
         public CustomerMaster[] ecm_CustomerMaster { get; set; }
         public BrandMaster[] ecm_BrandMaster { get; set; }
@@ -94,6 +94,15 @@ namespace wa_1235_jk_ecm_v4.Models
         public SKUSet[] SKUSetList { get; set; }
     }
 
+    public class ViewSubType
+    {
+        public string Sequence { get; set; }
+        public string ProcessName { get; set; }
+        public string ParameterName { get; set; }
+        public string Value { get; set; }
+        public string UOM { get; set; }
+        public string Tolerance { get; set; }
+    }
 
     public class SKUlist
     {
@@ -339,7 +348,9 @@ namespace wa_1235_jk_ecm_v4.Models
         public int? FileTypeCodeId { get; set; }
         public string FileTypeCode { get; set; }
         public string ProductLineCode { get; set; }
-    }
+        public string ProductLine { get; set; }
+        public decimal SizeValue { get; set; }
+    }      
 
 
 
