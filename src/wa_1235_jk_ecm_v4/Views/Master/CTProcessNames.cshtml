@@ -1,0 +1,115 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.Master
+@{
+    ViewData["Title"] = "ValueStream";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+
+<section class="content-header">
+  <div class="container-fluid">
+     <div class="row">
+          <div class="col-lg-3">
+           <h5>Process Names</h5>
+          </div>
+          <div class="col-lg-9">
+             <ol class="breadcrumb float-sm-right">
+                   <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                      <li class="breadcrumb-item">Masters</li>
+                 <li class="breadcrumb-item">Cutting Tools</li>
+                 <li class="breadcrumb-item">Process Names</li>
+            </ol>
+		     </div>
+    </div>
+        
+<div class="row">
+      <div class="col-lg-12">
+            <div class="btnwidth50 float-right ">
+             <button 
+  type="button" 
+  class="btn btn-block bg-gradient-danger btn-xs" 
+  onclick="window.history.back()" 
+  title="Go back to the previous page">
+  Back
+</button>
+           </div>
+           <div class="btnwidth50 float-right mr-1">      
+            <a id="btn_AddBrand" href="@Url.Action("CTAddProcessNames", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })" class="btn btn-block bg-gradient-primary   btn-xs float-left">
+                        Add
+                    </a>
+         </div>
+    </div>
+  </div>
+</div><!-- /.container-fluid -->
+    
+</section>
+  
+    <section class="content">
+
+      <div class="container-fluid">
+       
+      
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-outline card-primary">
+            
+              <!-- /.card-header -->
+              <div class="card-body">
+                <div>
+                  <div class="table-responsive">
+               <table class="table table-bordered example1">
+                      <thead>
+                          <tr>
+                             <th width="30%"><div align="left">Product Line​</div></th>
+                              <th width="20%"><div align="center">Sequence</div></th>
+                             <th width="40%"><div align="left">Process Name</div></th>
+                          </tr>
+                      </thead>
+                      
+                       <tbody>
+                               @foreach (var item in Model.ProcessNamesData)
+                                            {
+                                                <tr>
+                                                   
+                                                    <td>@item.ProductLine (@item.ProductLineCode)</td>
+                                                 
+                                                    <td style="text-align:center;">
+
+                                                        @item.ProcessSequence
+
+                                                    </td>
+
+                                                    <td style="white-space: normal;">
+
+                                                       @item.ProcessName
+
+                                                    </td>
+
+                                                   
+                                                </tr>
+
+                                                
+                                            }
+                      </tbody>
+                  </table>
+                    </div>
+                       
+                        </div>
+                        <!-- /.tab-pane -->
+                        
+                     
+                    
+                     
+                     
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+         
+        </div>
+      
+      
+    </section>
+

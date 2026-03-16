@@ -16,8 +16,9 @@ namespace wa_1235_jk_ecm_v4.Models
         public CutSpecParametersjarr[] CutSpecParameterslist { get; set; }
 
         public valuestream[] valuestreams { get; set; }
+        public ProcessNames[] ProcessNamesData { get; set; }
 
-        
+
         public CutType[] CutTypelist { get; set; }
 
         public GetFileSubTypeParametersList[] GetFileSubTypeParametersList { get; set; }
@@ -207,6 +208,18 @@ namespace wa_1235_jk_ecm_v4.Models
             public object? ProductLine { get; set; }
         }
 
+        public class ProcessNames
+        {
+            public int Id { get; set; }
+            public int ProductLineRowId { get; set; }
+            public int ProcessSequence { get; set; }
+            public string ProcessName { get; set; }
+            public string CleanKey { get; set; }
+            public string ProductLine { get; set; }
+            public string ProductLineCode { get; set; }
+            
+
+        }
 
         public class RawMaterial
         {
@@ -285,7 +298,7 @@ namespace wa_1235_jk_ecm_v4.Models
         }
 
 
-      
+
         public class valuestream
         {
             public string val_valuestream_code { get; set; }

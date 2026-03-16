@@ -130,13 +130,32 @@ namespace api_1235_jk_ecm_v4.Controllers
         }
 
 
-
         [HttpPost]
         [Route("UpdateValueStreamStatus")]
         public async Task<IActionResult> UpdateValueStreamStatus()
         {
 
             string spName = "usp_UpdateValueStreamStatus";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+
+        [HttpPost]
+        [Route("CTProcessAdd")]
+        public async Task<IActionResult> CTProcessAdd()
+        {
+
+            string spName = "usp_CTProcessAdd";
             string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
             string jsonResult;
             if (string.IsNullOrEmpty(strJsonRequest))

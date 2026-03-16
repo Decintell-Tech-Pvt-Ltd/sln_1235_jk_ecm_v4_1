@@ -69,8 +69,23 @@ namespace wa_1235_jk_ecm_v4.Controllers
         public async Task<IActionResult> FileProcessNames()
         {
             Master objList = new Master();
-            string apiEndPoint = "Masters/GetCustomerList";
-            objList.CustomerList = JsonSerializer.Deserialize<Customer[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            string apiEndPoint = "Masters/GetFileProcess";
+            objList.ProcessNamesData = JsonSerializer.Deserialize<ProcessNames[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            return View(objList);
+        }
+
+        public async Task<IActionResult> CTProcessNames()
+        {
+            Master objList = new Master();
+            string apiEndPoint = "Masters/GetFileProcess";
+            objList.ProcessNamesData = JsonSerializer.Deserialize<ProcessNames[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            return View(objList);
+        }
+        public async Task<IActionResult> CTAddProcessNames()
+        {
+            Master objList = new Master();
+            string apiEndPoint1 = "DrillMaster/GetDroProdLine";
+            objList.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint1)).OrderBy(x => x.ProductLine).ToArray();
             return View(objList);
         }
 
@@ -272,6 +287,25 @@ namespace wa_1235_jk_ecm_v4.Controllers
             }
             return Json(new { response = resultMessage });
         }
+
+
+        [HttpPost]
+        public async Task<ActionResult> CTProcessAdd(string JsonData)
+        {
+            string apiEndPoint = "Masters/CTProcessAdd";
+
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
+        }
+
+
+
+
         [HttpPost]
         public async Task<ActionResult> DeleteProductLine(string JsonData)
         {

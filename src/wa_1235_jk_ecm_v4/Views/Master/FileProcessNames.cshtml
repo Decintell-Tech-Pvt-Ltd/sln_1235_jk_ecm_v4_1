@@ -39,10 +39,11 @@
                         </button>
                     </div>
                     <div class="btnwidth50 float-right mr-1">
-                        <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
-                                onclick="location.href='Add-Files-Process-Names.html'" title="Add new record">
+                        <a class="btn btn-block bg-gradient-primary btn-xs float-left"
+                           href="@Url.Action("FileAddProcessNames", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })"
+                           title="Add new record">
                             Add
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -72,32 +73,29 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @{
-                                                int sr = 1;
-                                            }
-
-                                            @foreach (var item in Model.OprationLists)
+                                            
+                                           @*  @foreach (var item in Model.ProcessNamesData)
                                             {
                                                 <tr>
                                                    
-                                                    <td>@item.ProductLine</td>
+                                                    <td>@item.ProductLineRowId</td>
                                                     <td style="text-align:center;">
 
-                                                        @item.opr_operation_seq
+                                                        @item.ProcessSequence
 
                                                     </td>
 
                                                     <td style="white-space: normal;">
 
-                                                        @item.opr_operation_name
+                                                       @item.ProcessName
 
                                                     </td>
 
                                                    
                                                 </tr>
 
-                                                sr++;
-                                            }
+                                                
+                                            } *@
                                         </tbody>
 
                                        
