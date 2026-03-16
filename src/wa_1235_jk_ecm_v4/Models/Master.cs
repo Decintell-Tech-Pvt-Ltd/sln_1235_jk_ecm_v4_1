@@ -66,7 +66,8 @@ namespace wa_1235_jk_ecm_v4.Models
         public ProductLineData[] ProductLineDatas { get; set; }
         public OprationList[] OprationLists { get; set; }
 
-
+       
+        
         public Stamp[] StampRequestApproval_List { get; set; }
         public Stamp[] StampRequestApproved_List { get; set; }
         public Handle[] Handle_List { get; set; }
@@ -713,6 +714,8 @@ namespace wa_1235_jk_ecm_v4.Models
 
 
 
+
+   
 
     public class GetFileSubTypeParametersList
     {

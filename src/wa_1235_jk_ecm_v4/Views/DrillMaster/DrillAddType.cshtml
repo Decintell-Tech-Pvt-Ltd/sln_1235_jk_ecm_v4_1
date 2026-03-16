@@ -659,9 +659,9 @@
 
                    // Store Id
                    $("#hdnSizeId").val(data.id);
-
+                       $("#txtTypeDesc").val(data.typeDesc);
                    // Bind controls
-                   $("#ddlproductline").val(data.productLineId).trigger("change");
+                   $("#ddlproductline").val(data.productLineID).trigger("change");
                   $("#TxtFileTypeCode").val(data.fileTypeCode);
                     $("#TxtFileType").val(data.fileTypeName);
        //             $("#ddlDimensionType").val(data.dimensionType).trigger("change");
@@ -706,6 +706,7 @@
         var FileType = $('#TxtFileType').val();
         var FileTypeCode = $('#TxtFileTypeCode').val();
         let ProductLineId = $("#ddlproductline").val();
+          let TypeDesc = $('#txtTypeDesc').val();
         let productLineText = $("#ddlproductline option:selected").text();
         //var filenameCSV = ($('#FileUploadCSV')[0].files[0]) ? $('#FileUploadCSV')[0].files[0].name : '';
         // var filenameIMG = ($('#FileUploadIMG')[0].files[0]) ? $('#FileUploadIMG')[0].files[0].name : '';
@@ -735,29 +736,14 @@
             $("#spTxtFileTypeCode").html("");
         }
 
-        // Validate image file
-        // if (!filenameIMG) {
-        //     $("#spTxtFileUploadIMG").html("Select Image");
-        //     $("#spTxtFileUploadIMG").css("display", "block");
-        //     ValidationFlag = true;
-        // } else {
-        //     $("#spTxtFileUploadIMG").html("");
-        // }
+    
             if (!filenameIMG || filenameIMG === "") {
         $("#spTxtFileUploadIMG").html("Select Image");
         ValidationFlag = true;
     } else {
             $("#spTxtFileUploadIMG").html("");
         }
-        // Validate CSV file
-        // if (!filenameCSV) {
-        //     $("#spTxtFileUploadCSV").html("Select CSV File");
-        //     $("#spTxtFileUploadCSV").css("display", "block");
-        //     ValidationFlag = true;
-        // } else {
-        //     $("#spTxtFileUploadCSV").html("");
-        // }
-
+       
 
 
         if (ValidationFlag) {
@@ -768,40 +754,16 @@
         var CreatedDate = moment.utc(new Date()).format();
 
 
-        // var fileInput = document.getElementById('FileUploadCSV');
-        // if (fileInput.files.length === 0) {
-        //     alert('Please select a file!');
-        //     return;
-        // }
-
-        // var formData = new FormData();
-        // formData.append('file', fileInput.files[0]);
-
-
-        // // Ensure a file has been selected
-        // if (fileInput.files.length === 0) {
-        //     alert('Please select a CSV file.');
-        //     return;
-        // }
-
-        // var file = fileInput.files[0];
-        // var reader = new FileReader();
-        // var jsonArrayObj = [];
-
-        // When file is loaded, process its content
-        //reader.onload = function (event) {
-            // var csvContent = event.target.result;
-            // var jsonArray = csvToJson(csvContent);
-            // jsonArrayObj = jsonArray;
-            // console.log("CSV to JSON Array:", jsonArray);
+        
 
             // Now you can do something with the jsonArray, such as displaying it in a table
-
+            
             var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
-            var FileTypeJobj = {
-                FileTypeProfileImage: filenameIMG,
-                FileTypeName: FileType,
-                FileTypeCode: FileTypeCode,
+            var TypeJobj = {
+                ProfileImage: filenameIMG,
+                CTTypeName: FileType,
+                TypeDesc:TypeDesc,
+                CTTypeCode: FileTypeCode,
                 CreatedBy: iLoggedInUserID,
                 CreatedDate: moment.utc(new Date()).format(),
                 //ParameterJarr: jsonArrayObj
@@ -809,7 +771,7 @@
 
             var jsonData = JSON.stringify({
                 ReqId: encodeURIComponent(@Context.Request.Query["TypeId"]),
-                FileTypeJobj: FileTypeJobj
+                TypeJobj: TypeJobj
             });
 
             $.ajax({

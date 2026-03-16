@@ -158,8 +158,17 @@ namespace wa_1235_jk_ecm_v4.Controllers
             ViewBag.ReportBasePath = appSettings?.ReportBasePath;
             DrillMaster objList = new DrillMaster();
             string apiEndPoint = "DrillMaster/CT_GetDrawingList";
-            objList.DrawingDetails = JsonSerializer.Deserialize<DrawingDetails[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            string JsonData = "{}";
+            objList.DrawingDetails = JsonSerializer.Deserialize<DrawingDetails[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
             return View(objList);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CT_GetDrawingListById(string JsonData)
+        {
+            DrillMaster objList = new DrillMaster();
+            string apiEndPoint = "DrillMaster/CT_GetDrawingList";
+            objList.DrawingDetails = JsonSerializer.Deserialize<DrawingDetails[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            return Json(new { response = objList.DrawingDetails });
         }
         public async Task<IActionResult> DrillStamp()
         {
@@ -172,6 +181,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
 
             return View(objList);
         }
+
         public async Task<IActionResult> DrillAddStamp()
         {
             ViewBag.JWTToken = JwtToken;
@@ -392,6 +402,14 @@ namespace wa_1235_jk_ecm_v4.Controllers
             string apiEndPoint = "DrillMaster/GetDroFileTypeList";
             objList.FileType_List = JsonSerializer.Deserialize<TypeList[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
             return Json(new { response = objList.FileType_List });
+        }
+        [HttpPost]
+        public async Task<IActionResult> GetTypeParameterListById(string JsonData)
+        {
+            DrillMaster objList = new DrillMaster();
+            string apiEndPoint = "DrillMaster/GetTypeParameterList";
+            objList.TypeParamByIDList = JsonSerializer.Deserialize<TypeParamByIDList[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            return Json(new { response = objList.TypeParamByIDList });
         }
         [HttpPost]
         public async Task<IActionResult> DroApproveFileType(string JsonData)

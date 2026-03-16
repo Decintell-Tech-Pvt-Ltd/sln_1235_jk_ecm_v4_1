@@ -8,7 +8,161 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
    
+    <div class="modal fade" id="view">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
 
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title">View</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Modal Body - File Info -->
+                <div class="modal-body">
+                    <input type="hidden" id="txtID1" />
+
+                    <b>Product Line:</b> <span id="txtProdLine2"></span>, &nbsp;&nbsp;
+                    <b>Product Line Code.:</b> <span id="txtRequest2"></span>, &nbsp;&nbsp;
+                    <b> Type Name:</b> <span id="txtFileName2"></span>, &nbsp;&nbsp;
+                    <b> Type Code:</b> <span id="txtFileTypeCode2"></span>
+                    <b>Size: </b><span id="txtSizeCode2"></span>,&nbsp;&nbsp;
+
+                    <b>Sub Type: </b><span id="txtsubTypeCode2"></span>,&nbsp;
+
+                    <b>Code: </b><span id="txtskuTypeCode2"></span>
+                    <div class="top10">
+                        <img id="displayImage2" class="img-fluid" src="" alt="File Type Image">
+                    </div>
+
+                </div>
+
+                <!-- Modal Body - Parameters Table -->
+                <div class="modal-body">
+                    <h4 class="top10">Parameters</h4>
+                    <table class="table table-bordered example1" style="width:100%;" id="tblViewAddedParametersList">
+                        <thead>
+                            <tr>
+                                <th style="width:10%; text-align: center;">Sq. No.</th>
+                                <th style="width:40%; text-align: Left;">Process Name</th>
+                                <th style="width:40%;  text-align: Left;">Parameter Name</th>
+                                <th style="width:10%;  text-align: Left;"><div align="center">Value</div></th>
+                                <th style="width:10%;  text-align: Left;"><div align="center">UOM</div></th>
+                                <th style="width:10%;  text-align: Left;"><div align="center">Tolerance</div></th>
+                            </tr>
+                        </thead>
+                        <tbody id="ViewAddedParametersList">
+                            <!-- Dynamic rows will be injected via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-body">
+                    <label class="mt-3">Remark:</label><br>
+                    <span id="txtremarklbl"></span>
+                </div>
+                @* <div class="modal-footer">
+					<div class="float-right">
+
+						<button type="button"
+								class="btn btn-primary btn-xs btnwidth60" id="btn_DrillTypeApprove"
+								title="Approve the selected item"
+								onclick="ApproveFileType(document.getElementById('txtID1').value, 5); $('#image').modal('hide');">
+							Submit For Approval
+						</button>
+					</div>
+				</div> *@
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="nonstandard1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View Sub Type</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="txtID" />
+
+                    <b>Product Line:</b> <span id="txtProdLine"></span>, &nbsp;&nbsp;
+                    <b>Product Line Code.:</b> <span id="txtRequest"></span>, &nbsp;&nbsp;
+                    <b> Type Name:</b> <span id="txtFileName"></span>, &nbsp;&nbsp;
+                    <b> Type Code:</b> <span id="txtFileTypeCode"></span>
+                    <b>Size: </b><span id="txtSizeCode"></span>,&nbsp;&nbsp;
+
+                    <b>Sub Type: </b><span id="txtsubTypeCode"></span>,&nbsp;
+
+                    <b>Code: </b><span id="txtskuTypeCode"></span>
+                    <div class="top10">
+                        <img id="displayImage" class="img-fluid" src="" alt="File Type Image">
+                    </div>
+</div>
+                    <div class="modal-body">
+                        <h4 class="top10">Parameters</h4>
+                        <table class="table table-bordered example1" style="width:100%;" id="tblViewParametersList">
+                            <thead>
+                                <tr>
+                                    <th style="width:10%; text-align: center;">Sq. No.</th>
+                                    <th style="width:40%; text-align: Left;">Process Name</th>
+                                    <th style="width:40%;  text-align: Left;">Parameter Name</th>
+                                    <th style="width:10%;  text-align: Left;"><div align="center">Value</div></th>
+                                    <th style="width:10%;  text-align: Left;"><div align="center">UOM</div></th>
+                                    <th style="width:10%;  text-align: Left;"><div align="center">Tolerance</div></th>
+                                </tr>
+                            </thead>
+                            <tbody id="ViewParametersList">
+                                <!-- Dynamic rows will be injected via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-body">
+                        <label class="mt-3">Remark:</label><br>
+                    <input type="text" id="txtRemark" class="form-control">
+                    </div>
+
+                <div class="modal-footer">
+                    <div class="col-lg-2form-group">
+                        <div class="">
+                            <div class="float-left text-right">
+                                <button type="button" id="btn_DrawingReject"
+                                        class="btn btn-danger btn-xs btnwidth50"
+                                        onclick="UpdateDrawingStatus(document.getElementById('txtID').value, 7); $('#nonstandard1').modal('hide');"
+                                        title="Reject the selected item">
+                                    Reject
+                                </button>
+
+                                <button type="button" id="btn_DrawingApprove"
+                                        class="btn btn-success btn-xs btnwidth60"
+                                        onclick="UpdateDrawingStatus(document.getElementById('txtID').value, 6); $('#nonstandard1').modal('hide');"
+                                        title="Approve the selected item">
+                                    Approve
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
     <section class="content-header">
         <div class="container-fluid">
             <div class="row">
@@ -97,7 +251,7 @@
                                                         <div align="center">
                                                             <a href="#" title="View Parameters"
                                                                data-toggle="modal"
-                                                               data-target="#nonstandard">
+                                                            onclick="ModelFileView('@item.Id');">
                                                                 @item.SKUCode
                                                             </a>
                                                         </div>
@@ -109,7 +263,7 @@
 
                                                     <td>
                                                     <div align="center">
-                                                        <a onclick="URLReport(@item.RequestNo)" id="btn_DrawingGenerate"
+                                                        <a onclick="URLReport(@item.Id)" id="btn_DrawingGenerate"
                                                            class="btn btn-primary btn-xs">Generate</a>
                                                     </div>
                                                     </td>
@@ -186,9 +340,9 @@
 
                                                 <td>
                                                     <div align="center">
-                                                        <a href="#" data-toggle="modal" data-target="#nonstandard2">
+                                                       
                                                             @item.Id
-                                                        </a>
+                                                      
                                                     </div>
                                                 </td>
 
@@ -199,8 +353,8 @@
                                                 <td>
                                                     <div align="center">
                                                         <a href="#" title="View Parameters"
-                                                           data-toggle="modal"
-                                                           data-target="#nonstandard0">
+                                                           data-toggle="modal" onclick="ModelDrawingView('@item.Id');"
+                                                           data-target="#nonstandard1">
                                                             @item.SKUCode
                                                         </a>
                                                     </div>
@@ -317,13 +471,271 @@
     <!-- InstanceEndEditable -->
 </div>
 <script>
+    function ModelFileView(TypeId) {
+
+        let json = {
+            TxnId: TypeId
+        };
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("CT_GetDrawingListById", "DrillMaster")',
+            data: { JsonData: JSON.stringify(json) },
+            dataType: "json",
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+
+            success: function (res) {
+
+                if (!res || !res.response || res.response.length === 0) {
+                    alert("No data found");
+                    return;
+                }
+
+                let data = res.response[0];
+
+                //--------------------------------
+                // Bind header fields
+                //--------------------------------
+
+                $("#txtID1").val(data.typeDetailsRowId);
+
+                $("#txtProdLine2").text(data.productLine);
+
+                $("#txtRequest2").text(data.productLineCode);
+
+                $("#txtFileName2").text(data.ctTypeName);
+
+                $("#txtFileTypeCode2").text(data.ctTypeCode);
+
+                $("#txtRequest2").text(data.productLineCode);
+
+                $("#txtFileName2").text(data.ctTypeName);
+
+                $("#txtFileTypeCode2").text(data.ctTypeCode);
+                  $("#txtskuTypeCode2").text(data.skuCode);
+
+                $("#txtsubTypeCode2").text(data.subType);
+
+                $("#txtSizeCode2").text(data.sizeType);
+                  
+                $("#txtremarklbl").text(data.remark || "-");
+                var imageFileName = data.imageFileName;
+                var productLine =	data.productLine;
+                //--------------------------------
+                // Bind image
+                //--------------------------------
+
+                // if (data.imageFileName) {
+                // 	$("#displayImage").attr(
+                // 		"src",
+                // 		"/others/ct/types/" + data.imageFileName
+                // 	);
+                // }
+
+                //--------------------------------
+                // Bind Parameters Table
+                //--------------------------------
+                if ($.fn.DataTable.isDataTable('#tblViewAddedParametersList')) {
+                    $('#tblViewAddedParametersList').DataTable().clear().destroy();
+                }
+
+                //--------------------------------
+                // Initialize DataTable
+                //--------------------------------
+
+                var dt = $('#tblViewAddedParametersList').DataTable({
+                    columnDefs: [
+                        { className: "dt-center", targets: "_all" }
+                    ]
+                });
+
+                $("#ViewAddedParametersList").empty();
+
+                // if (data.typeParamsJarr && data.typeParamsJarr.length > 0) {
+
+                // 	let html = "";
+
+                // 	$.each(data.typeParamsJarr, function (i, item) {
+
+                // 		html += `
+                // 			<tr>
+                // 				<td style="text-align:center;">${item.processSequence}</td>
+                // 				<td>${item.processName}</td>
+                // 				<td>${item.paramName}</td>
+                // 				<td>${item.paramUOM}</td>
+                // 			</tr>`;
+                // 	});
+
+                // 	$("#showAddedParametersList").html(html);
+                // }
+                if (data.csvData && data.csvData.length > 0) {
+
+                       for (var i = 0; i < data.csvData.length; i++) {
+
+        var p = data.csvData[i];
+
+        rows = [
+            '<div align="center">' + p["Sq. No."] + '</div>',
+            '<div align="left">' + p["Process Name"] + '</div>',
+            '<div align="left">' + p["Parameter Name"] + '</div>',
+            '<div align="center">' + p.uom+ '</div>',
+            '<div align="center">' + p.value + '</div>',
+            '<div align="center">' + p.tolerance + '</div>'
+        ];
+
+        dt.row.add(rows).draw(false);
+    }
+                }
+                //--------------------------------
+                // Show modal
+                //--------------------------------
+                OpenDocument(imageFileName,'displayImage2',productLine);
+    // 			$('#image').modal('show');
+                $("#view").modal("show");
+            },
+
+            error: function () {
+                alert("Error loading data");
+            }
+        });
+    }
+     function ModelDrawingView(TypeId) {
+
+        let json = {
+            TxnId: TypeId
+        };
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("CT_GetDrawingListById", "DrillMaster")',
+            data: { JsonData: JSON.stringify(json) },
+            dataType: "json",
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+
+            success: function (res) {
+
+                if (!res || !res.response || res.response.length === 0) {
+                    alert("No data found");
+                    return;
+                }
+
+                let data = res.response[0];
+
+                //--------------------------------
+                // Bind header fields
+                //--------------------------------
+
+                $("#txtID").val(data.id);
+
+                $("#txtProdLine").text(data.productLine);
+
+                $("#txtRequest").text(data.productLineCode);
+
+                $("#txtFileName").text(data.ctTypeName);
+
+                $("#txtFileTypeCode").text(data.ctTypeCode);
+
+                $("#txtRequest").text(data.productLineCode);
+
+                $("#txtFileName").text(data.ctTypeName);
+
+                $("#txtFileTypeCode").text(data.ctTypeCode);
+                  $("#txtskuTypeCode").text(data.skuCode);
+
+                $("#txtsubTypeCode").text(data.subType);
+
+                $("#txtSizeCode").text(data.sizeType);
+
+                $("#txtremark").text(data.remark || "-");
+                var imageFileName = data.imageFileName;
+                var productLine =	data.productLine;
+                //--------------------------------
+                // Bind image
+                //--------------------------------
+
+                // if (data.imageFileName) {
+                // 	$("#displayImage").attr(
+                // 		"src",
+                // 		"/others/ct/types/" + data.imageFileName
+                // 	);
+                // }
+
+                //--------------------------------
+                // Bind Parameters Table
+                //--------------------------------
+                if ($.fn.DataTable.isDataTable('#tblViewParametersList')) {
+                    $('#tblViewParametersList').DataTable().clear().destroy();
+                }
+
+                //--------------------------------
+                // Initialize DataTable
+                //--------------------------------
+
+                var dt = $('#tblViewParametersList').DataTable({
+                    columnDefs: [
+                        { className: "dt-center", targets: "_all" }
+                    ]
+                });
+
+                $("#ViewParametersList").empty();
+
+                // if (data.typeParamsJarr && data.typeParamsJarr.length > 0) {
+
+                // 	let html = "";
+
+                // 	$.each(data.typeParamsJarr, function (i, item) {
+
+                // 		html += `
+                // 			<tr>
+                // 				<td style="text-align:center;">${item.processSequence}</td>
+                // 				<td>${item.processName}</td>
+                // 				<td>${item.paramName}</td>
+                // 				<td>${item.paramUOM}</td>
+                // 			</tr>`;
+                // 	});
+
+                // 	$("#showAddedParametersList").html(html);
+                // }
+                if (data.csvData && data.csvData.length > 0) {
+
+                       for (var i = 0; i < data.csvData.length; i++) {
+
+        var p = data.csvData[i];
+
+        rows = [
+            '<div align="center">' + p["Sq. No."] + '</div>',
+            '<div align="left">' + p["Process Name"] + '</div>',
+            '<div align="left">' + p["Parameter Name"] + '</div>',
+            '<div align="center">' + p.uom+ '</div>',
+            '<div align="center">' + p.value + '</div>',
+            '<div align="center">' + p.tolerance + '</div>'
+        ];
+
+        dt.row.add(rows).draw(false);
+    }
+                }
+                //--------------------------------
+                // Show modal
+                //--------------------------------
+                OpenDocument(imageFileName,'displayImage',productLine);
+    // 			$('#image').modal('show');
+                $("#nonstandard1").modal("show");
+            },
+
+            error: function () {
+                alert("Error loading data");
+            }
+        });
+    }
         function UpdateDrawingStatus(DrawingId, StatusID, SKUKey) {
 
 
 
 
 
-        var Remark = $('#textRemark').val();
+        var Remark = $('#txtRemark').val();
         var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
 
         let jsonData = { ID: DrawingId, StatusID: StatusID, CreatedBy: iLoggedInUserID, Remark: Remark };
@@ -382,5 +794,47 @@
         var fullUrl = ReportBasePath + url1 + url + RequestId;
         window.open(fullUrl, '_blank');
     }
+    async function OpenDocument(FileName, ImageId,ProdLine) {
+       var JwToken = '@ViewBag.JWTToken';
+       var blobStorageUrl = '@ViewBag.ApiUrl';
+       let blobPathPrefix = '@ViewBag.BaseBlobPath';
+        //var path = 'others\\filetypes' + '\\';
+    var path = 'others\\ct\\types\\';
+        const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
 
+            const JSONData = {
+                blobPath: blobpath,
+                asSas: false,
+                downloadFileName: FileName
+            };
+
+            try {
+                $('#loader').show();
+
+                const response = await $.ajax({
+                    url: blobStorageUrl + 'Files/get',
+                    headers: { Authorization: 'Bearer ' + JwToken },
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(JSONData),
+                    xhrFields: { responseType: 'blob' }
+                });
+
+                if (response && response.size > 0) {
+                    const objectURL = URL.createObjectURL(response);
+                    // Display the image in the img tag
+                    const imgElement = document.getElementById(ImageId);
+                imgElement.src = objectURL;
+                }
+            }
+            catch (error) {
+                console.error("Error:", error);
+                const imgElement = document.getElementById(ImageId);
+                imgElement.src = '';
+
+            }
+            finally {
+             $('#loader').hide();
+            }
+    }
 </script>

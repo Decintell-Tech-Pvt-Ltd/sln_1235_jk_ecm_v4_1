@@ -25,6 +25,7 @@
 
                 <div class="modal-body">
                     <input type="hidden" id="txtID" />
+                     <input type="hidden" id="SubtypetxtID" />
 
                     <table width="100%" class="table table-bordered example1" id="tableFileSubTypeParameters">
                         <thead>
@@ -37,6 +38,38 @@
                             </tr>
                         </thead>
                         <tbody id="showAddedFileSubTypeParameters">
+                            <!-- Dynamic rows inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="modal fade" id="SubTypeParam">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View File Sub Type</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                  
+                     <input type="hidden" id="SubtypetxtID" />
+
+                    <table width="100%" class="table table-bordered example1" id="tableSubTypeParameters">
+                        <thead>
+                            <tr>
+                                <th style="width:5%; text-align: center;">Sq.No.</th>
+                                <th style="width:25%; text-align: left;">Category</th>
+                                <th style="width:30%; text-align: left;">Name</th>
+                                <th style="width:20%; text-align: center;">Value</th>
+                                <th style="width:20%; text-align: center;">Tolerance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="showSubTypeParameters">
                             <!-- Dynamic rows inserted here -->
                         </tbody>
                     </table>
@@ -669,7 +702,7 @@
                                         </div>
 
                                            <div class="col-md-6" id="productiondiv">
-                                                <h5 style="font-weight:600;" class="top10">Prodcution Details</h5>
+                                                <h5 style="font-weight:600;" class="top10">Production Details</h5>
                                                 <br />
                                                 <table width="100%" class="tabledata top10">
                                                     <tbody>
@@ -677,7 +710,7 @@
                                                         {
                                                             <tr>
                                                                 <td><strong>Size(Inch)</strong></td>
-                                                                <td>@Model.ProductionDetails_List.FileSizeInch</td>
+                                                                <td>@Model.ProductionDetails_List.SizeValue</td>
                                                             </tr>
                                                             <tr>
                                                                 <td><strong>Type</strong></td>
@@ -697,8 +730,8 @@
                                                                     <div align="left">
                                                                         <button type="button" id="btnView"
                                                                                 class="btn btn-primary btn-xs btnwidth95"
-                                                                                data-toggle="modal" data-target="#sub"
-                                                                                onclick="GetFileSubTypeParams(@Model.ProductionDetails_List.FileSubType)"
+                                                                                data-toggle="modal" data-target="#SubTypeParam"
+                                                                                onclick="GetSubTypeParams(@Model.ProductionDetails_List.FileSubType)"
                                                                                 title="View File SubType Parameters">
                                                                             View
                                                                         </button>
@@ -968,6 +1001,66 @@
             console.error("Error:", error);
         }
     } *@
+
+   function GetSubTypeParams(ID) {
+
+    $('#SubtypetxtID').val(ID);
+
+    var JsonData = JSON.stringify({
+        ID: ID
+    });
+
+    $.ajax({
+        type: "POST",
+        url: '@Url.Action("CT_GetSubTypeParametersForView", "ChangeNotes")',
+        data: { JsonData: JsonData },
+        dataType: 'json',
+
+        beforeSend: function () {
+            $('#loader').show();
+        },
+
+        complete: function () {
+            $('#loader').hide();
+        },
+
+        success: function (data) {
+
+            var table = $('#tableSubTypeParameters').DataTable();
+
+            table.clear();
+
+            if (data.getFileSubTypeParametersList != null &&
+                data.getFileSubTypeParametersList.length > 0) {
+
+                for (var i = 0; i < data.getFileSubTypeParametersList.length; i++) {
+
+                    var row = data.getFileSubTypeParametersList[i];
+
+                    table.row.add([
+                        row.sequence,
+                        row.processName,
+                        row.parameterName,
+                        row.value + ' ' + row.uom,
+                        row.tolerance
+                    ]);
+
+                }
+            }
+
+            table.draw();
+
+            $('#SubTypeParam').modal('show');
+
+        },
+
+        error: function () {
+            alert('Error occurred while fetching data.');
+        }
+    });
+
+}
+
 
     function GetFileSubTypeParams(ID) {
         $('#txtID').val(ID);

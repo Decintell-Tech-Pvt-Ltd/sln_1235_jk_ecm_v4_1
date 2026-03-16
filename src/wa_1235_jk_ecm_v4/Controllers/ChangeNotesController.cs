@@ -212,6 +212,18 @@ namespace wa_1235_jk_ecm_v4.Controllers
 
         #endregion
 
+        [HttpPost]
+        public async Task<IActionResult> CT_GetSubTypeParametersForView(string JsonData)
+        {
+            ItemMaster objList = new ItemMaster();
+            string apiEndPoint = "changeNote/CT_GetSubTypeParametersForView";
+            var GetFileSubTypeParametersList = JsonSerializer.Deserialize<List<ViewSubType>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            //string? Remark = objList.GetFileSubTypeParametersList.FirstOrDefault()?.Remark;
+
+            //ViewBag.Remark = Remark;
+            return Json(new { GetFileSubTypeParametersList });
+
+        }
         public async Task<IActionResult> Changenoteproductiondetails(int ReqValue)
         {
 

@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Text.Json.Serialization;
+using System.Web;
 using wa_1235_jk_ecm_v4.Models.DecintellCommon;
 using static wa_1235_jk_ecm_v4.Models.Master;
 
@@ -18,7 +19,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public DrillFileSize[] DrillFileSize { get; set; }
         public CTCSVData[] CTCSVData { get; set; }
 
-        
+
         public int ProdId { get; set; }
         public int Id { get; set; }
         public int SizeID { get; set; }
@@ -35,6 +36,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public GetSizeList[] GetSizeList { get; set; }
         public SubTypeList[] SubTypeList { get; set; }
         public DrawingDetails[] DrawingDetails { get; set; }
+        public TypeParamByIDList[] TypeParamByIDList { get; set; }
 
         public CTSubTypeParameterList[] CTSubTypeParameterList { get; set; }
 
@@ -148,23 +150,63 @@ namespace wa_1235_jk_ecm_v4.Models
     }
 
 
+
     public class DrawingDetails
     {
         public int Id { get; set; }
-        public object RequestNo { get; set; }
+        public string RequestNo { get; set; }
         public string ProductLine { get; set; }
         public string ProductLineCode { get; set; }
         public string CTTypeName { get; set; }
         public string CTTypeCode { get; set; }
-        public object SizeCode { get; set; }
+        public string SizeCode { get; set; }
         public object SizeValue { get; set; }
         public string SubTypeName { get; set; }
         public string SubTypeCode { get; set; }
+        public string CsvFileName { get; set; }
+        public Csvdata[] CsvData { get; set; }
         public string SKUDesc { get; set; }
-        public object SKUCode { get; set; }
+        public string SKUCode { get; set; }
+        public string SizeType { get; set; }
+        public string SubType { get; set; }
+        public string ImageFileName { get; set; }
+        
         public int StatusId { get; set; }
         public int GridNo { get; set; }
     }
+
+    public class Csvdata
+    {
+        [JsonPropertyName("Sq. No.")]
+        public string SqNo { get; set; }
+
+        [JsonPropertyName("Process Name")]
+        public string ProcessName { get; set; }
+
+        [JsonPropertyName("Parameter Name")]
+        public string ParameterName { get; set; }
+        public string Value { get; set; }
+        public string UOM { get; set; }
+        public string Tolerance { get; set; }
+    }
+
+    //public class DrawingDetails
+    //{
+    //    public int Id { get; set; }
+    //    public object RequestNo { get; set; }
+    //    public string ProductLine { get; set; }
+    //    public string ProductLineCode { get; set; }
+    //    public string CTTypeName { get; set; }
+    //    public string CTTypeCode { get; set; }
+    //    public object SizeCode { get; set; }
+    //    public object SizeValue { get; set; }
+    //    public string SubTypeName { get; set; }
+    //    public string SubTypeCode { get; set; }
+    //    public string SKUDesc { get; set; }
+    //    public object SKUCode { get; set; }
+    //    public int StatusId { get; set; }
+    //    public int GridNo { get; set; }
+    //}
 
 
     //public class DrawingDetails
@@ -225,8 +267,8 @@ namespace wa_1235_jk_ecm_v4.Models
     }
 
 
- 
-  
+
+
     public class CTStampDetails
     {
         public int Id { get; set; }
@@ -293,9 +335,78 @@ namespace wa_1235_jk_ecm_v4.Models
     //    public string ProductLine { get; set; }
     //}
 
+
+
+
+    public class TypeParamByIDList
+    {
+        public int TypeDetailsRowId { get; set; }
+        public int CTTypeCodesRowId { get; set; }
+        public int ProductLineRowId { get; set; }
+        public string CTTypeCode { get; set; }
+        public string CTTypeName { get; set; }
+        public string ProductLineCode { get; set; }
+        public string ProductLine { get; set; }
+        public string RequestNo { get; set; }
+        public string ImageFileName { get; set; }
+        public string CsvFileName { get; set; }
+        public Typeparamsjarr1[] TypeParamsJarr { get; set; }
+        public object Remark { get; set; }
+        public string StatusId { get; set; }
+        public string StatusText { get; set; }
+        public int GridNo { get; set; }
+    }
+
+    public class Typeparamsjarr1
+    {
+        public int ParamId { get; set; }
+        public int ProcessSequence { get; set; }
+        public string ProcessName { get; set; }
+        public string ParamName { get; set; }
+        public string ParamCode { get; set; }
+        public string ParamUOM { get; set; }
+        public bool Range { get; set; }
+        public bool Nominal { get; set; }
+        public bool KeyDim { get; set; }
+    }
+
+
+
+    //public class TypeParamByIDList
+    //{
+    //    public int TypeDetailsRowId { get; set; }
+    //    public int CTTypeCodesRowId { get; set; }
+    //    public int ProductLineRowId { get; set; }
+    //    public string CTTypeCode { get; set; }
+    //    public string CTTypeName { get; set; }
+    //    public string ProductLineCode { get; set; }
+    //    public string ProductLine { get; set; }
+    //    public string RequestNo { get; set; }
+    //    public string ImageFileName { get; set; }
+    //    public string CsvFileName { get; set; }
+    //    public Typeparamsjarr[] TypeParamsJarr { get; set; }
+    //    public object Remark { get; set; }
+    //    public string StatusId { get; set; }
+    //    public string StatusText { get; set; }
+    //    public int GridNo { get; set; }
+    //}
+
+    public class Typeparamsjarr
+    {
+        public int ParamId { get; set; }
+        public int ProcessSequence { get; set; }
+        public string ParamCode { get; set; }
+        public string ParamUOM { get; set; }
+        public bool Range { get; set; }
+        public bool Nominal { get; set; }
+        public bool KeyDim { get; set; }
+    }
+
     public class TypeList
     {
         public int Id { get; set; }
+        public int ProductLineID { get; set; }
+
         public string BatchId { get; set; }
         public string RequestNo { get; set; }
         public string FileTypeName { get; set; }
@@ -311,7 +422,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public string Cutonside { get; set; }
         public string CutSide { get; set; }
         public string? ProductLine { get; set; }
-        public int ProductLineId { get; set; }
+        //public int ProductLineId { get; set; }
         public int GridNo { get; set; }
 
     }

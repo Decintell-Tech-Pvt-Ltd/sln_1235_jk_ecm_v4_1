@@ -272,14 +272,14 @@
                                                     <div class="row">
 
 
-                                                        <div class="form-group col-md-2">
+                                                        <div class="form-group col-md-4">
                                                             <label>Product Line</label>
                                                             @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "Id", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline", onchange = "clearError('spddlproductline')" })
                                                             <span id="spddlproductline" class="text-danger"></span>
 
 
                                                         </div>
-                                                        <div class="form-group col-md-2">
+                                                        <div class="form-group col-md-4">
                                                             <label>Type</label>
                                                             @* <input type="text" class="form-control" id=""> *@
                                                             <select id="TxtFileType" class="form-control select2" onchange="onTypeChange()">
@@ -451,7 +451,7 @@
                                         </div>
 
                                         <div class=" float-right ml-3" style="margin-top:30px; display:block;">
-                                            <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left" id="btnSave"
+                                            <button type="button" id="btnsubmit" class="btn btn-block bg-gradient-primary   btn-xs float-left" 
                                                     onClick="SaveData()" title="Go to the next page">
                                                 Save
                                             </button>
@@ -799,216 +799,8 @@
 
         reader.readAsText(file);
     }
-    // async function SaveData() {
-    //      // Read values from UI
-    //     let ProductLineId = $("#ddlproductline").val();
-    //     let productLineText = $("#ddlproductline option:selected").text();
-    //     var FileType = $("#TxtFileType option:selected").text();
-    //    var FileTypeCode = $("#hdnFileCode").val();
-    //    FileTypeId=$("#TxtFileType").val();
-    //    var filenameCSV = ($('#FileUploadCSV')[0].files[0]) ? $('#FileUploadCSV')[0].files[0].name : '';
-    //     //var filenameIMG = ($('#FileUploadIMG')[0].files[0]) ? $('#FileUploadIMG')[0].files[0].name : '';
 
-    //     var ValidationFlag = false;
-
-    //     // Validation
-    //     if (!ProductLineId || ProductLineId === "Select") {
-    //         $("#spddlproductline").text("Product Line is required.");
-    //         ValidationFlag = false;
-    //     }
-
-    //     // Validate FileType
-    //     if (FileType === "") {
-    //         $("#spTxtFileType").html("Enter Type");
-    //         $("#spTxtFileType").css("display", "block");
-    //         ValidationFlag = true;
-    //     } else {
-    //         $("#spTxtFileType").html("");
-    //     }
-
-        
-       
-    //     //Validate CSV file
-    //     if (!filenameCSV) {
-    //         $("#spTxtFileUploadCSV").html("Select CSV File");
-    //         $("#spTxtFileUploadCSV").css("display", "block");
-    //         ValidationFlag = true;
-    //     } else {
-    //         $("#spTxtFileUploadCSV").html("");
-    //     }
-
-
-
-    //     if (ValidationFlag) {
-    //         return; // Don't proceed further if any validation fails
-    //     }
-
-    //     var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
-    //     var CreatedDate = moment.utc(new Date()).format();
-
-
-    //     var fileInput = document.getElementById('FileUploadCSV');
-    //     if (fileInput.files.length === 0) {
-    //         alert('Please select a file!');
-    //         return;
-    //     }
-
-    //     var formData = new FormData();
-    //     formData.append('file', fileInput.files[0]);
-
-
-    //     // Ensure a file has been selected
-    //     if (fileInput.files.length === 0) {
-    //         alert('Please select a CSV file.');
-    //         return;
-    //     }
-
-    //     var file = fileInput.files[0];
-    //     var reader = new FileReader();
-    //     var jsonArrayObj = [];
-
-    //     // When file is loaded, process its content
-    //     reader.onload = function (event) {
-    //             var csvContent = event.target.result;
-    // var jsonArray = csvToJson(csvContent);
-
-    // // normalize CSV headers (VERY IMPORTANT)
-    //    function normalizeKey(key) {
-    //     return key.replace(/[\s_\-]/g, '').toLowerCase().trim();
-    // }
-
-    // function getValue(obj, possibleKeys) {
-    //     for (let k of possibleKeys) {
-    //         let nk = normalizeKey(k);
-    //         if (obj[nk] !== undefined && obj[nk] !== null)
-    //             return obj[nk];
-    //     }
-    //     return "";
-    // }
-    //     function toBit(val) {
-
-    //     if (val === undefined || val === null || val === "")
-    //         return 0;
-
-    //     val = val.toString().trim().toLowerCase();
-
-    //     if (val === "1" || val === "yes" || val === "true" || val === "y")
-    //         return 1;
-
-    //     return 0;
-    // }
-    // var finalJson = jsonArray.map(row => {
-
-    //     // normalize all headers once
-    //     let normalized = {};
-    //     Object.keys(row).forEach(k => {
-    //         normalized[normalizeKey(k)] = row[k];
-    //     });
-
-    //     return {
-    //         ProductLine: productLineText,
-    //         CTTypeCode: FileTypeCode,
-
-    //         // 🔥 AUTO HEADER MATCHING
-    //               ProcessSequence
-    // : getValue(normalized, [
-    //                 "Process Sequence",
-    //                 "ProcessSequence"
-
-    //         ]),
-
-    //         ProcessName: getValue(normalized, [
-    //             "ProcessName",
-    //             "Process Name",
-    //             "Process"
-    //         ]),
-
-    //         ParamName: getValue(normalized, [
-    //             "ParamName",
-    //             "ParameterName",
-    //             "Parameter Name"
-    //         ]),
-
-    //         ParamCode: getValue(normalized, [
-    //             "ParamCode",
-    //             "ParameterCode",
-    //             "Parameter Code"
-    //         ]),
-
-    //         ParamUOM: getValue(normalized, [
-    //             "ParamUOM",
-    //             "ParameterUOM",
-    //             "Parameter UOM",
-    //             "UOM"
-    //         ]),
-
-    //            Range: toBit(
-    //     getValue(normalized, ["Range"])
-    // ),
-
-    // Nominal: toBit(
-    //     getValue(normalized, ["Nominal"])
-    // ),
-
-    // KeyDimension: toBit(
-    //     getValue(normalized, [
-    //         "KeyDimension",
-    //         "Key Dimension",
-    //         "KeyDim"
-    //     ])
-    // )
-    //     };
-    // });
-
-    //             console.log("Final JSON:", finalJson);
-
-    //             var jsonData = JSON.stringify(finalJson);
-
-    //         $.ajax({
-    //             type: "POST",
-    //             url: '@Url.Action("InsertCSVTypeDetails", "DrillMaster")',
-    //             data: { JsonData: jsonData },
-    //             dataType: 'json',
-    //             beforeSend: function () { $('#loader').show(); },
-    //             complete: function () { $('#loader').hide(); },
-    //             success: async function (data) {
-    //                 if (data && data.response === "Insert Successfully") {
-
-
-                       
-    //                     alert("Type added successfully.");
-    //                    var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
-    //                    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
-    //                    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
-    //                    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
-
-    //                    // Construct the full URL
-    //                    var url = '@Url.Action("CTTypeParameter", "DrillMaster")' +
-    //                        '?PageID=' + pageID +
-    //                        '&ParentID=' + parentID +
-    //                        '&ModuleID=' + moduleID +
-    //                        '&ModulePageID=' + modulePageID;
-
-    //                    // Redirect
-    //                    window.location.href = url;
-    //                 } else {
-    //                     alert("Type Code already exist");
-
-    //                 }
-    //             },
-    //             error: function (xhr, status, error) {
-    //                 alert("Error occurred while saving Type.");
-    //                 console.error(xhr.responseText);
-    //             }
-    //         });
-    //    };
-
-    //     // Read the file as text
-    //     reader.readAsText(file);
-
-
-    // }
-
+       var existingCSVRows = [];
 
       // Function to convert CSV to JSON
     function csvToJson(csv) {
@@ -1151,188 +943,279 @@
         });
     }
 
-</script>
-<script>
+
     function LoadEditFileSize(TypeId) {
 
-           let json = {
-               TxnId: TypeId
-           };
+         let json = {
+             TxnId: TypeId
+         };
 
-           $.ajax({
-               type: "POST",
-               url: '@Url.Action("GetDroFileTypeListId", "DrillMaster")',
-               data: { JsonData: JSON.stringify(json) },
-               dataType: "json",
-               beforeSend: function () { $('#loader').show(); },
-               complete: function () { $('#loader').hide(); },
-               success: function (res) {
+         $.ajax({
+             type: "POST",
+             url: '@Url.Action("GetTypeParameterListById", "DrillMaster")',
+             data: { JsonData: JSON.stringify(json) },
+             dataType: "json",
+             beforeSend: function () { $('#loader').show(); },
+             complete: function () { $('#loader').hide(); },
 
-                   if (!res || !res.response || res.response.length === 0) {
-                       alert("No data found");
-                       return;
-                   }
+             success: function (res) {
 
-                   let data = res.response[0];
+                 if (!res || !res.response || res.response.length === 0) {
+                     alert("No data found");
+                     return;
+                 }
 
-                   // Store Id
-                   $("#hdnSizeId").val(data.id);
+                 let data = res.response[0];
 
-                   // Bind controls
-                   $("#ddlproductline").val(data.productLineId).trigger("change");
-                 // $("#TxtFileTypeCode").val(data.fileTypeCode);
-                    $("#TxtFileType").val(data.fileTypeName);
-       //             $("#ddlDimensionType").val(data.dimensionType).trigger("change");
-       //             $("#ddlStandard").val(data.standard).trigger("change");
-       //                 // 🔒 Disable controls
-        $("#ddlproductline").prop("disabled", true);
-          // ✅ Bind image / file name to label (IMPORTANT)
-   
-       // $("#txtDimensionValue").prop("disabled", true);
-       // $("#ddlDimensionType").prop("disabled", true);
-       // $("#ddlStandard").prop("disabled", true);
-                   // UI change
-                   $("#btnsubmit")
-                       .text("Submit")
-                       .attr("onclick", "EditSaveData()");
-               },
-               error: function () {
-                   alert("Error loading data");
-               }
-           });
-       }
-           $(document).ready(function () {
-           let editId = '@Context.Request.Query["TypeId"]';
-           if (editId) {
-               LoadEditFileSize(editId);
-           }
-       });
+                 //--------------------------------
+                 // Bind header data
+                 //--------------------------------
+
+                 $("#hdnSizeId").val(data.typeDetailsRowId);
+
+                 $("#ddlproductline")
+                     .val(data.productLineRowId)
+                     .trigger("change");
+
+                 $("#TxtFileType")
+                     .val(data.ctTypeCodesRowId)
+                     .trigger("change");
+
+                 $("#TxtFileTypeCode").val(data.ctTypeCode);
+
+                 $("#txtTypeDesc").val(data.ctTypeName);
+
+                 //--------------------------------
+                 // Image binding
+                 //--------------------------------
+
+                 if (data.imageFileName) {
+
+                     $("#hdnExistingImage").val(data.imageFileName);
+
+                     $("#FileUploadIMG")
+                         .next(".custom-file-label")
+                         .text(data.imageFileName);
+                 }
+
+                 //--------------------------------
+                 // CSV binding
+                 //--------------------------------
+
+                 if (data.csvFileName) {
+
+                     $("#FileUploadCSV")
+                         .next(".custom-file-label")
+                         .text(data.csvFileName);
+                 }
+
+                 //--------------------------------
+                 // Bind parameter table
+                 //--------------------------------
+
+                 $("#tblBodyCSV").empty();
+
+                 if (data.typeParamsJarr && data.typeParamsJarr.length > 0) {
+                         existingCSVRows = data.typeParamsJarr;
+                     let html = "";
+
+                     $.each(data.typeParamsJarr, function (i, item) {
+
+                         html += `
+                         <tr>
+                             <td>${item.processSequence}</td>
+                             <td>${item.processName}</td>
+                             <td>${item.paramName}</td>
+                             <td>${item.paramCode}</td>
+                             <td>${item.paramUOM}</td>
+                             <td>${item.range ? "Yes" : "No"}</td>
+                             <td>${item.nominal ? "Yes" : "No"}</td>
+                             <td>${item.keyDim ? "Yes" : "No"}</td>
+                         </tr>`;
+                     });
+
+                     $("#tblBodyCSV").html(html);
+                 }
+
+                 //--------------------------------
+
+                 $("#ddlproductline").prop("disabled", true);
+                  $("#TxtFileType").prop("disabled", true);
+                 $("#btnsubmit")
+                     .text("Update")
+                     .attr("onclick", "EditSaveData()");
+             },
+
+             error: function () {
+                 alert("Error loading data");
+             }
+         });
+     }
+            $(document).ready(function () {
+            let editId = '@Context.Request.Query["TypeId"]';
+            if (editId) {
+                LoadEditFileSize(editId);
+            }
+        });
+
 
          function EditSaveData() {
-        var FileType = $('#TxtFileType').val();
-        
-        //var FileTypeCode = $('#TxtFileTypeCode').val();
-        let ProductLineId = $("#ddlproductline").val();
+
+        var FileType = $('#TxtFileType option:selected').text().trim();
         let productLineText = $("#ddlproductline option:selected").text();
-        var filenameCSV = ($('#FileUploadCSV')[0].files[0]) ? $('#FileUploadCSV')[0].files[0].name : '';
-        
 
-        // Validate FileType
-        if (FileType === "") {
-            $("#spTxtFileType").html("Enter Type");
-            $("#spTxtFileType").css("display", "block");
-            ValidationFlag = true;
-        } else {
-            $("#spTxtFileType").html("");
-        }
+        var FileTypeCode = FileType.split('-').pop().trim();
 
-       
-        //Validate CSV file
-        if (!filenameCSV) {
-            $("#spTxtFileUploadCSV").html("Select CSV File");
-            $("#spTxtFileUploadCSV").css("display", "block");
-            ValidationFlag = true;
-        } else {
-            $("#spTxtFileUploadCSV").html("");
-        }
-
-
-
-        if (ValidationFlag) {
-            return; // Don't proceed further if any validation fails
-        }
-
-        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
-        var CreatedDate = moment.utc(new Date()).format();
-
+        var filenameCSV = ($('#FileUploadCSV')[0].files[0])
+            ? $('#FileUploadCSV')[0].files[0].name
+            : $("#FileUploadCSV").next(".custom-file-label").text();
 
         var fileInput = document.getElementById('FileUploadCSV');
-        if (fileInput.files.length === 0) {
-            alert('Please select a file!');
-            return;
-        }
 
-        var formData = new FormData();
-        formData.append('file', fileInput.files[0]);
+        //-----------------------------------------
+        // IF NEW CSV UPLOADED
+        //-----------------------------------------
 
+        if (fileInput.files.length > 0) {
 
-        // Ensure a file has been selected
-        if (fileInput.files.length === 0) {
-            alert('Please select a CSV file.');
-            return;
-        }
+            var file = fileInput.files[0];
+            var reader = new FileReader();
 
-        var file = fileInput.files[0];
-        var reader = new FileReader();
-        var jsonArrayObj = [];
+            reader.onload = function (event) {
 
-        //When file is loaded, process its content
-        reader.onload = function (event) {
-            var csvContent = event.target.result;
-            var jsonArray = csvToJson(csvContent);
-            jsonArrayObj = jsonArray;
-            console.log("CSV to JSON Array:", jsonArray);
+                var csvContent = event.target.result;
+                var jsonArray = csvToJson(csvContent);
 
-            // Now you can do something with the jsonArray, such as displaying it in a table
+                // ===== HEADER NORMALIZATION (same as SaveData) =====
 
-            var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
-            var FileTypeJobj = {
-                FileTypeProfileImage: '',
-                FileTypeName: FileType,
-                FileTypeCode: '',
-                CreatedBy: iLoggedInUserID,
-                CreatedDate: moment.utc(new Date()).format(),
-                //ParameterJarr: jsonArrayObj
+                function normalizeKey(key) {
+                    return key.replace(/[\s_\-]/g, '').toLowerCase().trim();
+                }
+
+                function getValue(obj, keys) {
+                    for (let k of keys) {
+                        let nk = normalizeKey(k);
+                        if (obj[nk] !== undefined)
+                            return obj[nk];
+                    }
+                    return "";
+                }
+
+                function toBit(val) {
+                    if (!val) return 0;
+                    val = val.toString().toLowerCase().trim();
+                    return (val == "1" || val == "yes" || val == "true") ? 1 : 0;
+                }
+
+                var detailRows = jsonArray.map(row => {
+
+                    let normalized = {};
+
+                    Object.keys(row).forEach(k => {
+                        normalized[normalizeKey(k)] = row[k];
+                    });
+
+                    return {
+
+                        ProcessSequence: getValue(normalized, [
+                            "Process Sequence",
+                            "ProcessSequence"
+                        ]),
+
+                        ProcessName: getValue(normalized, [
+                            "ProcessName"
+                        ]),
+
+                        ParamName: getValue(normalized, [
+                            "ParamName"
+                        ]),
+
+                        ParamCode: getValue(normalized, [
+                            "ParamCode"
+                        ]),
+
+                        ParamUOM: getValue(normalized, [
+                            "ParamUOM"
+                        ]),
+
+                        Range: toBit(getValue(normalized, ["Range"])),
+                        Nominal: toBit(getValue(normalized, ["Nominal"])),
+                        KeyDimension: toBit(getValue(normalized, ["KeyDimension"]))
+                    };
+                });
+
+                sendUpdate(detailRows, filenameCSV);
             };
 
-            var jsonData = JSON.stringify({
-                ReqId: encodeURIComponent(@Context.Request.Query["TypeId"]),
-                FileTypeJobj: FileTypeJobj
-            });
+            reader.readAsText(file);
+        }
 
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("EditDroSaveFileType", "DrillMaster")',
-                data: { JsonData: jsonData },
-                dataType: 'json',
-                beforeSend: function () { $('#loader').show(); },
-                complete: function () { $('#loader').hide(); },
-                success: async function (data) {
-                    if (data && data.response === "Updated Successfully") {
+        //-----------------------------------------
+        // IF NO CSV UPLOADED → USE OLD DATA
+        //-----------------------------------------
+        else {
 
+            sendUpdate(existingCSVRows, filenameCSV);
+        }
+    }
 
-                       
-                         // await copyFile(uploadedFileSample, targetPathSample, selectedImageNameSample);
-                       // copyFile(selectedImageNameSample, targetPathSample, uploadedFileSample);
-                        alert(data.response);
-                            var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
-    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
-    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
-    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+    function sendUpdate(detailRows, filenameCSV) {
 
-    // Construct the full URL
-    var url = '@Url.Action("CTTypeParameter", "DrillMaster")' +
-        '?PageID=' + pageID +
-        '&ParentID=' + parentID +
-        '&ModuleID=' + moduleID ;
+        var FileType = $("#TxtFileType option:selected").text().trim();
+        var FileTypeCode = FileType.split('-').pop().trim();
 
-    // Redirect
-    window.location.href = url;
-                    } else {
-                        alert("Error occurred while saving Type.");
+        var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
 
-                    }
-                },
-                error: function (xhr, status, error) {
-                    alert("Error occurred while saving Type.");
-                    console.error(xhr.responseText);
-                }
-            });
+        var finalJson = {
+
+            TxnId: '@Context.Request.Query["TypeId"]',
+
+            CsvFileName: filenameCSV,
+            ProductLine: $("#ddlproductline option:selected").text(),
+            CTTypeCode: FileTypeCode,
+
+            CreatedBy: iLoggedInUserID,
+
+            Details: detailRows
         };
 
-        // Read the file as text
-       reader.readAsText(file);
+        console.log("UPDATE JSON =>", finalJson);
 
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("InsertCSVTypeDetails", "DrillMaster")',
+            data: { JsonData: JSON.stringify(finalJson) },
+            dataType: 'json',
 
+            beforeSend: function () { $('#loader').show(); },
+            complete: function () { $('#loader').hide(); },
+
+            success: function (data) {
+
+                if (data && data.response === "Insert Successfully") {
+
+                    alert("Updated Successfully");
+
+                    var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+                    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+                    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+
+                    var url = '@Url.Action("CTTypeParameter", "DrillMaster")'
+                        + '?PageID=' + pageID +
+                        '&ParentID=' + parentID +
+                        '&ModuleID=' + moduleID;
+
+                    window.location.href = url;
+                }
+                else {
+                    alert(data.response || "Error occurred while updating.");
+                }
+            },
+
+            error: function (xhr) {
+                console.error(xhr.responseText);
+                alert("Error occurred while updating.");
+            }
+        });
     }
 </script>

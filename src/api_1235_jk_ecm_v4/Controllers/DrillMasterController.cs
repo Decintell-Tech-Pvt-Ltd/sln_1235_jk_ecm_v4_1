@@ -350,7 +350,7 @@ namespace api_1235_jk_ecm_v4.Controllers
             }
             return Content(jsonResult, Application.Json, Encoding.UTF8);
         }
-        [HttpGet]
+        [HttpPost]
         [Route("CT_GetDrawingList")]
         public async Task<IActionResult> CT_GetDrawingList()
         {

@@ -849,6 +849,243 @@ namespace wa_1235_jk_ecm_v4.Controllers
 
 
                 var DimJson = new { RequestId = ReqValue, Flag = "Dimension" };
+                JsonData = JsonSerializer.Serialize(DimJson);
+                apiEndPoint = "ItemMaster/GetPackingDetailsForViewLL";
+                ItemMasters.MaterialDimensionsList = JsonSerializer.Deserialize<MaterialDimensions[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+
+                if (ItemMasters.ProductionDetails_List.ReqType == "S" || ItemMasters.ProductionDetails_List.ReqType == "R")
+                {
+                    apiEndPoint = "ItemMaster/GetDetailsForSKUSet";
+                    ItemMasters.SKUSetList = JsonSerializer.Deserialize<SKUSet[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, jsonData));
+
+                }
+            }
+            return View(ItemMasters);
+        }
+
+        public async Task<IActionResult> CTShowLabelLayout(int ReqValue)
+        {
+            ViewBag.JWTToken = JwtToken;
+            ViewBag.ApiUrl = appSettings?.API_blob_1231;
+            ViewBag.BaseBlobPath = appSettings?.BaseBlobPath;
+            ViewBag.NewReqNo = ReqValue;
+
+            ItemMaster ItemMasters = new ItemMaster();
+
+            if (ReqValue > 0)  //added by mayuri 16 jul 2024
+            {
+                var json = new { RequestNo = ReqValue };
+                string jsonData = JsonSerializer.Serialize(json);
+                string apiEndPoint = "changeNote/GetProductionDetailsFromReqNo";
+                ItemMasters.ProductionDetails_List = JsonSerializer.Deserialize<ProductionDetails>(await _iGenericMethods.PostDataEcm(apiEndPoint, jsonData));
+
+
+                //var jsonDispatch = new { RequestNo = ReqValue, TabName = "Stamp" };
+                //jsonData = JsonSerializer.Serialize(jsonDispatch);
+                //apiEndPoint = "changeNote/GetDispatchDetailsFromReqNo";
+                //ItemMasters.StampMasterDispatchDetails = JsonSerializer.Deserialize<StampMaster>(await _iGenericMethods.PostDataEcm(apiEndPoint, jsonData));
+
+
+                //var jsonDispatchHandle = new { RequestNo = ReqValue, TabName = "Handle" };
+                //jsonData = JsonSerializer.Serialize(jsonDispatchHandle);
+                //apiEndPoint = "changeNote/GetDispatchDetailsFromReqNo";
+                //ItemMasters.HandleMasterForEditDetails = JsonSerializer.Deserialize<HandleMasterForEdit>(await _iGenericMethods.PostDataEcm(apiEndPoint, jsonData));
+                var jsonDispatch = new { RequestNo = ReqValue, TabName = "Stamp" };
+                jsonData = JsonSerializer.Serialize(jsonDispatch);
+
+                apiEndPoint = "changeNote/GetDispatchDetailsFromReqNo";
+                var stampStream = await _iGenericMethods.PostDataEcm(apiEndPoint, jsonData);
+
+                string stampResponse = "";
+                using (var reader = new StreamReader(stampStream))
+                {
+                    stampResponse = await reader.ReadToEndAsync();
+                }
+
+                // 🔥 FIX: handle null, empty, {}, [] safely
+                if (string.IsNullOrWhiteSpace(stampResponse) ||
+                    stampResponse.Trim() == "{}" ||
+                    stampResponse.Trim() == "[]" ||
+                    stampResponse.Trim() == "null")
+                {
+                    ItemMasters.StampMasterDispatchDetails = new StampMaster();
+                }
+                else
+                {
+                    ItemMasters.StampMasterDispatchDetails =
+                        JsonSerializer.Deserialize<StampMaster>(stampResponse) ?? new StampMaster();
+                }
+                ////////////////////////////////////////////////////////////////////////
+                ///
+                var jsonDispatch1 = new { RequestNo = ReqValue, TabName = "Stamp" };
+                string jsonData1 = JsonSerializer.Serialize(jsonDispatch1);
+
+                string apiEndPoint1 = "changeNote/GetstampDetailsFromReqNo";
+                var stampStream1 = await _iGenericMethods.PostDataEcm(apiEndPoint1, jsonData1);
+
+                string stampResponse1 = "";
+                using (var reader = new StreamReader(stampStream1))
+                {
+                    stampResponse1 = await reader.ReadToEndAsync();
+                }
+
+                // 🔥 FIX: handle null, empty, {}, [] safely
+                if (string.IsNullOrWhiteSpace(stampResponse1) ||
+                    stampResponse1.Trim() == "{}" ||
+                    stampResponse1.Trim() == "[]" ||
+                    stampResponse1.Trim() == "null")
+                {
+                    ItemMasters.stampdetailslabellayout = new stampdetailslabellayout();
+                }
+                else
+                {
+                    ItemMasters.stampdetailslabellayout =
+                        JsonSerializer.Deserialize<stampdetailslabellayout>(stampResponse1) ?? new stampdetailslabellayout();
+                }
+                var jsonDispatchHandle = new { RequestNo = ReqValue, TabName = "Handle" };
+                jsonData = JsonSerializer.Serialize(jsonDispatchHandle);
+
+                var handleStream = await _iGenericMethods.PostDataEcm(apiEndPoint, jsonData);
+
+                string handleResponse = "";
+                using (var reader = new StreamReader(handleStream))
+                {
+                    handleResponse = await reader.ReadToEndAsync();
+                }
+
+                // 🔥 FIX: handle null, empty, {}, [] safely
+                if (string.IsNullOrWhiteSpace(handleResponse) ||
+                    handleResponse.Trim() == "{}" ||
+                    handleResponse.Trim() == "[]" ||
+                    handleResponse.Trim() == "null")
+                {
+                    ItemMasters.HandleMasterForEditDetails = new HandleMasterForEdit();
+                }
+                else
+                {
+                    ItemMasters.HandleMasterForEditDetails =
+                        JsonSerializer.Deserialize<HandleMasterForEdit>(handleResponse) ?? new HandleMasterForEdit();
+                }
+
+
+
+                var jsonOtherPacking = new { RequestNo = ReqValue, TabName = "OtherPacking" };
+                string jsonOtherPackingData = JsonSerializer.Serialize(jsonOtherPacking);
+                apiEndPoint = "changeNote/GetDispatchDetailsFromReqNo";
+                ItemMasters.OtherPackingForEditDetails = JsonSerializer.Deserialize<OtherPackingForEdit>(await _iGenericMethods.PostDataEcm(apiEndPoint, jsonOtherPackingData));
+
+                var ReqIdJson = new { RequestId = ReqValue, Flag = "Packing" };
+                string JsonData = JsonSerializer.Serialize(ReqIdJson);
+                apiEndPoint = "ItemMaster/GetPackingDetailsForViewLL";
+                ItemMasters.PackingDetailsList = JsonSerializer.Deserialize<PackingDetails[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+
+                ItemMasters.Wrapper1Details = new WrapperDetails();
+                ItemMasters.Wrapper2Details = new WrapperDetails();
+                ItemMasters.InnerboxDetails = new WrapperDetails();
+                ItemMasters.OuterboxDetails = new WrapperDetails();
+                ItemMasters.OuterDetails = new WrapperDetails();
+                ItemMasters.PalletDetails = new WrapperDetails();
+
+
+                if (ItemMasters.PackingDetailsList != null)
+                {
+                    foreach (var item in ItemMasters.PackingDetailsList)
+                    {
+                        if (item.CategoryName == "Wrapper1")
+                        {
+                            ItemMasters.Wrapper1Details.MaterialSampleBox = item.MaterialSampleBox;
+                            ItemMasters.Wrapper1Details.MaterialArtwork = item.MaterialArtwork;
+                            ItemMasters.Wrapper1Details.QtyOfContains = item.QtyOfContains;
+                            ItemMasters.Wrapper1Details.MaterialClassName = item.MaterialClassName;
+                            ItemMasters.Wrapper1Details.CustomerCode = item.CustomerCode;
+                            ItemMasters.Wrapper1Details.BrandCode = item.BrandCode;
+                            ItemMasters.Wrapper1Details.TxnRequestId = item.TxnRequestId;
+                            ItemMasters.Wrapper1Details.CategoryName = item.CategoryName;
+                            ItemMasters.Wrapper1Details.DimensionList = item.DimensionList;
+                            ItemMasters.Wrapper1Details.PackingDrawingImage = item.PackingDrawingImage;
+                            ItemMasters.Wrapper1Details.MaterialPantone = item.MaterialPantone;
+                        }
+                        if (item.CategoryName == "Wrapper2")
+                        {
+                            ItemMasters.Wrapper2Details.MaterialSampleBox = item.MaterialSampleBox;
+                            ItemMasters.Wrapper2Details.MaterialArtwork = item.MaterialArtwork;
+                            ItemMasters.Wrapper2Details.QtyOfContains = item.QtyOfContains;
+                            ItemMasters.Wrapper2Details.MaterialClassName = item.MaterialClassName;
+                            ItemMasters.Wrapper2Details.CustomerCode = item.CustomerCode;
+                            ItemMasters.Wrapper2Details.BrandCode = item.BrandCode;
+                            ItemMasters.Wrapper2Details.TxnRequestId = item.TxnRequestId;
+                            ItemMasters.Wrapper2Details.CategoryName = item.CategoryName;
+                            ItemMasters.Wrapper2Details.DimensionList = item.DimensionList;
+                            ItemMasters.Wrapper2Details.PackingDrawingImage = item.PackingDrawingImage;
+                            ItemMasters.Wrapper2Details.MaterialPantone = item.MaterialPantone;
+                        }
+                        if (item.CategoryName == "InnerBox")
+                        {
+                            ItemMasters.InnerboxDetails.MaterialSampleBox = item.MaterialSampleBox;
+                            ItemMasters.InnerboxDetails.MaterialArtwork = item.MaterialArtwork;
+                            ItemMasters.InnerboxDetails.QtyOfContains = item.QtyOfContains;
+                            ItemMasters.InnerboxDetails.MaterialClassName = item.MaterialClassName;
+                            ItemMasters.InnerboxDetails.CustomerCode = item.CustomerCode;
+                            ItemMasters.InnerboxDetails.BrandCode = item.BrandCode;
+                            ItemMasters.InnerboxDetails.TxnRequestId = item.TxnRequestId;
+                            ItemMasters.InnerboxDetails.CategoryName = item.CategoryName;
+                            ItemMasters.InnerboxDetails.DimensionList = item.DimensionList;
+                            ItemMasters.InnerboxDetails.PackingDrawingImage = item.PackingDrawingImage;
+                            ItemMasters.InnerboxDetails.MaterialPantone = item.MaterialPantone;
+                        }
+                        if (item.CategoryName == "OuterBox")
+                        {
+                            ItemMasters.OuterboxDetails.MaterialSampleBox = item.MaterialSampleBox;
+                            ItemMasters.OuterboxDetails.MaterialArtwork = item.MaterialArtwork;
+                            ItemMasters.OuterboxDetails.QtyOfContains = item.QtyOfContains;
+                            ItemMasters.OuterboxDetails.MaterialClassName = item.MaterialClassName;
+                            ItemMasters.OuterboxDetails.CustomerCode = item.CustomerCode;
+                            ItemMasters.OuterboxDetails.BrandCode = item.BrandCode;
+                            ItemMasters.OuterboxDetails.TxnRequestId = item.TxnRequestId;
+                            ItemMasters.OuterboxDetails.CategoryName = item.CategoryName;
+                            ItemMasters.OuterboxDetails.DimensionList = item.DimensionList;
+                            ItemMasters.OuterboxDetails.PackingDrawingImage = item.PackingDrawingImage;
+                            ItemMasters.OuterboxDetails.MaterialPantone = item.MaterialPantone;
+                        }
+                        if (item.CategoryName == "Outer")
+                        {
+                            ItemMasters.OuterDetails.MaterialSampleBox = item.MaterialSampleBox;
+                            ItemMasters.OuterDetails.MaterialArtwork = item.MaterialArtwork;
+                            ItemMasters.OuterDetails.QtyOfContains = item.QtyOfContains;
+                            ItemMasters.OuterDetails.MaterialClassName = item.MaterialClassName;
+                            ItemMasters.OuterDetails.CustomerCode = item.CustomerCode;
+                            ItemMasters.OuterDetails.BrandCode = item.BrandCode;
+                            ItemMasters.OuterDetails.TxnRequestId = item.TxnRequestId;
+                            ItemMasters.OuterDetails.CategoryName = item.CategoryName;
+                            ItemMasters.OuterDetails.DimensionList = item.DimensionList;
+                            ItemMasters.OuterDetails.PackingDrawingImage = item.PackingDrawingImage;
+                            ItemMasters.OuterDetails.MaterialPantone = item.MaterialPantone;
+                        }
+                        if (item.CategoryName == "Pallet")
+                        {
+                            ItemMasters.PalletDetails.MaterialSampleBox = item.MaterialSampleBox;
+                            ItemMasters.PalletDetails.MaterialArtwork = item.MaterialArtwork;
+                            ItemMasters.PalletDetails.QtyOfContains = item.QtyOfContains;
+                            ItemMasters.PalletDetails.MaterialClassName = item.MaterialClassName;
+                            ItemMasters.PalletDetails.CustomerCode = item.CustomerCode;
+                            ItemMasters.PalletDetails.BrandCode = item.BrandCode;
+                            ItemMasters.PalletDetails.TxnRequestId = item.TxnRequestId;
+                            ItemMasters.PalletDetails.CategoryName = item.CategoryName;
+                            ItemMasters.PalletDetails.DimensionList = item.DimensionList;
+                            ItemMasters.PalletDetails.PackingDrawingImage = item.PackingDrawingImage;
+                            ItemMasters.PalletDetails.MaterialPantone = item.MaterialPantone;
+                        }
+                    }
+                }
+
+
+                ReqIdJson = new { RequestId = ReqValue, Flag = "Label" };
+                JsonData = JsonSerializer.Serialize(ReqIdJson);
+                apiEndPoint = "ItemMaster/GetPackingDetailsForViewLL";
+                ItemMasters.LabelDetailsList = JsonSerializer.Deserialize<LabelDetails[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+
+
+                var DimJson = new { RequestId = ReqValue, Flag = "Dimension" };
                  JsonData = JsonSerializer.Serialize(DimJson);
                 apiEndPoint = "ItemMaster/GetPackingDetailsForViewLL";
                 ItemMasters.MaterialDimensionsList = JsonSerializer.Deserialize<MaterialDimensions[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));

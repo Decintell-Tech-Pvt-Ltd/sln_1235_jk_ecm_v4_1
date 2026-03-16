@@ -36,29 +36,32 @@
 					<div>
 						<img id="displayImage1" class="img-fluid" src="" alt="File Image" />
 					</div>
-					<label id="remarklbl">Remark</label>
-					<input type="text" id="txtRemark" class="form-control">
+				
 				</div>
 				<label id="modalId" style="display:none"></label>
 				<p style="display:none">ID: <span id="approveItemId"></span></p>
 				<!-- Parameters Table -->
-				<div class="modal-body" style="display:none;">
+				<div class="modal-body">
 					<h4 class="top10">Parameters</h4>
-					<table width="100%" class="table table-bordered example1" id="tblshowAddedFileTypeParameters">
+					<table width="100%" class="table table-bordered example1" id="tblshowAddedProcessParameters">
 						<thead>
 							<tr>
 
-								<th style="width:5%; text-align: center;">Sq.No.</th>
-								<th style="width:25%; text-align: left;">Process</th>
-								<th style="text-align: left;">Parameter Name</th>
+								<th style="width:5%; text-align:center;">Sq.No.</th>
+								<th style="width:25%; text-align:left;">Process</th>
+								<th style="text-align:left;">Parameter Name</th>
+								<th style="text-align:left;">UOM</th>
 							</tr>
 						</thead>
-						<tbody id="showAddedParameters">
+						<tbody id="showAddedProcessParameters">
 							<!-- Dynamic rows go here -->
 						</tbody>
 					</table>
 				</div>
-
+				<div class="modal-body">
+				<label id="remarklbl">Remark</label>
+				<input type="text" id="txtRemark" class="form-control">
+				</div>
 				<!-- Footer Buttons -->
 				<div class="modal-footer">
 					<div class="float-right">
@@ -106,12 +109,11 @@
 					<div class="top10">
 						<img id="displayImage" class="img-fluid" src="" alt="File Type Image">
 					</div>
-					<label class="mt-3">Remark:</label><br>
-					<span id="txtremarklbl"></span>
+				
 				</div>
 
 				<!-- Modal Body - Parameters Table -->
-				<div class="modal-body" style="display:none;">
+				<div class="modal-body">
 					<h4 class="top10">Parameters</h4>
 					<table class="table table-bordered example1" style="width:100%;" id="tblshowAddedParametersList">
 						<thead>
@@ -119,12 +121,17 @@
 								<th style="width:5%; text-align:center;">Sq.No.</th>
 								<th style="width:25%; text-align:left;">Process</th>
 								<th style="text-align:left;">Parameter Name</th>
+								<th style="text-align:left;">UOM</th>
 							</tr>
 						</thead>
 						<tbody id="showAddedParametersList">
 							<!-- Dynamic rows will be injected via JavaScript -->
 						</tbody>
 					</table>
+				</div>
+				<div class="modal-body">
+				<label class="mt-3">Remark:</label><br>
+				<span id="txtremarklbl"></span>
 				</div>
 				<div class="modal-footer">
 					<div class="float-right">
@@ -142,6 +149,69 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="view">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h5 class="modal-title">View</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<!-- Modal Body - File Info -->
+				<div class="modal-body">
+					<input type="hidden" id="txtID1" />
+
+					<b>Product Line:</b> <span id="txtProdLine2"></span>, &nbsp;&nbsp;
+					<b>Product Line Code.:</b> <span id="txtRequest2"></span>, &nbsp;&nbsp;
+					<b> Type Name:</b> <span id="txtFileName2"></span>, &nbsp;&nbsp;
+					<b> Type Code:</b> <span id="txtFileTypeCode2"></span>
+
+					<div class="top10">
+						<img id="displayImage2" class="img-fluid" src="" alt="File Type Image">
+					</div>
+
+				</div>
+
+				<!-- Modal Body - Parameters Table -->
+				<div class="modal-body">
+					<h4 class="top10">Parameters</h4>
+					<table class="table table-bordered example1" style="width:100%;" id="tblViewAddedParametersList">
+						<thead>
+							<tr>
+								<th style="width:5%; text-align:center;">Sq.No.</th>
+								<th style="width:25%; text-align:left;">Process</th>
+								<th style="text-align:left;">Parameter Name</th>
+								<th style="text-align:left;">UOM</th>
+							</tr>
+						</thead>
+						<tbody id="ViewAddedParametersList">
+							<!-- Dynamic rows will be injected via JavaScript -->
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-body">
+					<label class="mt-3">Remark:</label><br>
+					<span id="txtremarklbl"></span>
+				</div>
+				@* <div class="modal-footer">
+					<div class="float-right">
+
+						<button type="button"
+								class="btn btn-primary btn-xs btnwidth60" id="btn_DrillTypeApprove"
+								title="Approve the selected item"
+								onclick="ApproveFileType(document.getElementById('txtID1').value, 5); $('#image').modal('hide');">
+							Submit For Approval
+						</button>
+					</div>
+				</div> *@
+
+			</div>
+		</div>
+	</div>
 
 	<section class="content-header">
 		<div class="container-fluid">
@@ -221,10 +291,10 @@
 												{
 													<tr>
 @* 														<td class="text-center"><a href="#" title="Edit" onclick="EditFileType('@item.Id',@item.RequestNo);">@item.RequestNo</a></td>
- *@														<td class="text-left">@item.ProductLine</td>
+ *@														<td class="text-left"><a href="#" title="Edit" onclick="EditFileType('@item.TypeDetailsRowId');">@item.ProductLine</a></td>
 														<td class="text-left">@item.ProductLineCode</td>
 														<td>
-															<a href="#" title="View" onclick="ModelFileType('@item.TypeDetailsRowId','@item.ProductLineCode','@item.CTTypeName','@item.CTTypeCode','@item.ProductLine','@item.Remark');" data-toggle="modal">
+															<a href="#" title="View" onclick="ModelFileType('@item.TypeDetailsRowId');" data-toggle="modal">
 																@item.CTTypeName
 															</a>
 														</td>
@@ -297,7 +367,7 @@
 													<td class="text-center">@item.ProductLine</td>
 													<td class="text-left">@item.ProductLineCode</td>
 													<td>
-														<a href="#" title="View" data-toggle="modal" data-target="#approve" onclick="setApproveItems('@item.TypeDetailsRowId','@item.ProductLineCode','@item.CTTypeName','@item.CTTypeCode','@item.ProductLine');">
+														<a href="#" title="View" data-toggle="modal" onclick="setApproveItems('@item.TypeDetailsRowId');">
 															@item.CTTypeName
 														</a>
 													</td>
@@ -354,7 +424,7 @@
 													<td class="text-center">@item.ProductLine</td>
 													<td class="text-left">@item.ProductLineCode</td>
 													<td>
-														<a href="#" title="View" onclick="ModelFileType('@item.TypeDetailsRowId','@item.ProductLineCode','@item.CTTypeName','@item.CTTypeCode','@item.ProductLine');">
+														<a href="#" title="View" onclick="ModelFileView('@item.TypeDetailsRowId');">
 															@item.CTTypeName
 														</a>
 													</td>
@@ -388,14 +458,14 @@
 		});
 
 
-	function setApproveItems(itemId, ProductLineCode, FileTypeName, FileTypeCode,ProdLine) {
+	function setApproveItems(itemId) {
 		document.getElementById('approveItemId').textContent = itemId;
 
-		ModelFileSize(itemId, ProductLineCode, FileTypeName, FileTypeCode,ProdLine);
+		ModelFileSize(itemId);
 		//  OpenDocument(BrandCode, ImageFile, 'displayImage1');
 	}
 
-	function EditFileType(Id, RequestNo) {
+	function EditFileType(RequestNo) {
 
 		// Constructing the URL using JavaScript
 		 var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
@@ -404,9 +474,8 @@
 	var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
 
 	// Construct the full URL
-	var url = '@Url.Action("DrillAddType", "DrillMaster")' +
-		'?TypeId=' + encodeURIComponent(Id) +
-		'&ReqId=' + encodeURIComponent(RequestNo) +
+	var url = '@Url.Action("AddCTTypeParameter", "DrillMaster")' +
+		'?TypeId=' + encodeURIComponent(RequestNo) +
 		'&PageID=' + pageID +
 		'&ParentID=' + parentID +
 		'&ModuleID=' + moduleID ;
@@ -479,116 +548,433 @@
 		});
 	}
 
+		function ModelFileSize(TypeId) {
 
-	function ModelFileSize(ID, ProductLineCode, FileTypeName, FileTypeCode,ProdLine) {
-		$('#txtID').val(ID);
-		$('#txtRequest').text(ProductLineCode);
-		$('#txtFileName').text(FileTypeName);
-		$('#txtFileTypeCode').text(FileTypeCode);
-			$('#txtProdLine').text(ProdLine);
-
-
-
-		var JsonData = JSON.stringify({
-			ID: ID
-		});
+		let json = {
+			TxnId: TypeId
+		};
 
 		$.ajax({
 			type: "POST",
-			url: '@Url.Action("GetDroParametersList", "DrillMaster")',
-			data: { JsonData: JsonData },
-			dataType: 'json',
+			url: '@Url.Action("GetTypeParameterListById", "DrillMaster")',
+			data: { JsonData: JSON.stringify(json) },
+			dataType: "json",
 			beforeSend: function () { $('#loader').show(); },
 			complete: function () { $('#loader').hide(); },
-			success: function (data) {
-				var html = '';
-				$("#tblshowAddedFileTypeParameters").dataTable().fnClearTable();
-				$("#tblshowAddedFileTypeParameters").dataTable().fnDestroy()
-				var dtParameter = $('#tblshowAddedFileTypeParameters').DataTable({
-					"columnDefs": [
-						{ "className": "dt-center", "targets": "_all" }
-					],
+
+			success: function (res) {
+
+				if (!res || !res.response || res.response.length === 0) {
+					alert("No data found");
+					return;
+				}
+
+				let data = res.response[0];
+
+				//--------------------------------
+				// Bind Header
+				//--------------------------------
+
+				$("#txtID").val(data.typeDetailsRowId);
+				$("#txtRequest").text(data.productLineCode);
+				$("#txtFileName").text(data.ctTypeName);
+				$("#txtFileTypeCode").text(data.ctTypeCode);
+				$("#txtProdLine").text(data.productLine);
+
+				//--------------------------------
+				// Bind Image
+				//--------------------------------
+
+				if (data.imageFileName) {
+					OpenDocument(data.imageFileName, 'displayImage1', data.productLine);
+				}
+
+				//--------------------------------
+				// Destroy old DataTable
+				//--------------------------------
+
+				if ($.fn.DataTable.isDataTable('#tblshowAddedProcessParameters')) {
+					$('#tblshowAddedProcessParameters').DataTable().clear().destroy();
+				}
+
+				//--------------------------------
+				// Initialize DataTable
+				//--------------------------------
+
+				var dt = $('#tblshowAddedProcessParameters').DataTable({
+					columnDefs: [
+						{ className: "dt-center", targets: "_all" }
+					]
 				});
 
-				var rows = [];
+				//--------------------------------
+				// Bind Rows
+				//--------------------------------
 
-				//  var cutside = data.objList.cutSidesarr_list;
-				var parametersLists = data.parametersLists;
-				for (var i = 0; i < parametersLists.length; i++) {
+				if (data.typeParamsJarr && data.typeParamsJarr.length > 0) {
 
-					rows =
-						[
-							'<div align="center">' + data.parametersLists[i].parameterCategorySequence + '</div>',
-							'<div align="left">' + data.parametersLists[i].parameterCategory + '</div>',
-							'<div align="left">' + data.parametersLists[i].parameterName + '</div>',
-						];
-					var backgroundImage = "url('" + parametersLists[i].fileTypeProfileImage + "')";
+					for (var i = 0; i < data.typeParamsJarr.length; i++) {
 
+						var p = data.typeParamsJarr[i];
 
-					// Preload image
-					$('<img src="' + parametersLists[i].fileTypeProfileImage + '" style="display: none;" />').appendTo('#imageDiv');
-					dtParameter.row.add(rows).draw(false);
-					var fileTypeProfileImage = data.parametersLists[i].fileTypeProfileImage;
+						dt.row.add([
+							'<div align="center">' +  p.processSequence+ '</div>',
+							'<div align="left">' + p.processName + '</div>',
+							'<div align="left">' + p.paramName + '</div>',
+							'<div align="center">' + p.paramUOM + '</div>'
+						]).draw(false);
+					}
 				}
-				   OpenDocument(fileTypeProfileImage,'displayImage1',ProdLine);
-				//$('#showAddedParameters').html(html);
-				$('#approve').modal('show'); // Show the modal
+
+				//--------------------------------
+				// Show Modal
+				//--------------------------------
+
+				$('#approve').modal('show');
 			},
+
 			error: function () {
 				alert('Error occurred while fetching data.');
 			}
 		});
 	}
+	// function ModelFileSize(ID, ProductLineCode, FileTypeName, FileTypeCode,ProdLine) {
+	// 	$('#txtID').val(ID);
+	// 	$('#txtRequest').text(ProductLineCode);
+	// 	$('#txtFileName').text(FileTypeName);
+	// 	$('#txtFileTypeCode').text(FileTypeCode);
+	// 		$('#txtProdLine').text(ProdLine);
 
 
 
-	function ModelFileType(ID, ProductLineCode, FileTypeName, FileTypeCode,ProdLine,Remark) {
-		$('#txtID1').val(ID);
-		document.getElementById('txtRequest1').textContent = ProductLineCode;
-		document.getElementById('txtFileName1').textContent = FileTypeName;
-		document.getElementById('txtFileTypeCode1').textContent = FileTypeCode;
-		document.getElementById('txtProdLine1').textContent = ProdLine;
-		document.getElementById('txtremarklbl').textContent = Remark;
-		var JsonData = JSON.stringify({
-			ID: ID
-		});
+	// 	var JsonData = JSON.stringify({
+	// 		ID: ID
+	// 	});
+
+	// 	$.ajax({
+	// 		type: "POST",
+	// 		url: '@Url.Action("GetDroParametersList", "DrillMaster")',
+	// 		data: { JsonData: JsonData },
+	// 		dataType: 'json',
+	// 		beforeSend: function () { $('#loader').show(); },
+	// 		complete: function () { $('#loader').hide(); },
+	// 		success: function (data) {
+	// 			var html = '';
+	// 			$("#tblshowAddedFileTypeParameters").dataTable().fnClearTable();
+	// 			$("#tblshowAddedFileTypeParameters").dataTable().fnDestroy()
+	// 			var dtParameter = $('#tblshowAddedFileTypeParameters').DataTable({
+	// 				"columnDefs": [
+	// 					{ "className": "dt-center", "targets": "_all" }
+	// 				],
+	// 			});
+
+	// 			var rows = [];
+
+	// 			//  var cutside = data.objList.cutSidesarr_list;
+	// 			var parametersLists = data.parametersLists;
+	// 			for (var i = 0; i < parametersLists.length; i++) {
+
+	// 				rows =
+	// 					[
+	// 						'<div align="center">' + data.parametersLists[i].parameterCategorySequence + '</div>',
+	// 						'<div align="left">' + data.parametersLists[i].parameterCategory + '</div>',
+	// 						'<div align="left">' + data.parametersLists[i].parameterName + '</div>',
+	// 					];
+	// 				var backgroundImage = "url('" + parametersLists[i].fileTypeProfileImage + "')";
+
+
+	// 				// Preload image
+	// 				$('<img src="' + parametersLists[i].fileTypeProfileImage + '" style="display: none;" />').appendTo('#imageDiv');
+	// 				dtParameter.row.add(rows).draw(false);
+	// 				var fileTypeProfileImage = data.parametersLists[i].fileTypeProfileImage;
+	// 			}
+	// 			   OpenDocument(fileTypeProfileImage,'displayImage1',ProdLine);
+	// 			//$('#showAddedParameters').html(html);
+	// 			$('#approve').modal('show'); // Show the modal
+	// 		},
+	// 		error: function () {
+	// 			alert('Error occurred while fetching data.');
+	// 		}
+	// 	});
+	// }
+
+
+
+	// function ModelFileType(ID, ProductLineCode, FileTypeName, FileTypeCode,ProdLine,Remark) {
+	// 	$('#txtID1').val(ID);
+	// 	document.getElementById('txtRequest1').textContent = ProductLineCode;
+	// 	document.getElementById('txtFileName1').textContent = FileTypeName;
+	// 	document.getElementById('txtFileTypeCode1').textContent = FileTypeCode;
+	// 	document.getElementById('txtProdLine1').textContent = ProdLine;
+	// 	document.getElementById('txtremarklbl').textContent = Remark;
+	// 	var JsonData = JSON.stringify({
+	// 		ID: ID
+	// 	});
+
+	// 	$.ajax({
+	// 		type: "POST",
+	// 		url: '@Url.Action("GetDroParametersList", "DrillMaster")',
+	// 		data: { JsonData: JsonData },
+	// 		dataType: 'json',
+	// 		beforeSend: function () { $('#loader').show(); },
+	// 		complete: function () { $('#loader').hide(); },
+	// 		success: function (data) {
+	// 			var html = '';
+	// 			$("#tblshowAddedParametersList").dataTable().fnClearTable();
+	// 			$("#tblshowAddedParametersList").dataTable().fnDestroy()
+	// 			var dtParameter = $('#tblshowAddedParametersList').DataTable({
+	// 				"columnDefs": [
+	// 					{ "className": "dt-center", "targets": "_all" }
+	// 				],
+	// 			});
+
+	// 			var rows = [];
+	// 			for (var i = 0; i < data.parametersLists.length; i++) {
+
+	// 				rows =
+	// 					[
+	// 						'<div align="center">' + data.parametersLists[i].parameterCategorySequence + '</div>',
+	// 						'<div align="left">' + data.parametersLists[i].parameterCategory + '</div>',
+	// 						'<div align="left">' + data.parametersLists[i].parameterName + '</div>',
+	// 					];
+
+	// 				dtParameter.row.add(rows).draw(false);
+	// 				var fileTypeProfileImage = data.parametersLists[i].ImageFileName;
+
+	// 			}
+	// 			OpenDocument(fileTypeProfileImage,'displayImage',ProdLine);
+	// 			$('#image').modal('show'); // Show the modal
+	// 		},
+	// 		error: function () {
+	// 			alert('Error occurred while fetching data.');
+	// 		}
+	// 	});
+	// }
+		function ModelFileType(TypeId) {
+
+		let json = {
+			TxnId: TypeId
+		};
 
 		$.ajax({
 			type: "POST",
-			url: '@Url.Action("GetDroParametersList", "DrillMaster")',
-			data: { JsonData: JsonData },
-			dataType: 'json',
+			url: '@Url.Action("GetTypeParameterListById", "DrillMaster")',
+			data: { JsonData: JSON.stringify(json) },
+			dataType: "json",
 			beforeSend: function () { $('#loader').show(); },
 			complete: function () { $('#loader').hide(); },
-			success: function (data) {
-				var html = '';
-				$("#tblshowAddedParametersList").dataTable().fnClearTable();
-				$("#tblshowAddedParametersList").dataTable().fnDestroy()
-				var dtParameter = $('#tblshowAddedParametersList').DataTable({
-					"columnDefs": [
-						{ "className": "dt-center", "targets": "_all" }
-					],
+
+			success: function (res) {
+
+				if (!res || !res.response || res.response.length === 0) {
+					alert("No data found");
+					return;
+				}
+
+				let data = res.response[0];
+
+				//--------------------------------
+				// Bind header fields
+				//--------------------------------
+
+				$("#txtID1").val(data.typeDetailsRowId);
+
+				$("#txtProdLine1").text(data.productLine);
+
+				$("#txtRequest1").text(data.productLineCode);
+
+				$("#txtFileName1").text(data.ctTypeName);
+
+				$("#txtFileTypeCode1").text(data.ctTypeCode);
+
+				$("#txtremarklbl").text(data.remark || "-");
+				var imageFileName = data.imageFileName;
+				var productLine =	data.productLine;
+				//--------------------------------
+				// Bind image
+				//--------------------------------
+
+				// if (data.imageFileName) {
+				// 	$("#displayImage").attr(
+				// 		"src",
+				// 		"/others/ct/types/" + data.imageFileName
+				// 	);
+				// }
+
+				//--------------------------------
+				// Bind Parameters Table
+				//--------------------------------
+				if ($.fn.DataTable.isDataTable('#tblshowAddedParametersList')) {
+					$('#tblshowAddedParametersList').DataTable().clear().destroy();
+				}
+
+				//--------------------------------
+				// Initialize DataTable
+				//--------------------------------
+
+				var dt = $('#tblshowAddedParametersList').DataTable({
+					columnDefs: [
+						{ className: "dt-center", targets: "_all" }
+					]
 				});
 
-				var rows = [];
-				for (var i = 0; i < data.parametersLists.length; i++) {
+				$("#showAddedParametersList").empty();
 
-					rows =
-						[
-							'<div align="center">' + data.parametersLists[i].parameterCategorySequence + '</div>',
-							'<div align="left">' + data.parametersLists[i].parameterCategory + '</div>',
-							'<div align="left">' + data.parametersLists[i].parameterName + '</div>',
-						];
+				// if (data.typeParamsJarr && data.typeParamsJarr.length > 0) {
 
-					dtParameter.row.add(rows).draw(false);
-					var fileTypeProfileImage = data.parametersLists[i].fileTypeProfileImage;
+				// 	let html = "";
 
+				// 	$.each(data.typeParamsJarr, function (i, item) {
+
+				// 		html += `
+				// 			<tr>
+				// 				<td style="text-align:center;">${item.processSequence}</td>
+				// 				<td>${item.processName}</td>
+				// 				<td>${item.paramName}</td>
+				// 				<td>${item.paramUOM}</td>
+				// 			</tr>`;
+				// 	});
+
+				// 	$("#showAddedParametersList").html(html);
+				// }
+				if (data.typeParamsJarr && data.typeParamsJarr.length > 0) {
+
+					for (var i = 0; i < data.typeParamsJarr.length; i++) {
+
+						var p = data.typeParamsJarr[i];
+
+						dt.row.add([
+							'<div align="center">' +  p.processSequence+ '</div>',
+							'<div align="left">' + p.processName + '</div>',
+							'<div align="left">' + p.paramName + '</div>',
+							'<div align="center">' + p.paramUOM + '</div>'
+						]).draw(false);
+					}
 				}
-				OpenDocument(fileTypeProfileImage,'displayImage',ProdLine);
-				$('#image').modal('show'); // Show the modal
+				//--------------------------------
+				// Show modal
+				//--------------------------------
+				OpenDocument(imageFileName,'displayImage',productLine);
+	// 			$('#image').modal('show');
+				$("#image").modal("show");
 			},
+
 			error: function () {
-				alert('Error occurred while fetching data.');
+				alert("Error loading data");
+			}
+		});
+	}
+		function ModelFileView(TypeId) {
+
+		let json = {
+			TxnId: TypeId
+		};
+
+		$.ajax({
+			type: "POST",
+			url: '@Url.Action("GetTypeParameterListById", "DrillMaster")',
+			data: { JsonData: JSON.stringify(json) },
+			dataType: "json",
+			beforeSend: function () { $('#loader').show(); },
+			complete: function () { $('#loader').hide(); },
+
+			success: function (res) {
+
+				if (!res || !res.response || res.response.length === 0) {
+					alert("No data found");
+					return;
+				}
+
+				let data = res.response[0];
+
+				//--------------------------------
+				// Bind header fields
+				//--------------------------------
+
+				$("#txtID1").val(data.typeDetailsRowId);
+
+				$("#txtProdLine2").text(data.productLine);
+
+				$("#txtRequest2").text(data.productLineCode);
+
+				$("#txtFileName2").text(data.ctTypeName);
+
+				$("#txtFileTypeCode2").text(data.ctTypeCode);
+
+				$("#txtremarklbl").text(data.remark || "-");
+				var imageFileName = data.imageFileName;
+				var productLine =	data.productLine;
+				//--------------------------------
+				// Bind image
+				//--------------------------------
+
+				// if (data.imageFileName) {
+				// 	$("#displayImage").attr(
+				// 		"src",
+				// 		"/others/ct/types/" + data.imageFileName
+				// 	);
+				// }
+
+				//--------------------------------
+				// Bind Parameters Table
+				//--------------------------------
+				if ($.fn.DataTable.isDataTable('#tblViewAddedParametersList')) {
+					$('#tblViewAddedParametersList').DataTable().clear().destroy();
+				}
+
+				//--------------------------------
+				// Initialize DataTable
+				//--------------------------------
+
+				var dt = $('#tblViewAddedParametersList').DataTable({
+					columnDefs: [
+						{ className: "dt-center", targets: "_all" }
+					]
+				});
+
+				$("#ViewAddedParametersList").empty();
+
+				// if (data.typeParamsJarr && data.typeParamsJarr.length > 0) {
+
+				// 	let html = "";
+
+				// 	$.each(data.typeParamsJarr, function (i, item) {
+
+				// 		html += `
+				// 			<tr>
+				// 				<td style="text-align:center;">${item.processSequence}</td>
+				// 				<td>${item.processName}</td>
+				// 				<td>${item.paramName}</td>
+				// 				<td>${item.paramUOM}</td>
+				// 			</tr>`;
+				// 	});
+
+				// 	$("#showAddedParametersList").html(html);
+				// }
+				if (data.typeParamsJarr && data.typeParamsJarr.length > 0) {
+
+					for (var i = 0; i < data.typeParamsJarr.length; i++) {
+
+						var p = data.typeParamsJarr[i];
+
+						dt.row.add([
+							'<div align="center">' +  p.processSequence+ '</div>',
+							'<div align="left">' + p.processName + '</div>',
+							'<div align="left">' + p.paramName + '</div>',
+							'<div align="center">' + p.paramUOM + '</div>'
+						]).draw(false);
+					}
+				}
+				//--------------------------------
+				// Show modal
+				//--------------------------------
+				OpenDocument(imageFileName,'displayImage2',productLine);
+	// 			$('#image').modal('show');
+				$("#view").modal("show");
+			},
+
+			error: function () {
+				alert("Error loading data");
 			}
 		});
 	}
@@ -598,7 +984,7 @@
 	   var blobStorageUrl = '@ViewBag.ApiUrl';
 	   let blobPathPrefix = '@ViewBag.BaseBlobPath';
 		//var path = 'others\\filetypes' + '\\';
-	var path = 'others\\' + ProdLine + '\\types\\';
+	var path = 'others\\ct\\types\\';
 		const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
 
 			const JSONData = {
