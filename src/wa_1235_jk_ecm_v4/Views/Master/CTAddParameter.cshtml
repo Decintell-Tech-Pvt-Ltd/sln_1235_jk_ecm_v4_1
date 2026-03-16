@@ -1,0 +1,188 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@model wa_1235_jk_ecm_v4.Models.Master
+@{
+    ViewData["Title"] = "ValueStream";
+    Layout = "~/Views/Shared/_ECMMaster.cshtml";
+}
+
+<div class="content-wrapper">
+    <!-- InstanceBeginEditable name="EditRegion1" -->
+
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <h5>Add</h5>
+                </div>
+                <div class="col-lg-9">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
+                        <li class="breadcrumb-item">Masters</li>
+                        <li class="breadcrumb-item">Cutting Tools</li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("CTParameter", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })">Parameter Names</a></li>
+                        <li class="breadcrumb-item">Add</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="btnwidth50 float-right ">
+                        <button type="button" class="btn btn-block bg-gradient-danger btn-xs float-left"
+                                onclick="location.href='@Url.Action("CTParameter", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })'" title="Go back to the previous page">
+                            Back
+                        </button>
+                    </div>
+
+                </div>
+
+            </div><!-- /.container-fluid -->
+
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-primary card-outline p-a-2">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="col-md-12">
+
+                                <div class="row">
+
+
+                                    <div class="form-group col-md-4">
+                                        <label for="">Product Line</label>
+                                        @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "Id", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline", onchange = "clearError('spddlproductline')" })
+                                        <span id="spddlproductline" class="text-danger"></span>
+
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="">Process Name</label>
+                                        @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProcessNamesData, "Id", "ProcessName"), "Select", new { @class = "form-control select2", @id = "ddlProcess", onchange = "clearError('spddlProcess')" })
+                                        <span id="spddlProcess" class="text-danger"></span>
+
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label for="">UOM</label>
+                                        <select class="form-control select2" id="dlluom">
+                                            <option>Select</option>
+                                            <option value="MM">MM </option>
+                                            <option value="DEG">DEG </option>
+                                        </select>
+                                        <span id="spddlUOM" class="text-danger"></span>
+
+                                    </div>
+                                    <div class="form-group col-md-10">
+                                        <label>Parameter Name  </label>
+                                        <input id="txtParameter" type="text" class="form-control" oninput="clearError('spParameter')" />
+                                        <span id="spParameter" class="text-danger"></span>
+                                    </div>
+
+
+
+
+
+
+                                    <div class="btnwidth50 float-right mr-1 " style="margin-top:35px;">
+                                        <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                                                onclick="AddProcessName();" title="Go to the next page">
+                                            Submit
+                                        </button>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- InstanceEndEditable -->
+</div>
+<script>
+        function clearError(id) {
+        $("#" + id).text("");
+    }
+
+
+    function AddProcessName() {
+
+        var isValid = true;
+
+        var productline = $('#ddlproductline').val();
+        var Process = $('#ddlProcess').val();
+        var Parameter = $('#txtParameter').val();
+        var Uom = $('#dlluom').val();   // get text like MM
+
+        // validation
+        if (productline == "" || productline == null) {
+            $('#spddlproductline').text("Please select product line");
+            isValid = false;
+        }
+
+        if (Uom == "" || Uom == null) {
+            $('#spddlUOM').text("Please select UOM");
+            isValid = false;
+        }
+
+        if (Process == "" || Process == null) {
+            $('#spddlProcess').text("Please Select Process");
+            isValid = false;
+        }
+
+        if (Parameter.trim() == "") {
+            $('#spParameter').text("Please enter Parameter name");
+            isValid = false;
+        }
+
+        if (!isValid) {
+            return false;
+        }
+
+        // create UOM JSON object
+        var unit = { Unit: Uom };
+
+        var json = {
+            ProductLine: productline,
+            Process: Process,
+            ParameterName: Parameter,
+            UOM: unit
+        };
+
+        var JsonData = JSON.stringify(json);
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("CTParameterAdd", "Master")',
+            data: { JsonData: JsonData },
+            datatype: 'json',
+            success: function (data) {
+               alert(data.response);
+             var url = "@Url.Action("CTParameter", "Master")" +
+        "?PageID=" + pageID +
+        "&ParentID=" + parentID +
+        "&ModuleID=" + moduleID +
+        "&ModulePageID=" + modulePageID;
+
+    // Redirect to the URL
+    window.location.href = url;
+            }
+        });
+
+    }
+</script>

@@ -81,6 +81,25 @@ namespace wa_1235_jk_ecm_v4.Controllers
             objList.ProcessNamesData = JsonSerializer.Deserialize<ProcessNames[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
             return View(objList);
         }
+        public async Task<IActionResult> CTParameter()
+        {
+            Master objList = new Master();
+            string apiEndPoint = "Masters/GetCTParameter";
+            objList.Parameters = JsonSerializer.Deserialize<Parameter[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            return View(objList);
+        }
+        public async Task<IActionResult> CTAddParameter()
+        {
+            Master objList = new Master();
+            string apiEndPoint = "Masters/GetFileProcess";
+            objList.ProcessNamesData = JsonSerializer.Deserialize<ProcessNames[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+
+            string apiEndPoint1 = "DrillMaster/GetDroProdLine";
+            objList.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint1)).OrderBy(x => x.ProductLine).ToArray();
+
+
+            return View(objList);
+        }
         public async Task<IActionResult> CTAddProcessNames()
         {
             Master objList = new Master();
@@ -89,6 +108,35 @@ namespace wa_1235_jk_ecm_v4.Controllers
             return View(objList);
         }
 
+
+        [HttpPost]
+        public async Task<ActionResult> CTProcessAdd(string JsonData)
+        {
+            string apiEndPoint = "Masters/CTProcessAdd";
+
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
+        }
+
+       
+        [HttpPost]
+        public async Task<ActionResult> CTParameterAdd(string JsonData)
+        {
+            string apiEndPoint = "Masters/CTParameterAdd";
+
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
+        }
 
         public async Task<IActionResult> FileAddProcessNames()
         {
@@ -288,20 +336,6 @@ namespace wa_1235_jk_ecm_v4.Controllers
             return Json(new { response = resultMessage });
         }
 
-
-        [HttpPost]
-        public async Task<ActionResult> CTProcessAdd(string JsonData)
-        {
-            string apiEndPoint = "Masters/CTProcessAdd";
-
-            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
-            string resultMessage = "";
-            if (updateResponses != null && updateResponses.Count > 0)
-            {
-                resultMessage = updateResponses[0].Result;
-            }
-            return Json(new { response = resultMessage });
-        }
 
 
 

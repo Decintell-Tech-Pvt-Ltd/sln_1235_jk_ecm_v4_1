@@ -18,7 +18,9 @@ namespace wa_1235_jk_ecm_v4.Models
         public valuestream[] valuestreams { get; set; }
         public ProcessNames[] ProcessNamesData { get; set; }
 
+        public Parameter[] Parameters { get; set; }
 
+        
         public CutType[] CutTypelist { get; set; }
 
         public GetFileSubTypeParametersList[] GetFileSubTypeParametersList { get; set; }
@@ -66,8 +68,8 @@ namespace wa_1235_jk_ecm_v4.Models
         public ProductLineData[] ProductLineDatas { get; set; }
         public OprationList[] OprationLists { get; set; }
 
-       
-        
+
+
         public Stamp[] StampRequestApproval_List { get; set; }
         public Stamp[] StampRequestApproved_List { get; set; }
         public Handle[] Handle_List { get; set; }
@@ -218,7 +220,18 @@ namespace wa_1235_jk_ecm_v4.Models
             public string CleanKey { get; set; }
             public string ProductLine { get; set; }
             public string ProductLineCode { get; set; }
-            
+
+
+        }
+
+        public class Parameter
+        {
+            public int Id { get; set; }
+            public int ProcessNamesRowId { get; set; }
+            public string ParamName { get; set; }
+            public string ParamDetailsJobj { get; set; }
+            public string ProcessName { get; set; }
+            public string ProductLine { get; set; }
 
         }
 
@@ -715,7 +728,7 @@ namespace wa_1235_jk_ecm_v4.Models
 
 
 
-   
+
 
     public class GetFileSubTypeParametersList
     {
