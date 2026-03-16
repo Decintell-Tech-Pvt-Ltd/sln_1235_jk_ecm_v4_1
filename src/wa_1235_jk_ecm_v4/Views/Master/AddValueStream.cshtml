@@ -70,7 +70,8 @@
     ),
     "Select",
     new { @class = "form-control select2", @id = "ddlProductLine",onchange="clearError('spddlProductLine');" }
-)
+)        <span id="spProductLine" class="text-danger"></span>
+                                 
                                 </div>
 
 
@@ -78,14 +79,14 @@
                                 <div class="col-lg-2">
                                     <div class="form-group">
                                         <label>Value Stream Code </label>
-                                        <input name="" type="text" class="form-control" id="txtValueCode">
-                                         <span id="spOperationSqNo" class="text-danger"></span>
+                                        <input name="" type="text" class="form-control" id="txtValueCode" oninput="clearError('spValueCode');">
+                                         <span id="spValueCode" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
                                     <div class="form-group">
                                         <label>Value Stream Name </label>
-                                        <input name="" type="text" class="form-control" id="txtValueName">
+                                        <input name="" type="text" class="form-control" id="txtValueName" oninput="clearError('spValueName');">
                                          <span id="spValueName" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -294,6 +295,32 @@ function GetSequence() {
 }
 $(document).on("click", "#AddValuesteam", function (e) {
 
+
+    var productLine = $('#ddlProductLine').val();
+    var valueCode = $('#txtValueCode').val();
+    var valueName = $('#txtValueName').val();
+
+
+     var isValid = true;
+
+    if (productLine == "") {
+        $("#spProductLine").text("Please select product line");
+        isValid = false;
+    }
+
+    if (valueCode == "") {
+        $("#spValueCode").text("Please enter value stream code");
+        isValid = false;
+    }
+
+    if (valueName == "") {
+        $("#spValueName").text("Please enter value stream name");
+        isValid = false;
+    }
+
+   
+    if (!isValid) return;
+
     e.preventDefault();
 
     var operations = $('#ddlOperationName').select2('data');
@@ -358,6 +385,30 @@ $('#btnSave').click(function () {
     var productLine = $('#ddlProductLine').val();
     var valueCode = $('#txtValueCode').val();
     var valueName = $('#txtValueName').val();
+
+     var isValid = true;
+
+    if (productLine == "") {
+        $("#spProductLine").text("Please select product line");
+        isValid = false;
+    }
+
+    if (valueCode == "") {
+        $("#spValueCode").text("Please enter value stream code");
+        isValid = false;
+    }
+
+    if (valueName == "") {
+        $("#spValueName").text("Please enter value stream name");
+        isValid = false;
+    }
+
+    if ($('#tblOperationBody tr').length == 0) {
+       alert("Please add at least one operation");
+        isValid = false;
+    }
+
+    if (!isValid) return;
 
     var operations = [];
 
