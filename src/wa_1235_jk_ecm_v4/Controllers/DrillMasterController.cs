@@ -25,11 +25,25 @@ namespace wa_1235_jk_ecm_v4.Controllers
 
         public async Task<IActionResult> DrillSubType()
         {
+            ViewBag.JWTToken = JwtToken;
+            ViewBag.ApiUrl = appSettings?.API_blob_1231;
+            ViewBag.BaseBlobPath = appSettings?.BaseBlobPath;
             DrillMaster objList = new DrillMaster();
             string apiEndPoint = "DrillMaster/CT_GetSubTypeData";
-            objList.SubTypeList = JsonSerializer.Deserialize<SubTypeList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            string JsonData = "{}";
+            objList.SubTypeList = JsonSerializer.Deserialize<SubTypeList[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
             
             return View(objList);
+        }
+        
+
+        [HttpPost]
+        public async Task<IActionResult> CT_GetSubTypeDataById(string JsonData)
+        {
+            DrillMaster objList = new DrillMaster();
+            string apiEndPoint = "DrillMaster/CT_GetSubTypeData";
+            objList.SubTypeList = JsonSerializer.Deserialize<SubTypeList[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            return Json(new { response = objList.SubTypeList });
         }
         public async Task<IActionResult> DrillAddSubType()
         {

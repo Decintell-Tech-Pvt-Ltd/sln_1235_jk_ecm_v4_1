@@ -62,7 +62,7 @@
 
                                     <div class="form-group col-md-2">
                                         <label>Product Line</label>
-                                        @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "Id", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline", onchange="LoadCTSizeTable()"})
+                                        @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "Id", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline"})
                                         <span id="spddlproductline" class="text-danger"></span>
 
 
@@ -122,7 +122,7 @@
 
 
                                     <div class=" float-right ml-2 " style="margin-top:32px; display:block;">
-                                        <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
+                                        <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left" id="btnsubmit"
                                                 onclick="AddCTSizeData()" title="Add">
                                             Add
                                         </button>
@@ -216,7 +216,7 @@
                     </div>
                     Note: Size Code should be unique
                 </div>
-
+                <input id="hdnSizeId" type="hidden" />
 
                 <!-- /.card -->
             </div>
@@ -298,7 +298,7 @@
                                             Value
                                         </label>
                                         <input id="txtDimensionValue" maxlength="50" name="" type="text" onchange="clearError('sptxtDimensionValue')" class="form-control" />
-                                        <input id="hdnSizeId" type="hidden"/>
+                                       
                                         <span id="sptxtDimensionValue" class="text-danger"></span>
                                     </div>
 
@@ -584,172 +584,175 @@
     var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
     var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
     var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
-  
 
-       function EditFileSizeData() {
-          let isValid = true;
 
-        // Read values from UI
-        let ProductLineId = $("#ddlproductline").val();
-        let DimensionCode = $("#txtDimensionCode").val().trim();
-        let DimensionValue = $("#txtDimensionValue").val().trim();
-        let DimensionTypeId = $("#ddlDimensionType").val();
-        let StandardId = $("#ddlStandard").val();
-          let SizeId = $("#hdnSizeId").val();
-        let OperationFlag = 2;
-        let iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+           function EditFileSizeData() {
 
-        // Clear previous errors
-        $("#spddlproductline").text('');
-        $("#sptxtDimensionCode").text('');
-        $("#sptxtDimensionValue").text('');
-        $("#spddlDimensionType").text('');
-        $("#spddlStandard").text('');
+            let isValid = true;
+                let productLineId = $("#ddlproductline").val();
+            // Read values
+            let ProductLineRowId = $("#ddlproductline").val();
+            let CTTypeRowId = $("#TxtFileType").val();
+            let SizeValue = $("#txtSizeValue").val();
+            let SizeCode = $("#spSizeCode").text();
+            let SizeUOM = $("#ddlUOM").val();
+                  let SizeId = $("#hdnSizeId").val();
+            let iLoggedInUserID =
+                parseInt('@Context.Session.GetInt32("CreatedBy")');
 
-        // Validation
-        if (!ProductLineId || ProductLineId === "Select") {
-            $("#spddlproductline").text("Product Line is required.");
-            isValid = false;
-        }
+            let OperationFlag = 2;
 
-        if (DimensionCode === "") {
-            $("#sptxtDimensionCode").text("Dimension Code is required.");
-            isValid = false;
-        }
 
-        if (DimensionValue === "") {
-            $("#sptxtDimensionValue").text("Dimension Value is required.");
-            isValid = false;
-        }
-
-        if (!DimensionTypeId || DimensionTypeId === "Select") {
-            $("#spddlDimensionType").text("Dimension Type is required.");
-            isValid = false;
-        }
-
-        if (!StandardId || StandardId === "Select") {
-            $("#spddlStandard").text("Standard is required.");
-            isValid = false;
-        }
-
-        if (!isValid) return;
-
-        // Construct JSON
-        let json = {
-            SizeId: SizeId,
-            ProdLineId: ProductLineId,
-            DimensionCode: DimensionCode,
-            DimensionValue: DimensionValue,
-            DimensionTypeId: DimensionTypeId,
-            StandardId: StandardId,
-            CreatedBy: iLoggedInUserID,
-            OperationFlag: OperationFlag,
-            CreatedDate: moment.utc(new Date()).format()
-        };
-
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("DroAddFileSize", "DrillMaster")',
-            data: { JsonData: JSON.stringify(json) },
-            dataType: 'json',
-            beforeSend: function () { $('#loader').show(); },
-            complete: function () { $('#loader').hide(); },
-            success: function (res) {
-                alert(res.response);
-                   var url = '@Url.Action("DrillSize", "DrillMaster")' +
-                    '?PageID=' + pageID +
-                    '&ParentID=' + parentID +
-                    '&ModuleID=' + moduleID ;
-                window.location.href = url;
-            },
-            error: function () {
-                alert("An error occurred while saving.");
+            // ---------- VALIDATION ----------
+            if (!ProductLineRowId || ProductLineRowId == "0") {
+                alert("Please select Product Line");
+                isValid = false;
             }
-        });
-    }
-        function AddFileSizeData() {
 
-        let isValid = true;
-
-        // Read values from UI
-        let ProductLineId = $("#ddlproductline").val();
-        let DimensionCode = $("#txtDimensionCode").val().trim();
-        let DimensionValue = $("#txtDimensionValue").val().trim();
-        let DimensionTypeId = $("#ddlDimensionType").val();
-        let StandardId = $("#ddlStandard").val();
-
-        let OperationFlag = 1;
-
-        let iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
-
-        // Clear previous errors
-        $("#spddlproductline").text('');
-        $("#sptxtDimensionCode").text('');
-        $("#sptxtDimensionValue").text('');
-        $("#spddlDimensionType").text('');
-        $("#spddlStandard").text('');
-
-        // Validation
-        if (!ProductLineId || ProductLineId === "Select") {
-            $("#spddlproductline").text("Product Line is required.");
-            isValid = false;
-        }
-
-        if (DimensionCode === "") {
-            $("#sptxtDimensionCode").text("Dimension Code is required.");
-            isValid = false;
-        }
-
-        if (DimensionValue === "") {
-            $("#sptxtDimensionValue").text("Dimension Value is required.");
-            isValid = false;
-        }
-
-        if (!DimensionTypeId || DimensionTypeId === "Select") {
-            $("#spddlDimensionType").text("Dimension Type is required.");
-            isValid = false;
-        }
-
-        if (!StandardId || StandardId === "Select") {
-            $("#spddlStandard").text("Standard is required.");
-            isValid = false;
-        }
-
-        if (!isValid) return;
-
-        // Construct JSON
-        let json = {
-            ProdLineId: ProductLineId,
-            DimensionCode: DimensionCode,
-            DimensionValue: DimensionValue,
-            DimensionTypeId: DimensionTypeId,
-            StandardId: StandardId,
-            CreatedBy: iLoggedInUserID,
-            OperationFlag: OperationFlag,
-            CreatedDate: moment.utc(new Date()).format()
-        };
-
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("DroAddFileSize", "DrillMaster")',
-            data: { JsonData: JSON.stringify(json) },
-            dataType: 'json',
-            beforeSend: function () { $('#loader').show(); },
-            complete: function () { $('#loader').hide(); },
-            success: function (res) {
-                alert(res.response);
-                   var url = '@Url.Action("DrillSize", "DrillMaster")' +
-                    '?PageID=' + pageID +
-                    '&ParentID=' + parentID +
-                    '&ModuleID=' + moduleID; 
-                window.location.href = url;
-            },
-            error: function () {
-                alert("An error occurred while saving.");
+            if (!CTTypeRowId || CTTypeRowId == "0") {
+                alert("Please select Type");
+                isValid = false;
             }
-        });
-    }
 
+            if (!SizeValue) {
+                alert("Please enter Size Value");
+                isValid = false;
+            }
+
+            if (!SizeUOM) {
+                alert("Please select UOM");
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            // ---------- JSON OBJECT ----------
+            let jsonData = {
+                SizeId:SizeId,
+                        ProductLineRowId: ProductLineRowId,
+                CTTypeRowId: CTTypeRowId,
+                SizeCode: SizeCode,
+                SizeValue: SizeValue,
+                SizeUOM: SizeUOM,
+                CreatedBy: iLoggedInUserID,
+                OperationFlag: OperationFlag,
+                CreatedDate: moment.utc(new Date()).format()
+
+
+            };
+
+            // ---------- AJAX CALL ----------
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AddCTSize", "DrillMaster")',
+                data: {
+                    JsonData: JSON.stringify(jsonData)
+                },
+                dataType: "json",
+
+                beforeSend: function () {
+                    $('#loader').show();
+                },
+                complete: function () {
+                    $('#loader').hide();
+                },
+
+                success: function (res) {
+
+                    alert(res.response || "Saved Successfully");
+
+                    // Reload page (optional)
+                    location.reload();
+                },
+
+                error: function () {
+                    alert("Error while saving.");
+                }
+            });
+        }
+        //        function EditFileSizeData() {
+        //              let SizeId = $("#hdnSizeId").val();
+        //     let isValid = true;
+
+        //     // Read values from UI
+        //     let ProductLineId = $("#ddlproductline").val();
+        //     let DimensionCode = $("#txtDimensionCode").val().trim();
+        //     let DimensionValue = $("#txtDimensionValue").val().trim();
+        //     let DimensionTypeId = $("#ddlDimensionType").val();
+        //     let StandardId = $("#ddlStandard").val();
+
+        //     let OperationFlag = 2;
+
+        //     let iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+        //     // Clear previous errors
+        //     $("#spddlproductline").text('');
+        //     $("#sptxtDimensionCode").text('');
+        //     $("#sptxtDimensionValue").text('');
+        //     $("#spddlDimensionType").text('');
+        //     $("#spddlStandard").text('');
+
+        //     // Validation
+        //     if (!ProductLineId || ProductLineId === "Select") {
+        //         $("#spddlproductline").text("Product Line is required.");
+        //         isValid = false;
+        //     }
+
+        //     if (DimensionCode === "") {
+        //         $("#sptxtDimensionCode").text("Dimension Code is required.");
+        //         isValid = false;
+        //     }
+
+        //     if (DimensionValue === "") {
+        //         $("#sptxtDimensionValue").text("Dimension Value is required.");
+        //         isValid = false;
+        //     }
+
+        //     if (!DimensionTypeId || DimensionTypeId === "Select") {
+        //         $("#spddlDimensionType").text("Dimension Type is required.");
+        //         isValid = false;
+        //     }
+
+        //     if (!StandardId || StandardId === "Select") {
+        //         $("#spddlStandard").text("Standard is required.");
+        //         isValid = false;
+        //     }
+
+        //     if (!isValid) return;
+
+        //     // Construct JSON
+        //     let json = {
+        //                 SizeId:SizeId,
+        //         ProdLineId: ProductLineId,
+        //         DimensionCode: DimensionCode,
+        //         DimensionValue: DimensionValue,
+        //         DimensionTypeId: DimensionTypeId,
+        //         StandardId: StandardId,
+        //         CreatedBy: iLoggedInUserID,
+        //         OperationFlag: OperationFlag,
+        //         CreatedDate: moment.utc(new Date()).format()
+        //     };
+
+        //     $.ajax({
+        //         type: "POST",
+        //         url: '@Url.Action("DroAddFileSize", "DrillMaster")',
+        //         data: { JsonData: JSON.stringify(json) },
+        //         dataType: 'json',
+        //         beforeSend: function () { $('#loader').show(); },
+        //         complete: function () { $('#loader').hide(); },
+        //         success: function (res) {
+        //             alert(res.response);
+        //                var url = '@Url.Action("DrillSize", "DrillMaster")' +
+        //                 '?PageID=' + pageID +
+        //                 '&ParentID=' + parentID +
+        //                 '&ModuleID=' + moduleID;
+        //             window.location.href = url;
+        //         },
+        //         error: function () {
+        //             alert("An error occurred while saving.");
+        //         }
+        //     });
+        // }
 </script>
 
 
@@ -798,17 +801,16 @@
                 $("#hdnSizeId").val(data.id);
 
                 // Bind controls
-                $("#ddlproductline").val(data.productLineId).trigger("change");
-                $("#txtDimensionCode").val(data.dimensionCode);
-                $("#txtDimensionValue").val(data.dimensionValue);
-                $("#ddlDimensionType").val(data.dimensionType).trigger("change");
-                $("#ddlStandard").val(data.standard).trigger("change");
+                $("#ddlproductline").val(data.productLineRowId).trigger("change");
+                $("#TxtFileType").val(data.ctTypeRowId).trigger("change");
+                $("#txtSizeValue").val(data.sizeValue);
+               $("#spSizeCode").text(data.sizeCode);
+           
                     // 🔒 Disable controls
     $("#ddlproductline").prop("disabled", true);
     
-    $("#txtDimensionValue").prop("disabled", true);
-    $("#ddlDimensionType").prop("disabled", true);
-    $("#ddlStandard").prop("disabled", true);
+ 
+    $("#TxtFileType").prop("disabled", true);
                 // UI change
                 $("#btnsubmit")
                     .text("Submit")
