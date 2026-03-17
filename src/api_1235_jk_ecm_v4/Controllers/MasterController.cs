@@ -129,6 +129,25 @@ namespace api_1235_jk_ecm_v4.Controllers
 
         }
 
+        [HttpGet]
+        [Route("GetCTParameter")]
+        public async Task<IActionResult> GetCTParameter()
+        {
+
+            string spName = "usp_GetCTParameter";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
 
         [HttpPost]
         [Route("UpdateValueStreamStatus")]
@@ -136,6 +155,25 @@ namespace api_1235_jk_ecm_v4.Controllers
         {
 
             string spName = "usp_UpdateValueStreamStatus";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+        [HttpPost]
+        [Route("CTParameterAdd")]
+        public async Task<IActionResult> CTParameterAdd()
+        {
+
+            string spName = "usp_CTParameterAdd";
             string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
             string jsonResult;
             if (string.IsNullOrEmpty(strJsonRequest))
