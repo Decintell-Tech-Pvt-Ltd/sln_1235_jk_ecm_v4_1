@@ -113,7 +113,7 @@
                                     </div>
 
 
-
+                            
 
 
                                     <div class="form-group col-md-2">
@@ -122,21 +122,7 @@
                                         <span id="sptxtCustomer" class="text-danger"></span>
                                     </div>
 
-                                    <!--  <div class="form-group col-md-2">
-                                                                                <label> Standard</label>
-                                                                                <select class="form-control select2">
-                                                                                <option>Select</option>
-                                                                                <option>Metrics
-                                     </option>
-                                                                                 <option>British
-
-
-                                                                                </select>
-
-
-                                                                            </div>-->
-
-
+                                   
 
                                     <div class="form-group col-md-2">
                                         <label>Code </label>
@@ -157,7 +143,7 @@
                                             <span id="spTxtFileUploadCSV" class="text-danger"></span>
                                         </div>
                                     <div class=" float-right mr-1 " style="margin-top:34px; display:block;">
-                                        <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left" title="Add"  onclick="AddSubTypeData()">
+                                        <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left" title="Add" id="btnsubmit" onclick="AddSubTypeData()">
                                             Add
                                         </button>
                                     </div>
@@ -194,7 +180,7 @@
                                     </div>
 
                                 </div>
-
+                                <input type="hidden" id="hdnSizeId">
 
 
 
@@ -539,7 +525,7 @@
     let SubTypeName = $("#txtCustomer").val().trim();
     let SubTypeCode = $("#txtSubTypeCode").val().trim();
     let fileInput = document.getElementById("FileUploadCSV");
-
+       let TxnId = parseInt($("#hdnSizeId").val()) || 0;
     let iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
 
     if (!fileInput || fileInput.files.length === 0)
@@ -574,7 +560,8 @@
 
         // ⭐ Include CsvFileName
         let jsonData = {
-            ProductLineRowId: parseInt(ProductLineRowId),
+                TxnId: parseInt(TxnId),
+                ProductLineRowId: parseInt(ProductLineRowId),
             CTTypeRowId: parseInt(CTTypeRowId),
             SizeDetailsRowId: parseInt(SizeDetailsRowId),
             SubTypeCode: SubTypeCode,
@@ -601,55 +588,7 @@
 
     reader.readAsText(fileInput.files[0]);
 }
-    // function onTypeChange() {
 
-    //         var FileType = $("#TxtFileType option:selected").text().trim();
-
-    //    // Extract TY from "Cutting -TY"
-    //    var FileTypeCode = FileType.split('-').pop().trim();
-    //    // ⭐ IMPORTANT CHANGE
-
-
-    //        $("#hdnFileCode").val(FileTypeCode);
-
-    //        if (!FileTypeCode) return;
-
-    //        var JsonData = JSON.stringify({
-    //            TypeCode: FileTypeCode
-    //        });
-
-    //        $.ajax({
-    //            type: "POST",
-    //            url: '@Url.Action("GetCTKeyDimensionsByTypeCode", "DrillMaster")',
-    //            data: { JsonData: JsonData },
-    //            dataType: "json",
-
-    //            success: function (data) {
-
-    //                if (!data || !data.response || data.response.length === 0)
-    //                    return;
-
-    //                // assuming first key dimension
-    //                var obj = data.response[0];
-
-    //                // Bind data
-    //                $("#spParamName").text(obj.paramName);
-    //                $("#spParamCode").text(obj.paramCode);
-    //                $("#spParamType").text(obj.paramType);
-
-    //                // Bind UOM dropdown
-    //                var ddl = $("#ddlUOM");
-    //                ddl.empty();
-
-    //                ddl.append('<option value="' + obj.paramUOM + '">' + obj.paramUOM + '</option>');
-    //            },
-
-    //            error: function () {
-    //                alert("Error loading key dimensions.");
-    //            }
-    //        });
-              
-    //    }
         function onTypeChange() {
 
         var productLineId = $("#ddlproductline").val();
@@ -745,4 +684,123 @@
             }
         });
     }
+
+         function LoadEditFileSize(TypeId) {
+
+             let json = {
+                 TxnId: TypeId
+             };
+
+             $.ajax({
+                 type: "POST",
+                     url: '@Url.Action("CT_GetSubTypeDataById", "DrillMaster")',
+                 data: { JsonData: JSON.stringify(json) },
+                 dataType: "json",
+                 beforeSend: function () { $('#loader').show(); },
+                 complete: function () { $('#loader').hide(); },
+
+                 success: function (res) {
+
+                     if (!res || !res.response || res.response.length === 0) {
+                         alert("No data found");
+                         return;
+                     }
+
+                     let data = res.response[0];
+                                 // ddlproductline TxtFileType ddlSize txtCustomer txtSubTypeCode
+                     //--------------------------------
+                     // Bind header data
+                     //--------------------------------
+
+                     $("#hdnSizeId").val(data.id);
+
+                         $("#ddlproductline")
+                         .val(data.productLineRowId)
+                         .trigger("change");
+
+                     $("#TxtFileType")
+                             .val(data.ctTypeDetialsRowId)
+                         .trigger("change");
+
+                                   $("#ddlSize")
+                                 .val(data.sizeRowId)
+                             .trigger("change");
+
+                             $("#SubType").val(data.ctTypeCode);
+
+                             $("#txtSubTypeCode").val(data.subTypeCode);
+
+                                     $("#txtCustomer").val(data.subType);
+                         //--------------------------------
+                     // Image binding
+                     //--------------------------------
+
+                     if (data.imageFileName) {
+
+                         $("#hdnExistingImage").val(data.imageFileName);
+
+                         $("#FileUploadIMG")
+                             .next(".custom-file-label")
+                             .text(data.imageFileName);
+                     }
+
+                     //--------------------------------
+                     // CSV binding
+                     //--------------------------------
+
+                     if (data.csvFileName) {
+
+                         $("#FileUploadCSV")
+                             .next(".custom-file-label")
+                             .text(data.csvFileName);
+                     }
+
+                     //--------------------------------
+                     // Bind parameter table
+                     //--------------------------------
+
+                     $("#tblBodyCSV").empty();
+
+                     if (data.typeParamsJarr && data.typeParamsJarr.length > 0) {
+                             existingCSVRows = data.typeParamsJarr;
+                         let html = "";
+
+                         $.each(data.typeParamsJarr, function (i, item) {
+
+                             html += `
+                             <tr>
+                                 <td>${item.processSequence}</td>
+                                 <td>${item.processName}</td>
+                                 <td>${item.paramName}</td>
+                                 <td>${item.paramCode}</td>
+                                 <td>${item.paramUOM}</td>
+                                 <td>${item.range ? "Yes" : "No"}</td>
+                                 <td>${item.nominal ? "Yes" : "No"}</td>
+                                 <td>${item.keyDim ? "Yes" : "No"}</td>
+                             </tr>`;
+                         });
+
+                         $("#tblBodyCSV").html(html);
+                     }
+
+                     //--------------------------------
+
+                     $("#ddlproductline").prop("disabled", true);
+                      $("#TxtFileType").prop("disabled", true);
+                        $("#btnsubmit")
+                         .text("Add")
+                         .attr("onclick", "AddSubTypeData()");
+                 },
+
+                 error: function () {
+                     alert("Error loading data");
+                 }
+             });
+         }
+                $(document).ready(function () {
+                    let editId = '@Context.Request.Query["SubTypeId"]';
+                if (editId) {
+                    LoadEditFileSize(editId);
+                }
+            });
 </script>

@@ -170,7 +170,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public string SizeType { get; set; }
         public string SubType { get; set; }
         public string ImageFileName { get; set; }
-        
+
         public int StatusId { get; set; }
         public int GridNo { get; set; }
     }
@@ -235,6 +235,7 @@ namespace wa_1235_jk_ecm_v4.Models
 
 
 
+
     public class SubTypeList
     {
         public int Id { get; set; }
@@ -244,10 +245,34 @@ namespace wa_1235_jk_ecm_v4.Models
         public float SizeValue { get; set; }
         public string SubTypeCode { get; set; }
         public string SubType { get; set; }
+        public string SizeType { get; set; }
+        public string SubTypeName { get; set; }
+        public string ImageFileName { get; set; }
+        public string SKUCode { get; set; }
+        public int ProductLineRowId { get; set; }
+        public int SizeRowId { get; set; }
+        public int CTTypeDetialsRowId { get; set; }
+    
+        public string CsvFileName { get; set; }
+        public Csvdata[] CsvData { get; set; }
         public string StatusId { get; set; }
         public string CTSubTypeCode { get; set; }
         public int GridNo { get; set; }
     }
+
+    //public class SubTypeList
+    //{
+    //    public int Id { get; set; }
+    //    public string RequestNo { get; set; }
+    //    public string ProductLine { get; set; }
+    //    public string TypeName { get; set; }
+    //    public float SizeValue { get; set; }
+    //    public string SubTypeCode { get; set; }
+    //    public string SubType { get; set; }
+    //    public string StatusId { get; set; }
+    //    public string CTSubTypeCode { get; set; }
+    //    public int GridNo { get; set; }
+    //}
 
     public class CTSubTypeParameterList
     {
