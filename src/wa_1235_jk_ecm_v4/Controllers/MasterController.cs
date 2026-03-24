@@ -64,8 +64,6 @@ namespace wa_1235_jk_ecm_v4.Controllers
             objList.CustomerList = JsonSerializer.Deserialize<Customer[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
             return View(objList);
         }
-
-
         public async Task<IActionResult> FileProcessNames()
         {
             Master objList = new Master();
@@ -93,10 +91,8 @@ namespace wa_1235_jk_ecm_v4.Controllers
             Master objList = new Master();
             string apiEndPoint = "Masters/GetFileProcess";
             objList.ProcessNamesData = JsonSerializer.Deserialize<ProcessNames[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
-
             string apiEndPoint1 = "DrillMaster/GetDroProdLine";
             objList.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint1)).OrderBy(x => x.ProductLine).ToArray();
-
 
             return View(objList);
         }
@@ -107,9 +103,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
             objList.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint1)).OrderBy(x => x.ProductLine).ToArray();
             return View(objList);
         }
-
-
-        [HttpPost]
+       [HttpPost]
         public async Task<ActionResult> CTProcessAdd(string JsonData)
         {
             string apiEndPoint = "Masters/CTProcessAdd";
@@ -122,8 +116,6 @@ namespace wa_1235_jk_ecm_v4.Controllers
             }
             return Json(new { response = resultMessage });
         }
-
-       
         [HttpPost]
         public async Task<ActionResult> CTParameterAdd(string JsonData)
         {
@@ -137,7 +129,6 @@ namespace wa_1235_jk_ecm_v4.Controllers
             }
             return Json(new { response = resultMessage });
         }
-
         public async Task<IActionResult> FileAddProcessNames()
         {
             Master objList = new Master();
@@ -191,9 +182,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
                 return RedirectToAction("Error", "Home"); // Redirect to an error page
             }
         }
-
-
-        public async Task<ActionResult> EditHandle(int HandleId)
+       public async Task<ActionResult> EditHandle(int HandleId)
         {
             //-------------------------GetParameterById
             Master objList = new Master();
@@ -283,6 +272,8 @@ namespace wa_1235_jk_ecm_v4.Controllers
         {
             return View();
         }
+
+
         //public async Task<ActionResult> AddProductLine()
         //{
         //    return View();
