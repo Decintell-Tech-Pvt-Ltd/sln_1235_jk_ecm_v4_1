@@ -58,16 +58,30 @@
 
                                     <div class="form-group col-md-4">
                                         <label for="">Product Line</label>
-                                        @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "Id", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline", onchange = "clearError('spddlproductline')" })
+                                        @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "Id", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline", onchange = "clearError('spddlproductline');  loadProcessNameByProductLine();" })
                                         <span id="spddlproductline" class="text-danger"></span>
 
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="">Process Name</label>
+                                
+                                        @* <label for="">Process Name</label>
                                         @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProcessNamesData, "Id", "ProcessName"), "Select", new { @class = "form-control select2", @id = "ddlProcess", onchange = "clearError('spddlProcess')" })
-                                        <span id="spddlProcess" class="text-danger"></span>
+                                        <span id="spddlProcess" class="text-danger"></span> *@
+                                        <div class="form-group col-md-6">
+                                        <label>Process Name</label>
 
+                                       @*  @Html.DropDownListFor(
+                                            m => m.ProdId,
+                                            new SelectList(Model.ProcessNamesData, "Id", "ProcessName"),
+                                            "Select",
+                                            new {
+                                                @class = "form-control select2",
+                                                @id = "ddlProcess",
+                                                onchange = "clearError('spddlProcess')"
+                                            }) *@
+                                        @Html.DropDownListFor(model => model.ProdId, new List<SelectListItem> { new SelectListItem("Select", "Select2") }, new { @class = "form-control select2", @id = "ddlProcess" })
+                                        <span id="spddlProcess" class="text-danger"></span>
                                     </div>
+                                    
 
                                     <div class="form-group col-md-6">
                                         <label for="">UOM</label>
@@ -119,7 +133,62 @@
         function clearError(id) {
         $("#" + id).text("");
     }
+function loadProcessNameByProductLine() {
 
+    var productLineId = $('#ddlproductline').val();
+
+    // Reset dropdown
+    $('#ddlProcess').empty();
+    $('#ddlProcess').append('<option value="0">Select</option>');
+
+    if (productLineId === "0" || productLineId === null) {
+        return;
+    }
+
+    var jsonData = {
+        ProductLineRowId: productLineId
+    };
+
+    $.ajax({
+        url: '@Url.Action("CT_GetProcessNameByPL", "Master")',
+        type: 'POST',
+        data: {
+            JsonData: JSON.stringify(jsonData)
+        },
+
+        success: function (data) {
+
+            if (data && data.response) {
+
+                $.each(data.response, function (index, item) {
+
+                    $('#ddlProcess').append(
+                        $('<option>', {
+                            value: item.id,              // from response
+                            text: item.processName       // from response
+                        })
+                    );
+
+                });
+
+                $('#ddlProcess').trigger('change.select2');
+            }
+        },
+
+        error: function (xhr) {
+            console.log("Error loading Process:", xhr.responseText);
+        }
+    });
+}
+$(document).ready(function () {
+
+    var productLineId = $('#ddlproductline').val();
+
+    if (productLineId && productLineId !== "0") {
+        loadProcessNameByProductLine();
+    }
+
+});
 
     function AddProcessName() {
 

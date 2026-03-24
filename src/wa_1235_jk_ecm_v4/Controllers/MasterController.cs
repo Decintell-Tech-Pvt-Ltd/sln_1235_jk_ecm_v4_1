@@ -96,6 +96,15 @@ namespace wa_1235_jk_ecm_v4.Controllers
 
             return View(objList);
         }
+        [HttpPost]
+        public async Task<IActionResult> CT_GetProcessNameByPL(string JsonData)
+        {
+            DrillMaster objList = new DrillMaster();
+            string apiEndPoint = "Masters/CT_GetProcessNameByPL";
+            objList.DrillFileSizeByPL = JsonSerializer.Deserialize<DrillFileSizeByPL[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            return Json(new { response = objList.DrillFileSizeByPL });
+        }
+        
         public async Task<IActionResult> CTAddProcessNames()
         {
             Master objList = new Master();
@@ -2638,6 +2647,9 @@ namespace wa_1235_jk_ecm_v4.Controllers
         
         public async Task<ActionResult> Lookup()
         {
+            ViewBag.JWTToken = JwtToken;
+            ViewBag.ApiUrl = appSettings?.API_blob_1231;
+            ViewBag.BaseBlobPath = appSettings?.BaseBlobPath;
             Master objList = new Master();
             string apiEndPoint = "Masters/GetLookupMasterData";
             objList.LookUp_MasterData = JsonSerializer.Deserialize<LookUpMasterData[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));

@@ -537,7 +537,7 @@
 													</div>
 													<div class="form-group col-md-2">
 														<label>Size </label>
-														<select class="form-control select2" style="width:100%;" id="ddlSize">
+														<select class="form-control select2" style="width:100%;" id="ddlSize" onchange="loadCTSubTypeDropdown();">
 
 															<option value="0">Select</option>
 
@@ -703,11 +703,71 @@
 
 
 <script>
-		function loadCTSizeDropdown() {
+		var selectedTypeId = '@Model?.ProductionDetails_List?.TypeCodesRowId';
+		var selectedSizeId = '@Model?.ProductionDetails_List?.SizeRowId';
+	var selectedSubTypeId = '@Model?.ProductionDetails_List?.FileSubType';
+		function loadCTSubTypeDropdown() {
+
+		var typeId = $('#ddlType').val();
+		var sizeId = $('#ddlSize').val();
+
+		$('#dllCTFileSubType').empty();
+		$('#dllCTFileSubType').append('<option value="0">Select</option>');
+
+		if (typeId === "0" || sizeId === "0") {
+			return;
+		}
+
+		var jsonData = {
+			CTTypeRowId: typeId,
+			SizeDetailsRowId: sizeId
+		};
+
+		$.ajax({
+			url: '@Url.Action("CT_SubTypeDropdown", "ItemMaster")',
+			type: 'POST',
+			data: {
+				JsonData: JSON.stringify(jsonData)
+			},
+
+			success: function (response) {
+
+				if (response && response.subtypeDD) {
+
+					$.each(response.subtypeDD, function (index, item) {
+
+						$('#dllCTFileSubType').append(
+							$('<option>', {
+								value: item.subTypeId,
+								text: item.subTypeName
+							})
+						);
+
+					});
+
+					// ⭐ Set selected subtype in EDIT mode
+					if (selectedSubTypeId && selectedSubTypeId !== "0") {
+
+						$('#dllCTFileSubType')
+							.val(selectedSubTypeId)
+							.trigger('change');
+					}
+
+					$('#dllCTFileSubType').trigger('change.select2');
+
+					generateCode();
+				}
+			},
+
+			error: function (xhr) {
+				console.log("Error loading SubType:", xhr.responseText);
+			}
+		});
+	}
+			function loadCTSizeDropdown() {
 
 		var typeId = $('#ddlType').val();
 
-		// Clear size dropdown first
 		$('#ddlSize').empty();
 		$('#ddlSize').append('<option value="0">Select</option>');
 
@@ -725,6 +785,7 @@
 			data: {
 				JsonData: JSON.stringify(jsonData)
 			},
+
 			success: function (response) {
 
 				if (response && response.ctSizeList) {
@@ -733,18 +794,30 @@
 
 						$('#ddlSize').append(
 							$('<option>', {
-								value: item.SizeID,
-								text: item.Size
+								value: item.sizeID,
+								text: item.size
 							})
 						);
 
 					});
 
-					// Refresh Select2
+					// ⭐ Set selected size in EDIT mode
+					if (selectedSizeId && selectedSizeId !== "0") {
+
+						// $('#ddlSize')
+						// 	.val(selectedSizeId)
+						// 	.trigger('change');
+							$('#ddlSize')
+	.val(selectedSizeId)
+	.trigger('change.select2');
+						// Load subtype after size set
+						loadCTSubTypeDropdown();
+					}
+
 					$('#ddlSize').trigger('change.select2');
-					generateCode();
 				}
 			},
+
 			error: function (xhr) {
 				console.log("Error loading Size dropdown:", xhr.responseText);
 			}
@@ -753,6 +826,25 @@
 		$("#ddlproductline,  #dllCTFileSubType").change(function () {
 			toggleDrillDiv();
 		generateCode();
+		
+	});
+			$(document).ready(function () {
+
+		toggleDrillDiv();
+
+		setTimeout(function () {
+
+			var typeId = $('#ddlType').val();
+
+			if (typeId && typeId !== "0") {
+
+				// ⭐ Trigger Type onchange properly
+				$('#ddlType').trigger('change');
+
+			}
+
+		}, 200);
+
 	});
 	$(document).ready(function () {
 		toggleDrillDiv();

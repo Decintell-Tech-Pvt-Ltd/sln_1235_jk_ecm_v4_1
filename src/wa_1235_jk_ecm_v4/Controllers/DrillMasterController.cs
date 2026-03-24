@@ -78,8 +78,8 @@ namespace wa_1235_jk_ecm_v4.Controllers
             objList.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
       
 
-            apiEndPoint = "DrillMaster/GetCTTypeData";
-            objList.TypeDropdown = JsonSerializer.Deserialize<TypeDropdown[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            //apiEndPoint = "DrillMaster/GetCTTypeData";
+            //objList.TypeDropdown = JsonSerializer.Deserialize<TypeDropdown[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
             return View(objList);
         }
         [HttpPost]
@@ -237,12 +237,19 @@ namespace wa_1235_jk_ecm_v4.Controllers
             objList.FileTypeMasters = JsonSerializer.Deserialize<FileTypeMaster[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
             apiEndPoint = "DrillMaster/GetDroProdLine";
             objList.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
-            apiEndPoint = "DrillMaster/GetCTTypeData";
-            objList.TypeDropdown = JsonSerializer.Deserialize<TypeDropdown[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
-
+         
             return View(objList);
         }
-        
+       
+        [HttpPost]
+        public async Task<IActionResult> GetCTTypeData(string JsonData)
+        {
+            DrillMaster objList = new DrillMaster();
+            string apiEndPoint = "DrillMaster/GetCTTypeData";
+            objList.TypeDropdown = JsonSerializer.Deserialize<TypeDropdown[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+         
+            return Json(new { response = objList.TypeDropdown });
+        }
         [HttpPost]
         public async Task<IActionResult> AddSubType(string JsonData)
         {

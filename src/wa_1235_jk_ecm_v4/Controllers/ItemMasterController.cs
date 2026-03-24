@@ -154,10 +154,20 @@ namespace wa_1235_jk_ecm_v4.Controllers
             }
             string apiEndPoint1 = "DrillMaster/GetDroProdLine";
             ItemMasters.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint1));
-            string apiEndPoint2 = "DrillMaster/CTSubTypeDropdown";
-            ItemMasters.SubtypeDD = JsonSerializer.Deserialize<SubtypeDD[]>(await _iGenericMethods.GetDataEcm(apiEndPoint2));
-            
+      
             return View(ItemMasters);
+        }
+       
+                  [HttpPost]
+        public async Task<ActionResult> CT_SubTypeDropdown(string JsonData)
+        {
+            ItemMaster obj = new ItemMaster();
+            string apiEndPoint2 = "ItemMaster/CT_SubTypeDropdown";
+            obj.SubtypeDD = JsonSerializer.Deserialize<SubtypeDD[]>(await _iGenericMethods.PostDataEcm(apiEndPoint2, JsonData));
+            //string apiEndFileType2 = "ItemMaster/Get_CTSizeDropdown";
+            //obj.CTSizeList = JsonSerializer.Deserialize<CTSizeList[]>(await _iGenericMethods.PostDataEcm(apiEndFileType2, JsonData));
+
+            return Json(obj);
         }
         [HttpPost]
         public async Task<ActionResult> Get_CTSizeDropdown(string JsonData)

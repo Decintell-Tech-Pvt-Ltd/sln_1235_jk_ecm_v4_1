@@ -37,7 +37,8 @@ namespace wa_1235_jk_ecm_v4.Models
         public SubTypeList[] SubTypeList { get; set; }
         public DrawingDetails[] DrawingDetails { get; set; }
         public TypeParamByIDList[] TypeParamByIDList { get; set; }
-
+        public DrillFileSizeByPL[] DrillFileSizeByPL { get; set; }
+        
         public CTSubTypeParameterList[] CTSubTypeParameterList { get; set; }
 
     }
@@ -73,6 +74,15 @@ namespace wa_1235_jk_ecm_v4.Models
         public int RangeValue { get; set; }
         public int NominalValue { get; set; }
         public int KeyDimension { get; set; }
+    }
+
+   
+    public class DrillFileSizeByPL
+    {
+        public int Id { get; set; }
+        public string ProcessName { get; set; }
+        public int ProcessSequence { get; set; }
+        public int ProductLineRowId { get; set; }
     }
 
 
@@ -252,7 +262,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public int ProductLineRowId { get; set; }
         public int SizeRowId { get; set; }
         public int CTTypeDetialsRowId { get; set; }
-    
+
         public string CsvFileName { get; set; }
         public Csvdata[] CsvData { get; set; }
         public string StatusId { get; set; }
