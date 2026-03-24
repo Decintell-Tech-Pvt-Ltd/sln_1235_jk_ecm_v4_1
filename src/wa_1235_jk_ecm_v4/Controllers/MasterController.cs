@@ -101,8 +101,8 @@ namespace wa_1235_jk_ecm_v4.Controllers
         {
             DrillMaster objList = new DrillMaster();
             string apiEndPoint = "Masters/CT_GetProcessNameByPL";
-            objList.FileSize_List = JsonSerializer.Deserialize<DrillFileSize[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
-            return Json(new { response = objList.FileSize_List });
+            objList.DrillFileSizeByPL = JsonSerializer.Deserialize<DrillFileSizeByPL[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            return Json(new { response = objList.DrillFileSizeByPL });
         }
         
         public async Task<IActionResult> CTAddProcessNames()
