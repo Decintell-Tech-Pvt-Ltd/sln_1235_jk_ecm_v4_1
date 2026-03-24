@@ -278,6 +278,25 @@ namespace api_1235_jk_ecm_v4.Controllers
             return Content(jsonResult, Application.Json, Encoding.UTF8);
 
         }
+        [HttpGet]
+        [Route("GetCTStampProcessList")]
+        public async Task<IActionResult> GetCTStampProcessList()
+        {
+            string spName = "usp_GetCTStampProcessList";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
 
         /// <summary>
         /// Lina Bisen
@@ -790,6 +809,26 @@ namespace api_1235_jk_ecm_v4.Controllers
             return Content(jsonResult, Application.Json, Encoding.UTF8);
 
         }
+        [HttpGet]
+        [Route("GetDrawingSKUByProductLine")]
+        public async Task<IActionResult> GetDrawingSKUByProductLine()
+        {
+
+
+            string spName = "usp_Set_GetDrawingSKUByProductLine";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+        }
+
         [HttpPost]
         [Route("CT_GetSKUByRequest")]
         public async Task<IActionResult> CT_GetSKUByRequest()
@@ -829,7 +868,7 @@ namespace api_1235_jk_ecm_v4.Controllers
             }
             return Content(jsonResult, Application.Json, Encoding.UTF8);
         }
-        [HttpGet]
+        [HttpPost]
         [Route("Get_CTSizeDropdown")]
         public async Task<IActionResult> Get_CTSizeDropdown()
         {
@@ -887,7 +926,25 @@ namespace api_1235_jk_ecm_v4.Controllers
             return Content(jsonResult, Application.Json, Encoding.UTF8);
 
         }
+        [HttpPost]
+        [Route("Set_AddNewRequest_CT")]
+        public async Task<IActionResult> Set_AddNewRequest_CT()
+        {
+            string spName = "usp_Set_AddNewRequest_CT";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
 
+        }
+        
         [HttpPost]
         [Route("SaveNewSetRequest")]
         public async Task<IActionResult> SaveNewSetRequest()

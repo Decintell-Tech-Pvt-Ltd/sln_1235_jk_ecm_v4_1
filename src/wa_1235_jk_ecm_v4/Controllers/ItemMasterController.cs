@@ -89,9 +89,6 @@ namespace wa_1235_jk_ecm_v4.Controllers
             string apiEndFileType1 = "ItemMaster/FileTypeForDropdown";
             ItemMasters.FileTypeCodeList = JsonSerializer.Deserialize<FileTypeCodeList[]>(await _iGenericMethods.GetDataEcm(apiEndFileType1));
 
-            string apiEndFileType2 = "ItemMaster/Get_CTSizeDropdown";
-            ItemMasters.CTSizeList = JsonSerializer.Deserialize<CTSizeList[]>(await _iGenericMethods.GetDataEcm(apiEndFileType2));
-            
                        var fileType_List = ItemMasters.FileType_List;
             // Add the "Add New" option
             var lstFileType = fileType_List.ToList();
@@ -136,7 +133,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
                 var json1 = new
                 {
                     FileSizeCode = ItemMasters.ProductionDetails_List.FileSizeCode,
-                    FileTypeCodesRowId = ItemMasters.ProductionDetails_List.FileTypeCodeId,
+                    FileTypeCodesRowId = ItemMasters.ProductionDetails_List.FileTypeCodesRowId,
                     FileSubTypeDetailsRowId = ItemMasters.ProductionDetails_List.FileSubType,
                     CutTypeCodeId = ItemMasters.ProductionDetails_List.CutType,
                     CutSpecDetailsRowId = ItemMasters.ProductionDetails_List.CutStandard
@@ -161,6 +158,18 @@ namespace wa_1235_jk_ecm_v4.Controllers
             ItemMasters.SubtypeDD = JsonSerializer.Deserialize<SubtypeDD[]>(await _iGenericMethods.GetDataEcm(apiEndPoint2));
             
             return View(ItemMasters);
+        }
+        [HttpPost]
+        public async Task<ActionResult> Get_CTSizeDropdown(string JsonData)
+        {
+            ItemMaster obj = new ItemMaster();
+            //string apiEndPoint = "ItemMaster/GetHandleChartData";
+            //obj.HandleTypeList = JsonSerializer.Deserialize<HandleTypeMaster[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+
+            string apiEndFileType2 = "ItemMaster/Get_CTSizeDropdown";
+            obj.CTSizeList = JsonSerializer.Deserialize<CTSizeList[]>(await _iGenericMethods.PostDataEcm(apiEndFileType2, JsonData));
+
+            return Json(obj);
         }
 
         [HttpPost]
@@ -1351,7 +1360,8 @@ namespace wa_1235_jk_ecm_v4.Controllers
 
             apiEndPoint = "Masters/GetStampProcess";
             ItemMasters.StampProcesslist = JsonSerializer.Deserialize<CutType[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
-
+            apiEndPoint = "ItemMaster/GetCTStampProcessList";
+            ItemMasters.CTStampList = JsonSerializer.Deserialize<CTStampList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint)); 
 
             apiEndPoint = "ItemMaster/GetHandleType";
             ItemMasters.HandleTypeList = JsonSerializer.Deserialize<HandleTypeMaster[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
@@ -1373,6 +1383,13 @@ namespace wa_1235_jk_ecm_v4.Controllers
                 //ItemMasters.SKUSetList = JsonSerializer.Deserialize<SKUSet[]>(await _iGenericMethods.PostDataEcm(apiEndPointCustomer, jsonData));
 
             }
+            string apiEndPoint1 = "DrillMaster/GetDroProdLine";
+            ItemMasters.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint1));
+
+            string apiEndPoint2 = "ItemMaster/GetDrawingSKUByProductLine";
+            ItemMasters.DrawingNewSetCTList = JsonSerializer.Deserialize<DrawingNewSet[]>(await _iGenericMethods.GetDataEcm(apiEndPoint2));
+
+            
             return View(ItemMasters);
         }
         public IActionResult Newsetdispatchdetails()
@@ -1633,7 +1650,19 @@ namespace wa_1235_jk_ecm_v4.Controllers
             var ArtworkImagesList = JsonSerializer.Deserialize<dynamic[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
             return Json(new { success = true, ArtworkImagesList });
         }
-
+        [HttpPost]
+        public async Task<ActionResult> Set_AddNewRequest_CT(string JsonData)
+        {
+            string apiEndPoint = "ItemMaster/Set_AddNewRequest_CT";
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
+        }
+        
         [HttpPost]
         public async Task<ActionResult> SaveNewSetRequest(string JsonData)
         {

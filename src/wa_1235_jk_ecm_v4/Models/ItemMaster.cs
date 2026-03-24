@@ -75,9 +75,9 @@ namespace wa_1235_jk_ecm_v4.Models
         public ApprovedSKUDetails[] ApprovedSKUDetails_List { get; set; }
         public ApprovedCommingSKUDetails[] ApprovedCommingSKUDetails_List { get; set; }
         public PackingMaterialList[] PackingMaterialLists { get; set; }
-
+        public CTStampList[] CTStampList { get; set; }
         public DrawingNewSet[] DrawingNewSetList { get; set; }
-
+        public DrawingNewSet[] DrawingNewSetCTList { get; set; }
         public WrapperDrawingSet[] WrapperDrawingSetList { get; set; }
         public WithdrawnRequests[] WithdrawnRequestsList { get; set; }
 
@@ -346,6 +346,8 @@ namespace wa_1235_jk_ecm_v4.Models
         public string FileCode { get; set; }
         public string ReqType { get; set; }
         public int? FileTypeCodeId { get; set; }
+        public int? FileTypeCodesRowId { get; set; }
+        
         public string FileTypeCode { get; set; }
         public string ProductLineCode { get; set; }
         public string ProductLine { get; set; }

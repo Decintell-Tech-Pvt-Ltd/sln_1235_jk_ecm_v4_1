@@ -297,7 +297,7 @@ namespace wa_1235_jk_ecm_v4.Models
     public class CTStampDetails
     {
         public int Id { get; set; }
-        public int BrandId { get; set; }
+        public int? BrandId { get; set; }
         public int RequestNo { get; set; }
         public string ProductLine { get; set; }
         public string BrandName { get; set; }

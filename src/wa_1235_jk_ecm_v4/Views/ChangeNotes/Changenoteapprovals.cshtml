@@ -134,7 +134,7 @@
                                                     <td>
                                                         @if (item.RequestStatusName == "Created")
                                                         {
-                                                            <a href="#" onclick="RedirectToEditRequest(@item.RequestId,'@item.ReqType');" style="color: blue; cursor: pointer;">
+                                                            <a href="#" onclick="RedirectToEditRequest(@item.RequestId,'@item.ReqType','@item.ProductLineCode');" style="color: blue; cursor: pointer;">
                                                                 @Html.DisplayFor(modelItem => item.RequestNo)
                                                             </a>
 
@@ -142,7 +142,7 @@
                                                         }
                                                         else
                                                         {
-                                                            <a href="#" onclick="RedirectToViewRequest(@item.RequestId,'@item.ReqType');" style="color: blue; cursor: pointer;">
+                                                            <a href="#" onclick="RedirectToViewRequest(@item.RequestId,'@item.ReqType','@item.ProductLineCode');" style="color: blue; cursor: pointer;">
                                                                 @Html.DisplayFor(modelItem => item.RequestNo)
                                                             </a>
                                                         }
@@ -352,8 +352,8 @@
     var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
     var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
     var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
-
-       function RedirectToEditRequest(RequestId, ReqType) {
+        var ProductLine = encodeURIComponent('@Context.Request.Query["ProductLine"]');
+       function RedirectToEditRequest(RequestId, ReqType,ProductLineCode) {
 
         var url;
 
@@ -365,7 +365,7 @@
                 '&ModuleID=' + moduleID +
                 '&ModulePageID=' + modulePageID +
                 '&ReqValue=' + RequestId +
-                '&Mode=Edit&Status=SKU';
+                '&Mode=Edit&Status=SKU'+'&ProductLine=' + ProductLineCode;
         }
         else if (ReqType === "S" || ReqType === "R") {
 
@@ -375,7 +375,7 @@
                 '&ModuleID=' + moduleID +
                 '&ModulePageID=' + modulePageID +
                 '&ReqValue=' + RequestId +
-                '&Mode=Edit&Status=SET';
+                '&Mode=Edit&Status=SET'+'&ProductLine=' + ProductLineCode;
         }
         else {
 
@@ -386,13 +386,13 @@
                 '&ModulePageID=' + modulePageID +
                 '&ReqValue=' + RequestId +
                 '&ReqType=' + ReqType +
-                '&Mode=Edit&Status=SET';
+                '&Mode=Edit&Status=SET'+'&ProductLine=' + ProductLineCode;
         }
 
         window.location.href = url;
     }
 
-       function RedirectToViewRequest(RequestId, ReqType) {
+       function RedirectToViewRequest(RequestId, ReqType,ProductLineCode) {
 
         var url;
 
@@ -404,7 +404,7 @@
                 '&ModuleID=' + moduleID +
                 '&ModulePageID=' + modulePageID +
                 '&ReqValue=' + RequestId +
-                '&Status=SKU&Page=Approval';
+                '&Status=SKU&Page=Approval'+'&ProductLine=' + ProductLineCode;
         }
         else if (ReqType === "S" || ReqType === "R") {
 
@@ -414,7 +414,7 @@
                 '&ModuleID=' + moduleID +
                 '&ModulePageID=' + modulePageID +
                 '&ReqValue=' + RequestId +
-                '&Status=SET&Page=Approval';
+                '&Status=SET&Page=Approval'+'&ProductLine=' + ProductLineCode;
         }
         else {
 
@@ -424,7 +424,7 @@
                 '&ModuleID=' + moduleID +
                 '&ModulePageID=' + modulePageID +
                 '&ReqValue=' + RequestId +
-                '&Status=SKU&Page=Approval';
+                '&Status=SKU&Page=Approval'+'&ProductLine=' + ProductLineCode;
         }
 
         window.location.href = url;
