@@ -11,7 +11,8 @@ namespace wa_1235_jk_ecm_v4.Models
         public ProdLineList[] ProdLine_List { get; set; }
         public int ProdId { get; set; }
         public int LookupTypeId { get; set; }
-
+        public CTStampList[] CTStampList { get; set; }
+        
         //CutType
         public CutSpecParametersjarr[] CutSpecParameterslist { get; set; }
 
@@ -20,7 +21,7 @@ namespace wa_1235_jk_ecm_v4.Models
 
         public Parameter[] Parameters { get; set; }
 
-        
+
         public CutType[] CutTypelist { get; set; }
 
         public GetFileSubTypeParametersList[] GetFileSubTypeParametersList { get; set; }
@@ -232,6 +233,8 @@ namespace wa_1235_jk_ecm_v4.Models
             public string ParamDetailsJobj { get; set; }
             public string ProcessName { get; set; }
             public string ProductLine { get; set; }
+            public int ProcessSequence { get; set; }
+
 
         }
 
@@ -489,6 +492,16 @@ namespace wa_1235_jk_ecm_v4.Models
         public int ID { get; set; }
         public String FileTypeNamecode { get; set; }
     }
+
+   
+
+    public class CTStampList
+    {
+        public int Id { get; set; }
+        public string BrandCode { get; set; }
+        public string ChartNo { get; set; }
+    }
+
     public class CutType
     {
 

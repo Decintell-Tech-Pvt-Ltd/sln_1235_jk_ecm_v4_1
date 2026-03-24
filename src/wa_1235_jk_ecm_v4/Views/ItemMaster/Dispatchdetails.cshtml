@@ -327,6 +327,8 @@
 														{
 															foreach (var item in Model.CTStampDetails)
 															{
+																if (item.GridNo == 3)
+																{
 																<tr>
 																	<td class="text-center">
 																		<div class="custom-control custom-radio">
@@ -352,6 +354,7 @@
 																			@item.ImageName
 																		</a></td>
 																</tr>
+																}
 															}
 														}
 													</tbody>

@@ -145,6 +145,10 @@ function AddProcessName() {
         complete: function () { $('#loader').hide(); },
         success: function (data) {
            alert(data.response);
+                var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+                var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+                var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+                var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
              var url = "@Url.Action("CTProcessNames", "Master")" +
         "?PageID=" + pageID +
         "&ParentID=" + parentID +

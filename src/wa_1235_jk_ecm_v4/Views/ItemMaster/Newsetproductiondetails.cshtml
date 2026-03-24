@@ -276,8 +276,35 @@
 								</div>
 								<br />
 								<div class="col-md-12">
-
+							
 									<div class="row">
+										<div class="col-md-2">
+											<label>Product Line</label>
+											<select class="form-control select2" style="width:100%;" id="ddlproductline">
+
+												<option value="0">Select</option>
+
+												@if (Model.ProdLine_List != null)
+												{
+													foreach (var item in Model.ProdLine_List)
+													{
+														if (Model.ProductionDetails_List != null && item.ProductLineCode == Model.ProductionDetails_List.ProductLineCode)
+														{
+															<option selected="selected" value="@item.ProductLineCode">@item.ProductLine</option>
+														}
+														else
+														{
+															<option value="@item.ProductLineCode">@item.ProductLine</option>
+														}
+													}
+												}
+
+											</select>
+											@* 											@Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "ProductLineCode", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline", onchange = "clearError('spddlproductline'); toggleDrillDiv();" })
+ *@											<span id="spddlproductline" class="text-danger"></span>
+
+
+										</div>
 										<div class="col-md-2 form-group">
 											<label>Start Date</label>
 											<div class="input-group date"  id="todate" data-target-input="nearest">
@@ -449,8 +476,64 @@
 
 
 								</div>
+								<div id="drillDiv">
+									<h5 style="font-weight:600;" class="top10">Drawing</h5>
+									<br />
+									<div class="row top10">
+
+										<div class="form-group col-md-5">
+											<label>Drawing No. </label>
+											<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllCTdrawing">
+												<option value="0">Select</option>
+												@foreach (var item in Model.DrawingNewSetCTList)
+												{
+													<option value="@item.PrdSKUNumber">@item.ProdSku</option>
+												}
+											</select>
+										</div>
 
 
+
+
+
+
+										<div style="margin-top:36px;">
+											<button type="button" id="addCTButton"
+													class="btn btn-primary btn-xs btnwidth50"
+													title="Add new record">
+												Add
+											</button>
+
+										</div>
+
+
+									</div>
+								
+
+
+
+
+									<div class="table-responsive">
+										<table id="tblCTStampDetails" class="table table-bordered example2">
+											<thead>
+
+												<tr>
+													<th width="15%"><div align="center">Drawing No.</div></th>
+													<th width="30%"><div align="left">Stamp Process</div></th>
+													<th width="28%" class="text-center"><div align="left">Stamp Chart Ref No.</div></th>
+													<th width="8%"><div align="center">Quantity</div></th>
+													<th width="8%"><div align="center">Delete</div></th>
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+									</div>
+									<br />
+
+								</div>
+
+								<div id="fileDiv">
 								<div class="col-md-12">
 
 									<h5 style="font-weight:600;" class="top10">Drawing</h5>
@@ -559,7 +642,7 @@
 									<br />
 
 
-
+									
 									<div class="form-group col-md-12">
 										<h5 style="font-weight:600;" class="top10">Handle</h5>
 									</div>
@@ -587,25 +670,30 @@
 											</table>
 
 
-											<div class="row mt-2">
-
-												<div class="form-group col-md-12">
-													<label>Remark</label>
-													<textarea class="form-control" id="txtremark"></textarea>
-												</div>
-												<div style="clear: both;"></div>
-											</div>
-											<div class="btnwidth50 float-right col-md-2">
-												<button type="button"
-														class="btn btn-primary btn-xs btnwidth50"
-														onclick="SaveNewProduct();" id="btnsave"
-														title="Save the current record">
-													Save
-												</button>
-											</div>											
+																				
 									</div>
 								</div>
+									</div>
+									
 							</div>
+								<div class="col-md-12">
+									<div class="row mt-2">
+
+										<div class="form-group col-md-12">
+											<label>Remark</label>
+											<textarea class="form-control" id="txtremark"></textarea>
+										</div>
+										<div style="clear: both;"></div>
+									</div>
+									<div class="btnwidth50 float-right col-md-2">
+										<button type="button"
+												class="btn btn-primary btn-xs btnwidth50"
+												onclick="SaveNewProduct();" id="btnsave"
+												title="Save the current record">
+											Save
+										</button>
+									</div>
+								</div>
 						</div>
 					</div>
 				</div>
@@ -617,7 +705,27 @@
 
 <script>
 
+		$(document).ready(function () {
 
+		toggleDrillDiv();   // ✅ CALL HERE ON PAGE LOAD
+
+		$("#ddlproductline").change(function () {
+			toggleDrillDiv();
+		});
+
+	});
+	function toggleDrillDiv() {
+
+		var productLine = $('#ddlproductline').val();
+
+		if (productLine != "F") {
+		        $('#drillDiv').show();
+				$('#fileDiv').hide();
+		} else {
+		    $('#fileDiv').show();
+			$('#drillDiv').hide();
+		}
+	}
 	$(document).ready(function () {
 
 		let serverStartDate = '@ViewBag.RequestStartDate';
@@ -686,7 +794,373 @@
 //         AddDrawingSKU(); // Calls your custom function to add a row
 //     });
 // });
+function SaveNewProduct() {
 
+		let productLine = $("#ddlproductline option:selected").val(); // better use value
+
+    if (productLine === 'F') {
+        SaveNewProduct_WithHandle();   // existing logic
+    } else {
+        SaveNewProduct_WithoutHandle(); // new logic
+    }
+}
+	function SaveNewProduct_WithoutHandle() {
+				var ProductLine= $("#ddlproductline").val();
+		var Customerid = $("#dllCustomer").val();
+		var Brandid = $("#dllBrand").val();
+		var CountryName = $("#dllCountryName").val();
+		var CustomerPart = $("#txtCustomerPart").val();
+		var Sales = $("#dllSales").val();
+
+		var table = $('#tblCTStampDetails').DataTable(); // ✅ CT table
+		var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+
+		var txtcustId = $("#txtcustId").val();
+		var iOperationalFlag = txtcustId ? 2 : 1;
+
+		if (!validateFormInputs()) {
+			alert('Please fill all required fields.');
+			return;
+		}
+
+		if (table.rows().count() === 0) {
+			alert("Please add at least one Stamp Drawing entry.");
+			return;
+		}
+
+		var RequestNumber = iOperationalFlag === 2
+			? parseInt('@Context.Request.Query["ReqValue"]')
+			: 0;
+
+		//---------------------------------------------------
+		// DATE CONVERSION
+		//---------------------------------------------------
+		var RequestStartDate = moment($("#txtStartDate").val(), "DD/MM/YYYY").utc().format();
+		var RequestEndDate = moment($("#txtEndDate").val(), "DD/MM/YYYY").utc().format();
+
+		//---------------------------------------------------
+		// BUILD PROD SKU (NO HANDLE)
+		//---------------------------------------------------
+		var ProdSKU = [];
+
+		table.rows().every(function () {
+
+			var row = $(this.node());
+
+			var drawingNo = row.find('td:eq(0)').text().trim();
+			var stampProcess = row.find('td:eq(1) select').val();
+
+			var $stampSelect = row.find('td:eq(2) select option:selected');
+
+			var stampChartRef = $stampSelect.val();
+			var brandCode = $stampSelect.data('brandcode') || '';
+			var chartNo = $stampSelect.data('chartno') || '';
+			var stampChartImage = $stampSelect.data('image') || '';
+
+			var quantity = row.find('td:eq(3) input').val();
+
+			var DrawingJson = {
+				DrawingNo: drawingNo,
+				Qty: quantity
+			};
+
+			var StampJson = {
+				StampProcessLookupId: stampProcess,
+				stampChartRef: stampChartRef,
+				BrandCode: brandCode,
+				ChartNo: chartNo,
+				StampChartImage: stampChartImage
+			};
+
+			// ❌ NO HANDLE HERE
+			ProdSKU.push({
+				Drawing: DrawingJson,
+				Stamp: StampJson
+			});
+		});
+
+		//---------------------------------------------------
+		// FINAL JSON (SAME AS ORIGINAL)
+		//---------------------------------------------------
+		var JsonData = {
+			TxnRequestId: RequestNumber,
+			SetSKU: "",
+				ProductLine:ProductLine,
+			RequestStartDate: RequestStartDate,
+			RequestEndDate: RequestEndDate,
+			ProdSKUs: ProdSKU,
+			Customerid: Customerid,
+			Brandid: Brandid,
+			CountryName: CountryName,
+			CustomerPart: CustomerPart,
+			Sales: Sales,
+			iOperationalFlag: iOperationalFlag,
+			NewRequestDetailsJobj: {
+				CreatedBy: iLoggedInUserID,
+				CreatedDate: moment.utc(new Date()).format()
+			}
+		};
+
+		//---------------------------------------------------
+		// API CALL (CT SP)
+		//---------------------------------------------------
+		$.ajax({
+			type: 'POST',
+				url: '@Url.Action("Set_AddNewRequest_CT", "ItemMaster")', // ✅ WITHOUT HANDLE SP
+			data: { JsonData: JSON.stringify(JsonData) },
+			success: function (data) {
+
+				var Insertdata = data.response;
+				var intValue = Insertdata.match(/\d+/)[0];
+
+				var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+				var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+				var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+				var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+				var Status = encodeURIComponent('@Context.Request.Query["Status"]');
+						var ProductLine= $("#ddlproductline").val();
+				alert("Request S-" + intValue + " created successfully");
+
+				var redirectUrl = '@Url.Action("PackingMaterialDetails", "ItemMaster")' +
+					'?PageID=' + pageID +
+					'&ParentID=' + parentID +
+					'&ModuleID=' + moduleID +
+					'&ModulePageID=' + modulePageID +
+					'&IsSet=1&Mode=Edit&ReqValue=' + intValue +
+					'&Status=' + Status+
+								'&ProductLine=' + ProductLine;
+
+				window.location.href = redirectUrl;
+			},
+			error: function () {
+				alert('Error occurred while processing your request.');
+			}
+		});
+	}
+		function   SaveNewProduct_WithHandle() {
+					let ProductLine = $("#ddlproductline option:selected").val();
+		var Customerid = $("#dllCustomer").val();
+		var Brandid = $("#dllBrand").val();
+		var CountryName = $("#dllCountryName").val();
+		var CustomerPart = $("#txtCustomerPart").val();
+		var Sales = $("#dllSales").val();
+
+		var table = $('#tblStampDetails').DataTable();
+		var Htable = $('#tblHandleDetails').DataTable();
+		var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+		var txtcustId = $("#txtcustId").val();
+		var iOperationalFlag = txtcustId ? 2 : 1;
+			if (validateFormInputs()) {
+		//var RequestNumber = iOperationalFlag === 2 ? encodeURIComponent('@Context.Request.Query["ReqValue"]') : '0';
+			var RequestNumber = iOperationalFlag === 2
+			? parseInt('@Context.Request.Query["ReqValue"]')
+			: 0;
+
+		let NewRequestDetailsJobj = {
+			CreatedBy: iLoggedInUserID,
+			CreatedDate: moment.utc(new Date()).format()
+		};
+			if (table.rows().count() === 0) {
+			alert("Please add at least one Stamp Drawing entry.");
+			return;
+		}
+		if (Htable.rows().count() === 0) {
+			alert("Please add at least one Handle Drawing entry.");
+			return;
+		}
+			var RequestStartDate = $("#txtStartDate").val();
+				var RequestEndDate = $("#txtEndDate").val();
+			// Convert to UTC ISO format
+				RequestStartDate = moment(RequestStartDate, "DD/MM/YYYY").utc().format();
+				RequestEndDate = moment(RequestEndDate, "DD/MM/YYYY").utc().format();
+		var ProdSKU = [];
+
+		table.rows().every(function () {
+			var row = $(this.node());
+			var drawingNo = row.find('td:eq(0)').text().trim();
+			var stampProcess = row.find('td:eq(1) select').val();
+
+			// Capture selected option from Stamp dropdown
+			var $stampSelect = row.find('td:eq(2) select option:selected');
+			var stampChartRef = $stampSelect.val();
+			var brandCode = $stampSelect.data('brandcode') || '';
+			var chartNo = $stampSelect.data('chartno') || '';
+			var stampChartImage = $stampSelect.data('image') || '';
+
+			var quantity = row.find('td:eq(3) input').val();
+
+			var DrawingJson = {
+				DrawingNo: drawingNo,
+				Qty: quantity
+			};
+
+			var StampJson = {
+				StampProcessLookupId: stampProcess,
+					stampChartRef: stampChartRef,
+				BrandCode: brandCode,
+				ChartNo: chartNo,
+				StampChartImage: stampChartImage
+			};
+
+			// Handle Table Logic
+
+			Htable.rows().every(function () {
+				var Hrow = $(this.node());
+				var HdrawingNo = Hrow.find('td:eq(0)').text().trim(); // Corrected: index 0 is drawing
+
+				if (drawingNo === HdrawingNo) {
+					var HandleProcess = Hrow.find('td:eq(1) select').val();
+					var HandleType = Hrow.find('td:eq(2) select').val();
+					var HandleChartNo = Hrow.find('td:eq(3) input').val();
+
+					var HandleJson = {
+						HandlePresenceLookupId: HandleProcess,
+						HandleTypeId: HandleType,
+						HandleColor: "PMS 101",
+						HandleChartNo: HandleChartNo,
+						HandlesInserts_InsertChartRowId: 0,
+						InsertColor: "PMS 102"
+					};
+
+					ProdSKU.push({
+						Drawing: DrawingJson,
+						Stamp: StampJson,
+						Handle: HandleJson
+					});
+				}
+			});
+		});
+
+		// Final combined JSON for request
+		var JsonData = {
+			TxnRequestId: RequestNumber,
+			SetSKU: "",
+				ProductLine:productLine,
+			RequestStartDate: RequestStartDate,
+			RequestEndDate: RequestEndDate,
+			ProdSKUs: ProdSKU,
+			Customerid: Customerid,
+			Brandid: Brandid,
+			CountryName: CountryName,
+			CustomerPart: CustomerPart,
+			Sales: Sales,
+			iOperationalFlag: iOperationalFlag,
+			NewRequestDetailsJobj: NewRequestDetailsJobj
+		};
+
+		// Submit via AJAX
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("SaveNewSetRequest", "ItemMaster")',
+			data: { JsonData: JSON.stringify(JsonData) },
+			datatype: 'json',
+			success: function (data) {
+				var Insertdata = data.response;
+				var intValue = Insertdata.match(/\d+/)[0];
+
+				var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+				var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+				var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+				var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+				var Status = encodeURIComponent('@Context.Request.Query["Status"]');
+
+				var redirectUrl = '';
+				if (iOperationalFlag === 1) {
+					alert("Request S-" + intValue + " created successfully");
+					redirectUrl = '@Url.Action("PackingMaterialDetails", "ItemMaster")' +
+						'?PageID=' + pageID + '&ParentID=' + parentID + '&ModuleID=' + moduleID +
+										'&ModulePageID=' + modulePageID + '&IsSet=1&Mode=Edit&ReqValue=' + intValue+'&Status=' + Status +'&ProductLine=' + ProductLine;
+				} else {
+					alert("Set Request updated successfully");
+						redirectUrl = '@Url.Action("PackingMaterialDetails", "ItemMaster")' +
+						'?PageID=' + pageID + '&ParentID=' + parentID + '&ModuleID=' + moduleID +
+											'&ModulePageID=' + modulePageID + '&ReqValue=' + intValue + '&Mode=Edit&Status=' + Status +'&ProductLine=' + ProductLine;
+				}
+				window.location.href = redirectUrl;
+			},
+			error: function () {
+				alert('Error occurred while processing your request.');
+			}
+		});
+		}
+		else
+		{
+					alert('Please fill all required fields.');
+								return ;
+		}
+	}
+	function AddCTDrawingSKU() {
+
+		var drawingSKU = $('#dllCTdrawing option:selected').val(); // ✅ fix ID
+			var StampTable = $('#tblCTStampDetails').DataTable();
+		var uniqueId = Date.now();
+
+		function getPrefix(value) {
+			return value.substring(0, 2);
+		}
+
+		var selectedPrefix = getPrefix(drawingSKU);
+
+		// 🔹 Get existing drawings ONLY from Stamp table
+		var stampDrawings = StampTable.column(0).data().toArray()
+			.map(x => $('<div>').html(x).text().trim());
+
+		// ✅ RULE 1: Same prefix validation
+		if (stampDrawings.length > 0) {
+			var firstPrefix = getPrefix(stampDrawings[0]);
+
+			if (selectedPrefix !== firstPrefix) {
+				alert(`Only drawings starting with '${firstPrefix}' are allowed.`);
+				return;
+			}
+		}
+
+		// ❌ RULE 2: Duplicate not allowed
+		if (stampDrawings.includes(drawingSKU)) {
+			alert(`Drawing '${drawingSKU}' already exists.`);
+			return;
+		}
+
+		// --- Stamp Dropdowns ---
+		var stampProcessDropdown = `@Html.Raw("<select class='form-control select2 ddlCTStampProcess' style='width: 100%;'>" +
+						"<option value='0'>Select</option>" +
+						string.Join("", Model.StampProcesslist.Select(item => $"<option value='{item.LookupId}'>{item.LookupValue}</option>")) +
+						"</select>")`;
+
+		var newStampRow = [
+			'<div class="text-center">' + drawingSKU + '</div>',
+			stampProcessDropdown,
+			`<div class="row">
+				<div class="col-lg-8">
+					@Html.Raw("<select class='form-control select2 ddlCTStampChart' style='width: 100%;'>" +
+										"<option value='0'>Select</option>" +
+										string.Join("", Model.CTStampList.Select(item =>
+										
+											$"<option value='{item.Id}' data-brandcode='{item.BrandCode}' data-chartno='{item.ChartNo}' data-image='{item.ChartNo}'>{item.ChartNo}</option>"
+										)) +
+										"</select>")
+				</div>
+				<div class="col-lg-4" style="margin-top:6px;">
+					<button type="button" class="btn btn-primary btn-xs btnwidth50 btn-Ctview-chart"
+							data-uid="${uniqueId}">View</button>
+				</div>
+			</div>`,
+			'<input type="number" min="0" class="form-control" value="0" />',
+			'<div class="text-center"><a href="#" class="CTdeleteRow btn btn-danger btn-xs">Delete</a></div>'
+		];
+
+		// ✅ ONLY STAMP TABLE
+		StampTable.row.add(newStampRow).draw();
+
+		// Reinitialize Select2
+		setTimeout(function () {
+				$('#tblCTStampDetails tbody select.select2').each(function () {
+				if ($(this).hasClass("select2-hidden-accessible")) {
+					$(this).select2('destroy');
+				}
+			}).select2({ width: '100%' });
+		}, 0);
+	}
 		function AddDrawingSKU() {
 		var drawingSKU = $('#dlldrawing option:selected').val();
 		var StampTable = $('#tblStampDetails').DataTable();
@@ -831,6 +1305,33 @@
 		// Or: OpenDocument(stampId, brandCode, fileName, chartNo); if updated
 	});
 
+				$(document).on('click', '.btn-Ctview-chart', function () {
+			const $row = $(this).closest('tr');
+			const $select = $row.find('.ddlCTStampChart');
+
+			if ($select.length === 0) {
+				alert("Stamp Chart dropdown not found.");
+				return;
+			}
+
+			const selectedOption = $select.find('option:selected');
+			const stampId = selectedOption.val(); // This is StampMaster.Id
+			const brandCode = selectedOption.data('brandcode');
+			const chartNo = selectedOption.data('chartno');
+			const stampChartImage = selectedOption.data('image');
+
+			if (!brandCode || !chartNo || !stampChartImage || brandCode === "0") {
+				alert("Please select a valid chart before viewing.");
+				return;
+			}
+
+			const fileName = stampChartImage.split('|')[0]; // take the first file
+
+			// Optional: if you want to pass Id as well, change the function
+			CTStampOpenDocument(brandCode, fileName, chartNo);
+			// Or: OpenDocument(stampId, brandCode, fileName, chartNo); if updated
+		});
+
 
 
 	//	window.AddDrawingSKU = AddDrawingSKU;
@@ -893,7 +1394,7 @@
 			return isValid;
 		}
 
-	function SaveNewProduct() {
+	function   SaveNewProduct_WithHandle() {
 	var Customerid = $("#dllCustomer").val();
 	var Brandid = $("#dllBrand").val();
 	var CountryName = $("#dllCountryName").val();
@@ -1253,16 +1754,106 @@
 		$('#addButton').on('click', function () {
 			AddDrawingSKU();
 		});
-
+				$('#addCTButton').on('click', function () {
+				AddCTDrawingSKU();
+			});
 		// === Call on page load if Mode is "Edit" ===
 		var mode = '@Context.Request.Query["Mode"]';
 		var reqValue = '@Context.Request.Query["ReqValue"]';
+	  var productLine = $('#ddlproductline').val(); // ✅ IMPORTANT
 
 		if (mode === "Edit" && reqValue) {
-			LoadSetSKUDetails(reqValue);
+
+			if (productLine === "F") {
+				LoadSetSKUDetails(reqValue);          // Drill
+			} else {
+				LoadSetSKUDetails_CT(reqValue);       // CT
+			}
 		}
 	});
+		function LoadSetSKUDetails_CT(reqValue) {
 
+		$.ajax({
+			type: 'POST',
+			url: '@Url.Action("GetDetailsForSet", "ItemMaster")',
+			data: { ReqValue: reqValue },
+			dataType: 'json',
+			success: function (response) {
+
+				if (response.success && response.skuSetList?.length > 0) {
+
+					response.skuSetList.forEach(function (item) {
+						AddCTDrawingSKUWithValues(item); // ✅ NEW FUNCTION
+					});
+
+				} else {
+					alert("No data found for the specified request.");
+				}
+			},
+			error: function () {
+				alert('Failed to fetch Set SKU details.');
+			}
+		});
+	}
+		function AddCTDrawingSKUWithValues(item) {
+
+		var StampTable = $('#tblCTStampDetails').DataTable();
+		var uniqueId = Date.now();
+
+		var stampProcessDropdown = `@Html.Raw("<select class='form-control select2 ddlCTStampProcess' style='width: 100%;'>" +
+						"<option value='0'>Select</option>" +
+						string.Join("", Model.StampProcesslist.Select(item => $"<option value='{item.LookupId}'>{item.LookupValue}</option>")) +
+						"</select>")`;
+
+		var newStampRow = [
+			`<div class="text-center">${item.drawing}</div>`,
+			stampProcessDropdown,
+			`<div class="row">
+				<div class="col-lg-8">
+					@Html.Raw("<select class='form-control select2 ddlCTStampChart' style='width: 100%;'>" +
+												"<option value='0'>Select</option>" +
+												string.Join("", Model.CTStampList.Select(item =>
+														$"<option value='{item.Id}' data-brandcode='{item.BrandCode}' data-chartno='{item.ChartNo}' data-image='{item.ChartNo}'>{item.ChartNo}</option>"
+												)) +
+										"</select>")
+				</div>
+				<div class="col-lg-4" style="margin-top:6px;">
+					<button type="button" class="btn btn-primary btn-xs btnwidth50 btn-Ctview-chart"
+							data-uid="${uniqueId}">View</button>
+				</div>
+			</div>`,
+			`<input type="number" class="form-control" value="${item.qty}" />`,
+			'<div class="text-center"><a href="#" class="CTdeleteRow btn btn-danger btn-xs">Delete</a></div>'
+		];
+
+		StampTable.row.add(newStampRow).draw();
+
+		//---------------------------------------------------
+		// SET VALUES
+		//---------------------------------------------------
+		setTimeout(function () {
+
+			$('#tblCTStampDetails tbody tr').each(function () {
+
+				var $row = $(this);
+				var drawingText = $row.find('td:eq(0)').text().trim();
+
+				if (drawingText === item.drawing.trim()) {
+
+					$row.find('.select2').select2({ width: '100%' });
+
+						$row.find('.ddlCTStampProcess option').filter(function () {
+		return $(this).text().trim() === (item.stampProcess || '').trim();
+		}).prop('selected', true).trigger('change');
+
+					$row.find('.ddlCTStampChart option').filter(function () {
+						return $(this).text().trim() === item.stampChartNo.trim();
+					}).prop('selected', true).trigger('change');
+				}
+			});
+
+		}, 100);
+	}
 
 
 		function LoadSetSKUDetails(reqValue) {
@@ -1440,6 +2031,46 @@
 		// G: \static\falco_co_in\1235_jk\ecm_v3\others\stamps\ag\ca\34
 		var path = 'others\\handle_inserts' + '\\';
 		
+		 const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
+
+			const JSONData = {
+				blobPath: blobpath,
+				asSas: false,
+				downloadFileName: FileName
+			};
+
+			try {
+				$('#loader').show();
+
+				const response = await $.ajax({
+					url: blobStorageUrl + 'Files/get',
+					headers: { Authorization: 'Bearer ' + JwToken },
+					type: "POST",
+					contentType: "application/json",
+					data: JSON.stringify(JSONData),
+					xhrFields: { responseType: 'blob' }
+				});
+
+				if (response && response.size > 0) {
+					const objectURL = URL.createObjectURL(response);
+					// Display the image in the img tag
+						window.open(objectURL, '_blank');
+				}
+			}
+			catch (error) {
+				console.error("Error:", error);
+
+			}
+			finally {
+			 $('#loader').hide();
+			}
+	}
+
+
+		async function CTStampOpenDocument(BrandCode, FileName, ChartNo) {
+		// G: \static\falco_co_in\1235_jk\ecm_v3\others\stamps\ca
+		var path = 'others\\ct\\stamps\\' + BrandCode.toLowerCase() + '\\';
+
 		 const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
 
 			const JSONData = {

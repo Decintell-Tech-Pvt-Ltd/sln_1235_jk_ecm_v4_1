@@ -511,7 +511,7 @@
 												<div class="row top10">
 													<div class="form-group col-md-3">
 														<label>Type </label>
-														<select class="form-control select2" style="width:100%;" id="ddlType">
+														<select class="form-control select2" style="width:100%;" id="ddlType" onchange="loadCTSizeDropdown();">
 
 															<option value="0">Select</option>
 
@@ -660,18 +660,34 @@
 
 
 									</div>
-
-									@if (Model.ProductionDetails_List != null)
-									{
+									@if(Context.Request.Query["ProductLine"].ToString() == "F"){
+									       @if (Model.ProductionDetails_List != null)
+										{
 										<div class="btnwidth50 float-right mr-1 ">
 											<button type="button" id="btn_ProductionDrawing"
 													class="btn btn-primary btn-xs btnwidth60"
-													onclick="ShowDocument();" id="btnDrawingShow"
+													onclick="ShowDocument();"
 													title="View Drawing">
 												Drawing
 											</button>
 										</div>
+										}
 									}
+									else
+									{
+										@if (Model.ProductionDetails_List != null)
+										{
+											<div class="btnwidth50 float-right mr-1 ">
+												<button type="button" id="btn_ProductionDrawing"
+														class="btn btn-primary btn-xs btnwidth60"
+														onclick="ShowDrawing();"
+														title="View Drawing">
+													Drawing
+												</button>
+											</div>
+										}
+									}
+									
 
 								</div>
 							</div>
@@ -687,7 +703,54 @@
 
 
 <script>
-		$("#ddlproductline, #ddlType, #ddlSize, #dllCTFileSubType").change(function () {
+		function loadCTSizeDropdown() {
+
+		var typeId = $('#ddlType').val();
+
+		// Clear size dropdown first
+		$('#ddlSize').empty();
+		$('#ddlSize').append('<option value="0">Select</option>');
+
+		if (typeId === "0" || typeId === null) {
+			return;
+		}
+
+		var jsonData = {
+			CTTypeRowId: typeId
+		};
+
+		$.ajax({
+			url: '@Url.Action("Get_CTSizeDropdown", "ItemMaster")',
+			type: 'POST',
+			data: {
+				JsonData: JSON.stringify(jsonData)
+			},
+			success: function (response) {
+
+				if (response && response.ctSizeList) {
+
+					$.each(response.ctSizeList, function (index, item) {
+
+						$('#ddlSize').append(
+							$('<option>', {
+								value: item.SizeID,
+								text: item.Size
+							})
+						);
+
+					});
+
+					// Refresh Select2
+					$('#ddlSize').trigger('change.select2');
+					generateCode();
+				}
+			},
+			error: function (xhr) {
+				console.log("Error loading Size dropdown:", xhr.responseText);
+			}
+		});
+	}
+		$("#ddlproductline,  #dllCTFileSubType").change(function () {
 			toggleDrillDiv();
 		generateCode();
 	});
@@ -720,7 +783,7 @@
 	var subTypeCode = match ? match[1] : ""; // T
 
 		// Final SKU
-		var sku = productLine + sizeCode + typeCode + subTypeCode + uomFirst;
+		var sku = productLine + sizeCode +  uomFirst +typeCode + subTypeCode;
 
 		$("#txtCode").val(sku);
 	}
@@ -1339,6 +1402,7 @@
 	var customerCode = $("#txtCustomer").val();
 	var SKUCode = $("#txtCode").val();
 	var finalSKUCode = brandCode + SKUCode + customerCode;
+
 		if (txtcustId != '' && txtcustId != 'undefined') {
 			RequestNumber = encodeURIComponent(@Context.Request.Query["ReqValue"]);
 			iOperationalFlag = 2;
@@ -1367,7 +1431,7 @@
 
 			SKUCode: finalSKUCode,
 
-			iOperationalFlag: 1,
+			iOperationalFlag:iOperationalFlag,
 
 			NewRequestDetailsJobj: {
 				CreatedBy: parseInt('@Context.Session.GetInt32("CreatedBy")'),
@@ -1626,6 +1690,81 @@
 			table.clear().draw();
 		}
 	});
+	function ShowDrawing() {
 
-		
+		OpenDrawing();
+	}
+			async function OpenDrawing() {
+		 var JwToken = '@ViewBag.JWTToken';
+		 var blobStorageUrl = '@ViewBag.ApiUrl';
+		 let blobPathPrefix = '@ViewBag.BaseBlobPath';
+
+		ProdSKU = $("#txtCode").val();
+
+		if (ProdSKU != '') {
+			var originalString = $("#txtCode").val();
+
+			var part1 = originalString.substring(0, 2); // "05"
+			var part2 = originalString.substring(2, 4); // "FL"
+			var Folder = 'drawings' + '\\' ;
+			var path = Folder;
+			var FileName = ProdSKU + '.pdf';
+
+			const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path)).toLowerCase()+ FileName;
+
+			const JSONData = {
+				blobPath: blobpath,
+				asSas: false,
+				downloadFileName: FileName
+			};
+
+			try {
+				$('#loader').show();
+
+				const response = await $.ajax({
+					url: blobStorageUrl + 'Files/get',
+					headers: { Authorization: 'Bearer ' + JwToken },
+					type: "POST",
+					contentType: "application/json",
+					data: JSON.stringify(JSONData),
+					xhrFields: { responseType: 'blob' }
+				});
+
+				if (response && response.size > 0) {
+					 const objectURL = URL.createObjectURL(response);
+
+
+	// Open the PDF in a new tab
+	const newTab = window.open(objectURL, '_blank');
+			//	const newTab = window.open(objectURL, '_blank');
+
+			// Add a download button in the new tab
+			if (newTab) {
+				newTab.onload = () => {
+					const downloadButton = newTab.document.createElement('a');
+					downloadButton.href = objectURL;
+					downloadButton.download = FileName; //Set the original file name
+					downloadButton.innerText = "Download PDF";
+					downloadButton.style.cssText = "position: fixed; top: 10px; right: 10px; background: #007bff; color: #fff; padding: 10px; text-decoration: none; border-radius: 5px;";
+					newTab.document.body.appendChild(downloadButton);
+				};
+			}
+
+			//Revoke the object URL after some time (optional cleanup)
+			setTimeout(() => URL.revokeObjectURL(objectURL), 60000);
+
+				}
+
+			}
+				catch (error) {
+					console.error("Error:", error);
+				}
+				finally {
+			 $('#loader').hide();
+			}
+		}else{
+			alert('Drawing Not Available');
+		}
+
+	}
 </script>

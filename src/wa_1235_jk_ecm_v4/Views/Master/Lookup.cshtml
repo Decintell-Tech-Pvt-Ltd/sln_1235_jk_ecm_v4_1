@@ -113,8 +113,8 @@
                                                         <td>
                                                             @if (!string.IsNullOrEmpty(item.ImageFileName))
                                                             {
-                                                                <a href="https://decintellai.com/ui/all-Modules/UI_Repository/dist/img/@item.ImageFileName"
-                                                                   target="_blank">
+                                                                <a href="#" onclick="OpenDocument('@item.ImageFileName')"
+                                                                  >
                                                                     @item.ImageFileName
                                                                 </a>
                                                             }
@@ -223,6 +223,56 @@
 	<!-- InstanceEndEditable -->
 </div>
 <script>
+       async function OpenDocument(FileName, ImageId, BrandCode) {
+
+        var JwToken = '@ViewBag.JWTToken';
+        var blobStorageUrl = '@ViewBag.ApiUrl';
+        let blobPathPrefix = '@ViewBag.BaseBlobPath';
+
+        var path = 'others\\lookup\\';
+
+        const blobpath =
+            (normalizePathPrefix(blobPathPrefix) +
+                normalizePathPrefix(path)).toLowerCase() + FileName;
+
+        const JSONData = {
+            blobPath: blobpath,
+            asSas: false,
+            downloadFileName: FileName
+        };
+
+        try {
+
+            $('#loader').show();
+
+            const response = await $.ajax({
+                url: blobStorageUrl + 'Files/get',
+                headers: { Authorization: 'Bearer ' + JwToken },
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(JSONData),
+                xhrFields: { responseType: 'blob' }
+            });
+
+            if (response && response.size > 0) {
+
+                const objectURL = URL.createObjectURL(response);
+                document.getElementById(ImageId).src = objectURL;
+
+            }
+
+        } catch (error) {
+
+            console.error(error);
+            document.getElementById(ImageId).src = '';
+
+        } finally {
+
+            $('#loader').hide();
+
+        }
+    }
+
       function EditBrand(LookupId) {
 
         // Constructing the URL using JavaScript

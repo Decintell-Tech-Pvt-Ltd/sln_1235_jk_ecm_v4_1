@@ -445,7 +445,8 @@
                                                     <div align="center">
                                                         <button type="button"
                                                                 class="btn btn-primary btn-xs"
-                                                                onclick="window.open('https://decintellai.com/ui/all-Modules/UI_Repository/pdf/04FLF2AS.pdf','_blank')"
+                                                                onclick="OpenReport('@item.SKUCode'+'.pdf')"
+                                                                 id="btn_DownloadDrawingGenerate"
                                                                 title="Download the file">
                                                             Download
                                                         </button>
@@ -837,4 +838,79 @@
              $('#loader').hide();
             }
     }
+        async function OpenReport(FileName) {
+                   var JwToken = '@ViewBag.JWTToken';
+       var blobStorageUrl = '@ViewBag.ApiUrl';
+       let blobPathPrefix = '@ViewBag.BaseBlobPath';
+            var path = 'drawings' + '\\';
+
+             const blobpath = (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path) ).toLowerCase()+ FileName;
+
+                const JSONData = {
+                    blobPath: blobpath,
+                    asSas: false,
+                    downloadFileName: FileName
+                };
+
+                try {
+                    $('#loader').show();
+
+                    const response = await $.ajax({
+                        url: blobStorageUrl + 'Files/get',
+                        headers: { Authorization: 'Bearer ' + JwToken },
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(JSONData),
+                        xhrFields: { responseType: 'blob' }
+                    });
+
+                    if (response && response.size > 0) {
+      //  const blob = new Blob([response], { type: 'application/pdf' });
+      //const blob = await response.blob();
+      const objectURL = URL.createObjectURL(response);
+
+
+        // Open the PDF in a new tab
+        const newTab = window.open(objectURL, '_blank');
+                //	const newTab = window.open(objectURL, '_blank');
+
+                // Add a download button in the new tab
+                if (newTab) {
+                    newTab.onload = () => {
+                        const downloadButton = newTab.document.createElement('a');
+                        downloadButton.href = objectURL;
+                        downloadButton.download = FileName; //Set the original file name
+                        downloadButton.innerText = "Download PDF";
+                        downloadButton.style.cssText = "position: fixed; top: 10px; right: 10px; background: #007bff; color: #fff; padding: 10px; text-decoration: none; border-radius: 5px;";
+                        newTab.document.body.appendChild(downloadButton);
+                    };
+                }
+
+                //Revoke the object URL after some time (optional cleanup)
+                setTimeout(() => URL.revokeObjectURL(objectURL), 60000);
+        // Force the browser's "Save As" name when user clicks download in viewer
+        // (This works in Chrome, Edge, and most modern browsers)
+        // if (newTab) {
+        //     newTab.document.title = FileName;
+        //     const a = document.createElement('a');
+        //     a.href = objectURL;
+        //     a.download = FileName; // Sets the default filename for download
+        //     newTab.document.body.appendChild(a);
+        // }
+
+        // // Cleanup after some time
+        // setTimeout(() => URL.revokeObjectURL(objectURL), 60000);
+    }
+
+                // Revoke the object URL after some time (optional cleanup)
+                //setTimeout(() => URL.revokeObjectURL(objectURL), 60000); // 60 seconds
+
+                }
+                catch (error) {
+                    console.error("Error:", error);
+                }
+                finally {
+                 $('#loader').hide();
+                }
+        }
 </script>

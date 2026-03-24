@@ -147,6 +147,74 @@
 
         </div>
     </div>
+    <div class="modal fade" id="skuCTDetails">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Set Drawing Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    @if (Model.SKUSetList != null)
+                    {
+
+                        <div class="table-responsive top5">
+                            <table width="100%" class="table table-bordered example1">
+                                <thead>
+                                    <tr>
+
+                                        <th style="width:10%; text-align:center;"> Drawing </th>
+                                        <th style="width:10%; text-align:center;"> Size </th>
+                                        <th style="width:15%; text-align:left;"> Type</th>
+                                        <th style="width:15%; text-align:left;"> Subtype </th>
+                                     
+                                        @* <th style="text-align:center;">View Drawing</th> *@
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align:center;">
+                                    @if (Model.SKUSetList != null)
+                                    {
+                                        @foreach (var item in Model.SKUSetList)
+                                        {
+
+                                            <tr>
+                                                <td style="text-align: center;"><a onclick="OpenDocument('@item.Drawing');" title="Show Drawing" href="#">@item.Drawing</a></td>
+                                                <td style="text-align: center;">@item.FileSizeCode</td>
+                                                <td style="text-align: Left;">@item.FileTypeName</td>
+                                                <td style="text-align: Left;">@item.FileSubTypeName</td>
+                                             
+                                                @*  <td align="center"><a onclick="OpenDocument('@item.Drawing'+'.pdf');" title="Show Drawing" class="fa-i-big cyanbt"><img src="~/decintell/icons/pdf.png" class="img-responsive" /></a></td>
+ *@
+                                            </tr>
+
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    }
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
     <div class="modal fade" id="setCutSpecDetails">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -336,7 +404,7 @@
                                     <tr>
                                         <td style="text-align:center;">@item.Drawing</td>
                                         <td style="text-align:Left;">@item.StampProcess</td>
-                                        <td style="text-align:center;"><a href="#" data-toggle="modal" data-target="#viewStamp" onclick="OpenDocument_SetStamp('@item.BrandCode','@item.StampChartNo')">@item.StampChartNo</a></td>
+                                        <td style="text-align:center;"><a href="#" data-toggle="modal" data-target="#viewStamp" onclick="Openstampdetails('@item.BrandCode','@item.StampChartNo')">@item.StampChartNo</a></td>
                                      
                                     </tr>
 
@@ -473,24 +541,24 @@
                                     </li>*@
                                     @if (Context.Request.Query["Mode"] == "Edit" && (Context.Request.Query["ReqType"] == "A" || Context.Request.Query["ReqType"] == "N"))
                                     {
-                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = ViewBag.ReqValue,  Mode = "Edit", Display = "View", Status = "SKU" })">Dispatch Details</a> </li>
+                                        <li class="nav-item"> <a class="nav-link" href="@Url.Action("Dispatchdetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = ViewBag.ReqValue, Mode = "Edit", Display = "View", Status = "SKU", ProductLine = Context.Request.Query["ProductLine"].ToString() })">Dispatch Details</a> </li>
                                     }
 
                                     else
                                     {
                                         @if (Model.ProductionDetails_List.ReqType != "S" &&  Model.ProductionDetails_List.ReqType != "R")
                                         {
-                                            <li class="nav-item"> <a class="nav-link" href="@Url.Action("Changenotedispatchdetails", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), ReqValue = ViewBag.ReqValue, Mode = "Edit", Display = "View", Status = "SKU" })">Dispatch Details</a> </li>
+                                            <li class="nav-item"> <a class="nav-link" href="@Url.Action("Changenotedispatchdetails", "ChangeNotes", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), ReqValue = ViewBag.ReqValue, Mode = "Edit", Display = "View", Status = "SKU", ProductLine = Context.Request.Query["ProductLine"].ToString() })">Dispatch Details</a> </li>
                                         }
                                         else
                                         {
                                             @if (Context.Request.Query["Mode"] == "Edit" && (Context.Request.Query["Display"] == "LabelLayout"))
                                             {
-                                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "LabelLayout", Status = "SET" })">Dispatch Details</a> </li>
+                                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "LabelLayout", Status = "SET", ProductLine = Context.Request.Query["ProductLine"].ToString() })">Dispatch Details</a> </li>
                                             }
                                             else
                                             {
-                                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "View", Status = "SET", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString() })">Dispatch Details</a> </li>
+                                                <li class="nav-item"> <a class="nav-link" href="@Url.Action("PackingMaterialDetails", "ItemMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), ReqValue = Context.Request.Query["ReqValue"].ToString(), Mode = "Edit", Display = "View", Status = "SET", SKU = Context.Request.Query["SKU"].ToString(), Desc = Context.Request.Query["Desc"].ToString(), ProductLine = Context.Request.Query["ProductLine"].ToString() })">Dispatch Details</a> </li>
                                             }
                                         }
                                     }
@@ -560,12 +628,21 @@
                                                             }
                                                             else
                                                             {
-                                                          
-                                                                <td>
-                                                                    <a href="#" data-toggle="modal" data-target="#skuDetails" class="btn btn-primary btn-xs" title="SKU Details">
-                                                                        View
-                                                                    </a>
-                                                                </td>
+                                                                if (@Context.Request.Query["ProductLine"].ToString() == "F") {
+                                                                    <td>
+                                                                        <a href="#" data-toggle="modal" data-target="#skuDetails" class="btn btn-primary btn-xs" title="SKU Details">
+                                                                            View
+                                                                        </a>
+                                                                    </td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>
+                                                                        <a href="#" data-toggle="modal" data-target="#skuCTDetails" class="btn btn-primary btn-xs" title="SKU Details">
+                                                                            View
+                                                                        </a>
+                                                                    </td>
+                                                                }
                                                             }
                                                         </tr>
                                                     </tbody>
@@ -810,7 +887,16 @@
     <!-- InstanceEndEditable -->
 </div>
 <script>
+            function Openstampdetails(BrandCode, FileName){
+                var productLine = '@Context.Request.Query["ProductLine"]';
 
+                if (productLine !== "F") {
+                         OpenDocument_CTSetStamp(BrandCode, FileName);
+                          
+                } else {
+                   OpenDocument_SetStamp(BrandCode, FileName);
+                }
+        }
         $(document).ready(function () {
 
             var productLine = '@Context.Request.Query["ProductLine"]';
@@ -867,6 +953,48 @@
             }
         }
 
+        
+             async function OpenDocument_CTSetStamp(BrandCode, FileName) {
+
+                // G: \static\falco_co_in\1235_jk\ecm_v3\others\stamps\ca
+                    var path = 'others\\ct\\stamps\\' +  BrandCode.toLowerCase() + '\\';
+
+    let cleanFileName = FileName.replace(/\.[^/.]+$/, "");
+
+    const blobpath =
+        (normalizePathPrefix(blobPathPrefix) + normalizePathPrefix(path)).toLowerCase()
+        + cleanFileName + '.jpg';
+                const JSONData = {
+                    blobPath: blobpath,
+                    asSas: false,
+                        downloadFileName: cleanFileName
+                };
+
+                try {
+                    $('#loader').show();
+
+                    const response = await $.ajax({
+                        url: blobStorageUrl + 'Files/get',
+                        headers: { Authorization: 'Bearer ' + JwToken },
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(JSONData),
+                        xhrFields: { responseType: 'blob' }
+                    });
+
+                    if (response && response.size > 0) {
+                        const objectURL = URL.createObjectURL(response);
+                        // Display the image in the img tag
+                           window.open(objectURL, '_blank');
+                    }
+                }
+                    catch (error) {
+                        console.error("Error:", error);
+                    }
+                    finally {
+                 $('#loader').hide();
+                }
+            }
             async function OpenDocument_SetHandle(FileName) {
            
             // G: \static\falco_co_in\1235_jk\ecm_v3\others\handle_inserts\
