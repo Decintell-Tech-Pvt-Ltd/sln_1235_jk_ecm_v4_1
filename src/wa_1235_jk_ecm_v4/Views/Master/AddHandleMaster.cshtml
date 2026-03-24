@@ -20,6 +20,8 @@
                         <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
                         <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
                         <li class="breadcrumb-item active">Master</li>
+                        <li class="breadcrumb-item active">Files </li>
+
                         <li class="breadcrumb-item"><a href="@Url.Action("Handlemaster", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">Handle</a></li>
 
                        

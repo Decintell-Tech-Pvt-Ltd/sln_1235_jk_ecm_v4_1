@@ -5,6 +5,8 @@
     ViewData["Title"] = "BrandList";
     Layout = "~/Views/Shared/_ECMMaster.cshtml";
 }
+<div class="content-wrapper">
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row">
@@ -58,18 +60,11 @@
                                 <table class="table table-bordered example1">
                                     <thead>
                                         <tr>
-                                            <th width="2%">
-                                                <div align="center">Sr No.​</div>
-                                            </th>
-                                            <th width="6%">
-                                                <div align="center">Product Line Code​</div>
-                                            </th>
-                                            <th width="15%">
-                                                <div align="left">Product Line Name</div>
-                                            </th>
-                                             <th width="1%">
-                                                <div align="center">Delete</div>
-                                            </th>
+                                                <th width="2%" class="text-center"> Sr No.</th>
+                                            
+                                                <th width="5%" class="text-left">Product Line Code</th>
+                                            <th width="15%" align="left"> Product Line Name</th>
+                                                <th width="1%" class="text-center"> Delete </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -83,7 +78,7 @@
                                                         <div align="center">@srno</div>
                                                     </td>
                                                     <td>
-                                                        <div align="center">
+                                                            <div align="left">
                                                
                                                                 @item.ProductLineCode
                                                           
@@ -130,6 +125,7 @@
 
     </div>
 </section>
+</div>
 <script>
     function EditBrand(Id) {
 
