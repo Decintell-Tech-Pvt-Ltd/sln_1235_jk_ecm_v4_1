@@ -179,6 +179,8 @@
 											var modulePageId = q["ModulePageID"].FirstOrDefault();
 											var reqValue = q["ReqValue"].FirstOrDefault();
 											var status = q["Status"].FirstOrDefault();
+											bool showHandle = productLine == "F";
+											var labelLayoutAction = showHandle ? "ShowLabelLayout" : "CTViewLabelLayout";
 										}
 									@* 	Approval Mode *@
 										@if (display == "Approval")
@@ -229,12 +231,15 @@
 											<li class="nav-item">
 												<a class="nav-link" href="@Url.Action("Otherpackingdetails","ItemMaster",
 																			   new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, ReqValue = reqValue, Status = status, ProductLine = productLine })">Other Packing Details</a>
-										    </li>
+											</li>
+											
+												<li class="nav-item">
+												<a class="nav-link" href="@Url.Action(labelLayoutAction,"ItemMaster",
+																					  							   new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, ReqValue = reqValue, Status = status, ProductLine = productLine })">View Label Layout</a>
+												</li>
+											
+										
 
-											<li class="nav-item">
-												<a class="nav-link" href="@Url.Action("ShowLabelLayout","ItemMaster",
-											   							   new { PageID = pageId, ParentID = parentId, ModuleID = moduleId, ModulePageID = modulePageId, ReqValue = reqValue, Status = status, ProductLine = productLine })">View Label Layout</a>
-										      </li>
 											}
 							@* @{
 											if (Context.Request.Query["Display"].ToString() == "Approval")
@@ -281,9 +286,9 @@
 									@{
 										var productLine1 = Context.Request.Query["ProductLine"].ToString();
 									}
-
+@* 
 									@if (string.IsNullOrEmpty(productLine1) || productLine1 == "F")
-									{
+									{ *@
 										<div class="form-group col-md-3">
 											<label>Stamp Process</label>
 											<select class="form-control select2" id="dllStampProcessId">
@@ -303,8 +308,8 @@
 												}
 											</select>
 										</div>
-										// Show Stamp Process
-									}
+										
+									@* } *@
 
 									@if (!string.IsNullOrEmpty(productLine1) && productLine1 != "F")
 									{

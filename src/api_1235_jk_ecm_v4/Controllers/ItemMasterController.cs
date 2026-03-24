@@ -869,6 +869,25 @@ namespace api_1235_jk_ecm_v4.Controllers
             return Content(jsonResult, Application.Json, Encoding.UTF8);
         }
         [HttpPost]
+        [Route("CT_SubTypeDropdown")]
+        public async Task<IActionResult> CT_SubTypeDropdown()
+        {
+
+
+            string spName = "usp_CT_SubTypeDropdown";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+        }
+        [HttpPost]
         [Route("Get_CTSizeDropdown")]
         public async Task<IActionResult> Get_CTSizeDropdown()
         {
