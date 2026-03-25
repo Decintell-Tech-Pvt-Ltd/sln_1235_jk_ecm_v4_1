@@ -27,7 +27,7 @@
                             <label>Product Line</label>
 
                             <span id="txtProductlines"></span>
-                            <input type="hidden" id="txtvids">
+                            <input type="hidden" id="txtvid">
                         </div>
                         <div class="col-lg-3">
                             <label>Value Stream Code</label>
@@ -59,7 +59,7 @@
                             </div>
 
 
-                            <div class="table-responsive">
+                        @*     <div class="table-responsive">
                                 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
                                     <tr>
                                         <td style="width: 40%;"><strong>Type</strong></td>
@@ -86,7 +86,7 @@
                                     </tr>
                                 </table>
                             </div>
-
+ *@
                             <label>Remark</label>
                             <input type="text" class="form-control">
 
@@ -178,7 +178,7 @@
                                 <table class="table table-bordered example2" width="100%">
                                     <thead>
                                         <tr>
-                                            <th>Sq No.</th>
+                                            <th class="text-center">Sq No.</th>
                                             <th>Operation Name</th>
                                         </tr>
                                     </thead>
@@ -187,7 +187,7 @@
                             </div>
 
 
-                            <div class="table-responsive">
+                          @*   <div class="table-responsive">
                                 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
                                     <tr>
                                         <td style="width: 40%;"><strong>Type</strong></td>
@@ -214,7 +214,7 @@
                                     </tr>
                                 </table>
                             </div>
-
+ *@
 
 
 
@@ -277,7 +277,7 @@
                             <label>Product Line</label>
 
                             <span id="txtProductlinem"></span>
-                            <input type="hidden" id="txtvidm">
+                            <input type="hidden" id="txtvid">
                         </div>
                         <div class="col-lg-3">
                             <label>Value Stream Code</label>
@@ -315,7 +315,7 @@
                             </div>
 
 
-                            <div class="table-responsive">
+                         @*    <div class="table-responsive">
                                 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
                                     <tr>
                                         <td style="width: 40%;"><strong>Type</strong></td>
@@ -342,7 +342,7 @@
                                     </tr>
                                 </table>
                             </div>
-
+ *@
 
 
 
@@ -395,7 +395,7 @@
                         <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
                         <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
                          <li class="breadcrumb-item active">Master</li>
-                        <li class="breadcrumb-item">Value Stream</li>
+                        <li class="breadcrumb-item active">Value Stream</li>
                     </ol>
                 </div>
             </div>
@@ -470,13 +470,11 @@
                                             <tr>
                                                 <td height="28"><div align="center">@sr</div></td>
                                                 <td><div align="left">@item.ProductLine</div></td>
-                                                <td><a href="#">@item.val_valuestream_code</a></td>
-                                                    <td>
-                                                        <div align="left">
-                                                              @item.val_valuestream_name
-                                                           
-                                                        </div>
-                                                    </td>
+                                                    <td><a href="@Url.Action("AddValueStream", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">@item.val_valuestream_code</a></td>
+                                                    <td><div align="left"><a href="#" onclick="LoadOperations(@item.val_ID,'@item.ProductLine','@item.val_valuestream_code',' @item.val_valuestream_name','@item.Operations')">@item.val_valuestream_name</a> </div></td>
+
+
+                                                    
                                                 <td>
                                                     <div align="left">
                                                         <div align="left"><span class="badge badge-info">@item.Status</span></div>
@@ -536,7 +534,7 @@
                                        { <tr>
                                             <td height="28"><div align="center">@srN</div></td>
                                             <td><div align="left">@item.ProductLine</div></td>
-                                            <td><a href="#">@item.val_valuestream_code</a></td>
+                                            <td>@item.val_valuestream_code</td>
                                                 <td><div align="left"><a href="#" onclick="LoadApprovalOperations(@item.val_ID,'@item.ProductLine','@item.val_valuestream_code',' @item.val_valuestream_name','@item.Operations')">@item.val_valuestream_name</a> </div></td>
                                             
                                         </tr>
@@ -595,7 +593,7 @@
                                             <tr>
                                                 <td height="28"><div align="center">@srNo</div></td>
                                                 <td><div align="left">@item.ProductLine</div></td>
-                                                <td><a href="#">@item.val_valuestream_code</a></td>
+                                                <td>@item.val_valuestream_code</td>
                                                     <td><div align="left"><a href="#" onclick="LoadApproOperations(@item.val_ID,'@item.ProductLine','@item.val_valuestream_code',' @item.val_valuestream_name','@item.Operations')">@item.val_valuestream_name</a> </div></td>
 
                                             </tr>
@@ -676,7 +674,7 @@
     }
        function LoadApprovalOperations(val_ID, ProductLine, val_valuestream_code, val_valuestream_name, operations) {
 
-        $("#txtvids").val(val_ID);
+        $("#txtvid").val(val_ID);
         $("#txtProductlines").text(ProductLine);
         $("#txtValueStreamCodes").text(val_valuestream_code);
         $("#txtValueStreamNames").text(val_valuestream_name);
@@ -729,7 +727,7 @@
     function LoadApproOperations(val_ID,ProductLine, val_valuestream_code, val_valuestream_name, operations) {
 
         // Set header values
-        $("#txtvidm").val(val_ID);
+        $("#txtvid").val(val_ID);
         $("#txtProductlinem").text(ProductLine);
         $("#txtValueStreamCodem").text(val_valuestream_code);
         $("#txtValueStreamNamem").text(val_valuestream_name);

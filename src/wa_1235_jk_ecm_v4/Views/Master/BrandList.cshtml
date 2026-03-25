@@ -5,6 +5,7 @@
     ViewData["Title"] = "BrandList";
     Layout = "~/Views/Shared/_ECMMaster.cshtml";
 }
+<div class="content-wrapper">
 <section class="content-header">
     <div class="container-fluid">
         <div class="row">
@@ -58,7 +59,7 @@
                                 <table class="table table-bordered example1">
                                     <thead>
                                         <tr>
-                                            <th width="2%">
+                                            <th width="8%">
                                                 <div align="left">Product Line​</div>
                                             </th>
                                             <th width="2%">
@@ -88,7 +89,7 @@
                                                             </a>
                                                         </div>
                                                     </td>
-                                                    <td>
+                                                        <td style="max-width:200px; white-space: normal; word-break: break-word;">
                                                         <div align="left">@item.BrandName</div>
                                                     </td>
                                                    @*  <td>
@@ -130,6 +131,8 @@
 
     </div>
 </section>
+</div>
+
 <script>
     function EditBrand(BrandId) {
 

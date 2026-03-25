@@ -6,6 +6,7 @@
     ViewData["Title"] = "EditBrand";
     Layout = "~/Views/Shared/_ECMMaster.cshtml";
 }
+<div class="content-wrapper">
 <section class="content-header">
     <div class="container-fluid">
         <div class="row">
@@ -82,7 +83,7 @@
                                     <label>Brand Name  </label>
                                  @*    <input id="txtCustomer" maxlength="50" name="" type="text" value="AFILE" class="form-control" />
                                     <span id="sptxtCustomer" class="text-danger"></span> *@
-                                    <input id="txtBrandName" type="text" class="form-control" value="@ViewBag.BrandName">
+                                        <input id="txtBrandName" type="text" class="form-control" maxlength="100" value="@ViewBag.BrandName">
                                     <span id="spBrandName" class="text-danger"></span>
                                 </div>
                                 <div style="display: none;">
@@ -107,7 +108,7 @@
         </div>
     </div>
 </section>
-
+</div>
 
 <script>
     var BrandData = {
