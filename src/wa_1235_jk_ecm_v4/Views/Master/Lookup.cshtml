@@ -223,55 +223,114 @@
 	<!-- InstanceEndEditable -->
 </div>
 <script>
-       async function OpenDocument(FileName, ImageId, BrandCode) {
+ async function OpenDocument(FileName, ImageId, ProdLine) {
 
-        var JwToken = '@ViewBag.JWTToken';
-        var blobStorageUrl = '@ViewBag.ApiUrl';
-        let blobPathPrefix = '@ViewBag.BaseBlobPath';
+    var JwToken = '@ViewBag.JWTToken';
+    var blobStorageUrl = '@ViewBag.ApiUrl';
+    let blobPathPrefix = '@ViewBag.BaseBlobPath';
 
-        var path = 'others\\lookup\\';
+    var path = 'others\\lookup' + '\\';
 
-        const blobpath =
-            (normalizePathPrefix(blobPathPrefix) +
-                normalizePathPrefix(path)).toLowerCase() + FileName;
+    const blobpath =
+        (normalizePathPrefix(blobPathPrefix) +
+            normalizePathPrefix(path))
+            .toLowerCase() + FileName.toLowerCase();
 
-        const JSONData = {
-            blobPath: blobpath,
-            asSas: false,
-            downloadFileName: FileName
-        };
+    const JSONData = {
+        blobPath: blobpath,
+        asSas: false,
+        downloadFileName: FileName
+    };
 
-        try {
+    try {
 
-            $('#loader').show();
+        $('#loader').show();
 
-            const response = await $.ajax({
-                url: blobStorageUrl + 'Files/get',
-                headers: { Authorization: 'Bearer ' + JwToken },
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(JSONData),
-                xhrFields: { responseType: 'blob' }
-            });
+        const response = await $.ajax({
+            url: blobStorageUrl + 'Files/get',
+            headers: { Authorization: 'Bearer ' + JwToken },
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(JSONData),
+            xhrFields: { responseType: 'blob' }
+        });
 
-            if (response && response.size > 0) {
+        if (response && response.size > 0) {
 
-                const objectURL = URL.createObjectURL(response);
-                document.getElementById(ImageId).src = objectURL;
+            const objectURL = URL.createObjectURL(response);
 
-            }
+            // ⭐ Open image in new tab
+            window.open(objectURL, '_blank');
 
-        } catch (error) {
-
-            console.error(error);
-            document.getElementById(ImageId).src = '';
-
-        } finally {
-
-            $('#loader').hide();
-
+            // Optional cleanup after 1 minute
+            setTimeout(() => {
+                URL.revokeObjectURL(objectURL);
+            }, 60000);
         }
+
     }
+    catch (error) {
+
+        console.error("Error:", error);
+
+        alert('Image not available');
+
+    }
+    finally {
+
+        $('#loader').hide();
+
+    }
+}
+    //    async function OpenDocument(FileName, ImageId, BrandCode) {
+
+    //     var JwToken = '@ViewBag.JWTToken';
+    //     var blobStorageUrl = '@ViewBag.ApiUrl';
+    //     let blobPathPrefix = '@ViewBag.BaseBlobPath';
+        
+    //     var path = 'others\\lookup'+ '\\' ;
+
+    //     const blobpath =
+    //         (normalizePathPrefix(blobPathPrefix) +
+    //             normalizePathPrefix(path)).toLowerCase() + FileName;
+
+    //     const JSONData = {
+    //         blobPath: blobpath,
+    //         asSas: false,
+    //         downloadFileName: FileName
+    //     };
+
+    //     try {
+
+    //         $('#loader').show();
+
+    //         const response = await $.ajax({
+    //             url: blobStorageUrl + 'Files/get',
+    //             headers: { Authorization: 'Bearer ' + JwToken },
+    //             type: "POST",
+    //             contentType: "application/json",
+    //             data: JSON.stringify(JSONData),
+    //             xhrFields: { responseType: 'blob' }
+    //         });
+
+    //         if (response && response.size > 0) {
+
+    //             const objectURL = URL.createObjectURL(response);
+    //             document.getElementById(FileName).src = objectURL;
+
+    //         }
+
+    //     } catch (error) {
+
+    //         console.error(error);
+    //         document.getElementById(FileName).src = '';
+
+    //     } finally {
+
+    //         $('#loader').hide();
+
+    //     }
+    // }
 
       function EditBrand(LookupId) {
 
