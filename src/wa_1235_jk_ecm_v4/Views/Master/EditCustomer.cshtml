@@ -6,6 +6,7 @@
     ViewData["Title"] = "EditCustomer";
     Layout = "~/Views/Shared/_ECMMaster.cshtml";
 }
+<div class="content-wrapper">
 <section class="content-header">
     <div class="container-fluid">
         <div class="row">
@@ -49,6 +50,7 @@
     </div>
 </section>
 
+
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -87,7 +89,7 @@
                                     <label>Customer Name  </label>
                                   @*   <input maxlength="50" name="" type="text" value="AHLBORN EQUIPMENT INC." class="form-control" disabled />
                                     <span class="text-danger"></span> *@
-                                    <input id="txtCustomer" maxlength="50" name="" value="@customer?.CustomerName" type="text" class="form-control" disabled>
+                                        <input id="txtCustomer" maxlength="50" name="" maxlength="100" value="@customer?.CustomerName" type="text" class="form-control" disabled>
                                     <span id="sptxtCustomer" class="text-danger"></span>
                                 </div>
 
@@ -131,7 +133,7 @@
         </div>
     </div>
 </section>
-
+</div>
 <script>
     var customerData = {
         customerName: '@Model.EditCustomer_List?.FirstOrDefault()?.CustomerName',

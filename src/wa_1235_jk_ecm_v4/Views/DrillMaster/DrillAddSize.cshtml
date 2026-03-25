@@ -37,7 +37,7 @@
                 <div class="col-lg-12">
                     <div class="btnwidth50 float-right ">
                         <button type="button" class="btn btn-block bg-gradient-danger btn-xs float-left"
-                                onclick="location.href='key-dimension.html'" title="Go back to the previous page">
+                                onclick="history.back()" id="btnback" title="Go back to the previous page">
                             Back
                         </button>
                     </div>
@@ -83,6 +83,8 @@
                                         <select id="TxtFileType" class="form-control select2" onchange="onTypeChange()">
                                             <option value="">Select</option>
                                         </select>
+                                        <span id="spddlFileType" class="text-danger"></span>
+
                                         <input type="hidden" id="hdnFileCode" />
                                     </div>
 
@@ -106,12 +108,17 @@
                                         <label>UOM</label>
 
                                         <select id="ddlUOM" class="form-control select2"></select>
+                                        <span id="spUOM" class="text-danger"></span>
+
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>Size Value</label>
                                         <input type="text" id="txtSizeValue"
                                                class="form-control"
                                                oninput="generateSizeCode()">
+
+                                        <span id="spSizeValue" class="text-danger"></span>
+
                                     </div>
 
                                     <div class="form-group col-md-1">
@@ -206,8 +213,11 @@
 
 
                                 <div class=" float-right ml-2 " style="margin-top:35px; display:block;">
-                                    <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left"
-                                            onclick="SaveSizeData()" title="Go to the next page">
+                                    <button type="button"
+                                            class="btn btn-block bg-gradient-primary btn-xs float-left"
+                                            onclick="SaveSizeData()"
+                                            disabled
+                                            title="Go to the next page">
                                         Save
                                     </button>
                                 </div>
@@ -495,23 +505,23 @@
        
         // ---------- VALIDATION ----------
         if (!ProductLineRowId || ProductLineRowId == "0") {
-            alert("Please select Product Line");
+            $("#spddlproductline").text("Please select Product Line");
             isValid = false;
         }
 
         if (!CTTypeRowId || CTTypeRowId == "0") {
-            alert("Please select Type");
+                $("#spddlFileType").text("Please select Type");
             isValid = false;
         }
 
         if (!SizeValue) {
-            alert("Please enter Size Value");
-            isValid = false;
+           $("#spSizeValue").text("Please enter Size Value");
+             isValid = false;
         }
 
         if (!SizeUOM) {
-            alert("Please select UOM");
-            isValid = false;
+          $("#spUOM").text("Please select UOM");
+           isValid = false;
         }
 
         if (!isValid) return;

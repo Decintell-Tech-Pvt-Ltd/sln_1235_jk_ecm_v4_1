@@ -23,7 +23,7 @@
                          <li class="breadcrumb-item active">Masters</li>
                         <li class="breadcrumb-item"><a  href="@Url.Action("ValueStream", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })"
                          >Value Stream</a></li>
-                        <li class="breadcrumb-item">Add</li>
+                        <li class="breadcrumb-item active">Add</li>
                     </ol>
                 </div>
             </div>
@@ -144,9 +144,9 @@
                                     </table>
                                 </div>
                             </div>
-                            <hr>
+                          
                             <div class="row">
-                                <div class="col-lg-4">
+                              @*   <div class="col-lg-4">
                                     <div class="form-group">
                                         <label>Type </label>
                                         <div class="input-group">
@@ -238,7 +238,7 @@
                                         </tr>
                                     </table>
                                 </div>
-
+ *@
                                 <div class="col-lg-12">
 
                                     @* <div class="btnwidth120 float-right mr-2">
