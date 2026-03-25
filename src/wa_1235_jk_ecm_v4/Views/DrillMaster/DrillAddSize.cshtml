@@ -354,7 +354,7 @@
 </div> *@
 
 <script>
-         function loadTypeByProductLine() {
+             function loadTypeByProductLine(selectedTypeId = null) {
 
             var productLineId = $('#ddlproductline').val();
 
@@ -392,6 +392,13 @@
                             );
 
                         });
+                              if (selectedTypeId) {
+
+                        $('#TxtFileType')
+                            .val(selectedTypeId)
+                            .trigger('change');
+
+                    }
 
                         $('#TxtFileType').trigger('change.select2');
                     }
@@ -853,8 +860,14 @@
                 $("#hdnSizeId").val(data.id);
 
                 // Bind controls
-                $("#ddlproductline").val(data.productLineRowId).trigger("change");
-                $("#TxtFileType").val(data.ctTypeRowId).trigger("change");
+                // $("#ddlproductline").val(data.productLineRowId).trigger("change");
+                // $("#TxtFileType").val(data.ctTypeRowId).trigger("change");
+                    $("#ddlproductline")
+        .val(data.productLineRowId)
+        .trigger("change.select2");
+
+    // Load Type and select value after binding
+    loadTypeByProductLine(data.ctTypeRowId);
                 $("#txtSizeValue").val(data.sizeValue);
                $("#spSizeCode").text(data.sizeCode);
            

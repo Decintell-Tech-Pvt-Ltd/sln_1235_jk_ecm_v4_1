@@ -481,7 +481,7 @@
 </div>
 
 <script>
-        function loadTypeByProductLine() {
+        function loadTypeByProductLine(selectedTypeId = null) {
 
         var productLineId = $('#ddlproductline').val();
 
@@ -519,7 +519,13 @@
                         );
 
                     });
+                     if (selectedTypeId) {
 
+                        $('#TxtFileType')
+                            .val(selectedTypeId)
+                            .trigger('change');
+
+                    }
                     $('#TxtFileType').trigger('change.select2');
                 }
             },
@@ -1028,15 +1034,20 @@
 
                  $("#hdnSizeId").val(data.typeDetailsRowId);
 
-                 $("#ddlproductline")
-                     .val(data.productLineRowId)
-                     .trigger("change");
+                 // $("#ddlproductline")
+                 //     .val(data.productLineRowId)
+                 //     .trigger("change");
 
-                 $("#TxtFileType")
-                     .val(data.ctTypeCodesRowId)
-                     .trigger("change");
+                 // $("#TxtFileType")
+                 //     .val(data.ctTypeCodesRowId)
+                 //     .trigger("change");
+                  $("#ddlproductline")
+        .val(data.productLineRowId)
+        .trigger("change.select2");
 
-                 $("#TxtFileTypeCode").val(data.ctTypeCode);
+    // Load Type and select value after binding
+    loadTypeByProductLine(data.ctTypeCodesRowId);
+                 $("#TxtFileTypeCode").val(data.ctTypeCodesRowId);
 
                  $("#txtTypeDesc").val(data.ctTypeName);
 
