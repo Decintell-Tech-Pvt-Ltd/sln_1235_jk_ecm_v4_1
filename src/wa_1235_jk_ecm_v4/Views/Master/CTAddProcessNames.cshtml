@@ -6,6 +6,7 @@
     Layout = "~/Views/Shared/_ECMMaster.cshtml";
 }
 
+<div class="content-wrapper">
 
     <section class="content-header">
   <div class="container-fluid">
@@ -28,9 +29,11 @@
 <div class="row">
       <div class="col-lg-12">
             <div class="btnwidth50 float-right ">
-              <button type="button" class="btn btn-block bg-gradient-danger btn-xs float-left"
-               onclick="location.href='Process-Names.html'" title="Go back to the previous page">Back
-              </button>
+                        <a href="@Url.Action("CTProcessNames", "Master", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })"
+                           class="btn btn-block bg-gradient-danger btn-xs"
+                           title="Go back to the previous page">
+                            Back
+                        </a>
            </div>
           
     </div>
@@ -68,7 +71,7 @@
 
                                  <div class="form-group col-md-6">
   <label for="">Process Name</label>
- <input type="text" class="form-control" id="txtProcessName" oninput="clearError('spProcessName')"  /> 
+ <input type="text" class="form-control" id="txtProcessName" maxlength="100" oninput="clearError('spProcessName')"  /> 
      <span id="spProcessName" class="text-danger"></span>
                                
 </div>  
@@ -91,7 +94,8 @@
             </div>
         </div>
     </section>
-  
+</div>
+
   <script>
     function clearError(id) {
     $("#" + id).text("");
