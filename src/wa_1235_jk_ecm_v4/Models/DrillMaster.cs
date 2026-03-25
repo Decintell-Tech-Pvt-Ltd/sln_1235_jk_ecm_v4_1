@@ -19,10 +19,12 @@ namespace wa_1235_jk_ecm_v4.Models
         public DrillFileSize[] DrillFileSize { get; set; }
         public CTCSVData[] CTCSVData { get; set; }
 
+        public int SubTypeRowId { get; set; }
 
         public int ProdId { get; set; }
         public int Id { get; set; }
         public int SizeID { get; set; }
+        public CSVSubtype[] CSVSubtype { get; set; }
 
         public LookupValues[] LookupValues_List { get; set; }
         public LookupValues[] LookupStandard_List { get; set; }
@@ -38,9 +40,23 @@ namespace wa_1235_jk_ecm_v4.Models
         public DrawingDetails[] DrawingDetails { get; set; }
         public TypeParamByIDList[] TypeParamByIDList { get; set; }
         public DrillFileSizeByPL[] DrillFileSizeByPL { get; set; }
-        
+        public DownloadSubtypeCSV[] DownloadSubtypeCSV { get; set; }
+
         public CTSubTypeParameterList[] CTSubTypeParameterList { get; set; }
 
+    }
+
+
+ 
+    public class DownloadSubtypeCSV
+    {
+     
+        public string SqNo { get; set; }
+        public string ProcessName { get; set; }
+        public string ParameterName { get; set; }
+        public string Value { get; set; }
+        public string UOM { get; set; }
+        public string Tolerance { get; set; }
     }
 
 
@@ -76,7 +92,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public int KeyDimension { get; set; }
     }
 
-   
+
     public class DrillFileSizeByPL
     {
         public int Id { get; set; }
@@ -319,6 +335,16 @@ namespace wa_1235_jk_ecm_v4.Models
         public string StatusId { get; set; }
         public int GridNo { get; set; }
         public string BrandCode { get; set; }
+    }
+
+
+    public class CSVSubtype
+    {
+        public int CTTypeRowId { get; set; }
+        public string SubTypeCode { get; set; }
+        public int SubTypeRowId { get; set; }
+        public string SubTypeName { get; set; }
+        public string Code { get; set; }
     }
 
     public class ProdLineList

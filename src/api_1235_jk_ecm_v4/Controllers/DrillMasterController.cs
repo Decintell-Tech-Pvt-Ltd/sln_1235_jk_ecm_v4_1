@@ -312,6 +312,45 @@ namespace api_1235_jk_ecm_v4.Controllers
             return Content(jsonResult, Application.Json, Encoding.UTF8);
         }
         [HttpPost]
+        [Route("GetDownloadCSVDataForSubtype")]
+        public async Task<IActionResult> GetDownloadCSVDataForSubtype()
+        {
+
+
+            string spName = "usp_CT_GetDownloadCSVDataForSubtype";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+        }
+        
+        [HttpGet]
+        [Route("GetSubTypeCSVDropdown")]
+        public async Task<IActionResult> GetSubTypeCSVDropdown()
+        {
+
+
+            string spName = "usp_GetSubTypeCSVDropdown";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+        }
+        [HttpPost]
         [Route("CT_ApproveStamp")]
         public async Task<IActionResult> CT_ApproveStamp()
         {

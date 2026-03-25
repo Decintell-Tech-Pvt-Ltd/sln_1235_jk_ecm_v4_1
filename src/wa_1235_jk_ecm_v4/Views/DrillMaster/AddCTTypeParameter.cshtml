@@ -278,7 +278,7 @@
 
                                                         <div class="form-group col-md-4">
                                                             <label>Product Line</label>
-                                                            @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "Id", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline", onchange = "clearError('spddlproductline')" })
+                                                            @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "Id", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline1", onchange = "clearError('spddlproductline')" })
                                                             <span id="spddlproductline" class="text-danger"></span>
 
 
@@ -296,7 +296,7 @@
                                                                     </option>
                                                                 }
                                                             </select> *@
-                                                            <select id="TxtFileType" class="form-control select2" onchange="onTypeChange()">
+                                                            <select id="TxtFileType1" class="form-control select2" onchange="onTypeChange()">
                                                                 <option value="">Select</option>
                                                             </select>
                                                             <input type="hidden" id="hdnFileCode" />

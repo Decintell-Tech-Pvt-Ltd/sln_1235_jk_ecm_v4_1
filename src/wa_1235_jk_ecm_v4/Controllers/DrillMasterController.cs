@@ -55,7 +55,10 @@ namespace wa_1235_jk_ecm_v4.Controllers
             objList.ProdLine_List = JsonSerializer.Deserialize<ProdLineList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
            
             apiEndPoint = "DrillMaster/GetSizeDropdown";
-            objList.GetSizeList = JsonSerializer.Deserialize<GetSizeList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint)); 
+            objList.GetSizeList = JsonSerializer.Deserialize<GetSizeList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+
+            apiEndPoint = "DrillMaster/GetSubTypeCSVDropdown";
+            objList.CSVSubtype = JsonSerializer.Deserialize<CSVSubtype[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
             return View(objList);
   
         }
@@ -81,6 +84,15 @@ namespace wa_1235_jk_ecm_v4.Controllers
             //objList.TypeDropdown = JsonSerializer.Deserialize<TypeDropdown[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
             return View(objList);
         }
+        [HttpPost]
+        public async Task<IActionResult> GetDownloadCSVDataForSubtype(string JsonData)
+        {
+            DrillMaster objList = new DrillMaster();
+            string apiEndPoint = "DrillMaster/GetDownloadCSVDataForSubtype";
+            objList.DownloadSubtypeCSV = JsonSerializer.Deserialize<DownloadSubtypeCSV[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            return Json(new { response = objList.DownloadSubtypeCSV });
+        }
+        
         [HttpPost]
         public async Task<IActionResult> GetCTKeyDimensionsByTypeCode(string JsonData)
         {

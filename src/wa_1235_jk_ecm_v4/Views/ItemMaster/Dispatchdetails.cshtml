@@ -341,6 +341,7 @@
 																				   type="radio"
 																				   id="radio_@item.Id"
 																				   value="@item.Id"
+																					   data-brandid="@item.BrandId"
 																				   name="radioGroup">
 																			<label for="radio_@item.Id" class="custom-control-label"></label>
 																			
@@ -507,11 +508,26 @@
 				// ✅ NON FILE TABLE
 				if ($("#nonfileDiv").is(":visible")) {
 
-					RowId = checkedRadio.value; // saving selected row id
+					// RowId = checkedRadio.value; // saving selected row id
+						var row = checkedRadio.closest('tr');
+
+						// ⭐ Row Id
+						RowId = checkedRadio.value;
+
+						// ⭐ Brand Name (column 2)
+						 Brand = checkedRadio.dataset.brandid;
+
+						// ⭐ Image Name (column 7)
+						StampChartImage = row.querySelector('td:nth-child(7)').textContent.trim();
+
+						// ⭐ ChartNo — choose what represents chart
+						// Option 1: Use RowId
+						ChartNo = RowId;
 				}
 			}
 
 			var json = {
+				ProductLine:'@Context.Request.Query["ProductLine"]',
 				Reqno: Reqno,
 				StampProcess: parseInt(StampProcessId),
 				ChartNo: ChartNo,

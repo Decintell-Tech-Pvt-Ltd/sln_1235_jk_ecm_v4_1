@@ -161,24 +161,13 @@
 
                                     <div class="col-md-3">
                                         <label>Download CSV Template </label>
-                                        <select name="" class="form-control select2">
-                                            <option>Select</option>
-                                            <!--<option value="1">06RC0</option>
-                                            <option value="2">08RC0</option>
-                                            <option value="3">06RC1</option>
-                                            <option value="4">08RC1</option>
-                                            <option value="5">08RC2</option>
-                                            <option value="6">08RC3</option>
-                                            <option value="7">08RC4</option>
-                                            <option value="8">08RC5</option>
-                                            <option value="9">08RC6</option>
-                                            <option value="10">08RC6</option>-->
-                                        </select>
+                                        @Html.DropDownListFor(m => m.SubTypeRowId, new SelectList(Model.CSVSubtype, "SubTypeRowId", "Code"), "Select", new { @class = "form-control select2", @id = "ddlFileTypeCVS" })
+
                                     </div>
 
                                     <div class="col-md-2">
                                         <button type="button"
-                                                class="btn btn-primary btn-xs " onclick="location.href='#'"
+                                                class="btn btn-primary btn-xs" id="downloadButton" onclick="convertJSONToCSV()"
                                                 title="Download the file" style="margin-top:33px; display:block;">
                                             Download
                                         </button>
@@ -457,6 +446,60 @@
 	<!-- InstanceEndEditable -->
 </div> *@
 <script>
+           function convertJSONToCSV() {
+            var FileTypeId = $('#ddlFileTypeCVS').val();
+            var FileTypeName = $('#ddlFileTypeCVS option:selected').text().trim(); // Get text for filename
+
+            var JsonData = JSON.stringify({
+                ID: FileTypeId
+            });
+
+            $.ajax({
+                type: "POST",
+                        url: '@Url.Action("GetDownloadCSVDataForSubtype", "DrillMaster")',
+                data: { JsonData: JsonData },
+                dataType: 'json',
+                beforeSend: function () { $('#loader').show(); },
+                complete: function () { $('#loader').hide(); },
+                success: function (data) {
+                    var JsonData1 = data.response;
+                    var JsonData = JSON.stringify({
+                        JsonData: JsonData1
+                    });
+
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("DownloadExcel", "Master")',
+                        data: { JsonData: JsonData },
+                        xhrFields: {
+                            responseType: 'blob'
+                        },
+                        success: function (response) {
+                            const blob = new Blob([response], { type: 'text/csv' });
+                            const url = window.URL.createObjectURL(blob);
+                            const link = document.createElement('a');
+
+                            // Set filename based on dropdown text (sanitize if needed)
+                            const fileName = FileTypeName.replace(/[^\w\-]/g, '_') + '.csv';
+
+                            link.href = url;
+                            link.setAttribute('download', fileName);
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            window.URL.revokeObjectURL(url); // Clean up blob URL
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error occurred:", error);
+                            alert("An error occurred while downloading the file.");
+                        }
+                    });
+                },
+                error: function () {
+                    alert('Error occurred while fetching data.');
+                }
+            });
+        }
              function loadTypeByProductLine(selectedTypeId = null, selectedSizeId = null) {
 
                 var productLineId = $('#ddlproductline').val();

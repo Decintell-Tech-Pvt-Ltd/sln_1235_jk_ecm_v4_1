@@ -149,7 +149,7 @@
 									<div class="row">
 										<div class="col-md-2">
 											<label>Product Line</label>
-											<select class="form-control select2" style="width:100%;" id="ddlproductline" >
+											<select class="form-control select2" style="width:100%;" id="ddlproductline" onchange="loadTypeByProductLine()">
 
 												<option value="0">Select</option>
 
@@ -159,11 +159,11 @@
 													{
 														if (Model.ProductionDetails_List != null && item.ProductLineCode == Model.ProductionDetails_List.ProductLineCode)
 														{
-															<option selected="selected" value="@item.ProductLineCode">@item.ProductLine</option>
+															<option selected="selected" value="@item.ProductLineCode" data-id="@item.Id">@item.ProductLine</option>
 														}
 														else
 														{
-															<option value="@item.ProductLineCode">@item.ProductLine</option>
+															<option value="@item.ProductLineCode" data-id="@item.Id">@item.ProductLine</option>
 														}
 													}
 												}
@@ -531,6 +531,9 @@
 															}
 
 														</select>
+														@* <select id="ddlType" class="form-control select2" onchange="loadCTSizeDropdown();">
+															<option value="">Select</option>
+														</select> *@
 @* 														@Html.DropDownListFor(m => m.TypeId, new SelectList(Model.FileTypeCodeList, "TypeId", "CTTypeName"), "Select", new { @class = "form-control select2", @id = "ddlType", onchange = "clearError('spCTddlType');" })
  *@														<span id="spCTddlType" class="text-danger"></span>
 
@@ -706,6 +709,64 @@
 		var selectedTypeId = '@Model?.ProductionDetails_List?.TypeCodesRowId';
 		var selectedSizeId = '@Model?.ProductionDetails_List?.SizeRowId';
 	var selectedSubTypeId = '@Model?.ProductionDetails_List?.FileSubType';
+		function loadTypeByProductLine(selectedTypeId = null) {
+
+				// var productLineId = $('#ddlproductline').val();
+
+	var productLineId =
+		$('#ddlproductline option:selected').data('id');
+				// Reset Type dropdown
+				$('#TxtFileType').empty();
+				$('#TxtFileType').append('<option value="">Select</option>');
+
+				if (!productLineId || productLineId === "0") {
+					return;
+				}
+
+				var jsonData = {
+					ProductLineRowId: productLineId
+				};
+
+				$.ajax({
+					url: '@Url.Action("GetCTTypeData", "DrillMaster")',
+					type: 'POST',
+					data: {
+						JsonData: JSON.stringify(jsonData)
+					},
+
+					success: function (data) {
+
+						if (data && data.response) {
+
+							$.each(data.response, function (index, item) {
+
+								$('#ddlType').append(
+									$('<option>', {
+										value: item.id,
+										text: item.ctTypeName,
+										'data-code': item.ctTypeCode
+									})
+								);
+
+							});
+								  if (selectedTypeId) {
+
+							$('#ddlType')
+								.val(selectedTypeId)
+								.trigger('change');
+
+						}
+							 // Now load Size
+							loadCTSizeDropdown(selectedTypeId);
+							$('#ddlType').trigger('change.select2');
+						}
+					},
+
+					error: function (xhr) {
+						console.log("Error loading Type:", xhr.responseText);
+					}
+				});
+			}
 		function loadCTSubTypeDropdown() {
 
 		var typeId = $('#ddlType').val();
@@ -764,7 +825,7 @@
 			}
 		});
 	}
-			function loadCTSizeDropdown() {
+			function loadCTSizeDropdown(selectedTypeId=null) {
 
 		var typeId = $('#ddlType').val();
 
