@@ -145,11 +145,15 @@
 							<div class="@cssClass">
 
 								<div class="card-body">
-
+									@{
+										bool disableControls2 =
+										Model?.ProductionDetails_List?.ReqType == "A" ||
+										Model?.ProductionDetails_List?.ReqType == "R";
+									}
 									<div class="row">
 										<div class="col-md-2">
 											<label>Product Line</label>
-											<select class="form-control select2" style="width:100%;" id="ddlproductline" onchange="loadTypeByProductLine()">
+											<select class="form-control select2" style="width:100%;" id="ddlproductline" @(disableControls2 ? "disabled" : "") onchange="loadTypeByProductLine()">
 
 												<option value="0">Select</option>
 
@@ -163,7 +167,7 @@
 														}
 														else
 														{
-															<option value="@item.ProductLineCode" data-id="@item.Id">@item.ProductLine</option>
+															<option value="@item.ProductLineCode" data-id="@item.Id" >@item.ProductLine</option>
 														}
 													}
 												}
@@ -204,14 +208,13 @@
 										<div class="col-md-3">
 											<h5 style="font-weight:600;" class="top10">Customer Details</h5>&nbsp;
 										</div>
-
+										
 										<br />
 										<div class="col-md-12">
 											<div class="row">
-
 												<div class="form-group col-md-3">
 													<label>Customer</label>
-													<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllCustomer" onchange="CustomerCode();">
+													<select class="form-control select2 select2-hidden-accessible" @(disableControls2 ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllCustomer" onchange="CustomerCode();">
 														<option value="0">Select</option>
 														@if (Model.ecm_CustomerMaster != null)
 														{
@@ -251,7 +254,7 @@
 
 												<div class="form-group col-md-3">
 													<label>Brand</label>
-													<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllBrand" onchange="BrandCode();">
+													<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" @(disableControls2 ? "disabled" : "") tabindex="-1" aria-hidden="true" id="dllBrand" onchange="BrandCode();">
 														<option value="0">Select</option>
 														@foreach (var item in Model.ecm_BrandMaster)
 														{
@@ -283,7 +286,7 @@
 
 												<div class="form-group col-md-3">
 													<label>Ship to Country </label>
-													<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllCountryName" onchange="CountryContinent();">
+													<select class="form-control select2 select2-hidden-accessible" @(disableControls2 ? "disabled" : "") style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllCountryName" onchange="CountryContinent();">
 														<option value="0">Select</option>
 														@foreach (var item in Model.ShipToCountry_List)
 														{
@@ -315,7 +318,7 @@
 
 												<div class="form-group col-md-2">
 													<label>Sales  </label>
-													<select name="" class="form-control select2" id="dllSales">
+													<select name="" class="form-control select2" id="dllSales" @(disableControls2 ? "disabled" : "")>
 														<option value="Select">Select</option>
 														@if (Model.ProductionDetails_List != null && "Export Sales" == Model.ProductionDetails_List.Sales)
 														{
@@ -503,7 +506,11 @@
 										</div>
 									</div>
 									<div id="drillDiv" style="display:none;">
-
+											@{
+													bool disableControls1 =
+													Model?.ProductionDetails_List?.ReqType == "A" ||
+													Model?.ProductionDetails_List?.ReqType == "R";
+												}
 										<div class="row">
 											<div class="col-md-12">
 
@@ -511,7 +518,7 @@
 												<div class="row top10">
 													<div class="form-group col-md-3">
 														<label>Type </label>
-														<select class="form-control select2" style="width:100%;" id="ddlType" onchange="loadCTSizeDropdown();">
+														<select class="form-control select2" style="width:100%;" id="ddlType" @(disableControls1 ? "disabled" : "") onchange="loadCTSizeDropdown();">
 
 															<option value="0">Select</option>
 
@@ -540,7 +547,7 @@
 													</div>
 													<div class="form-group col-md-2">
 														<label>Size </label>
-														<select class="form-control select2" style="width:100%;" id="ddlSize" onchange="loadCTSubTypeDropdown();">
+														<select class="form-control select2" style="width:100%;" id="ddlSize" onchange="loadCTSubTypeDropdown();" @(disableControls ? "disabled" : "")>
 
 															<option value="0">Select</option>
 
@@ -578,7 +585,7 @@
 
 													<div class="form-group col-md-1">
 														<label>Sub Type </label>
-														<select class="form-control select2" style="width:100%;" id="dllCTFileSubType">
+														<select class="form-control select2" style="width:100%;" id="dllCTFileSubType" @(disableControls1 ? "disabled" : "")>
 
 															<option value="0">Select</option>
 
@@ -1566,7 +1573,7 @@
 		}
 
 		var JsonData = {
-
+				RequestNo: RequestNumber,
 			RequestStartDate: RequestStartDate,
 			RequestEndDate: RequestEndDate,
 

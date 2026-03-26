@@ -341,7 +341,7 @@
 																				   type="radio"
 																				   id="radio_@item.Id"
 																				   value="@item.Id"
-																					   data-brandid="@item.BrandId"
+																				  data-brandcode="@item.BrandCode"
 																				   name="radioGroup">
 																			<label for="radio_@item.Id" class="custom-control-label"></label>
 																			
@@ -394,6 +394,7 @@
 																				   type="radio"
 																				   id="customRadio_@item.ChartNo"
 																				   value="@item.BrandId"
+																				        data-brandid="@item.BrandCode"
 																				   name="radioGroup">
 																			<label for="customRadio_@item.ChartNo" class="custom-control-label"></label>
 																		</div>
@@ -515,7 +516,8 @@
 						RowId = checkedRadio.value;
 
 						// ⭐ Brand Name (column 2)
-						 Brand = checkedRadio.dataset.brandid;
+						//Brand = row.querySelector('td:nth-child(2)').textContent.trim();
+						Brand = checkedRadio.dataset.brandcode;
 
 						// ⭐ Image Name (column 7)
 						StampChartImage = row.querySelector('td:nth-child(7)').textContent.trim();
