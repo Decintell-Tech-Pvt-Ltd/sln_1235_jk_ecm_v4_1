@@ -360,9 +360,9 @@ onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.
                                     <td><div align="left">@item.ProductLine</div></td>
                                     <td><div align="center">@item.CTTypeName</div></td>
                                     <td><div align="center"> <a href="#" title="View" data-toggle="modal"
-onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.ProductLineRowId','@item.CTTypeRowId','@item.Remarks');">
-    @item.ParamName
-</a>&nbsp;</div></td>
+                                    onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.ProductLineRowId','@item.CTTypeRowId','@item.Remarks');">
+                                        @item.ParamName
+                                    </a>&nbsp;</div></td>
                                     <td><div align="left">@item.ParamCode</div></td>
                                     <td><div align="left">@item.CTTypeName</div></td>
                                 </tr>
@@ -451,6 +451,7 @@ function ModelFileType(RequestId, ProductLineName, TypeName, ProductLineRowId, C
     
 
     var JsonData = JSON.stringify({
+        RequestId:RequestId,
         ProductLineRowId: parseInt(ProductLineRowId),
         CTTypeRowId: parseInt(CTTypeRowId)
     });
