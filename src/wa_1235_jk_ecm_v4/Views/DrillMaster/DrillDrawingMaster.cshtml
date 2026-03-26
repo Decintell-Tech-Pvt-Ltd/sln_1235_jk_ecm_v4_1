@@ -9,7 +9,7 @@
 <div class="content-wrapper">
    
     <div class="modal fade" id="view">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
 
                 <!-- Modal Header -->
@@ -78,7 +78,7 @@
         </div>
     </div>
     <div class="modal fade" id="nonstandard1">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">View Sub Type</h5>
@@ -547,31 +547,35 @@
                 // Initialize DataTable
                 //--------------------------------
 
-                var dt = $('#tblViewAddedParametersList').DataTable({
-                    columnDefs: [
-                        { className: "dt-center", targets: "_all" }
-                    ]
-                });
+                      var dt = $('#tblViewAddedParametersList').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        searching: true,
+        ordering: true,
+        info: true,
+        autoWidth: false,
 
+        // ✅ CUSTOM LAYOUT
+        dom: "<'row'<'col-sm-2'l><'col-sm-6 text-center'B><'col-sm-4'f>>" +
+             "<'row'<'col-sm-12'tr>>" +
+             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+
+        buttons: [
+            {
+                extend: 'csv',
+                text: 'CSV',
+                className: 'btn btn-secondary'
+            }
+        ],
+
+        columnDefs: [
+            { className: "dt-center", targets: "_all" }
+        ]
+    });
                 $("#ViewAddedParametersList").empty();
 
-                // if (data.typeParamsJarr && data.typeParamsJarr.length > 0) {
-
-                // 	let html = "";
-
-                // 	$.each(data.typeParamsJarr, function (i, item) {
-
-                // 		html += `
-                // 			<tr>
-                // 				<td style="text-align:center;">${item.processSequence}</td>
-                // 				<td>${item.processName}</td>
-                // 				<td>${item.paramName}</td>
-                // 				<td>${item.paramUOM}</td>
-                // 			</tr>`;
-                // 	});
-
-                // 	$("#showAddedParametersList").html(html);
-                // }
+                
                 if (data.csvData && data.csvData.length > 0) {
 
                        for (var i = 0; i < data.csvData.length; i++) {
@@ -603,7 +607,8 @@
             }
         });
     }
-     function ModelDrawingView(TypeId) {
+     
+    function ModelDrawingView(TypeId) {
 
         let json = {
             TxnId: TypeId
@@ -676,13 +681,34 @@
                 // Initialize DataTable
                 //--------------------------------
 
-                var dt = $('#tblViewParametersList').DataTable({
-                    columnDefs: [
-                        { className: "dt-center", targets: "_all" }
-                    ]
-                });
+                
+                          var dt = $('#tblViewParametersList').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        searching: true,
+        ordering: true,
+        info: true,
+        autoWidth: false,
 
-                $("#ViewParametersList").empty();
+        // ✅ CUSTOM LAYOUT
+        dom: "<'row'<'col-sm-2'l><'col-sm-6 text-center'B><'col-sm-4'f>>" +
+             "<'row'<'col-sm-12'tr>>" +
+             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+
+        buttons: [
+            {
+                extend: 'csv',
+                text: 'CSV',
+                className: 'btn btn-secondary'
+            }
+        ],
+
+        columnDefs: [
+            { className: "dt-center", targets: "_all" }
+        ]
+    });
+              $("#ViewParametersList").empty();
 
                 // if (data.typeParamsJarr && data.typeParamsJarr.length > 0) {
 
@@ -732,7 +758,9 @@
             }
         });
     }
-        function UpdateDrawingStatus(DrawingId, StatusID, SKUKey) {
+     
+    
+    function UpdateDrawingStatus(DrawingId, StatusID, SKUKey) {
 
 
 

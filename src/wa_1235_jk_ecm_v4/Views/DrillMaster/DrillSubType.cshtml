@@ -9,7 +9,7 @@
 <div class="content-wrapper">
 	<!-- InstanceBeginEditable name="EditRegion1" -->
 	<div class="modal fade" id="nonstandard">
-		<div class="modal-dialog modal-lg">
+		<div class="modal-dialog modal-xl">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">View Sub Type</h5>
@@ -34,7 +34,7 @@
 					<div style="clear: both;"></div>
 					<br>
 					<img id="displayImage" class="img-fluid">
-					<table width="100%" class="table table-bordered example3" id="tblSubTypeData">
+					<table width="100%" class="table table-bordered example1" id="tblSubTypeData">
 						<thead>
 							<tr>
 								<th style="width:10%; text-align: center;">Sq. No.</th>
@@ -89,7 +89,7 @@
 
 
 	<div class="modal fade" id="approve">
-		<div class="modal-dialog modal-lg">
+		<div class="modal-dialog modal-xl">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">View Sub Type</h5>
@@ -113,7 +113,7 @@
 					<br>
 					<img id="displayImage1" class="img-fluid">
 
-					<table width="100%" class="table table-bordered example3" id="tblSubTypePopup">
+					<table width="100%" class="table table-bordered example1" id="tblSubTypePopup">
 						<thead>
 							<tr>
 
@@ -180,7 +180,7 @@
 		</div>
 	</div>
 	<div class="modal fade" id="nonstandard1">
-		<div class="modal-dialog modal-lg">
+		<div class="modal-dialog modal-xl">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">View Sub Type</h5>
@@ -205,7 +205,7 @@
 					<div style="clear: both;"></div>
 					<br>
 					<img id="displayImage2" class="img-fluid">
-					<table width="100%" class="table table-bordered example3" id="tblSubTypeDataview">
+					<table width="100%" class="table table-bordered example1" id="tblSubTypeDataview">
 						<thead>
 							<tr>
 								<th style="width:10%; text-align: center;">Sq. No.</th>
@@ -563,92 +563,16 @@
 			}
 
 
-			   function ModelSubTypeview(ID, RequestNo, FileTypeName, ProdLine, SizeType,SubTypeName,SKUCode, ImageFileName,Remark) {
+				 function ModelSubTypeview(ID, RequestNo, FileTypeName, ProdLine, SizeType, SubTypeName, SKUCode, ImageFileName, Remark) {
 
-			$('#txtID1').val(ID);
-			$('#txtRequest3').text(RequestNo);
-			$('#txtFileName3').text(FileTypeName);
-					$('#txtSubtypeCode3').text(SubTypeName);
-			$('#txtProdLine3').text(ProdLine);
-			$('#txtremarklbl1').text(Remark ?? '');
-			$('#txtFileSizeCode2').text(SizeType);
-			   $('#txtSkuCode2').text(SKUCode);
-
-
-
-			var JsonData = JSON.stringify({
-				Id: ID,
-				ProductLineRowId: '',
-				CTTypeRowId: ''
-			});
-
-			$.ajax({
-				type: "POST",
-				url: '@Url.Action("GetSubTypeTableData", "DrillMaster")',
-				data: { JsonData: JsonData },
-				dataType: "json",
-
-				beforeSend: function () {
-					$('#loader').show();
-				},
-				complete: function () {
-					$('#loader').hide();
-				},
-
-				success: function (res) {
-
-					let tbody = $("#tblSubTypeDataview tbody");
-					tbody.empty();
-
-					// ✅ IMAGE FIX
-					if (ImageFileName) {
-						OpenDocument(ImageFileName, 'displayImage2', ProdLine);
-					}
-
-					if (!res || !res.response || res.response.length === 0) {
-						tbody.append(`
-							<tr>
-								<td colspan="6" style="text-align:center;">
-									No Data Found
-								</td>
-							</tr>
-						`);
-					}
-					else {
-						$.each(res.response, function (index, item) {
-							tbody.append(`
-								<tr>
-									<td style="text-align:center;">${item.sqNo}</td>
-									<td>${item.processName}</td>
-									<td>${item.parameterName}</td>
-									<td style="text-align:center;">${item.value ?? ''}</td>
-									<td style="text-align:center;">${item.uom ?? ''}</td>
-									<td style="text-align:center;">${item.tolerance ?? ''}</td>
-								</tr>
-							`);
-						});
-					}
-
-					$('#nonstandard1').modal('show');
-				},
-
-				error: function () {
-					alert('Error occurred while fetching data.');
-				}
-			});
-		}
-		function ModelFileType(ID, RequestNo, FileTypeName, FileTypeCode, ProdLine, SizeType,SubTypeName,SKUCode, ImageFileName,Remark) {
-
-		$('#txtID').val(ID);
-		$('#txtRequest1').text(RequestNo);
-		$('#txtFileName1').text(FileTypeName);
-				$('#txtSubtypeCode1').text(SubTypeName);
-		$('#txtProdLine1').text(ProdLine);
-		$('#txtremarklbl').text(Remark ?? '');
-		$('#txtFileSizeCode').text(SizeType);
-		   $('#txtSkuCode').text(SKUCode);
-
-
+		$('#txtID1').val(ID);
+		$('#txtRequest3').text(RequestNo);
+		$('#txtFileName3').text(FileTypeName);
+		$('#txtSubtypeCode3').text(SubTypeName);
+		$('#txtProdLine3').text(ProdLine);
+		$('#txtremarklbl1').text(Remark ?? '');
+		$('#txtFileSizeCode2').text(SizeType);
+		$('#txtSkuCode2').text(SKUCode);
 
 		var JsonData = JSON.stringify({
 			Id: ID,
@@ -671,6 +595,132 @@
 
 			success: function (res) {
 
+				let table = $('#tblSubTypeDataview');
+
+				// ✅ Destroy old DataTable
+				if ($.fn.DataTable.isDataTable('#tblSubTypeDataview')) {
+					table.DataTable().clear().destroy();
+				}
+
+				let tbody = $("#tblSubTypeDataview tbody");
+				tbody.empty();
+
+				// ✅ IMAGE FIX
+				if (ImageFileName) {
+					OpenDocument(ImageFileName, 'displayImage2', ProdLine);
+				}
+
+				if (!res || !res.response || res.response.length === 0) {
+
+					tbody.append(`
+						<tr>
+							<td colspan="6" class="text-center">
+								No Data Found
+							</td>
+						</tr>
+					`);
+
+				} else {
+
+					$.each(res.response, function (index, item) {
+
+						tbody.append(`
+							<tr>
+								<td class="text-center">${item.sqNo}</td>
+								<td class="text-wrap">${item.processName}</td>
+								<td class="text-wrap">${item.parameterName}</td>
+								<td class="text-center">${item.value ?? ''}</td>
+								<td class="text-center">${item.uom ?? ''}</td>
+								<td class="text-center">${item.tolerance ?? ''}</td>
+							</tr>
+						`);
+					});
+				}
+
+				// ✅ Initialize DataTable
+			let dt = table.DataTable({
+		responsive: true,
+		paging: true,
+		pageLength: 10,
+		lengthChange: true,
+		searching: true,
+		ordering: true,
+		info: true,
+		autoWidth: false,
+
+		// ✅ ADD THIS (for layout)
+		dom: "<'row'<'col-sm-2'l><'col-sm-4 text-center'B><'col-sm-6'f>>" +
+			 "<'row'<'col-sm-12'tr>>" +
+			 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+
+		// ✅ ADD THIS (CSV button)
+		buttons: [
+			{
+				extend: 'csv',
+				text: 'CSV',
+				className: 'btn btn-secondary btn-sm'
+			}
+		],
+
+		columnDefs: [
+			{ className: "dt-center", targets: [0, 3, 4, 5] }
+		]
+	});
+
+				// ✅ Fix width issue inside modal
+				$('#nonstandard1').off('shown.bs.modal').on('shown.bs.modal', function () {
+					dt.columns.adjust();
+				});
+
+				// ✅ Show modal
+				$('#nonstandard1').modal('show');
+			},
+
+			error: function () {
+				alert('Error occurred while fetching data.');
+			}
+		});
+	}
+
+			function ModelFileType(ID, RequestNo, FileTypeName, FileTypeCode, ProdLine, SizeType, SubTypeName, SKUCode, ImageFileName, Remark) {
+
+		$('#txtID').val(ID);
+		$('#txtRequest1').text(RequestNo);
+		$('#txtFileName1').text(FileTypeName);
+		$('#txtSubtypeCode1').text(SubTypeName);
+		$('#txtProdLine1').text(ProdLine);
+		$('#txtremarklbl').text(Remark ?? '');
+		$('#txtFileSizeCode').text(SizeType);
+		$('#txtSkuCode').text(SKUCode);
+
+		var JsonData = JSON.stringify({
+			Id: ID,
+			ProductLineRowId: '',
+			CTTypeRowId: ''
+		});
+
+		$.ajax({
+			type: "POST",
+			url: '@Url.Action("GetSubTypeTableData", "DrillMaster")',
+			data: { JsonData: JsonData },
+			dataType: "json",
+
+			beforeSend: function () {
+				$('#loader').show();
+			},
+			complete: function () {
+				$('#loader').hide();
+			},
+
+			success: function (res) {
+
+				let table = $('#tblSubTypeData');
+
+				// ✅ Destroy existing DataTable
+				if ($.fn.DataTable.isDataTable('#tblSubTypeData')) {
+					table.DataTable().clear().destroy();
+				}
+
 				let tbody = $("#tblSubTypeData tbody");
 				tbody.empty();
 
@@ -680,29 +730,68 @@
 				}
 
 				if (!res || !res.response || res.response.length === 0) {
+
 					tbody.append(`
 						<tr>
-							<td colspan="6" style="text-align:center;">
+							<td colspan="6" class="text-center">
 								No Data Found
 							</td>
 						</tr>
 					`);
-				}
-				else {
+
+				} else {
+
 					$.each(res.response, function (index, item) {
+
 						tbody.append(`
 							<tr>
-								<td style="text-align:center;">${item.sqNo}</td>
-								<td>${item.processName}</td>
-								<td>${item.parameterName}</td>
-								<td style="text-align:center;">${item.value ?? ''}</td>
-								<td style="text-align:center;">${item.uom ?? ''}</td>
-								<td style="text-align:center;">${item.tolerance ?? ''}</td>
+								<td class="text-center">${item.sqNo}</td>
+								<td class="text-wrap">${item.processName}</td>
+								<td class="text-wrap">${item.parameterName}</td>
+								<td class="text-center">${item.value ?? ''}</td>
+								<td class="text-center">${item.uom ?? ''}</td>
+								<td class="text-center">${item.tolerance ?? ''}</td>
 							</tr>
 						`);
 					});
 				}
 
+				// ✅ Initialize DataTable
+					let dt = table.DataTable({
+		responsive: true,
+		paging: true,
+		pageLength: 10,
+		lengthChange: true,
+		searching: true,
+		ordering: true,
+		info: true,
+		autoWidth: false,
+
+		// ✅ ADD THIS (for layout)
+		dom: "<'row'<'col-sm-2'l><'col-sm-4 text-center'B><'col-sm-6'f>>" +
+			 "<'row'<'col-sm-12'tr>>" +
+			 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+
+		// ✅ ADD THIS (CSV button)
+		buttons: [
+			{
+				extend: 'csv',
+				text: 'CSV',
+				className: 'btn btn-secondary btn-sm'
+			}
+		],
+
+		columnDefs: [
+			{ className: "dt-center", targets: [0, 3, 4, 5] }
+		]
+	});
+
+				// ✅ Fix width issue in modal
+				$('#nonstandard').off('shown.bs.modal').on('shown.bs.modal', function () {
+					dt.columns.adjust();
+				});
+
+				// ✅ Show modal
 				$('#nonstandard').modal('show');
 			},
 
@@ -711,7 +800,9 @@
 			}
 		});
 	}
-			   function ApproveSubType(ID) {
+	
+	
+	function ApproveSubType(ID) {
 				var Remark = $('#textRemark').val();
 				var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
 
@@ -732,79 +823,117 @@
 				});
 			}
 
-					function ModelSubTypeApprove(ID, RequestNo, FileTypeName, ProdLine, SizeType,SubTypeName,SKUCode, ImageFileName,Remark) {
+				function ModelSubTypeApprove(ID, RequestNo, FileTypeName, ProdLine, SizeType, SubTypeName, SKUCode, ImageFileName, Remark) {
 
-			// Bind header
-			$('#txtSubTypeId').val(ID);
-				$('#txtRequest2').text(RequestNo);
-				$('#txtProdLine2').text(ProdLine);
-					$('#txtFileName2').text(FileTypeName);
-					$('#txtSubtypeCode2').text(SubTypeName);
-					$('#txtSkuCode1').text(SKUCode);
-							$('#txtFileSizeCode1').text(SizeType);
+		// ✅ Bind header
+		$('#txtSubTypeId').val(ID);
+		$('#txtRequest2').text(RequestNo);
+		$('#txtProdLine2').text(ProdLine);
+		$('#txtFileName2').text(FileTypeName);
+		$('#txtSubtypeCode2').text(SubTypeName);
+		$('#txtSkuCode1').text(SKUCode);
+		$('#txtFileSizeCode1').text(SizeType);
 
+		var JsonData = JSON.stringify({
+			Id: parseInt(ID)
+		});
 
-			// Fetch table data using ID only
-			var JsonData = JSON.stringify({
-				Id: parseInt(ID)
-			});
+		$.ajax({
+			type: "POST",
+			url: '@Url.Action("GetSubTypeTableData", "DrillMaster")',
+			data: { JsonData: JsonData },
+			dataType: "json",
 
-			$.ajax({
-				type: "POST",
-				url: '@Url.Action("GetSubTypeTableData", "DrillMaster")',
-				data: { JsonData: JsonData },
-				dataType: "json",
+			beforeSend: function () { $('#loader').show(); },
+			complete: function () { $('#loader').hide(); },
 
-				beforeSend: function () { $('#loader').show(); },
-				complete: function () { $('#loader').hide(); },
+			success: function (response) {
 
-				   success: function (response) {
-							  if (ImageFileName) {
-						OpenDocument(ImageFileName, 'displayImage1', ProdLine);
-					}
-			console.log(response); // always keep for debugging
+				let table = $('#tblSubTypePopup');
 
-			let data = response.response;   // 🔥 THIS IS THE FIX
-
-			let tbody = $("#tblSubTypePopup tbody");
-			tbody.empty();
-
-			if (!data || data.length === 0) {
-
-				tbody.append(`
-					<tr>
-						<td colspan="6" style="text-align:center;">
-							No Data Found
-						</td>
-					</tr>
-				`);
-
-				return;
-			}
-
-			$.each(data, function (index, item) {
-
-				tbody.append(`
-					<tr>
-						<td style="text-align:center;">${item.sqNo}</td>
-						<td>${item.processName ?? ''}</td>
-						<td>${item.parameterName ?? ''}</td>
-						<td style="text-align:center;">${item.value ?? ''}</td>
-						<td style="text-align:center;">${item.uom ?? ''}</td>
-						<td style="text-align:center;">${item.tolerance ?? ''}</td>
-					</tr>
-				`);
-			});
-
-			$('#approve').modal('show');
-		},
-
-				error: function () {
-					alert("Error loading SubType details");
+				// ✅ Destroy old DataTable
+				if ($.fn.DataTable.isDataTable('#tblSubTypePopup')) {
+					table.DataTable().clear().destroy();
 				}
-			});
-		}
 
+				// ✅ IMAGE
+				if (ImageFileName) {
+					OpenDocument(ImageFileName, 'displayImage1', ProdLine);
+				}
+
+				let data = response.response;
+
+				let tbody = $("#tblSubTypePopup tbody");
+				tbody.empty();
+
+				if (!data || data.length === 0) {
+
+					tbody.append(`
+						<tr>
+							<td colspan="6" class="text-center">
+								No Data Found
+							</td>
+						</tr>
+					`);
+
+				} else {
+
+					$.each(data, function (index, item) {
+
+						tbody.append(`
+							<tr>
+								<td class="text-center">${item.sqNo}</td>
+								<td class="text-wrap">${item.processName ?? ''}</td>
+								<td class="text-wrap">${item.parameterName ?? ''}</td>
+								<td class="text-center">${item.value ?? ''}</td>
+								<td class="text-center">${item.uom ?? ''}</td>
+								<td class="text-center">${item.tolerance ?? ''}</td>
+							</tr>
+						`);
+					});
+				}
+
+					var dt = $('#tblSubTypePopup').DataTable({
+    responsive: true,
+    paging: true,
+    pageLength: 10,
+    searching: true,
+    ordering: true,
+    info: true,
+    autoWidth: false,
+
+    // ✅ Layout fix
+    dom: "<'row'<'col-sm-2'l><'col-sm-4 text-center'B><'col-sm-6'f>>" +
+         "<'row'<'col-sm-12'tr>>" +
+         "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+
+    // ✅ CSV button
+    buttons: [
+        {
+            extend: 'csv',
+            text: 'CSV',
+            className: 'btn btn-secondary btn-sm'
+        }
+    ],
+
+    columnDefs: [
+        { className: "dt-center", targets: "_all" }
+    ]
+});
+				// ✅ Fix width issue in modal
+				$('#approve').off('shown.bs.modal').on('shown.bs.modal', function () {
+					dt.columns.adjust();
+				});
+
+				// ✅ Show modal AFTER init
+				$('#approve').modal('show');
+			},
+
+			error: function () {
+				alert("Error loading SubType details");
+			}
+		});
+	}
 			   function ApproveFileType(Id, StatusId) {
 				var iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
 				var Remark=$('#txtRemark').val();

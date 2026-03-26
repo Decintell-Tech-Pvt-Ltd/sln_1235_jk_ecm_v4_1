@@ -195,12 +195,12 @@
 
 										<tr>
 
-											<th width="13%"><div align="center">Request No.	</div></th>
-											<th width="13%">Product Line</th>
-											<th width="13%"> <div align="center">Type Code</div></th>
-											<th width="15%"><div align="Left"> Type Name</div></th>
-											<th width="28%"> <div align="Left">Type Description</div></th>
-											<th width="15%"><div align="center">Action</div></th>
+											<th width="2%"><div align="center">Request No.	</div></th>
+											<th width="5%">Product Line</th>
+											<th width="5%"> <div align="center">Type Code</div></th>
+											<th width="12%"><div align="Left"> Type Name</div></th>
+											<th width="15%"> <div align="Left">Type Description</div></th>
+											<th width="6%"><div align="center">Action</div></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -214,12 +214,12 @@
 														<td class="text-center"><a href="#" title="Edit" onclick="EditFileType('@item.Id',@item.RequestNo);">@item.Id</a></td>
 														<td class="text-left">@item.ProductLine</td>
 														<td class="text-center">@item.FileTypeCode</td>
-														<td>
+														<td style="white-space: normal; word-break: break-word;">
 															<a href="#" title="View" onclick="ModelFileType('@item.Id','@item.RequestNo','@item.FileTypeName','@item.FileTypeCode','@item.ProductLine','@item.Remark');" data-toggle="modal">
 																@item.FileTypeName
 															</a>
 														</td>
-														<td class="text-left">@item.TypeDesc</td>
+														<td class="text-left" style="white-space: normal; word-break: break-word;">@item.TypeDesc</td>
 														<td class="text-center">
 															@*   <a href="#" class="btn btn-sm btn-warning" onclick="EditFileType('@item.Id',@item.RequestNo);" title="Edit">
                                                                 <i class="fas fa-edit"></i>
@@ -279,8 +279,8 @@
 												<tr>
 													<td class="text-center">@item.Id</td>
 													<td class="text-left">@item.ProductLine</td>
-													
-													<td class="text-center">@item.FileTypeCode</td>
+
+													<td class="text-center" style="white-space: normal; word-break: break-word;">@item.FileTypeCode</td>
 													<td>
 														<a href="#" title="View" data-toggle="modal" data-target="#approve" onclick="setApproveItems('@item.Id','@item.RequestNo','@item.FileTypeName','@item.FileTypeCode','@item.ProductLine');">
 															@item.FileTypeName
@@ -338,7 +338,7 @@
 												<tr>
 													<td class="text-center">@item.Id</td>
 													<td class="text-left">@item.ProductLine</td>
-													<td class="text-center">@item.FileTypeCode</td>
+													<td class="text-center" style="white-space: normal; word-break: break-word;">@item.FileTypeCode</td>
 													<td>
 														<a href="#" title="View" onclick="ModelFileType('@item.Id','@item.RequestNo','@item.FileTypeName','@item.FileTypeCode','@item.ProductLine');">
 															@item.FileTypeName

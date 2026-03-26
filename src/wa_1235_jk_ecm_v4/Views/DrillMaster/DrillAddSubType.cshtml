@@ -34,10 +34,11 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="btnwidth50 float-right ">
-                        <button type="button" class="btn btn-block bg-gradient-danger btn-xs float-left"
-                                onclick="location.href='subtype.html'" title="Go back to the previous page">
+                        <a href="@Url.Action("DrillSubType", "DrillMaster", new { PageID = @Context.Request.Query["PageID"].ToString(), ParentID = @Context.Request.Query["ParentID"].ToString(), ModuleID = @Context.Request.Query["ModuleID"].ToString(), ModulePageID = @Context.Request.Query["ModulePageID"].ToString() })"
+                           class="btn btn-block bg-gradient-danger btn-xs"
+                           title="Go back to the previous page">
                             Back
-                        </button>
+                        </a>
                     </div>
 
                 </div>
@@ -193,7 +194,7 @@
                             <div class="col-md-12 mr-1">
 
                                 <div class="table-responsive">
-                                    <table width="100%" class="table table-bordered example3" id="tblSubTypeData">
+                                    <table width="100%" class="table table-bordered example1" id="tblSubTypeData">
                                         <thead>
                                             <tr>
                                                 <th style="width:10%; text-align: center;">Sq. No.</th>
@@ -809,41 +810,74 @@
                 $('#loader').hide();
             },
 
-            success: function (res) {
+           success: function (res) {
 
-                let tbody = $("#tblSubTypeData tbody");
-                tbody.empty();
+        let table = $('#tblSubTypeData');
 
-                if (!res || !res.response || res.response.length === 0) {
+        // ✅ Destroy existing DataTable
+        if ($.fn.DataTable.isDataTable(table)) {
+            table.DataTable().clear().destroy();
+        }
 
-                    tbody.append(`
-                        <tr>
-                            <td colspan="6" style="text-align:center;">
-                                No Data Found
-                            </td>
-                        </tr>
-                    `);
-                    return;
-                }
+        let tbody = $("#tblSubTypeData tbody");
+        tbody.empty();
 
-                $.each(res.response, function (index, item) {
+        // ✅ No data case
+        if (!res || !res.response || res.response.length === 0) {
 
-                    tbody.append(`
-                        <tr>
-                            <td style="text-align:center;">${item.sqNo}</td>
-                            <td>${item.processName}</td>
-                            <td>${item.parameterName}</td>
-                            <td style="text-align:center;">${item.value ?? ''}</td>
-                            <td style="text-align:center;">${item.uom ?? ''}</td>
-                            <td style="text-align:center;">${item.tolerance ?? ''}</td>
-                        </tr>
-                    `);
-                });
+            tbody.append(`
+                <tr>
+                    <td colspan="6" style="text-align:center;">
+                        No Data Found
+                    </td>
+                </tr>
+            `);
 
-                    loadCTSizeDropdown();
-            }
-                
+            // ⚠️ Still initialize DataTable (optional)
+            table.DataTable({
+                paging: true,
+                searching: false,
+                info: false
+            });
+
+            return;
+        }
+
+        // ✅ Bind data
+        $.each(res.response, function (index, item) {
+
+            tbody.append(`
+                <tr>
+                    <td style="text-align:center;">${item.sqNo}</td>
+                    <td>${item.processName}</td>
+                    <td>${item.parameterName}</td>
+                    <td style="text-align:center;">${item.value ?? ''}</td>
+                    <td style="text-align:center;">${item.uom ?? ''}</td>
+                    <td style="text-align:center;">${item.tolerance ?? ''}</td>
+                </tr>
+            `);
         });
+
+        // ✅ Initialize DataTable AFTER data load
+        table.DataTable({
+            responsive: true,
+            paging: true,
+            pageLength: 10,
+            lengthChange: true,
+            searching: true,
+            ordering: true,
+            info: true,
+            autoWidth: false,
+
+            columnDefs: [
+                { className: "dt-center", targets: [0, 3, 4, 5] }
+            ]
+        });
+
+        // ✅ Your existing function
+        loadCTSizeDropdown();
+    }
+            });
     }
 
          function LoadEditFileSize(TypeId) {
