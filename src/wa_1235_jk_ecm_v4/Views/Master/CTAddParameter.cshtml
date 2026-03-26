@@ -78,7 +78,7 @@
                                                 @id = "ddlProcess",
                                                 onchange = "clearError('spddlProcess')"
                                             }) *@
-                                        @Html.DropDownListFor(model => model.ProdId, new List<SelectListItem> { new SelectListItem("Select", "Select2") }, new { @class = "form-control select2", @id = "ddlProcess" })
+                                        @Html.DropDownListFor(model => model.ProdId, new List<SelectListItem> { new SelectListItem("Select", "Select") }, new { @class = "form-control select2", @id = "ddlProcess", onchange = "clearError('spddlProcess');" })
                                         <span id="spddlProcess" class="text-danger"></span>
                                     </div>
                                     
@@ -210,11 +210,13 @@ $(document).ready(function () {
             isValid = false;
         }
 
-        if (Process == "" || Process == null) {
+            if (Process == "" || Process == null || Process == "Select") {
             $('#spddlProcess').text("Please Select Process");
             isValid = false;
         }
-
+          
+        
+        
         if (Parameter.trim() == "") {
             $('#spParameter').text("Please enter Parameter name");
             isValid = false;
@@ -243,7 +245,12 @@ $(document).ready(function () {
             datatype: 'json',
             success: function (data) {
                alert(data.response);
-             var url = "@Url.Action("CTParameter", "Master")" +
+                 var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+                    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+                    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+                    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+
+                   var url = "@Url.Action("CTParameter", "Master")" +
         "?PageID=" + pageID +
         "&ParentID=" + parentID +
         "&ModuleID=" + moduleID +

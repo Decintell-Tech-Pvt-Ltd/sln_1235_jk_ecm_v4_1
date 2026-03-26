@@ -162,7 +162,7 @@
                             <div class="col-md-12 mr-1">
 
                                 <div class="table-responsive">
-                                    <table class="table table-bordered example1 nowrap" style="width:100%;"  id="tblCTSize">
+                                    <table class="table table-bordered example1" style="width:100%;"  id="tblCTSize">
                                         <thead>
 
                                             <tr>
@@ -217,7 +217,6 @@
                                             class="btn btn-block bg-gradient-primary btn-xs float-left"
                                             onclick="SaveSizeData()"
                                             id="btnSave"
-                                            
                                             title="Go to the next page">
                                         Save
                                     </button>
@@ -365,7 +364,8 @@
 </div> *@
 
 <script>
-             function loadTypeByProductLine(selectedTypeId = null) {
+        
+ function loadTypeByProductLine(selectedTypeId = null) {
 
             var productLineId = $('#ddlproductline').val();
 
@@ -433,61 +433,137 @@
 
     window.location.href = url;
 }
+//     function LoadCTSizeTable() {
+
+//     let productLineId = $("#ddlproductline").val();
+//     let ctTypeRowId = $("#TxtFileType").val();
+
+//     if (!productLineId || productLineId == "0") return;
+//     if (!ctTypeRowId || ctTypeRowId == "0") return;
+
+//     let jsonData = {
+//         ProductLineRowId: productLineId,
+//         CTTypeRowId: ctTypeRowId
+//     };
+
+//     $.ajax({
+//         type: "POST",
+//         url: '@Url.Action("GetCTSizeDetails","DrillMaster")',
+//         data: { JsonData: JSON.stringify(jsonData) },
+//         dataType: "json",
+
+//         success: function (res) {
+
+//             let tbody = $("#tblCTSizeBody");
+//             tbody.empty();
+
+//             if (!res || !res.response || res.response.length === 0)
+//                 return;
+
+//             res.response.forEach(function (item) {
+
+//                 let row = `
+//                 <tr>
+//                     <td><div align="center">${item.id}</div></td>
+//                     <td><div align="left">${item.productLineName}</div></td>
+//                     <td><div align="left">${item.ctTypeName}</div></td>
+//                     <td><div align="left">${item.paramName || ''}</div></td>
+//                     <td><div align="center">${item.paramCode || ''}</div></td>
+//                     <td><div align="left">${item.paramType || ''}</div></td>
+//                     <td><div align="left">${item.sizeUOM || ''}</div></td>
+//                     <td><div align="center">${item.sizeValue || ''}</div></td>
+//                     <td>
+//                         <div align="center">
+//                             <a href="#" class="Edit">${item.sizeCode}</a>
+//                         </div>
+//                     </td>
+//                 </tr>`;
+
+//                 tbody.append(row);
+//             });
+          
+//         },
+//         error: function () {
+//             alert("Error loading table");
+//         }
+//     });
+// }
     function LoadCTSizeTable() {
 
-    let productLineId = $("#ddlproductline").val();
-    let ctTypeRowId = $("#TxtFileType").val();
+        let productLineId = $("#ddlproductline").val();
+        let ctTypeRowId = $("#TxtFileType").val();
 
-    if (!productLineId || productLineId == "0") return;
-    if (!ctTypeRowId || ctTypeRowId == "0") return;
+        if (!productLineId || productLineId == "0") return;
+        if (!ctTypeRowId || ctTypeRowId == "0") return;
 
-    let jsonData = {
-        ProductLineRowId: productLineId,
-        CTTypeRowId: ctTypeRowId
-    };
+        let jsonData = {
+            ProductLineRowId: productLineId,
+            CTTypeRowId: ctTypeRowId
+        };
 
-    $.ajax({
-        type: "POST",
-        url: '@Url.Action("GetCTSizeDetails","DrillMaster")',
-        data: { JsonData: JSON.stringify(jsonData) },
-        dataType: "json",
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("GetCTSizeDetails", "DrillMaster")',
+            data: { JsonData: JSON.stringify(jsonData) },
+            dataType: "json",
 
-        success: function (res) {
+            success: function (res) {
 
-            let tbody = $("#tblCTSizeBody");
-            tbody.empty();
+                let table = $('#tblCTSize');
 
-            if (!res || !res.response || res.response.length === 0)
-                return;
+                // ✅ Destroy if already exists
+                if ($.fn.DataTable.isDataTable(table)) {
+                    table.DataTable().clear().destroy();
+                }
 
-            res.response.forEach(function (item) {
+                let tbody = $("#tblCTSizeBody");
+                tbody.empty();
 
-                let row = `
-                <tr>
-                    <td><div align="center">${item.id}</div></td>
-                    <td><div align="left">${item.productLineName}</div></td>
-                    <td><div align="left">${item.ctTypeName}</div></td>
-                    <td><div align="left">${item.paramName || ''}</div></td>
-                    <td><div align="center">${item.paramCode || ''}</div></td>
-                    <td><div align="left">${item.paramType || ''}</div></td>
-                    <td><div align="left">${item.sizeUOM || ''}</div></td>
-                    <td><div align="center">${item.sizeValue || ''}</div></td>
-                    <td>
-                        <div align="center">
-                            <a href="#" class="Edit">${item.sizeCode}</a>
-                        </div>
-                    </td>
-                </tr>`;
+                if (!res || !res.response || res.response.length === 0)
+                    return;
 
-                tbody.append(row);
-            });
-          
-        },
-        error: function () {
-            alert("Error loading table");
-        }
-    });
-}
+                res.response.forEach(function (item) {
+
+                    let row = `
+                    <tr>
+                        <td>${item.id}</td>
+                        <td>${item.productLineName}</td>
+                        <td>${item.ctTypeName}</td>
+                        <td>${item.paramName || ''}</td>
+                        <td>${item.paramCode || ''}</td>
+                        <td>${item.paramType || ''}</td>
+                        <td>${item.sizeUOM || ''}</td>
+                        <td>${item.sizeValue || ''}</td>
+                        <td><a href="#" class="Edit">${item.sizeCode}</a></td>
+                    </tr>`;
+
+                    tbody.append(row);
+                });
+
+                // ✅ Reinitialize DataTable AFTER data load
+                table.DataTable({
+                    responsive: true,
+                    paging: true,
+                    pageLength: 10,
+                    lengthChange: true,
+                    searching: true,
+                    ordering: true,
+                    info: true,
+                    autoWidth: false,
+
+                    columnDefs: [
+                        { className: "dt-center", targets: [0,4,7,8] }
+                    ]
+                });
+            },
+
+            error: function () {
+                alert("Error loading table");
+            }
+        });
+    }
+
+
         function AddCTSizeData() {
 
         let isValid = true;
@@ -603,7 +679,8 @@
         });
 
     });
-     function onTypeChange() {
+     
+    function onTypeChange() {
 
          var FileType = $("#TxtFileType option:selected").text().trim();
 
@@ -652,6 +729,7 @@
         });
            LoadCTSizeTable();
     }
+ 
     var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
     var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
     var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
