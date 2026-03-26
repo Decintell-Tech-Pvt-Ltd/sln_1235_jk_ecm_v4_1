@@ -216,7 +216,8 @@
                                     <button type="button"
                                             class="btn btn-block bg-gradient-primary btn-xs float-left"
                                             onclick="SaveSizeData()"
-                                            disabled
+                                            id="btnSave"
+                                            
                                             title="Go to the next page">
                                         Save
                                     </button>
@@ -480,6 +481,7 @@
 
                 tbody.append(row);
             });
+          
         },
         error: function () {
             alert("Error loading table");
