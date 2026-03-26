@@ -470,30 +470,66 @@ function ModelFileType(RequestId, ProductLineName, TypeName, ProductLineRowId, C
 
         success: function (data) {
 
-            var rows = "";
+    let table = $('#sizeTable');
 
-            if (data.response && data.response.length > 0) {
+    // ✅ Destroy old DataTable
+    if ($.fn.DataTable.isDataTable('#sizeTable')) {
+        table.DataTable().clear().destroy();
+    }
 
-                $.each(data.response, function (i, item) {
+    let rows = "";
 
-                    rows += "<tr>";
-                    rows += "<td align='center'>" + item.sizeUOM + "</td>";
-                    rows += "<td align='center'>" + item.sizeValue + "</td>";
-                    rows += "<td align='center'>" + item.sizeCode + "</td>";
-                    rows += "</tr>";
+    if (data.response && data.response.length > 0) {
 
-                });
+        $.each(data.response, function (i, item) {
 
-            } else {
+            rows += "<tr>";
+            rows += "<td class='text-center'>" + item.sizeUOM + "</td>";
+            rows += "<td class='text-center'>" + item.sizeValue + "</td>";
+            rows += "<td class='text-center'>" + item.sizeCode + "</td>";
+            rows += "</tr>";
 
-                rows = "<tr><td colspan='3' align='center'>No Data Found</td></tr>";
+        });
 
+    } else {
+
+        rows = "<tr><td colspan='3' class='text-center'>No Data Found</td></tr>";
+    }
+
+    $("#sizeTableBody").html(rows);
+
+    // ✅ Initialize DataTable with CSV
+    let dt = table.DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        searching: true,
+        ordering: true,
+        info: true,
+        autoWidth: false,
+
+        // ⭐ CSV layout
+        dom: "<'row'<'col-sm-2'l><'col-sm-4 text-center'B><'col-sm-6'f>>" +
+             "<'row'<'col-sm-12'tr>>" +
+             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+
+        buttons: [
+            {
+                extend: 'csv',
+                text: 'CSV',
+                className: 'btn btn-secondary btn-sm'
             }
+        ]
+    });
 
-            $("#sizeTableBody").html(rows);
+    // ✅ Fix modal table width
+    $('#view').off('shown.bs.modal').on('shown.bs.modal', function () {
+        dt.columns.adjust();
+    });
 
-            $('#view').modal('show');
-        },
+    // ✅ Show modal
+    $('#view').modal('show');
+},
 
         error: function () {
             alert("Error occurred while fetching size data.");
