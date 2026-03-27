@@ -68,7 +68,7 @@
 <br><br>
 <div style="clear: both;"></div>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered example1 mt-3">
+<table width="100%" border="0" id="TableSizeApprove"  class="table table-bordered example1 mt-3">
   <thead>
   <tr>
    <th style="width: 30.5%;"><div align="center">UOM</div></th>
@@ -143,7 +143,7 @@
                         <br><br>
                         <div style="clear: both;"></div>
 
-                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered example1 mt-3">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" id="sizeTable" class="table table-bordered example1 mt-3">
                           <thead>
                           <tr>
                            <th style="width: 30.5%;"><div align="center">UOM</div></th>
@@ -385,7 +385,7 @@ onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.
 
 
 <Script>
-  function ModelFileSize(RequestId, ProductLineName, TypeName, ProductLineRowId, CTTypeRowId) {
+ function ModelFileSize(RequestId, ProductLineName, TypeName, ProductLineRowId, CTTypeRowId) {
 
     $('#txtID').val(RequestId);
     $('#txtRequest').text(RequestId);
@@ -403,45 +403,68 @@ onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.
         data: { JsonData: JsonData },
         dataType: "json",
 
-        beforeSend: function () {
-            $('#loader').show();
-        },
-        complete: function () {
-            $('#loader').hide();
-        },
-
         success: function (data) {
 
-            var rows = "";
+            let table = $('#TableSizeApprove');
+
+            // ✅ DESTROY FIRST
+            if ($.fn.DataTable.isDataTable('#TableSizeApprove')) {
+                table.DataTable().clear().destroy();
+            }
+
+            let rows = "";
 
             if (data.response && data.response.length > 0) {
 
                 $.each(data.response, function (i, item) {
 
-                    rows += "<tr>";
-                    rows += "<td align='center'>" + item.sizeUOM + "</td>";
-                    rows += "<td align='center'>" + item.sizeValue + "</td>";
-                    rows += "<td align='center'>" + item.sizeCode + "</td>";
-                    rows += "</tr>";
-
+                    rows += `<tr>
+                                <td class="text-center">${item.sizeUOM}</td>
+                                <td class="text-center">${item.sizeValue}</td>
+                                <td class="text-center">${item.sizeCode}</td>
+                             </tr>`;
                 });
 
             } else {
-
-                rows = "<tr><td colspan='3' align='center'>No Data Found</td></tr>";
-
+                rows = `<tr><td colspan="3" class="text-center">No Data Found</td></tr>`;
             }
 
             $("#sizeApproveTableBody").html(rows);
 
+            // ✅ RE-INITIALIZE
+            table.DataTable({
+                destroy: true,   // extra safety
+                responsive: true,
+                pageLength: 5,
+                searching: true,
+                ordering: true,
+
+                dom: 'Bfrtip',   // SIMPLE layout (fixes many issues)
+
+                buttons: [
+                    {
+                        extend: 'csvHtml5',
+                        text: 'Download CSV',
+                        className: 'btn btn-primary btn-sm'
+                    }
+                ],
+
+                columnDefs: [
+                    { targets: [0, 1, 2], className: "text-center" }
+                ]
+            });
+
             $('#approve').modal('show');
         },
 
-        error: function () {
-            alert("Error occurred while fetching size details.");
+        error: function (err) {
+            console.log(err);
+            alert("Error occurred");
         }
     });
 }
+
+
 function ModelFileType(RequestId, ProductLineName, TypeName, ProductLineRowId, CTTypeRowId,Remark) {
 
     $('#txtRequest1').text(RequestId);
