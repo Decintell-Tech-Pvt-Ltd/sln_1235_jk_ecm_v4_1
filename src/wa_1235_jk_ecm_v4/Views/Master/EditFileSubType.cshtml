@@ -195,6 +195,14 @@
         var FileSubTypeId = $ddl.val();
         var FileSubTypeText = $ddl.find("option:selected").text().trim(); // ⬅️ Get selected text
 
+        if(FileSubTypeText =="Select"){
+
+            alert ("Please Select Reference CSV Type Code");
+            return;
+
+        }
+
+
         var JsonData = JSON.stringify({
             ID: FileSubTypeId
         });

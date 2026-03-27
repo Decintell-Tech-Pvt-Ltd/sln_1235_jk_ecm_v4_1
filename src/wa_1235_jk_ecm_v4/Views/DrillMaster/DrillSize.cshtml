@@ -68,7 +68,7 @@
 <br><br>
 <div style="clear: both;"></div>
 
-<table width="100%" border="0" id="TableSizeApprove"  class="table table-bordered example1 mt-3">
+<table width="100%" id="TableSizeApprove" class="table table-bordered example1 mt-3">
   <thead>
   <tr>
    <th style="width: 30.5%;"><div align="center">UOM</div></th>
@@ -143,7 +143,7 @@
                         <br><br>
                         <div style="clear: both;"></div>
 
-                        <table width="100%" border="0" cellspacing="0" cellpadding="0" id="sizeTable" class="table table-bordered example1 mt-3">
+                        <table width="100%" id="sizeTable" class="table table-bordered example1 mt-3">
                           <thead>
                           <tr>
                            <th style="width: 30.5%;"><div align="center">UOM</div></th>
@@ -403,13 +403,20 @@ onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.
         data: { JsonData: JsonData },
         dataType: "json",
 
+        beforeSend: function () {
+            $('#loader').show();
+        },
+        complete: function () {
+            $('#loader').hide();
+        },
+
         success: function (data) {
 
             let table = $('#TableSizeApprove');
 
-            // ✅ DESTROY FIRST
+            // ✅ Destroy old DataTable
             if ($.fn.DataTable.isDataTable('#TableSizeApprove')) {
-                table.DataTable().clear().destroy();
+                table.DataTable().destroy();
             }
 
             let rows = "";
@@ -419,51 +426,52 @@ onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.
                 $.each(data.response, function (i, item) {
 
                     rows += `<tr>
-                                <td class="text-center">${item.sizeUOM}</td>
-                                <td class="text-center">${item.sizeValue}</td>
-                                <td class="text-center">${item.sizeCode}</td>
+                                <td class="text-center">${item.sizeUOM || ''}</td>
+                                <td class="text-center">${item.sizeValue || ''}</td>
+                                <td class="text-center">${item.sizeCode || ''}</td>
                              </tr>`;
                 });
 
+                $("#sizeApproveTableBody").html(rows);
+
             } else {
-                rows = `<tr><td colspan="3" class="text-center">No Data Found</td></tr>`;
+
+                // ✅ EMPTY tbody (NO colspan)
+                $("#sizeApproveTableBody").html("");
             }
 
-            $("#sizeApproveTableBody").html(rows);
+            // ✅ Initialize DataTable
+           table.DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        searching: true,
+        ordering: true,
+        info: true,
+        autoWidth: false,
 
-            // ✅ RE-INITIALIZE
-            table.DataTable({
-                destroy: true,   // extra safety
-                responsive: true,
-                pageLength: 5,
-                searching: true,
-                ordering: true,
+        // ⭐ CSV layout
+        dom: "<'row'<'col-sm-2'l><'col-sm-4 text-center'B><'col-sm-6'f>>" +
+             "<'row'<'col-sm-12'tr>>" +
+             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
 
-                dom: 'Bfrtip',   // SIMPLE layout (fixes many issues)
-
-                buttons: [
-                    {
-                        extend: 'csvHtml5',
-                        text: 'Download CSV',
-                        className: 'btn btn-primary btn-sm'
-                    }
-                ],
-
-                columnDefs: [
-                    { targets: [0, 1, 2], className: "text-center" }
-                ]
-            });
+        buttons: [
+            {
+                extend: 'csv',
+                text: 'CSV',
+                className: 'btn btn-secondary btn-sm'
+            }
+        ]
+    });
 
             $('#approve').modal('show');
         },
 
-        error: function (err) {
-            console.log(err);
-            alert("Error occurred");
+        error: function () {
+            alert("Error occurred while fetching size details.");
         }
     });
 }
-
 
 function ModelFileType(RequestId, ProductLineName, TypeName, ProductLineRowId, CTTypeRowId,Remark) {
 
@@ -515,10 +523,11 @@ function ModelFileType(RequestId, ProductLineName, TypeName, ProductLineRowId, C
 
         });
 
-    } else {
+    }else {
 
-        rows = "<tr><td colspan='3' class='text-center'>No Data Found</td></tr>";
-    }
+                // ✅ EMPTY tbody (NO colspan)
+                $("#sizeTableBody").html("");
+            }
 
     $("#sizeTableBody").html(rows);
 
