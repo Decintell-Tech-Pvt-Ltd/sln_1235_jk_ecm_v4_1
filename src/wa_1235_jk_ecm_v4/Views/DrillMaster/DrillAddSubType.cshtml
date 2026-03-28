@@ -451,6 +451,13 @@
             var FileTypeId = $('#ddlFileTypeCVS').val();
             var FileTypeName = $('#ddlFileTypeCVS option:selected').text().trim(); // Get text for filename
 
+                if(FileTypeName == "Select"){
+                    alert("Please select  CSV Template");
+                return;
+                }
+
+
+
             var JsonData = JSON.stringify({
                 ID: FileTypeId
             });
