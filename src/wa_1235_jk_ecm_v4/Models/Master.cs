@@ -12,7 +12,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public int ProdId { get; set; }
         public int LookupTypeId { get; set; }
         public CTStampList[] CTStampList { get; set; }
-        
+
         //CutType
         public CutSpecParametersjarr[] CutSpecParameterslist { get; set; }
 
@@ -326,10 +326,13 @@ namespace wa_1235_jk_ecm_v4.Models
             public int val_ID { get; set; }
             public string Operations { get; set; }
             public string ProductLine { get; set; }
-
             public string Status { get; set; }
 
+            public int vso_operation_seq { get; set; }
+                public string opr_operation_name { get; set; }
+            public string Val_vs_ProductLine { get; set; }
 
+            
         }
 
 
@@ -493,7 +496,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public String FileTypeNamecode { get; set; }
     }
 
-   
+
 
     public class CTStampList
     {
