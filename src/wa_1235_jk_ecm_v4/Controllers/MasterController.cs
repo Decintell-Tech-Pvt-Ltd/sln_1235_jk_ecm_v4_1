@@ -2757,7 +2757,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
             objList.ProductLineDatas = JsonSerializer.Deserialize<ProductLineData[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
              apiEndPoint = "Masters/GetOperationList";
             objList.OprationLists = JsonSerializer.Deserialize<OprationList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
-
+            ViewBag.valID=val_ID;
             if (val_ID !=0)
             {
                     apiEndPoint = "Masters/GetValuestreamById";
@@ -2773,7 +2773,6 @@ namespace wa_1235_jk_ecm_v4.Controllers
                     objList.valuestreams = JsonSerializer.Deserialize<valuestream[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, ValuestreamIdJson));
                 ViewBag.valuestreamcode =objList.valuestreams[0].val_valuestream_code;
                 ViewBag.valuestreamname =objList.valuestreams[0].val_valuestream_name;
-                ViewBag.valID =objList.valuestreams[0].val_ID;
                 ViewBag.Processcode =objList.valuestreams[0].Val_vs_ProductLine;
 
             }
