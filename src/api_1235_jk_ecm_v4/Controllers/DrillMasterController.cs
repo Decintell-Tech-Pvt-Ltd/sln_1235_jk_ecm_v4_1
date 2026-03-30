@@ -350,6 +350,7 @@ namespace api_1235_jk_ecm_v4.Controllers
             }
             return Content(jsonResult, Application.Json, Encoding.UTF8);
         }
+     
         [HttpPost]
         [Route("CT_ApproveStamp")]
         public async Task<IActionResult> CT_ApproveStamp()
@@ -369,7 +370,30 @@ namespace api_1235_jk_ecm_v4.Controllers
             }
             return Content(jsonResult, Application.Json, Encoding.UTF8);
         }
-  
+
+
+        [HttpPost]
+        [Route("GetStampData")]
+        public async Task<IActionResult> GetStampData()
+        {
+
+
+            string spName = "usp_GetStampData";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+        }
+
+
+
         [HttpPost]
         [Route("CT_ApproveSubType")]
         public async Task<IActionResult> CT_ApproveSubType()

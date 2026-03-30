@@ -2750,7 +2750,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
 
             return View(objList);
         }
-        public async Task<ActionResult> AddValueStream()
+        public async Task<ActionResult> AddValueStream(int val_ID)
         {
             Master objList = new Master();
             string apiEndPoint = "Masters/GetProductList";
@@ -2758,6 +2758,20 @@ namespace wa_1235_jk_ecm_v4.Controllers
              apiEndPoint = "Masters/GetOperationList";
             objList.OprationLists = JsonSerializer.Deserialize<OprationList[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
 
+            if (val_ID !=0)
+            {
+                    apiEndPoint = "Masters/GetValuestreamById";
+                    var JsonData = new
+                    {
+    
+                        val_ID = val_ID
+    
+                    };
+                    string ValuestreamIdJson = JsonSerializer.Serialize(JsonData);
+    
+                    //selected data for RawMaterial
+                    objList.valuestreams = JsonSerializer.Deserialize<valuestream[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, ValuestreamIdJson));
+            }
             return View(objList);
         }
         [HttpPost]
@@ -2841,6 +2855,39 @@ namespace wa_1235_jk_ecm_v4.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteProcess(string JsonData)
+        {
+            string apiEndPoint = "Masters/DeleteProcess";
+
+
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteParameter(string JsonData)
+        {
+            string apiEndPoint = "Masters/DeleteParameter";
+
+
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
+        }
+
+
     }
 
 

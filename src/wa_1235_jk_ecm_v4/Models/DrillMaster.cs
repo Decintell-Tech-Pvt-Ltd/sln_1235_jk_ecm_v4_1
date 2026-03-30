@@ -47,10 +47,10 @@ namespace wa_1235_jk_ecm_v4.Models
     }
 
 
- 
+
     public class DownloadSubtypeCSV
     {
-     
+
         public string SqNo { get; set; }
         public string ProcessName { get; set; }
         public string ParameterName { get; set; }
@@ -335,6 +335,11 @@ namespace wa_1235_jk_ecm_v4.Models
         public string StatusId { get; set; }
         public int GridNo { get; set; }
         public string BrandCode { get; set; }
+        public int ProductLineRowId { get; set; }
+        public string SizeRowId { get; set; }
+        public int TypeID { get; set; }
+        public string SubTypeRowId { get; set; }
+       
     }
 
 
