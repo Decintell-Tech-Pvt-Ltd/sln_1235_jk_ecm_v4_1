@@ -58,7 +58,7 @@
                             <div class="row">
                                 <div class="form-group col-md-2">
                                     <label>Product Line</label>
-                                  @Html.DropDownListFor(
+                                 @Html.DropDownListFor(
     m => m.valcode,
     new SelectList(
         Model.ProductLineDatas.Select(x => new {
@@ -66,11 +66,17 @@
             ProductLine = x.ProductLine + " (" + x.ProductLineCode + ")"
         }),
         "ProductLineCode",
-        "ProductLine"
+        "ProductLine",
+        ViewBag.Processcode   // ✅ Selected value
     ),
     "Select",
-    new { @class = "form-control select2", @id = "ddlProductLine",onchange="clearError('spddlProductLine');" }
-)        <span id="spProductLine" class="text-danger"></span>
+    new {
+        @class = "form-control select2",
+        @id = "ddlProductLine",
+        onchange = "clearError('spddlProductLine');"
+    }
+)   
+      <span id="spProductLine" class="text-danger"></span>
                                  
                                 </div>
 
@@ -79,14 +85,14 @@
                                 <div class="col-lg-2">
                                     <div class="form-group">
                                         <label>Value Stream Code </label>
-                                        <input name="" type="text" class="form-control" id="txtValueCode" oninput="clearError('spValueCode');">
+                                        <input name="" type="text" class="form-control" value="@ViewBag.valuestreamcode" id="txtValueCode" oninput="clearError('spValueCode');">
                                          <span id="spValueCode" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-lg-2">
                                     <div class="form-group">
                                         <label>Value Stream Name </label>
-                                        <input name="" type="text" class="form-control" id="txtValueName" oninput="clearError('spValueName');">
+                                        <input name="" type="text" class="form-control" id="txtValueName" value="@ViewBag.valuestreamname" oninput="clearError('spValueName');">
                                          <span id="spValueName" class="text-danger"></span>
                                     </div>
                                 </div>

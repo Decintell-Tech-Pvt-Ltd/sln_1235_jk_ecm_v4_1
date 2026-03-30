@@ -626,13 +626,17 @@
         $("#txtValueStreamCode").text(val_valuestream_code);
         $("#txtValueStreamName").text(val_valuestream_name);
 
+        var table = $('.example2');
+
+        // ✅ Destroy DataTable first
+        if ($.fn.DataTable.isDataTable(table)) {
+            table.DataTable().clear().destroy();
+        }
+
         var tbody = $("#tblOperationsBody");
         tbody.empty();
 
-         // Destroy previous DataTable
-        if ($.fn.DataTable.isDataTable('.example2')) {
-            $('.example2').DataTable().destroy();
-        }
+        // ✅ Check data
         if (!operations || operations.trim() === "") {
             return;
         }
@@ -655,21 +659,20 @@
             tbody.append(row);
         }
 
-       
-
-        // Initialize again
-        $('.example2').DataTable({
+        // ✅ Initialize AFTER data added
+        table.DataTable({
             responsive: true,
             paging: true,
             pageLength: 10,
             searching: true,
             ordering: true,
-            info: true
+            info: true,
+            destroy: true
         });
 
         $("#Operations").modal("show");
     }
-       function LoadApprovalOperations(val_ID, ProductLine, val_valuestream_code, val_valuestream_name, operations) {
+    function LoadApprovalOperations(val_ID, ProductLine, val_valuestream_code, val_valuestream_name, operations) {
 
         $("#txtvid").val(val_ID);
         $("#txtProductlines").text(ProductLine);
