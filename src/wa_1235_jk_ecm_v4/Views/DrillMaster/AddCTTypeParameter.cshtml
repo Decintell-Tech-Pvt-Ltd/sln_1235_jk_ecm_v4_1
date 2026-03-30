@@ -236,15 +236,59 @@
                                                 Download
                                             </button>
                                         </div>
-
+                                        
                                     </div>
+                                    <span id="spTxtdownloadCSV" class="text-danger"></span>
+                                    <div class="form-group row">
+                                    <div class="col-md-12 mt-3">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered example1" id="tblCSVData">
+                                                <thead>
+                                                    <tr>
+                                                       @*  <th>Product Line</th>
+                                                        <th>Type</th> *@
+                                                        <th>Process Sequence</th>
+                                                        <th>Process Name</th>
+                                                        <th>Parameter Name</th>
+                                                        <th>Parameter Code</th>
+                                                        <th>Parameter UOM</th>
+                                                        <th>Range</th>
+                                                        <th>Nominal</th>
+                                                        <th>Key Dimension</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody id="tblBodyCSV">
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+
+
+                                        <div class=" float-right ml-1" style="margin-top:30px; display:block;">
+                                            <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left" style="display:none;"
+                                                    onclick="SubmitForApproval()" title="Go to the next page">
+                                                Submit for Approval
+                                            </button>
+                                          @*   <button type="button" class="btn btn-primary btn-xs btnwidth95" onclick="ApproveFileType(@item.TypeDetailsRowId,2);">
+                                                Submit for Approval
+                                            </button> *@
+                                        </div>
+
+                                        <div class=" float-right ml-3" style="margin-top:30px; display:block;">
+                                            <button type="button" id="btnsubmit" class="btn btn-block bg-gradient-primary   btn-xs float-left" 
+                                                    onClick="SaveData()" title="Go to the next page">
+                                                Save
+                                            </button>
+                                        </div>
+
 
                                 </div>
-
+                                    </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card card-primary card-outline">
+                 @*    <div class="card card-primary card-outline">
 
                         <div class="card-header">
                             <h3 class="card-title">Add Type Parameter</h3>
@@ -285,17 +329,7 @@
                                                         </div>
                                                         <div class="form-group col-md-4">
                                                             <label>Type</label>
-                                                            @* <input type="text" class="form-control" id=""> *@
-                                                       @*      <select id="TxtFileType" class="form-control select2" onchange="onTypeChange()">
-                                                                <option value="">Select</option>
-
-                                                                @foreach (var item in Model.TypeDropdown)
-                                                                {
-                                                                    <option value="@item.Id" data-code="@item.CTTypeCode">
-                                                                        @item.CTTypeName
-                                                                    </option>
-                                                                }
-                                                            </select> *@
+                                                         
                                                             <select id="TxtFileType1" class="form-control select2" onchange="onTypeChange()">
                                                                 <option value="">Select</option>
                                                             </select>
@@ -422,54 +456,12 @@
 
 
 
-                                    <div class="col-md-12 mt-3">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered example1" id="tblCSVData">
-                                                <thead>
-                                                    <tr>
-                                                       @*  <th>Product Line</th>
-                                                        <th>Type</th> *@
-                                                        <th>Process Sequence</th>
-                                                        <th>Process Name</th>
-                                                        <th>Parameter Name</th>
-                                                        <th>Parameter Code</th>
-                                                        <th>Parameter UOM</th>
-                                                        <th>Range</th>
-                                                        <th>Nominal</th>
-                                                        <th>Key Dimension</th>
-                                                    </tr>
-                                                </thead>
-
-                                                <tbody id="tblBodyCSV">
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-
-
-                                        <div class=" float-right ml-1" style="margin-top:30px; display:block;">
-                                            <button type="button" class="btn btn-block bg-gradient-primary   btn-xs float-left" style="display:none;"
-                                                    onclick="SubmitForApproval()" title="Go to the next page">
-                                                Submit for Approval
-                                            </button>
-                                          @*   <button type="button" class="btn btn-primary btn-xs btnwidth95" onclick="ApproveFileType(@item.TypeDetailsRowId,2);">
-                                                Submit for Approval
-                                            </button> *@
-                                        </div>
-
-                                        <div class=" float-right ml-3" style="margin-top:30px; display:block;">
-                                            <button type="button" id="btnsubmit" class="btn btn-block bg-gradient-primary   btn-xs float-left" 
-                                                    onClick="SaveData()" title="Go to the next page">
-                                                Save
-                                            </button>
-                                        </div>
-
 
                                     </div>
                                 </div>
 
                             </div>
-                        </div>
+                        </div> *@
                     </div>
 
                 </div>
@@ -952,6 +944,16 @@
         function convertJSONToCSV() {
         var FileTypeId = $('#ddlFileTypeCVS').val();
         var FileTypeName = $('#ddlFileTypeCVS option:selected').text().trim(); // Get text for filename
+        var ValidationFlag = false;
+
+
+        // ===== VALIDATION =====
+
+        if (!FileTypeId || FileTypeId === "Select") {
+            $("#spTxtdownloadCSV").text("Please select the csv to Download");
+            ValidationFlag = true;
+        }
+          if (ValidationFlag) return;
 
         if(FileTypeName =="Select"){
 

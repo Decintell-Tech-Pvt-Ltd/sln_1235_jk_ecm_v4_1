@@ -326,7 +326,7 @@
 
 												<td data-order ="@Html.DisplayFor(modelItem => item.ProductLine)">@item.ProductLine</td>
 												<td>@item.TypeName</td>
-												<td align="center">@item.SizeValue</td>
+												<td align="center">@item.SizeType</td>
 												<td>
 													<a href="#"
 													   onclick="ModelFileType(
@@ -401,7 +401,7 @@
 
 											<td data-order="@Html.DisplayFor(modelItem => item.ProductLine)">@item.ProductLine</td>
 											<td>@item.TypeName</td>
-											<td align="center">@item.SizeValue</td>
+											<td align="center">@item.SizeType</td>
 											<td>
 												<a href="#"
 												   onclick="ModelSubTypeApprove(
@@ -510,18 +510,18 @@
 											<td align="center" data-order="@Html.DisplayFor(modelItem => item.ProductLine)">@item.RequestNo</td>
 											<td data-order ="@Html.DisplayFor(modelItem => item.ProductLine)">@item.ProductLine</td>
 											<td>@item.TypeName</td>
-											<td align="center">@item.SizeValue</td>
+											<td align="center">@item.SizeType</td>
 											<td>
 												<a href="#"
 												   onclick="ModelSubTypeview(
-	                        @item.Id,
-	                    '@item.RequestNo',
-	                    '@item.TypeName',
+														@item.Id,
+													'@item.RequestNo',
+													'@item.TypeName',
 
-	                            '@item.ProductLine','@item.SizeType','@item.SubTypeName','@item.SKUCode','@item.ImageFileName'
+															'@item.ProductLine','@item.SizeType','@item.SubTypeName','@item.SKUCode','@item.ImageFileName'
 
 
-	               ); return false;">@item.SubType</a>
+											   ); return false;">@item.SubType</a>
 											</td>
 											<td>mm</td>
 											<td align="center">@item.CTSubTypeCode</td>

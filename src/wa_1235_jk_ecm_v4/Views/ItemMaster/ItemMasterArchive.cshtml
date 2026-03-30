@@ -55,6 +55,7 @@
                                     <thead>
                                         <tr>
                                             <th style="width:80px; text-align:center;">Request No.</th>
+                                            <th style="width:80px; text-align:center;">Product Line</th>
                                             <th style="width:80px;"><div align="left">SKU</div></th>
                                             <th style="width:100px;"> <div align="left">SKU History</div></th>
                                             <th style="width:120px;"><div align="center">Drawing Revision No.</div></th>
@@ -69,11 +70,12 @@
                                             {
                                                 <tr>
                                                     <td class="text-center">
-                                                        <a href="#" onclick="RedirectToViewRequest(@item.ReqId);" style="color: blue; cursor: pointer;">
+                                                        <a href="#" onclick="RedirectToViewRequest('@item.ReqId','@item.ProductLineCode');" style="color: blue; cursor: pointer;">
                                                             @Html.DisplayFor(modelItem => item.RequestNo)
                                                         </a>
 
                                                     </td>
+                                                    <td>@item.ProductLine</td>
                                                     <td>@item.FalcoSKU</td>
                                                     <td class="text-center">@item.SKUHistory</td>
                                                     <td class="text-center">@item.DrwRevision</td>
@@ -122,14 +124,15 @@
         window.location.href = url;
     }
 
-    function RedirectToViewRequest(RequestId) {
+    function RedirectToViewRequest(RequestId,ProductLineCode) {
        // var url = '@Url.Action("Changenoteproductiondetails", "ChangeNotes")' + '?ReqValue=' + RequestId;
           url = '@Url.Action("Changenoteproductiondetails", "ChangeNotes")' +
                 '?PageID=' + pageID +
                 '&ParentID=' + parentID +
                 '&ModuleID=' + moduleID +
                 '&ModulePageID=' + modulePageID +
-                '&ReqValue=' + RequestId;
+                '&ReqValue=' + RequestId+
+                 '&ProductLine='+ProductLineCode;
         window.location.href = url;
     }
 

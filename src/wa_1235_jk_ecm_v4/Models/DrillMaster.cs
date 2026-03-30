@@ -110,6 +110,7 @@ namespace wa_1235_jk_ecm_v4.Models
         public string ProductLine { get; set; }
         public int CTTypeRowId { get; set; }
         public string CTTypeName { get; set; }
+        public string CTSize { get; set; }
         public string SizeCode { get; set; }
         public float SizeValue { get; set; }
         public string SizeUOM { get; set; }

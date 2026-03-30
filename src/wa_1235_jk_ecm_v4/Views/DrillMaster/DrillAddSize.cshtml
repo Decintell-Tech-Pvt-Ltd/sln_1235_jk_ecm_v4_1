@@ -153,10 +153,10 @@
                             </div>
                         </div>
                     </div>
-
+@* 
                     <div class="card card-primary card-outline p-a-2">
 
-                        <!-- /.card-header -->
+                     
                         <div class="card-body">
 
                             <div class="col-md-12 mr-1">
@@ -227,19 +227,18 @@
 
                             </div>
                         </div>
-                    </div>
-                    Note: Size Code should be unique
+                    </div> *@
+                 @*    Note: Size Code should be unique *@
                 </div>
                 <input id="hdnSizeId" type="hidden" />
 
-                <!-- /.card -->
+            
             </div>
         </div>
     </section>
 
 
 
-    <!-- InstanceEndEditable -->
 </div>
 @* <div class="content-wrapper">   
     <section class="content-header">
@@ -634,14 +633,24 @@
                 $('#loader').hide();
             },
 
-            success: function (res) {
+                    success: function (res) {
 
-                alert(res.response || "Saved Successfully");
+                             if (res.response === "inserted Successfully"){
+                                         alert(res.response);
+        var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+        var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+        var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+                      var url = '@Url.Action("DrillSize", "DrillMaster")' +
+            '?PageID=' + pageID +
+            '&ParentID=' + parentID +
+            '&ModuleID=' + moduleID;
 
-                // Reload page (optional)
-                location.reload();
-            },
+        window.location.href = url;
+                } else {
+                                alert(res.response);
 
+                        }
+},
             error: function () {
                 alert("Error while saving.");
             }
@@ -806,14 +815,25 @@
                     $('#loader').hide();
                 },
 
-                success: function (res) {
+                            success: function (res) {
+                            if (res.response === "updated Successfully"){
+                                             alert(res.response);
+            var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+            var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+            var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+                          var url = '@Url.Action("DrillSize", "DrillMaster")' +
+                '?PageID=' + pageID +
+                '&ParentID=' + parentID +
+                '&ModuleID=' + moduleID;
 
-                    alert(res.response || "Saved Successfully");
+            window.location.href = url;
+                    }
+                    else {
+                                    alert(res.response);
 
-                    // Reload page (optional)
-                    location.reload();
+                            }
                 },
-
+                
                 error: function () {
                     alert("Error while saving.");
                 }

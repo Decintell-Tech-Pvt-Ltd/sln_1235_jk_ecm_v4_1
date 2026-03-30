@@ -294,7 +294,7 @@
 											<select class="form-control select2" id="dllStampProcessId">
 												<option value="0">Select</option>
 
-												@foreach (var item in Model.StampProcesslist)
+												@* @foreach (var item in Model.StampProcesslist)
 												{
 													if (Model.StampMasterDispatchDetails != null &&
 													item.LookupValue == Model.StampMasterDispatchDetails.StampProcess)
@@ -305,7 +305,26 @@
 													{
 														<option value="@item.LookupId">@item.LookupValue</option>
 													}
+												} *@
+											@foreach (var item in Model.StampProcesslist)
+											{
+												if (Model.StampMasterDispatchDetails != null &&
+												!string.IsNullOrEmpty(Model.StampMasterDispatchDetails.StampProcess) &&
+												item.LookupValue == Model.StampMasterDispatchDetails.StampProcess)
+												{
+													<option selected value="@item.LookupId">@item.LookupValue</option>
 												}
+												else if ((Model.StampMasterDispatchDetails == null
+												|| string.IsNullOrEmpty(Model.StampMasterDispatchDetails?.StampProcess))
+												&& item.LookupId == 27)
+												{
+													<option selected value="@item.LookupId">@item.LookupValue</option>
+												}
+												else
+												{
+													<option value="@item.LookupId">@item.LookupValue</option>
+												}
+											}
 											</select>
 										</div>
 										
