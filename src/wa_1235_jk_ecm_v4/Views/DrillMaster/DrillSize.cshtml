@@ -143,7 +143,7 @@
                 <br><br>
                 <div style="clear: both;"></div>
 
-                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered example1 mt-3">
+                <table width="100%" border="0" id="TableSizeApprove" cellspacing="0" cellpadding="0" class="table table-bordered example1 mt-3">
                   <thead>
                   <tr>
                    <th style="width: 30.5%;"><div align="center">Key Parameter</div></th>
@@ -210,21 +210,19 @@
 
                                <div class="modal-body">
                                       
-                       <b>Request ID:</b> <span id="txtRequest1"></span>,
-<b>Product Line:</b> <span id="txtProdLine"></span>,
-<b>Type:</b> <span id="txtType"></span>
+                             <b>Request ID:</b> <span id="txtRequest1"></span>,
+                            <b>Product Line:</b> <span id="txtProdLine"></span>,
+                            <b>Type:</b> <span id="txtType"></span>
 
                         <br><br>
                         <div style="clear: both;"></div>
 
-<<<<<<< HEAD
-=======
                         <table width="100%" id="sizeTable" class="table table-bordered example1 mt-3">
                           <thead>
                           <tr>
-                           <th style="width: 30.5%;"><div align="center">UOM</div></th>
-                            <th style="width: 30.5%;"><div align="center">Size Value</div></th>
-                            <th style="width: 30.5%;"><div align="center">Size Code</div></th>
+                              <th style="width: 30.5%;"><div align="center">Key Parameter</div></th>
+                    <th style="width: 30.5%;"><div align="center">Key Code</div></th>
+                    <th style="width: 30.5%;"><div align="center">Key Value</div></th>
    
    
                           </tr>
@@ -233,21 +231,9 @@
                           
                           </tbody>
                         </table>
->>>>>>> e23982d68589bbf42a540627a9dbd16dca816cf4
+
                
-                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered example1 mt-3">
-                  <thead>
-                  <tr>
-                   <th style="width: 30.5%;"><div align="center">Key Parameter</div></th>
-                    <th style="width: 30.5%;"><div align="center">Key Code</div></th>
-                    <th style="width: 30.5%;"><div align="center">Key Value</div></th>
-   
-   
-                  </tr>
-                  </thead>
-                <tbody id="sizeTableBody"></tbody>
-  
-            </table>
+              
                           <label for="" class="mt-3">Remark</label><br>
                        <span id="txtremarklbl"></span>
                                     </div>
@@ -479,7 +465,7 @@ onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.
 
 
 <Script>
- function ModelFileSize(RequestId, ProductLineName, TypeName, ProductLineRowId, CTTypeRowId) {
+ function ModelKeyParameters(RequestId, ProductLineName, TypeName, ProductLineRowId, CTTypeRowId) {
 
     $('#txtID').val(RequestId);
     $('#txtRequest').text(RequestId);
@@ -487,13 +473,12 @@ onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.
     $('#txtType1').text(TypeName);
 
     var JsonData = JSON.stringify({
-        ProductLineRowId: parseInt(ProductLineRowId),
-        CTTypeRowId: parseInt(CTTypeRowId)
+   TxnId: RequestId,
     });
 
     $.ajax({
         type: "POST",
-        url: '@Url.Action("GetSizeDetailsByTypeAndProductLine", "DrillMaster")',
+        url: '@Url.Action("GetDroFileSizeList", "DrillMaster")',
         data: { JsonData: JsonData },
         dataType: "json",
 
@@ -520,18 +505,18 @@ onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.
                 $.each(data.response, function (i, item) {
 
                     rows += `<tr>
-                                <td class="text-center">${item.sizeUOM || ''}</td>
-                                <td class="text-center">${item.sizeValue || ''}</td>
-                                <td class="text-center">${item.sizeCode || ''}</td>
+                                <td class="text-center">${item.paramName || ''}</td>
+                                <td class="text-center">${item.paramCode || ''}</td>
+                                <td class="text-center">${item.ctTypeName || ''}</td> 
                              </tr>`;
                 });
 
-                $("#sizeApproveTableBody").html(rows);
+                $("#uomsizeApproveTableBody").html(rows);
 
             } else {
 
                 // ✅ EMPTY tbody (NO colspan)
-                $("#sizeApproveTableBody").html("");
+                $("#uomsizeApproveTableBody").html("");
             }
 
             // ✅ Initialize DataTable
@@ -557,79 +542,7 @@ onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.
             }
         ]
     });
-
-            $('#approve').modal('show');
-        },
-
-        error: function () {
-            alert("Error occurred while fetching size details.");
-        }
-    });
-}
-<<<<<<< HEAD
-  function ModelKeyParameters(RequestId, ProductLineName, TypeName, ProductLineRowId, CTTypeRowId) {
-        
- $('#txtID').val(RequestId);
-    $('#txtRequest').text(RequestId);
-    $('#txtProdLine1').text(ProductLineName);
-    $('#txtType1').text(TypeName);
-=======
-
-function ModelFileType(RequestId, ProductLineName, TypeName, ProductLineRowId, CTTypeRowId,Remark) {
-
-    $('#txtRequest1').text(RequestId);
-    $('#txtProdLine').text(ProductLineName);
-    $('#txtType').text(TypeName);
-        $('#txtremarklbl').text(Remark);
-    
->>>>>>> e23982d68589bbf42a540627a9dbd16dca816cf4
-
-    var JsonData = JSON.stringify({
-        TxnId: RequestId,
-        
-    });
-
-    $.ajax({
-        type: "POST",
-        url: '@Url.Action("GetDroFileSizeList", "DrillMaster")',
-        data: { JsonData: JsonData },
-        dataType: "json",
-
-        beforeSend: function () {
-            $('#loader').show();
-        },
-        complete: function () {
-            $('#loader').hide();
-        },
-
-        success: function (data) {
-
-    let table = $('#sizeTable');
-
-    // ✅ Destroy old DataTable
-    if ($.fn.DataTable.isDataTable('#sizeTable')) {
-        table.DataTable().clear().destroy();
-    }
-
-    let rows = "";
-
-<<<<<<< HEAD
-                    rows += "<tr>";
-                    rows += "<td align='center'>" + item.paramName + "</td>";
-                    rows += "<td align='center'>" + item.paramCode + "</td>";
-                    rows += "<td align='center'>" + item.ctTypeName + "</td>";
-                    rows += "</tr>";
-
-                });
-               
-            } else {
-
-                rows = "<tr><td colspan='3' align='center'>No Data Found</td></tr>";
-
-            }
-
-            $("#uomsizeApproveTableBody").html(rows);
-
+     
             $('#Keyapprove').modal('show');
         },
 
@@ -638,68 +551,218 @@ function ModelFileType(RequestId, ProductLineName, TypeName, ProductLineRowId, C
         }
     });
 }
-function ModelFileType(RequestId, ProductLineName, TypeName, ProductLineRowId, CTTypeRowId,Remark) {
 
+
+// function ModelKeyParameters(RequestId, ProductLineName, TypeName, ProductLineRowId, CTTypeRowId,Remark) {
+
+//     $('#txtRequest1').text(RequestId);
+//     $('#txtProdLine').text(ProductLineName);
+//     $('#txtType').text(TypeName);
+//         $('#txtremarklbl').text(Remark);
+    
+
+
+//     var JsonData = JSON.stringify({
+//         TxnId: RequestId,
+        
+//     });
+
+//     $.ajax({
+//         type: "POST",
+//         url: '@Url.Action("GetDroFileSizeList", "DrillMaster")',
+//         data: { JsonData: JsonData },
+//         dataType: "json",
+
+//         beforeSend: function () {
+//             $('#loader').show();
+//         },
+//         complete: function () {
+//             $('#loader').hide();
+//         },
+
+//         success: function (data) {
+
+//     let table = $('#sizeTable');
+
+//     // ✅ Destroy old DataTable
+//     if ($.fn.DataTable.isDataTable('#sizeTable')) {
+//         table.DataTable().clear().destroy();
+//     }
+
+//     let rows = "";
+
+
+//                     rows += "<tr>";
+//                     rows += "<td align='center'>" + item.paramName + "</td>";
+//                     rows += "<td align='center'>" + item.paramCode + "</td>";
+//                     rows += "<td align='center'>" + item.ctTypeName + "</td>";
+//                     rows += "</tr>";
+
+//                 });
+               
+//             } else {
+
+//                 rows = "<tr><td colspan='3' align='center'>No Data Found</td></tr>";
+
+//             }
+
+//             $("#uomsizeApproveTableBody").html(rows);
+
+//             $('#Keyapprove').modal('show');
+//         },
+
+//         error: function () {
+//             alert("Error occurred while fetching size details.");
+//         }
+//     });
+// }
+// function ModelFileType(RequestId, ProductLineName, TypeName, ProductLineRowId, CTTypeRowId,Remark) {
+
+//     $('#txtRequest1').text(RequestId);
+//     $('#txtProdLine').text(ProductLineName);
+//     $('#txtType').text(TypeName);
+//         $('#txtremarklbl').text(Remark);
+    
+
+//     var JsonData = JSON.stringify({
+//       TxnId: RequestId,
+//     });
+
+//     $.ajax({
+//         type: "POST",
+//         url: '@Url.Action("GetDroFileSizeList", "DrillMaster")',
+//         data: { JsonData: JsonData },
+//         dataType: "json",
+
+//         beforeSend: function () {
+//             $('#loader').show();
+//         },
+//         complete: function () {
+//             $('#loader').hide();
+//         },
+
+//         success: function (data) {
+
+//             var rows = "";
+//             let table = $('#sizeTable');
+//              // ✅ Destroy old DataTable
+//     if ($.fn.datatable.isdatatable('#sizetable')) {
+//         table.datatable().clear().destroy();
+//     }
+//             if (data.response && data.response.length > 0) {
+
+//                 $.each(data.response, function (i, item) {
+
+//                     rows += "<tr>";
+//                     rows += "<td align='center'>" + item.paramName + "</td>";
+//                     rows += "<td align='center'>" + item.paramCode + "</td>";
+//                     rows += "<td align='center'>" + item.ctTypeName + "</td>";
+//                     rows += "</tr>";
+                       
+//                 });
+//             }
+//            else {
+
+//                 // ✅ EMPTY tbody (NO colspan)
+//                 $("#sizeTableBody").html("");
+//             }
+
+//     $("#sizeTableBody").html(rows);
+
+//     // ✅ Initialize DataTable with CSV
+//     let dt = table.DataTable({
+//         responsive: true,
+//         paging: true,
+//         pageLength: 10,
+//         searching: true,
+//         ordering: true,
+//         info: true,
+//         autoWidth: false,
+
+//         // ⭐ CSV layout
+//         dom: "<'row'<'col-sm-2'l><'col-sm-4 text-center'B><'col-sm-6'f>>" +
+//              "<'row'<'col-sm-12'tr>>" +
+//              "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+
+//         buttons: [
+//             {
+//                 extend: 'csv',
+//                 text: 'CSV',
+//                 className: 'btn btn-secondary btn-sm'
+//             }
+//         ]
+//     });
+
+//     // ✅ Fix modal table width
+//     $('#view').off('shown.bs.modal').on('shown.bs.modal', function () {
+//         dt.columns.adjust();
+//     });
+
+//     // ✅ Show modal
+//     $('#view').modal('show');
+// },
+
+//         error: function () {
+//             alert("Error occurred while fetching size data.");
+//         }
+//     });
+// }
+function ModelFileType(RequestId, ProductLineName, TypeName, ProductLineRowId, CTTypeRowId,Remark) {
+ 
     $('#txtRequest1').text(RequestId);
     $('#txtProdLine').text(ProductLineName);
     $('#txtType').text(TypeName);
         $('#txtremarklbl').text(Remark);
-    
 
+ 
     var JsonData = JSON.stringify({
-      TxnId: RequestId,
+    TxnId: RequestId,
     });
-
+ 
     $.ajax({
         type: "POST",
         url: '@Url.Action("GetDroFileSizeList", "DrillMaster")',
         data: { JsonData: JsonData },
         dataType: "json",
-
+ 
         beforeSend: function () {
             $('#loader').show();
         },
         complete: function () {
             $('#loader').hide();
         },
-
+ 
         success: function (data) {
-
-            var rows = "";
-
-            if (data.response && data.response.length > 0) {
-
-                $.each(data.response, function (i, item) {
-
-                    rows += "<tr>";
-                    rows += "<td align='center'>" + item.paramName + "</td>";
-                    rows += "<td align='center'>" + item.paramCode + "</td>";
-                    rows += "<td align='center'>" + item.ctTypeName + "</td>";
-                    rows += "</tr>";
-                       
-                });
-=======
+ 
+    let table = $('#sizeTable');
+ 
+    // ✅ Destroy old DataTable
+    if ($.fn.DataTable.isDataTable('#sizeTable')) {
+        table.DataTable().clear().destroy();
+    }
+ 
+    let rows = "";
+ 
     if (data.response && data.response.length > 0) {
-
+ 
         $.each(data.response, function (i, item) {
->>>>>>> e23982d68589bbf42a540627a9dbd16dca816cf4
-
+ 
             rows += "<tr>";
-            rows += "<td class='text-center'>" + item.sizeUOM + "</td>";
-            rows += "<td class='text-center'>" + item.sizeValue + "</td>";
-            rows += "<td class='text-center'>" + item.sizeCode + "</td>";
+           rows += "<td align='center'>" + item.paramName + "</td>";
+                    rows += "<td align='center'>" + item.paramCode + "</td>";
+                   rows += "<td align='center'>" + item.ctTypeName + "</td>";
             rows += "</tr>";
-
+ 
         });
-
+ 
     }else {
-
+ 
                 // ✅ EMPTY tbody (NO colspan)
                 $("#sizeTableBody").html("");
             }
-
+ 
     $("#sizeTableBody").html(rows);
-
+ 
     // ✅ Initialize DataTable with CSV
     let dt = table.DataTable({
         responsive: true,
@@ -709,12 +772,12 @@ function ModelFileType(RequestId, ProductLineName, TypeName, ProductLineRowId, C
         ordering: true,
         info: true,
         autoWidth: false,
-
+ 
         // ⭐ CSV layout
         dom: "<'row'<'col-sm-2'l><'col-sm-4 text-center'B><'col-sm-6'f>>" +
              "<'row'<'col-sm-12'tr>>" +
              "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-
+ 
         buttons: [
             {
                 extend: 'csv',
@@ -723,16 +786,16 @@ function ModelFileType(RequestId, ProductLineName, TypeName, ProductLineRowId, C
             }
         ]
     });
-
+ 
     // ✅ Fix modal table width
     $('#view').off('shown.bs.modal').on('shown.bs.modal', function () {
         dt.columns.adjust();
     });
-
+ 
     // ✅ Show modal
     $('#view').modal('show');
 },
-
+ 
         error: function () {
             alert("Error occurred while fetching size data.");
         }
