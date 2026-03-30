@@ -317,14 +317,14 @@
 									<tbody>
 										@foreach (var item in Model.SubTypeList.Where(x => x.GridNo == 1))
 										{
-											<tr>
-												<td align="center">
+											<tr> 
+												<td align="center" data-order ="@Html.DisplayFor(modelItem => item.ProductLine)">
 													<a href="#" onclick="ModelSubType(@item.Id);">
 														@item.RequestNo
 													</a>
 												</td>
 
-												<td>@item.ProductLine</td>
+												<td data-order ="@Html.DisplayFor(modelItem => item.ProductLine)">@item.ProductLine</td>
 												<td>@item.TypeName</td>
 												<td align="center">@item.SizeType</td>
 												<td>
@@ -393,13 +393,13 @@
 									@foreach (var item in Model.SubTypeList.Where(x => x.GridNo == 2))
 									{
 										<tr>
-											<td align="center">
+											<td align="center" data-order ="@Html.DisplayFor(modelItem => item.ProductLine)">
 											
 													@item.RequestNo
 											
 											</td>
 
-											<td>@item.ProductLine</td>
+											<td data-order="@Html.DisplayFor(modelItem => item.ProductLine)">@item.ProductLine</td>
 											<td>@item.TypeName</td>
 											<td align="center">@item.SizeType</td>
 											<td>
@@ -507,8 +507,8 @@
 									@foreach (var item in Model.SubTypeList.Where(x => x.GridNo == 3))
 									{
 										<tr>
-											<td align="center">@item.RequestNo</td>
-											<td>@item.ProductLine</td>
+											<td align="center" data-order="@Html.DisplayFor(modelItem => item.ProductLine)">@item.RequestNo</td>
+											<td data-order ="@Html.DisplayFor(modelItem => item.ProductLine)">@item.ProductLine</td>
 											<td>@item.TypeName</td>
 											<td align="center">@item.SizeType</td>
 											<td>

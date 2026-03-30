@@ -68,7 +68,9 @@
                                                 <th width="30%"><div align="left">Process Sequence</div></th>
                              <th width="30%"><div align="left">Process Name</div></th>
                              <th width="30%"><div align="left">Parameter Name</div></th>
-                          </tr>
+                                                <th width="7%"><div align="center">Delete</div></th>
+
+                                            </tr>
                       </thead>
                      
                        <tbody>
@@ -95,7 +97,11 @@
                                                         @item.ParamName
 
                                                     </td>
-                                                   
+                                                    <td class="text-center">
+                                                        <a class="btn btn-danger btn-xs" title="Delete" onclick="DeleteParameter(@item.Id)">
+                                                            Delete
+                                                        </a>
+                                                    </td>
                                                 </tr>
 
                                                 
@@ -124,4 +130,35 @@
 
 
     <!-- InstanceEndEditable --> </div>
- 
+<script>
+    function DeleteParameter(Id) {
+
+           if (confirm("Are you sure you want to delete this record?")) {
+
+               let json = {
+                   ParameterId: Id
+               };
+
+               var JsonData = JSON.stringify(json);
+
+               $.ajax({
+                   url: '@Url.Action("DeleteParameter", "Master")',
+                   type: 'POST',
+                   data: { JsonData: JsonData },
+
+                   success: function (response) {
+
+                            alert(response.response);
+                           location.reload();
+
+
+                   },
+                   error: function () {
+                       alert("Error occurred while deleting");
+                   }
+               });
+
+           }
+       }
+
+</script>

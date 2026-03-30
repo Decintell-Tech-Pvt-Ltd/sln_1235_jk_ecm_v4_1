@@ -946,6 +946,7 @@
         var FileTypeName = $('#ddlFileTypeCVS option:selected').text().trim(); // Get text for filename
         var ValidationFlag = false;
 
+<<<<<<< HEAD
         // ===== VALIDATION =====
 
         if (!FileTypeId || FileTypeId === "Select") {
@@ -953,6 +954,17 @@
             ValidationFlag = true;
         }
           if (ValidationFlag) return;
+=======
+        if(FileTypeName =="Select"){
+
+            alert ("Please Select Reference CSV Type Code");
+            return;
+
+        }
+
+
+
+>>>>>>> e23982d68589bbf42a540627a9dbd16dca816cf4
         var JsonData = JSON.stringify({
             ID: FileTypeId
         });

@@ -67,7 +67,7 @@
 <br><br>
 <div style="clear: both;"></div>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered example1 mt-3">
+<table width="100%" id="TableSizeApprove" class="table table-bordered example1 mt-3">
   <thead>
   <tr>
    <th style="width: 30.5%;"><div align="center">UOM</div></th>
@@ -217,6 +217,23 @@
                         <br><br>
                         <div style="clear: both;"></div>
 
+<<<<<<< HEAD
+=======
+                        <table width="100%" id="sizeTable" class="table table-bordered example1 mt-3">
+                          <thead>
+                          <tr>
+                           <th style="width: 30.5%;"><div align="center">UOM</div></th>
+                            <th style="width: 30.5%;"><div align="center">Size Value</div></th>
+                            <th style="width: 30.5%;"><div align="center">Size Code</div></th>
+   
+   
+                          </tr>
+                          </thead>
+                          <tbody id="sizeTableBody">
+                          
+                          </tbody>
+                        </table>
+>>>>>>> e23982d68589bbf42a540627a9dbd16dca816cf4
                
                 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered example1 mt-3">
                   <thead>
@@ -462,7 +479,7 @@ onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.
 
 
 <Script>
-  function ModelFileSize(RequestId, ProductLineName, TypeName, ProductLineRowId, CTTypeRowId) {
+ function ModelFileSize(RequestId, ProductLineName, TypeName, ProductLineRowId, CTTypeRowId) {
 
     $('#txtID').val(RequestId);
     $('#txtRequest').text(RequestId);
@@ -489,27 +506,57 @@ onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.
 
         success: function (data) {
 
-            var rows = "";
+            let table = $('#TableSizeApprove');
+
+            // ✅ Destroy old DataTable
+            if ($.fn.DataTable.isDataTable('#TableSizeApprove')) {
+                table.DataTable().destroy();
+            }
+
+            let rows = "";
 
             if (data.response && data.response.length > 0) {
 
                 $.each(data.response, function (i, item) {
 
-                    rows += "<tr>";
-                    rows += "<td align='center'>" + item.sizeUOM + "</td>";
-                    rows += "<td align='center'>" + item.sizeValue + "</td>";
-                    rows += "<td align='center'>" + item.sizeCode + "</td>";
-                    rows += "</tr>";
-
+                    rows += `<tr>
+                                <td class="text-center">${item.sizeUOM || ''}</td>
+                                <td class="text-center">${item.sizeValue || ''}</td>
+                                <td class="text-center">${item.sizeCode || ''}</td>
+                             </tr>`;
                 });
+
+                $("#sizeApproveTableBody").html(rows);
 
             } else {
 
-                rows = "<tr><td colspan='3' align='center'>No Data Found</td></tr>";
-
+                // ✅ EMPTY tbody (NO colspan)
+                $("#sizeApproveTableBody").html("");
             }
 
-            $("#sizeApproveTableBody").html(rows);
+            // ✅ Initialize DataTable
+           table.DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        searching: true,
+        ordering: true,
+        info: true,
+        autoWidth: false,
+
+        // ⭐ CSV layout
+        dom: "<'row'<'col-sm-2'l><'col-sm-4 text-center'B><'col-sm-6'f>>" +
+             "<'row'<'col-sm-12'tr>>" +
+             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+
+        buttons: [
+            {
+                extend: 'csv',
+                text: 'CSV',
+                className: 'btn btn-secondary btn-sm'
+            }
+        ]
+    });
 
             $('#approve').modal('show');
         },
@@ -519,12 +566,23 @@ onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.
         }
     });
 }
+<<<<<<< HEAD
   function ModelKeyParameters(RequestId, ProductLineName, TypeName, ProductLineRowId, CTTypeRowId) {
         
  $('#txtID').val(RequestId);
     $('#txtRequest').text(RequestId);
     $('#txtProdLine1').text(ProductLineName);
     $('#txtType1').text(TypeName);
+=======
+
+function ModelFileType(RequestId, ProductLineName, TypeName, ProductLineRowId, CTTypeRowId,Remark) {
+
+    $('#txtRequest1').text(RequestId);
+    $('#txtProdLine').text(ProductLineName);
+    $('#txtType').text(TypeName);
+        $('#txtremarklbl').text(Remark);
+    
+>>>>>>> e23982d68589bbf42a540627a9dbd16dca816cf4
 
     var JsonData = JSON.stringify({
         TxnId: RequestId,
@@ -546,12 +604,16 @@ onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.
 
         success: function (data) {
 
-            var rows = "";
+    let table = $('#sizeTable');
 
-            if (data.response && data.response.length > 0) {
+    // ✅ Destroy old DataTable
+    if ($.fn.DataTable.isDataTable('#sizeTable')) {
+        table.DataTable().clear().destroy();
+    }
 
-                $.each(data.response, function (i, item) {
+    let rows = "";
 
+<<<<<<< HEAD
                     rows += "<tr>";
                     rows += "<td align='center'>" + item.paramName + "</td>";
                     rows += "<td align='center'>" + item.paramCode + "</td>";
@@ -616,17 +678,60 @@ function ModelFileType(RequestId, ProductLineName, TypeName, ProductLineRowId, C
                     rows += "</tr>";
                        
                 });
+=======
+    if (data.response && data.response.length > 0) {
 
-            } else {
+        $.each(data.response, function (i, item) {
+>>>>>>> e23982d68589bbf42a540627a9dbd16dca816cf4
 
-                rows = "<tr><td colspan='3' align='center'>No Data Found</td></tr>";
+            rows += "<tr>";
+            rows += "<td class='text-center'>" + item.sizeUOM + "</td>";
+            rows += "<td class='text-center'>" + item.sizeValue + "</td>";
+            rows += "<td class='text-center'>" + item.sizeCode + "</td>";
+            rows += "</tr>";
 
+        });
+
+    }else {
+
+                // ✅ EMPTY tbody (NO colspan)
+                $("#sizeTableBody").html("");
             }
 
-            $("#sizeTableBody").html(rows);
+    $("#sizeTableBody").html(rows);
 
-            $('#view').modal('show');
-        },
+    // ✅ Initialize DataTable with CSV
+    let dt = table.DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 10,
+        searching: true,
+        ordering: true,
+        info: true,
+        autoWidth: false,
+
+        // ⭐ CSV layout
+        dom: "<'row'<'col-sm-2'l><'col-sm-4 text-center'B><'col-sm-6'f>>" +
+             "<'row'<'col-sm-12'tr>>" +
+             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+
+        buttons: [
+            {
+                extend: 'csv',
+                text: 'CSV',
+                className: 'btn btn-secondary btn-sm'
+            }
+        ]
+    });
+
+    // ✅ Fix modal table width
+    $('#view').off('shown.bs.modal').on('shown.bs.modal', function () {
+        dt.columns.adjust();
+    });
+
+    // ✅ Show modal
+    $('#view').modal('show');
+},
 
         error: function () {
             alert("Error occurred while fetching size data.");

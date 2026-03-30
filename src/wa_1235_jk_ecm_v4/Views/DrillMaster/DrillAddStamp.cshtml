@@ -60,44 +60,36 @@
 
                                     <div class="form-group col-md-2">
                                         <label>Product Line</label>
-                                        @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "Id", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline", @onchange = "loadTypeByProductLine();" })
+                                        @Html.DropDownListFor(m => m.ProdId, new SelectList(Model.ProdLine_List, "Id", "ProductLine"), "Select", new { @class = "form-control select2", @id = "ddlproductline", @onchange = "loadTypeByProductLine();clearError('errProductLine');" })
 
-
+                                        <span id="errProductLine" class="text-danger"></span>
 
                                     </div>
 
 
                                     <div class="form-group col-md-2">
                                         <label>Brand</label>
-                                        @Html.DropDownListFor(m => m.BrandCode, new SelectList(Model.Brand_List, "BrandCode", "BrandName"), "Select", new { @class = "form-control select2", @id = "ddlBrand" })
-
+                                        @Html.DropDownListFor(m => m.BrandCode, new SelectList(Model.Brand_List, "BrandCode", "BrandName"), "Select", new { @class = "form-control select2", @id = "ddlBrand" ,@onchange = "clearError('errBrand');" })
+                                        <span id="errBrand" class="text-danger"></span>
 
                                     </div>
 
 
                                     <div class="form-group col-md-4">
                                         <label>Type </label>
-                                       @*  <select id="TxtFileType" class="form-control select2">
-                                            <option value="">Select</option>
-
-                                            @foreach (var item in Model.TypeDropdown)
-                                            {
-                                                <option value="@item.Id" data-code="@item.CTTypeCode">
-                                                    @item.CTTypeName
-                                                </option>
-                                            }
-                                        </select> *@
-                                        <select id="TxtFileType" class="form-control select2" onchange="loadCTSizeDropdown();">
+                                      
+                                        <select id="TxtFileType" class="form-control select2" onchange="loadCTSizeDropdown();clearError('errType');">
                                             <option value="">Select</option>
                                         </select>
+                                        <span id="errType" class="text-danger"></span>
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label>Size </label>
-@*                                         @Html.DropDownListFor(m => m.SizeID, new SelectList(Model.GetSizeList, "SizeID", "Size"), "Select", new { @class = "form-control select2", @id = "ddlSize", onchange = "clearError('spddlproductline')" })
- *@
-                                        <select id="ddlSize" class="form-control select2" onchange="loadCTSubTypeDropdown();">
+
+                                        <select id="ddlSize" class="form-control select2" onchange="loadCTSubTypeDropdown();clearError('errSize');">
                                             <option value="">Select</option>
                                         </select>
+                                        <span id="errSize" class="text-danger"></span>
                                     </div>
 
 
@@ -105,23 +97,24 @@
 
                                     <div class="form-group col-md-2">
                                         <label>Sub Type </label>
-@*                                         @Html.DropDownListFor(m => m.SubTypeId, new SelectList(Model.SubtypeDD, "SubTypeId", "SubTypeName"), "Select", new { @class = "form-control select2", @id = "dllCTFileSubType", onchange = "clearError('spCTddlSize');" })
- *@                                     <select id="dllCTFileSubType" class="form-control select2" >
+                                        <select id="dllCTFileSubType" class="form-control select2" onchange="clearError('errSubType');">
                                             <option value="">Select</option>
                                         </select>
+                                        <span id="errSubType" class="text-danger"></span>
                                     </div>
 
 
 
                                     <div class="form-group col-md-2">
                                         <label>Sales </label>
-                                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllFileSubType">
+                                        <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="dllFileSubType" onchange="clearError('errSales');">
                                             <option value="0">Select</option>
 
                                             <option value="1">Export</option>
 
                                             <option value="2">Domestic</option>
                                         </select>
+                                        <span id="errSales" class="text-danger"></span>
                                     </div>
 
 
@@ -140,13 +133,14 @@
                                         <div class="input-group">
                                             <div class="custom-file">
 
-                                                <input name="" type="file" class="custom-file-input" id="FileUploadIMG">
+                                                <input name="" type="file" class="custom-file-input" id="FileUploadIMG" onchange="clearError('spTxtFileUploadIMG');GetImgName();">
                                                 <label class="custom-file-label" for="FileUploadIMG">Choose file</label>
 
                                             </div>
                                             <input type="hidden" id="hdnExistingImage">
                                         </div>
                                         <span id="spTxtFileUploadIMG" class="text-danger"></span>
+                                        <span id="spimgName" href="#"></span>
                                     </div>
 
                                     <div class="btnwidth50 float-right mr-1 " style="margin-top:35px;">
@@ -180,7 +174,7 @@
     <!-- InstanceEndEditable -->
 </div>
 <script>
-            function loadCTSubTypeDropdown() {
+    function loadCTSubTypeDropdown() {
         var productLineId = $('#ddlproductline').val();
         var typeId = $('#TxtFileType').val();
         var sizeId = $('#ddlSize').val();
@@ -222,12 +216,11 @@
 
 
                     // ⭐ Set selected subtype in EDIT mode
-                    if (selectedSubTypeId && selectedSubTypeId !== "0") {
-
+                   
                         $('#dllCTFileSubType')
-                            .val(selectedSubTypeId)
+                               .val(@ViewBag.SubTypeRowId)
                             .trigger('change');
-                    }
+                    
 
                     $('#dllCTFileSubType').trigger('change.select2');
 
@@ -277,13 +270,12 @@
                                 );
 
                             });
-                                  if (selectedTypeId) {
-
+                                 
                             $('#TxtFileType')
-                                .val(selectedTypeId)
+                                   .val(@ViewBag.TypeID)
                                 .trigger('change');
 
-                        }
+                        
                              // Now load Size
                             loadCTSizeDropdown(selectedTypeId, selectedSizeId);
                             $('#TxtFileType').trigger('change.select2');
@@ -295,7 +287,7 @@
                     }
                 });
             }
-                        function loadCTSizeDropdown(typeId = null, selectedSizeId = null) {
+    function loadCTSizeDropdown(typeId = null, selectedSizeId = null) {
 
                 var typeId = $('#TxtFileType').val();
 
@@ -332,12 +324,12 @@
 
                         });
 
-                                   if (selectedSizeId) {
+                      
 
                             $('#ddlSize')
-                                .val(selectedSizeId)
+                                      .val(@ViewBag.SizeRowId)
                                 .trigger('change');
-                        }
+                        
 
                         $('#ddlSize').trigger('change.select2');
 
@@ -349,7 +341,11 @@
                 }
             });
         }
-       async function  SaveStampDetails() {
+
+       async function SaveStampDetails() {
+
+        // ✅ Get values
+        var RequestNo = '@ViewBag.RequestNo' || 0;
 
         var ProductLineRowId = $("#ddlproductline").val();
         var BrandCode = $("#ddlBrand").val();
@@ -357,21 +353,75 @@
         var CTTypeRowId = $("#TxtFileType").val();
         var SubTypeRowId = $("#dllCTFileSubType").val();
         var Sales = $("#dllFileSubType").val();
-
         var fileInput = document.getElementById("FileUploadIMG");
+
+        var existingImage = $("#hdnExistingImage").val();
+
+        // ✅ Reset errors
+        $("#errProductLine, #errBrand, #errType, #errSize, #errSubType, #errSales, #spTxtFileUploadIMG").text("");
+
+        let isValid = true;
+
+        // ✅ Dropdown validations
+        if (!ProductLineRowId) {
+            $("#errProductLine").text("Please select Product Line");
+            isValid = false;
+        }
+
+        if (!BrandCode) {
+            $("#errBrand").text("Please select Brand");
+            isValid = false;
+        }
+
+        if (!CTTypeRowId) {
+            $("#errType").text("Please select Type");
+            isValid = false;
+        }
+
+        if (!SizeRowId) {
+            $("#errSize").text("Please select Size");
+            isValid = false;
+        }
+
+        if (!SubTypeRowId) {
+            $("#errSubType").text("Please select Sub Type");
+            isValid = false;
+        }
+
+        if (!Sales || Sales === "0") {
+            $("#errSales").text("Please select Sales");
+            isValid = false;
+        }
+
+        // ✅ Image validation
+        if (RequestNo == 0) {
+            if (fileInput.files.length === 0) {
+                $("#spTxtFileUploadIMG").text("Please upload image");
+                isValid = false;
+            }
+        } else {
+            if (fileInput.files.length === 0 && !existingImage) {
+                $("#spTxtFileUploadIMG").text("Please upload image");
+                isValid = false;
+            }
+        }
+
+        if (!isValid) return;
+
+        // ✅ Handle image (new or old)
         var imageName = "";
 
         if (fileInput.files.length > 0) {
             imageName = fileInput.files[0].name;
+        } else {
+            imageName = existingImage;
         }
 
         var CreatedBy = parseInt('@Context.Session.GetInt32("CreatedBy")');
         var CreatedDate = moment.utc().format();
-          let filenameIMG =
-            ($('#FileUploadIMG')[0].files[0])
-                ? $('#FileUploadIMG')[0].files[0].name
-                : '';
+
         var JsonData = {
+            RequestNo: RequestNo,
             ProductLineRowId: ProductLineRowId,
             CTTypeRowId: CTTypeRowId,
             SizeRowId: SizeRowId,
@@ -390,61 +440,53 @@
             url: '@Url.Action("CT_AddStampDetail", "DrillMaster")',
             data: { JsonData: JSONInsert },
             dataType: "json",
+
             beforeSend: function () {
                 $("#loader").show();
             },
-            success:  async function (data)  {
 
-           
-                 if (data && data.response  === "Stamp details inserted successfully") {
+            success: async function (data) {
+                    alert(data.response);
+                if (data && (data.response === "Stamp details inserted successfully"
+                    || data.response === "Stamp details updated successfully")) {
 
-                    let selectedImageNameSample =
-                        cleanFileName(filenameIMG);
+                    // ✅ Upload only if new file selected
+                    if ($('#FileUploadIMG')[0].files.length > 0) {
 
-                            let targetPathSample =
-            'others\\ct\\stamps\\' + BrandCode.toLowerCase();
-           
+                        let uploadedFile = $('#FileUploadIMG')[0].files[0];
+                        let selectedImageName = cleanFileName(uploadedFile.name);
 
-                    let uploadedFileSample =
-                        document.getElementById('FileUploadIMG').files[0];
+                        let targetPath = 'others\\ct\\stamps\\' + BrandCode.toLowerCase();
 
-                    await copyFile(
-                        uploadedFileSample,
-                        targetPathSample,
-                        selectedImageNameSample
-                    );
+                        await copyFile(uploadedFile, targetPath, selectedImageName);
+                    }
 
-                    alert("Type added successfully.");
 
-                   var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
-    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
-    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
-    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
+                    var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
+                    var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');
+                    var moduleID = encodeURIComponent('@Context.Request.Query["ModuleID"]');
+                    var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
 
-    // Construct the full URL
-    url = "@Url.Action("DrillStamp", "DrillMaster")" +
-        "?PageID=" + pageID +
-        "&ParentID=" + parentID +
-        "&ModuleID=" + moduleID +
-        "&ModulePageID=" + modulePageID;
+                    var url = "@Url.Action("DrillStamp", "DrillMaster")" +
+                        "?PageID=" + pageID +
+                        "&ParentID=" + parentID +
+                        "&ModuleID=" + moduleID +
+                        "&ModulePageID=" + modulePageID;
 
-    // Redirect
-    window.location.href = url;
+                    window.location.href = url;
                 }
-                
-               
-                
             },
+
             error: function () {
                 alert("Error while saving stamp details");
             },
+
             complete: function () {
                 $("#loader").hide();
             }
         });
-
     }
-         async function copyFile(fileInput, path, imageName) {
+ async function copyFile(fileInput, path, imageName) {
         var JwToken = '@ViewBag.JWTToken';
       var blobStorageUrl = '@ViewBag.ApiUrl';
       let blobPathPrefix = '@ViewBag.BaseBlobPath';
@@ -496,6 +538,46 @@
             }
         });
 
+
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        if(@ViewBag.RequestNo != 0){
+
+    $('#ddlproductline').val(@ViewBag.ProductLineId).trigger('change');
+       $("#ddlBrand").val('@ViewBag.BrandId');
+       $('#ddlproductline').prop('disabled', true);
+    $('#ddlBrand').prop('disabled', true);
+       $("#TxtFileType").val(@ViewBag.TypeID).trigger('change');
+          let salesText = '@ViewBag.Sales';
+
+       let salesValue = salesText === "Export" ? "1" :
+                        salesText === "Domestic" ? "2" : "0";
+
+       $("#dllFileSubType").val(salesValue).trigger('change');
+        var imageName = '@ViewBag.ImageName';
+
+       if (imageName) {
+           $('.custom-file-label').text(imageName); // show in input label
+           $("#hdnExistingImage").val(imageName);   // store hidden
+           $("#spimgName").text(imageName);         // optional span
+       }
+
+        }
+   
+    
+    });
+
+    function GetImgName(){
+       var fileInput = document.getElementById("FileUploadIMG");
+
+    if (fileInput.files.length > 0) {
+        var imgName = fileInput.files[0].name;
+        $("#spimgName").text(imgName);
+    } else {
+        $("#spimgName").text("");
+    }
 
     }
 </script>

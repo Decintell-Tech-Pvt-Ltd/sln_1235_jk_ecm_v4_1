@@ -259,9 +259,6 @@
         </div>
     </div>
 
-
-
-
     <div class="modal fade" id="master">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -470,7 +467,7 @@
                                             <tr>
                                                 <td height="28"><div align="center">@sr</div></td>
                                                 <td><div align="left">@item.ProductLine</div></td>
-                                                    <td><a href="@Url.Action("AddValueStream", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })">@item.val_valuestream_code</a></td>
+                                                    <td><a href="@Url.Action("AddValueStream", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), val_ID = @item.val_ID })">@item.val_valuestream_code</a></td>
                                                     <td><div align="left"><a href="#" onclick="LoadOperations(@item.val_ID,'@item.ProductLine','@item.val_valuestream_code',' @item.val_valuestream_name','@item.Operations')">@item.val_valuestream_name</a> </div></td>
 
 

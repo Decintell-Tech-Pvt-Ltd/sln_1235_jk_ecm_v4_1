@@ -274,14 +274,13 @@
 
                                         <tr>
                                             <th width="10%"><div align="center">Request No.	</div></th>
-                                            <th width="15%"><div align="left">Product Line</div></th>
-                                            <th width="15%"><div align="Left">Brand</div></th>
-                                            <th width="18%"><div align="center">Size&nbsp;</div></th>
+                                            <th width="8%"><div align="left">Product Line</div></th>
+                                            <th width="8%"><div align="Left">Brand</div></th>
+                                            <th width="16%"><div align="center">Size&nbsp;</div></th>
                                             <th width="15%"><div align="left">Type</div></th>
                                             <th width="20%"><div align="left">Sub Type</div></th>
                                             <th width="10%"><div align="left">Sales</div></th>
-                                            <th width="10%"><div align="center">Image Name</div></th>
-                                            <th width="15%"><div align="center"></div></th>
+                                            <th width="17%"><div align="center"></div></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -295,14 +294,14 @@
                                                     <tr>
 
                                                         <td class="text-center">
-                                                            <a href="#" onclick="EditStamp('@item.Id','@item.RequestNo');">
+                                                            <a href="@Url.Action("DrillAddStamp", "DrillMaster", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString(), RequestNo=@item.RequestNo})" >
                                                                 @item.RequestNo
                                                             </a>
                                                         </td>
 
-                                                        <td>@item.ProductLine</td>
+                                                        <td data-order="@Html.DisplayFor(modelItem => item.ProductLine)">@item.ProductLine</td>
 
-                                                        <td>
+                                                        <td data-order="@Html.DisplayFor(modelItem => item.BrandName)">
                                                             <a href="#" data-toggle="modal"
                                                                onclick="ModelFileType('@item.Id','@item.RequestNo','@item.BrandName','@item.ImageName','@item.BrandCode');">
                                                                 @item.BrandName
@@ -317,8 +316,7 @@
 
                                                         <td>@item.Sales</td>
 
-                                                        <td class="text-center">@item.ImageName</td>
-
+                                                    
                                                         <td class="text-center">
                                                             <button class="btn btn-primary btn-xs btnwidth95"
                                                                     onclick="ApprovalStamp(@item.Id,5)">
@@ -367,8 +365,7 @@
                                         <th width="25%"><div align="left">Type</div></th>
                                         <th width="15%"><div align="left">Sub Type</div></th>
                                         <th width="10%"><div align="left">Sales</div></th>
-                                        <th width="10%"><div align="center">Image Name</div></th>
-                                    </tr>
+                                     </tr>
                                 </thead>
                                 <tbody>
 
@@ -381,8 +378,8 @@
                                                 <tr>
 
                                                     <td class="text-center">@item.RequestNo</td>
-                                                    <td>@item.ProductLine</td>
-                                                    <td>
+                                                    <td data-order="@Html.DisplayFor(modelItem => item.ProductLine)">@item.ProductLine</td>
+                                                    <td data-order="@Html.DisplayFor(modelItem => item.BrandName)">
                                                         <a href="#" data-toggle="modal" data-target="#approve"
                                                            onclick="setApproveItems('@item.Id','@item.RequestNo','@item.ProductLine','@item.BrandName','@item.Size','@item.ImageName')"
                                                            title="View">
@@ -393,8 +390,7 @@
                                                     <td>@item.Type</td>
                                                     <td>@item.SubType</td>
                                                     <td>@item.Sales</td>
-                                                    <td class="text-center">@item.ImageName</td>
-
+                                              
                                                 </tr>
                                             }
                                         }
@@ -436,8 +432,7 @@
                                         <th width="25%"><div align="left">Type</div></th>
                                         <th width="15%"><div align="left">Sub Type</div></th>
                                         <th width="10%"><div align="left">Sales</div></th>
-                                        <th width="10%"><div align="center">Image Name</div></th>
-                                    </tr>
+                                      </tr>
                                 </thead>
                                 <tbody>
 
@@ -450,8 +445,8 @@
                                                 <tr>
 
                                                     <td class="text-center">@item.RequestNo</td>
-                                                    <td>@item.ProductLine</td>
-                                                    <td>
+                                                    <td data-order="@Html.DisplayFor(modelItem => item.ProductLine)">@item.ProductLine</td>
+                                                    <td data-order="@Html.DisplayFor(modelItem => item.BrandName)">
                                                         <a href="#" data-toggle="modal" 
                                                            onclick="ModelFileType('@item.Id','@item.RequestNo','@item.BrandName','@item.ImageName','@item.BrandCode');"
                                                            title="View">
@@ -462,8 +457,7 @@
                                                     <td>@item.Type</td>
                                                     <td>@item.SubType</td>
                                                     <td>@item.Sales</td>
-                                                    <td class="text-center">@item.ImageName</td>
-
+                                                  
                                                 </tr>
                                             }
                                         }

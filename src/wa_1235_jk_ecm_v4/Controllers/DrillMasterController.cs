@@ -216,7 +216,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
             return View(objList);
         }
 
-        public async Task<IActionResult> DrillAddStamp()
+        public async Task<IActionResult> DrillAddStamp( int RequestNo)
         {
             ViewBag.JWTToken = JwtToken;
             ViewBag.ApiUrl = appSettings?.API_blob_1231;
@@ -231,6 +231,27 @@ namespace wa_1235_jk_ecm_v4.Controllers
            
             string apiEndPoint4 = "Masters/GetBrandList";
             objList.Brand_List = JsonSerializer.Deserialize<Brand[]>(await _iGenericMethods.GetDataEcm(apiEndPoint4));
+            ViewBag.RequestNo=RequestNo;
+            
+            if (RequestNo !=0)
+            {
+                string apiEndPoints = "DrillMaster/CT_GetStampDetailsList";
+                var data = JsonSerializer.Deserialize<CTStampDetails[]>(await _iGenericMethods.GetDataEcm(apiEndPoints));
+
+                objList.CTStampDetails = data
+                    .Where(x => x.RequestNo == RequestNo)
+                    .ToArray();
+
+                ViewBag.ProductLineId=objList.CTStampDetails[0].ProductLineRowId;
+                ViewBag.BrandId=objList.CTStampDetails[0].BrandCode;
+                ViewBag.TypeID=objList.CTStampDetails[0].TypeID;
+                ViewBag.SizeRowId=objList.CTStampDetails[0].SizeRowId;
+                ViewBag.SubTypeRowId=objList.CTStampDetails[0].SubTypeRowId;
+                ViewBag.Sales=objList.CTStampDetails[0].Sales;
+                ViewBag.ImageName=objList.CTStampDetails[0].ImageName;
+
+
+            }
 
             return View(objList);
         }
