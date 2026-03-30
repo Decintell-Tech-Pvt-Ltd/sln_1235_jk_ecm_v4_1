@@ -73,6 +73,15 @@ namespace wa_1235_jk_ecm_v4.Controllers
             return View(objList);
            
         }
+        [HttpPost]
+        public async Task<IActionResult> GetDroFileSizeList(string JsonData)
+        {
+            DrillMaster objList = new DrillMaster();
+            string apiEndPoint = "DrillMaster/GetDroFileSizeList";
+            objList.DrillFileSize = JsonSerializer.Deserialize<DrillFileSize[]>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            return Json(new { response = objList.DrillFileSize });
+        }
+        
         public async Task<IActionResult> DrillAddSize()
         {
             DrillMaster objList = new DrillMaster();

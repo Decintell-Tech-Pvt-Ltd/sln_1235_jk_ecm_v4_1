@@ -805,7 +805,7 @@ function SaveNewProduct() {
     }
 }
 	function SaveNewProduct_WithoutHandle() {
-				var ProductLine= $("#ddlproductline").val();
+		var ProductLine= $("#ddlproductline").val();
 		var Customerid = $("#dllCustomer").val();
 		var Brandid = $("#dllBrand").val();
 		var CountryName = $("#dllCountryName").val();
@@ -885,7 +885,7 @@ function SaveNewProduct() {
 		var JsonData = {
 			TxnRequestId: RequestNumber,
 			SetSKU: "",
-				ProductLine:ProductLine,
+			ProductLine:ProductLine,
 			RequestStartDate: RequestStartDate,
 			RequestEndDate: RequestEndDate,
 			ProdSKUs: ProdSKU,
@@ -919,16 +919,27 @@ function SaveNewProduct() {
 				var modulePageID = encodeURIComponent('@Context.Request.Query["ModulePageID"]');
 				var Status = encodeURIComponent('@Context.Request.Query["Status"]');
 						var ProductLine= $("#ddlproductline").val();
-				alert("Request S-" + intValue + " created successfully");
-
-				var redirectUrl = '@Url.Action("PackingMaterialDetails", "ItemMaster")' +
-					'?PageID=' + pageID +
-					'&ParentID=' + parentID +
-					'&ModuleID=' + moduleID +
-					'&ModulePageID=' + modulePageID +
-					'&IsSet=1&Mode=Edit&ReqValue=' + intValue +
-					'&Status=' + Status+
-								'&ProductLine=' + ProductLine;
+							var redirectUrl = '';
+				// alert("Request S-" + intValue + " created successfully");
+					if (iOperationalFlag === 1) {
+						alert("Request S-" + intValue + " created successfully");
+						redirectUrl = '@Url.Action("PackingMaterialDetails", "ItemMaster")' +
+							'?PageID=' + pageID + '&ParentID=' + parentID + '&ModuleID=' + moduleID +
+											'&ModulePageID=' + modulePageID + '&IsSet=1&Mode=Edit&ReqValue=' + intValue+'&Status=' + Status +'&ProductLine=' + ProductLine;
+					} else {
+						alert("Set Request updated successfully");
+							redirectUrl = '@Url.Action("PackingMaterialDetails", "ItemMaster")' +
+							'?PageID=' + pageID + '&ParentID=' + parentID + '&ModuleID=' + moduleID +
+												'&ModulePageID=' + modulePageID + '&ReqValue=' + intValue + '&Mode=Edit&Status=' + Status +'&ProductLine=' + ProductLine;
+					}
+				// var redirectUrl = '@Url.Action("PackingMaterialDetails", "ItemMaster")' +
+				// 	'?PageID=' + pageID +
+				// 	'&ParentID=' + parentID +
+				// 	'&ModuleID=' + moduleID +
+				// 	'&ModulePageID=' + modulePageID +
+				// 	'&IsSet=1&Mode=Edit&ReqValue=' + intValue +
+				// 	'&Status=' + Status+
+				// 				'&ProductLine=' + ProductLine;
 
 				window.location.href = redirectUrl;
 			},
@@ -1035,7 +1046,7 @@ function SaveNewProduct() {
 		var JsonData = {
 			TxnRequestId: RequestNumber,
 			SetSKU: "",
-				ProductLine:productLine,
+			ProductLine:productLine,
 			RequestStartDate: RequestStartDate,
 			RequestEndDate: RequestEndDate,
 			ProdSKUs: ProdSKU,

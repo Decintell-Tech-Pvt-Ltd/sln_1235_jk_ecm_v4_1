@@ -116,6 +116,7 @@
                                         <select id="ddlSize" class="form-control select2" >
                                             <option value="">Select</option>
                                         </select>
+                                        <span id="spSize" class="text-danger"></span>
                                     </div>
 
 
@@ -133,7 +134,7 @@
                                     <div class="form-group col-md-2">
                                         <label>Code </label>
                                         <input id="txtSubTypeCode" maxlength="50" name="" type="text" class="form-control" />
-                                        <span id="sptxtCustomer" class="text-danger"></span>
+                                        <span id="spSuttypecode" class="text-danger"></span>
                                     </div>
 
 
@@ -175,6 +176,7 @@
                                     </div>
 
                                 </div>
+                                 <span id="spTxtdownloadCSV" class="text-danger"></span>
                                 <input type="hidden" id="hdnSizeId">
 
 
@@ -450,7 +452,15 @@
            function convertJSONToCSV() {
             var FileTypeId = $('#ddlFileTypeCVS').val();
             var FileTypeName = $('#ddlFileTypeCVS option:selected').text().trim(); // Get text for filename
+             var ValidationFlag = false;
 
+        // ===== VALIDATION =====
+
+        if (!FileTypeId || FileTypeId === "Select") {
+            $("#spTxtdownloadCSV").text("Please select the csv to Download");
+            ValidationFlag = true;
+        }
+          if (ValidationFlag) return;
             var JsonData = JSON.stringify({
                 ID: FileTypeId
             });
@@ -612,7 +622,39 @@
             });
         }
            function SaveSizeData() {
+                       let ProductLineRowId = $("#ddlproductline").val();
+        let CTTypeRowId = $("#TxtFileType").val();
+        
+        let SizeDetailsRowId = $("#ddlSize").val();
+        let SubTypeName = $("#txtCustomer").val().trim();
+        let SubTypeCode = $("#txtSubTypeCode").val().trim();
+        let fileInput = document.getElementById("FileUploadCSV");
+           let TxnId = parseInt($("#hdnSizeId").val()) || 0;
+        let iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+               let isValid = true;
+                if (!ProductLineRowId || ProductLineRowId == "0") {
+                    $("#spddlproductline").text("Please select Product Line");
+                    isValid = false;
+                }
 
+                if (!CTTypeRowId || CTTypeRowId == "0") {
+                            $("#spTxtFileType").text("Please select Type");
+                    isValid = false;
+                    }
+                             if (!SizeDetailsRowId || SizeDetailsRowId == "0") {
+                        $("#spSize").text("Please select Product Line");
+                        isValid = false;
+                    }
+
+                            if (!SubTypeName || SubTypeName == "0") {
+                                    $("#sptxtCustomer").text("Please select Type");
+                        isValid = false;
+                    }
+                                      if (!SubTypeCode || SubTypeCode == "0") {
+                                        $("#spSuttypecode").text("Please select Type");
+                            isValid = false;
+                        }
+                      if (!isValid) return;
         // success message
         alert("Sub Type details saved successfully");
               var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
@@ -686,7 +728,30 @@
     let fileInput = document.getElementById("FileUploadCSV");
        let TxnId = parseInt($("#hdnSizeId").val()) || 0;
     let iLoggedInUserID = parseInt('@Context.Session.GetInt32("CreatedBy")');
+           let isValid = true;
+            if (!ProductLineRowId || ProductLineRowId == "0") {
+                $("#spddlproductline").text("Please select Product Line");
+                isValid = false;
+            }
 
+            if (!CTTypeRowId || CTTypeRowId == "0") {
+                        $("#spTxtFileType").text("Please select Type");
+                isValid = false;
+                }  
+                         if (!SizeDetailsRowId || SizeDetailsRowId == "0") {
+                    $("#spSize").text("Please select Product Line");
+                    isValid = false;
+                }
+
+                        if (!SubTypeName || SubTypeName == "0") {
+                                $("#sptxtCustomer").text("Please select Type");
+                    isValid = false;
+                }
+                                  if (!SubTypeCode || SubTypeCode == "0") {
+                                    $("#spSuttypecode").text("Please select Type");
+                        isValid = false;
+                    }
+                  if (!isValid) return;
     if (!fileInput || fileInput.files.length === 0)
         return alert("Upload CSV file");
 
@@ -736,8 +801,8 @@
             url: '@Url.Action("AddSubType", "DrillMaster")',
             data: { JsonData: JSON.stringify(jsonData) },
             success: function (res) {
-                alert(res.response || "SubType inserted successfully");
-                location.reload();
+                alert(res.response);
+               
             },
             error: function () {
                 alert("Error while saving SubType.");
