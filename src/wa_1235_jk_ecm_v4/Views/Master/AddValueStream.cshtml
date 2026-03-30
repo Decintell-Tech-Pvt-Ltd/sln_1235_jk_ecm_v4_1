@@ -136,15 +136,30 @@
                                     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
                                        <thed>
 <tr>
-                                            <th style="width: 90%;"><strong>Operations</strong></th>
-                                          <th style="width: 90%;"><strong>Sequence</strong></th>
+                                            <th style="width:50%;"><strong>Operations</strong></th>
+                                          <th style="width: 90%;" class="text-center"><strong>Sequence</strong></th>
                                           
                                             <th style="width: 10%;">&nbsp;</th>
                                         </tr>
                                        </thed>
                                        <tbody  id="tblOperationBody">
-
-                                       </tbody>
+                                            @if(@ViewBag.valID != 0)
+                                            {
+                                              @foreach (var item in Model.valuestreams)
+                                                {
+                                                    <tr>
+                                                <td><div align="left">@item.opr_operation_name</div></td>
+                                                <td><div align="center">@item.vso_operation_seq</div></td>
+                                                 <td class="text-center">
+                                                        <a class="btn btn-danger btn-xs deleteRow" title="Delete">
+                                                            Delete
+                                                        </a>
+                                                    </td>
+                                                    </tr>
+                                                   
+                                                }
+                                            }
+                                                </tbody>
                                         
                                         
                                     </table>
@@ -362,10 +377,10 @@ $(document).on("click", "#AddValuesteam", function (e) {
 
         var row = "<tr>" +
             "<td>" + operationName + "</td>" +
-            "<td>" + sequence + "</td>" +
+            "<td class='text-center'>" + sequence + "</td>" +
             "<td>" +
             "<div align='center'>" +
-            "<a href='#' style='width:60px;' class='btn btn-block bg-gradient-danger btn-xs deleteRow'>Delete</a>" +
+            "<a href='#' class='btn btn-danger btn-xs deleteRow'>Delete</a>" +
             "</div>" +
             "</td>" +
             "</tr>";
@@ -431,6 +446,7 @@ $('#btnSave').click(function () {
     });
 
     var data = {
+        valID:@ViewBag.valID,
         ProductLine: productLine,
         ValueStreamCode: valueCode,
         ValueStreamName: valueName,
