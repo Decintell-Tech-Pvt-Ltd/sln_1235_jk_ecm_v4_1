@@ -287,6 +287,7 @@
                                             <th width="13%"><div align="left">Product Line</div></th>
                                              <th width="15%"><div align="left">Type</div></th>
                                               <th width="15%"><div align="left">Size</div></th>
+                                              <th width="15%"><div align="left">UOM</div></th>
                                            @*        <th width="15%"><div align="left">Key Parameter</div></th>
                                                     <th width="15%"><div align="left">Key Parameter Code</div></th>
                                             <th width="13%"><div align="center">Key Parameter Type</div></th> *@
@@ -309,8 +310,10 @@
                                                 @item.Id
                                             </a> </div></td>
                                     <td><div align="left">@item.ProductLine</div></td>
-                                    <td><div align="center"><a href="#" onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.ProductLineRowId','@item.CTTypeRowId');">@item.CTTypeName</a></div></td>
+                                    <td><div align="left"><a href="#" onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.ProductLineRowId','@item.CTTypeRowId');">@item.CTTypeName</a></div></td>
                                     <td><div align="center">@item.CTSize
+                                       </div>  </td>
+                                         <td><div align="left">@item.SizeUOM
                                        </div>  </td>
                                @*        <a href="#" title="View" data-toggle="modal"
 onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.ProductLineRowId','@item.CTTypeRowId','@item.Remarks');">
@@ -365,6 +368,7 @@ onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.
                                             <th width="13%"><div align="left">Product Line</div></th>
                                              <th width="15%"><div align="left">Type</div></th>
                                                   <th width="15%"><div align="left">Size</div></th>
+                                                          <th width="15%"><div align="left">UOM</div></th>
                                               @*       <th width="15%"><div align="left">Key Parameter Code</div></th>
                                             <th width="13%"><div align="center">Key Parameter Type</div></th> *@
                                          
@@ -383,8 +387,10 @@ onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.
                                         </div>
                                     </td>
                                      <td><div align="left">@item.ProductLine</div></td>
-                                    <td><div align="center"><a href="#" data-toggle="modal" onclick="ModelKeyParameters('@item.Id','@item.ProductLine','@item.CTTypeName','@item.ProductLineRowId','@item.CTTypeRowId');">@item.CTTypeName</a></div></td>
-                                    <td><div align="left">@item.CTSize</div></td>
+                                    <td><div align="left"><a href="#" data-toggle="modal" onclick="ModelKeyParameters('@item.Id','@item.ProductLine','@item.CTTypeName','@item.ProductLineRowId','@item.CTTypeRowId');">@item.CTTypeName</a></div></td>
+                                    <td><div align="center">@item.CTSize</div></td>
+                                         <td><div align="left">@item.SizeUOM
+                                       </div>  </td>
 @*                                     <td><div align="center"><a href="#" data-toggle="modal" onclick="ModelFileSize('@item.Id','@item.ProductLine','@item.CTTypeName','@item.ProductLineRowId','@item.CTTypeRowId');">@item.CTSize &nbsp;</a></div></td>
  *@                                      @*<td><div align="left">@item.ParamCode</div></td>
                                    <td><div align="left">@item.CTTypeName</div></td> *@
@@ -426,6 +432,7 @@ onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.
                                             <th width="13%"><div align="left">Product Line</div></th>
                                              <th width="15%"><div align="left">Type</div></th>
                                                      <th width="15%"><div align="left">Size</div></th>
+                                                        <th width="15%"><div align="left">UOM</div></th>
                                       @*             <th width="15%"><div align="left">Key Parameter</div></th>
                                                     <th width="15%"><div align="left">Key Parameter Code</div></th>
                                             <th width="13%"><div align="center">Key Parameter Type</div></th> *@
@@ -438,11 +445,13 @@ onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.
                                 <tr>
                                     <td><div align="center">@item.Id</div></td>
                                     <td><div align="left">@item.ProductLine</div></td>
-                                    <td><div align="center"><a href="#" title="View" data-toggle="modal"
+                                    <td><div align="left"><a href="#" title="View" data-toggle="modal"
                                     onclick="ModelFileType('@item.Id','@item.ProductLine','@item.CTTypeName','@item.ProductLineRowId','@item.CTTypeRowId','@item.Remarks');">@item.CTTypeName</a></div></td>
                                   <td><div align="center"> 
                                         @item.CTSize
                                     &nbsp;</div></td>
+                                        <td><div align="left">@item.SizeUOM
+                                       </div>  </td>
                                      @*  <td><div align="left">@item.ParamCode</div></td>
                                     <td><div align="left">@item.CTTypeName</div></td> *@
                                 </tr>

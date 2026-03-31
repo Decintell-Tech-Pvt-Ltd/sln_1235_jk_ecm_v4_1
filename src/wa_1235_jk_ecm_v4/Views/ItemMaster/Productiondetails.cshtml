@@ -525,6 +525,7 @@
 															@if (Model.FileTypeCodeList != null)
 															{
 																foreach (var item in Model.FileTypeCodeList)
+																	
 																{
 																	if (Model.ProductionDetails_List != null && item.FileType == Model.ProductionDetails_List.TypeCodesRowId)
 																	{
@@ -534,6 +535,14 @@
 																	{
 																		<option value="@item.FileType">@item.CTTypeName</option>
 																	}
+																	@* if (Model.ProductionDetails_List != null && item.FileType == Model.ProductionDetails_List.TypeCodesRowId)
+																	{
+																		<option selected="selected" value="@item.FileType">@item.CTTypeName</option>
+																	}
+																	else
+																	{
+																		<option value="@item.FileType">@item.CTTypeName</option>
+																	} *@
 																}
 															}
 
@@ -723,8 +732,8 @@
 	var productLineId =
 		$('#ddlproductline option:selected').data('id');
 				// Reset Type dropdown
-				$('#TxtFileType').empty();
-				$('#TxtFileType').append('<option value="">Select</option>');
+				$('#ddlType').empty();
+				$('#ddlType').append('<option value="">Select</option>');
 
 				if (!productLineId || productLineId === "0") {
 					return;
