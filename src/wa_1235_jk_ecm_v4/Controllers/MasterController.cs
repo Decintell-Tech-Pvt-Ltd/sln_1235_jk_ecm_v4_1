@@ -401,6 +401,40 @@ namespace wa_1235_jk_ecm_v4.Controllers
         }
 
 
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteFileParameter(string JsonData)
+        {
+            string apiEndPoint = "Masters/DeleteFileParameter";
+
+
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DeleteFileProcess(string JsonData)
+        {
+            string apiEndPoint = "Masters/DeleteFileProcess";
+
+
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
+        }
+
+
+
+
         [HttpPost]
         public async Task<ActionResult> DeleteOpration(string JsonData)
         {
@@ -2924,7 +2958,7 @@ namespace wa_1235_jk_ecm_v4.Controllers
         [HttpPost]
         public async Task<ActionResult> DeleteParameter(string JsonData)
         {
-            string apiEndPoint = "Masters/DeleteParameter";
+            string apiEndPoint = "Masters/DeleteFileParameter";
 
 
             var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));

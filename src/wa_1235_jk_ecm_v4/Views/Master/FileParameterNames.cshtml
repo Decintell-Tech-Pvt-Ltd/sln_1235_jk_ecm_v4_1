@@ -22,8 +22,8 @@
                         <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
                         <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
                         <li class="breadcrumb-item active">Master</li>
-                        <li class="breadcrumb-item">Files</li>
-                        <li class="breadcrumb-item">Parameter Names</li>
+                        <li class="breadcrumb-item active">Files</li>
+                        <li class="breadcrumb-item active">Parameter Names</li>
                     </ol>
                 </div>
             </div>
@@ -73,6 +73,9 @@
                                                 <th width="15%">
                                                     <div align="center">Input Type</div>
                                                 </th>
+                                                <th width="2%">
+                                                    <div align="center">Delete</div>
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -91,7 +94,11 @@
                                                             <td class="text-center">@item.ParamCode</td>
                                                         <td class="text-center">@item.ParamUoM</td>
                                                         <td class="text-center">@item.ParamInputType</td>
-
+                                                        <td class="text-center">
+                                                            <a class="btn btn-danger btn-xs" title="Delete" onclick="DeleteParameter(@item.Id)">
+                                                                Delete
+                                                            </a>
+                                                        </td>
                                                     </tr>
                                                     
                                                 }
@@ -122,3 +129,35 @@
  
    
 </div>
+<script>
+      function DeleteParameter(Id) {
+
+        if (confirm("Are you sure you want to delete this record?")) {
+
+            let json = {
+                ParameterID: Id
+            };
+
+            var JsonData = JSON.stringify(json);
+
+            $.ajax({
+                url: '@Url.Action("DeleteParameter", "Master")',
+                type: 'POST',
+                data: { JsonData: JsonData },
+
+                success: function (response) {
+
+                         alert(response.response);
+                        location.reload();
+
+
+                },
+                error: function () {
+                    alert("Error occurred while deleting");
+                }
+            });
+
+        }
+    }
+
+</script>
