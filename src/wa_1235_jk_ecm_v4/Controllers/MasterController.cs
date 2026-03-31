@@ -67,9 +67,54 @@ namespace wa_1235_jk_ecm_v4.Controllers
         public async Task<IActionResult> FileProcessNames()
         {
             Master objList = new Master();
-            string apiEndPoint = "Masters/GetFileProcess";
-            objList.ProcessNamesData = JsonSerializer.Deserialize<ProcessNames[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            string apiEndPoint = "Masters/GetFileTypeProcess";
+            objList.FileTypeProcess_List = JsonSerializer.Deserialize<FileTypeProcess[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
             return View(objList);
+        }
+        public async Task<IActionResult> FileParameterNames()
+        {
+            Master objList = new Master();
+            string apiEndPoint = "Masters/GetFileTypeParameters";
+            objList.FileParemeter_List = JsonSerializer.Deserialize<FileParemeter[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            return View(objList);
+        }
+
+        public async Task<IActionResult> AddFileParameterNames()
+        {
+            Master objList = new Master();
+            string apiEndPoint = "Masters/GetFileTypeProcess";
+            objList.FileTypeProcess_List = JsonSerializer.Deserialize<FileTypeProcess[]>(await _iGenericMethods.GetDataEcm(apiEndPoint));
+            return View(objList);
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult> FileProcessAdd(string JsonData)
+        {
+            string apiEndPoint = "Masters/FileProcessAdd";
+
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> FileParameterAdd(string JsonData)
+        {
+            string apiEndPoint = "Masters/FileParameterAdd";
+
+
+            var updateResponses = JsonSerializer.Deserialize<List<UpdateResponse>>(await _iGenericMethods.PostDataEcm(apiEndPoint, JsonData));
+            string resultMessage = "";
+            if (updateResponses != null && updateResponses.Count > 0)
+            {
+                resultMessage = updateResponses[0].Result;
+            }
+            return Json(new { response = resultMessage });
         }
 
         public async Task<IActionResult> CTProcessNames()

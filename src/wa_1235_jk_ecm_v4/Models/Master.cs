@@ -41,6 +41,9 @@ namespace wa_1235_jk_ecm_v4.Models
         public EditHandle_List[] EditHandleList { get; set; }
         public OperationList[] OperationList { get; set; }
         public FileParemeter[] FileParemeter_List { get; set; }
+        public FileTypeProcess[] FileTypeProcess_List { get; set; }
+
+        
         public Parameters[] Parameters_LIst { get; set; }
         public Customer[] CustomerList { get; set; }
         public mstoperation[] mstoperations { get; set; }
@@ -329,10 +332,10 @@ namespace wa_1235_jk_ecm_v4.Models
             public string Status { get; set; }
 
             public int vso_operation_seq { get; set; }
-                public string opr_operation_name { get; set; }
+            public string opr_operation_name { get; set; }
             public string Val_vs_ProductLine { get; set; }
 
-            
+
         }
 
 
@@ -768,10 +771,7 @@ namespace wa_1235_jk_ecm_v4.Models
     //    public string Remark { get; set; }
     //}
 
-    public class FileParemeter
-    {
-        public object FileTypeJobj { get; set; }
-    }
+
 
     public class SubmittedRequestList
     {
@@ -790,6 +790,32 @@ namespace wa_1235_jk_ecm_v4.Models
     }
 
 
+
+    public class FileParemeter
+    {
+        public int Id { get; set; }
+        public int? ParamCatSeq { get; set; }
+        public string ParamCatName { get; set; }
+        public string ParamName { get; set; }
+        public string ParamCode { get; set; }
+        public string ParamUoM { get; set; }
+        public int? ParamInputType { get; set; }
+        public object ProcessName { get; set; }
+        public bool IsActive { get; set; }
+        public object FileTypeJobj { get; set; }
+
+    }
+
+
+   
+    public class FileTypeProcess
+    {
+        public int Id { get; set; }
+        public int ParamCatSeq { get; set; }
+        public string ParamCatName { get; set; }
+        public string ProductLine { get; set; }
+        public bool IsActive { get; set; }
+    }
 
 
 }

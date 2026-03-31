@@ -15,15 +15,15 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-3">
-                    <h5>Process Names</h5>
+                    <h5>Parameter Names</h5>
                 </div>
                 <div class="col-lg-9">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#" onclick="UserDetailChange('Index')">Home</a></li>
                         <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">ECM</a></li>
-                         <li class="breadcrumb-item active">Master</li>
+                        <li class="breadcrumb-item active">Master</li>
                         <li class="breadcrumb-item">Files</li>
-                        <li class="breadcrumb-item">Process Names</li>
+                        <li class="breadcrumb-item">Parameter Names</li>
                     </ol>
                 </div>
             </div>
@@ -40,7 +40,7 @@
                     </div>
                     <div class="btnwidth50 float-right mr-1">
                         <a class="btn btn-block bg-gradient-primary btn-xs float-left"
-                           href="@Url.Action("FileAddProcessNames", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })"
+                           href="@Url.Action("AddFileParameterNames", "Master", new { PageID = Context.Request.Query["PageID"].ToString(), ParentID = Context.Request.Query["ParentID"].ToString(), ModuleID = Context.Request.Query["ModuleID"].ToString(), ModulePageID = Context.Request.Query["ModulePageID"].ToString() })"
                            title="Add new record">
                             Add
                         </a>
@@ -50,7 +50,6 @@
         </div><!-- /.container-fluid -->
 
     </section>
-
     <section class="content">
 
         <div class="container-fluid">
@@ -67,42 +66,37 @@
                                     <table class="table table-bordered example1">
                                         <thead>
                                             <tr>
-                                                <th width="30%"><div align="left">Product Line​</div></th>
-                                                <th width="20%"><div align="center">Sequence</div></th>
-                                                <th width="40%"><div align="left">Process Name</div></th>
+                                                <th width="25%"><div align="left">Process Name</div></th>
+                                                <th width="25%"><div align="left">Parameter Name</div></th>
+                                                <th width="15%"><div align="center">Parameter Code</div></th>
+                                                <th width="15%"><div align="center">UOM</div></th>
+                                                <th width="15%">
+                                                    <div align="center">Input Type</div>
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            
-                                            @if (Model.FileTypeProcess_List != null)
+                                            @if (Model.FileParemeter_List != null)
                                             {
-                                                @foreach (var item in Model.FileTypeProcess_List)
+                                                foreach (var item in Model.FileParemeter_List)
                                                 {
-                                                    <tr>
-
-                                                        <td>@item.ProductLine</td>
-                                                        <td style="text-align:center;">
-
-                                                            @item.ParamCatSeq
-
-                                                        </td>
-
-                                                        <td style="white-space: normal;">
-
-                                                            @item.ParamCatName
-
-                                                        </td>
-
+                                                    
+                                                        <tr>
+                                                        <td class="text-center"><a href="#" title="Edit" onclick="EditFileType('@item.Id');">@item.ParamCatName</a></td>
+                                                            <td>
+                                                                <a href="#">
+                                                                    @item.ParamName
+                                                                </a>
+                                                            </td>
+                                                            <td class="text-center">@item.ParamCode</td>
+                                                        <td class="text-center">@item.ParamUoM</td>
+                                                        <td class="text-center">@item.ParamInputType</td>
 
                                                     </tr>
-
-
+                                                    
                                                 }
-
                                             }
-                                            </tbody>
-
-                                       
+                                        </tbody>
                                         
                                     </table>
                                 </div>
@@ -125,6 +119,6 @@
 
     </section>
 
-
-    <!-- InstanceEndEditable -->
+ 
+   
 </div>

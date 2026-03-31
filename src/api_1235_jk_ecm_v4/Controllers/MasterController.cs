@@ -2208,6 +2208,82 @@ namespace api_1235_jk_ecm_v4.Controllers
 
         }
 
+        [HttpGet]
+        [Route("GetFileTypeParameters")]
+        public async Task<IActionResult> GetFileTypeParameters()
+        {
+            string spName = "usp_GetFileTypeParameters";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+
+
+        [HttpGet]
+        [Route("GetFileTypeProcess")]
+        public async Task<IActionResult> GetFileTypeProcess()
+        {
+            string spName = "usp_GetFileTypeProcess";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+        [HttpPost]
+        [Route("FileParameterAdd")]
+        public async Task<IActionResult> FileParameterAdd()
+        {
+            string spName = "usp_InsertFileTypeParameter";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
+
+
+        [HttpPost]
+        [Route("FileProcessAdd")]
+        public async Task<IActionResult> FileProcessAdd()
+        {
+            string spName = "usp_InsertFileTypeProcess";
+            string strJsonRequest = await new StreamReader(Request.Body).ReadToEndAsync();
+            string jsonResult;
+            if (string.IsNullOrEmpty(strJsonRequest))
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName);
+            }
+            else
+            {
+                jsonResult = await dbManager.JsonDataFromSqlAsync(ConnStr, spName, strJsonRequest);
+            }
+            return Content(jsonResult, Application.Json, Encoding.UTF8);
+
+        }
 
     }
 
