@@ -326,6 +326,8 @@ namespace wa_1235_jk_ecm_v4.Models
         public string CustomerPartNumber { get; set; }
         public string Sales { get; set; }
         public string FileSizeCode { get; set; }
+        public string FileSizeCode1 { get; set; }
+        
         public int FileType { get; set; }
         public int FileSubType { get; set; }
         public int CutType { get; set; }

@@ -360,13 +360,13 @@
 
 															@foreach (var item in Model.FileSizes_List)
 															{
-																@if (Model.ProductionDetails_List != null && item.FileSizeCode == Model.ProductionDetails_List.FileSizeCode)
+																@if (Model.ProductionDetails_List != null && item.FileSizeCode == Model.ProductionDetails_List.FileSizeCode1)
 																{
-																	<option selected="selected" value="@item.FileSizeCode">@item.FileSizeInch1</option>
+																	<option selected="selected" value="@item.FileSizeCode">@item.FileSizeInch</option>
 																}
 																else
 																{
-																	<option value="@item.FileSizeCode">@item.FileSizeInch1</option>
+																	<option value="@item.FileSizeCode">@item.FileSizeInch</option>
 																}
 															}
 														</select>

@@ -881,11 +881,11 @@
                 $('#loader').hide();
             },
 
-           success: function (res) {
+            success: function (res) {
 
         let table = $('#tblSubTypeData');
 
-        // ✅ Destroy existing DataTable
+        // Destroy existing DataTable
         if ($.fn.DataTable.isDataTable(table)) {
             table.DataTable().clear().destroy();
         }
@@ -893,43 +893,27 @@
         let tbody = $("#tblSubTypeData tbody");
         tbody.empty();
 
-        // ✅ No data case
-        if (!res || !res.response || res.response.length === 0) {
+        // Bind data only if exists
+        if (res && res.response && res.response.length > 0) {
 
-            tbody.append(`
-                <tr>
-                    <td colspan="6" style="text-align:center;">
-                        No Data Found
-                    </td>
-                </tr>
-            `);
+            $.each(res.response, function (index, item) {
 
-            // ⚠️ Still initialize DataTable (optional)
-            table.DataTable({
-                paging: true,
-                searching: false,
-                info: false
+                tbody.append(`
+                    <tr>
+                        <td style="text-align:center;">${item.sqNo}</td>
+                        <td>${item.processName}</td>
+                        <td>${item.parameterName}</td>
+                        <td style="text-align:center;">${item.value ?? ''}</td>
+                        <td style="text-align:center;">${item.uom ?? ''}</td>
+                        <td style="text-align:center;">${item.tolerance ?? ''}</td>
+                    </tr>
+                `);
+
             });
 
-            return;
         }
 
-        // ✅ Bind data
-        $.each(res.response, function (index, item) {
-
-            tbody.append(`
-                <tr>
-                    <td style="text-align:center;">${item.sqNo}</td>
-                    <td>${item.processName}</td>
-                    <td>${item.parameterName}</td>
-                    <td style="text-align:center;">${item.value ?? ''}</td>
-                    <td style="text-align:center;">${item.uom ?? ''}</td>
-                    <td style="text-align:center;">${item.tolerance ?? ''}</td>
-                </tr>
-            `);
-        });
-
-        // ✅ Initialize DataTable AFTER data load
+        // Initialize DataTable once
         table.DataTable({
             responsive: true,
             paging: true,
@@ -940,12 +924,15 @@
             info: true,
             autoWidth: false,
 
+            language: {
+                emptyTable: "No Data Found"
+            },
+
             columnDefs: [
                 { className: "dt-center", targets: [0, 3, 4, 5] }
             ]
         });
 
-        // ✅ Your existing function
         loadCTSizeDropdown();
     }
             });

@@ -286,9 +286,7 @@
 									@{
 										var productLine1 = Context.Request.Query["ProductLine"].ToString();
 									}
-@* 
-									@if (string.IsNullOrEmpty(productLine1) || productLine1 == "F")
-									{ *@
+
 										<div class="form-group col-md-3">
 											<label>Stamp Process</label>
 											<select class="form-control select2" id="dllStampProcessId">
@@ -327,8 +325,20 @@
 											}
 											</select>
 										</div>
-										
-									@* } *@
+
+									<div class="form-group col-md-11">
+										<div class="row">
+											@if (Model.StampMasterDispatchDetails != null)
+											{
+												<label>&nbsp; &nbsp;Stamp Brand:</label>
+												@(Model.StampMasterDispatchDetails?.BrandName ?? "")
+
+												<label>&nbsp; &nbsp;  Stamp Chart No:</label>
+											
+												<a href="#" data-toggle="modal" data-target="#view" onclick="OpenDocument('@Model.StampMasterDispatchDetails.BrandCode','@Model.StampMasterDispatchDetails.StampChartImage','@Model.StampMasterDispatchDetails.ChartNo')"> @(Model.StampMasterDispatchDetails?.ChartNo ?? "")</a>
+											}
+										</div>
+									</div>
 
 									@if (!string.IsNullOrEmpty(productLine1) && productLine1 != "F")
 									{
@@ -408,17 +418,27 @@
 															{
 																<tr>
 																	<td class="text-center">
+																		@{
+																			bool isChecked =
+																			Model.StampMasterDispatchDetails != null &&
+																			Model.StampMasterDispatchDetails.BrandId == item.BrandId &&
+																			Model.StampMasterDispatchDetails.StampChartImage == item.StampChartImage;
+																		}
+
 																		<div class="custom-control custom-radio">
 																			<input class="custom-control-input"
 																				   type="radio"
 																				   id="customRadio_@item.ChartNo"
 																				   value="@item.BrandId"
-																				        data-brandid="@item.BrandCode"
-																				   name="radioGroup">
-																			<label for="customRadio_@item.ChartNo" class="custom-control-label"></label>
-																		</div>
-																	</td>
+																				   data-brandid="@item.BrandId"
+																				   data-chartno="@item.ChartNo"
+																				   data-image="@item.StampChartImage"
+																				   name="radioGroup"
+																				   @(isChecked ? "checked" : "")>
 
+																			<label for="customRadio_@item.ChartNo"
+																				   class="custom-control-label"></label>
+																		</div>
 																	<td>@item.BrandName</td>
 
 																	<td class="text-center">
@@ -517,14 +537,30 @@
 				var row = checkedRadio.closest('tr');
 
 				// ✅ FILE TABLE
-				if ($("#fileDiv").is(":visible")) {
+				// if ($("#fileDiv").is(":visible")) {
 
-					ChartNo = row.querySelector('td:nth-child(4)').textContent.trim();
-					Brand = parseInt(row.querySelector('td:nth-child(5)').textContent.trim());
-					StampChartImage = row.querySelector('td:nth-child(6)').textContent.trim();
+				// 	ChartNo = row.querySelector('td:nth-child(4)').textContent.trim();
+				// 	Brand = parseInt(row.querySelector('td:nth-child(5)').textContent.trim());
+				// 	StampChartImage = row.querySelector('td:nth-child(6)').textContent.trim();
 
-				}
+				// }
+					if ($("#fileDiv").is(":visible")) {
 
+						// ChartNo = row.querySelector('td:nth-child(3)').textContent.trim();
+
+						// Brand = row.querySelector('td:nth-child(2)').textContent.trim();
+
+						// If image is not visible in table, get from radio data attribute
+						let radio = row.querySelector('input[type="radio"]');
+
+						
+						ChartNo = radio.getAttribute("data-chartno");
+
+						Brand = radio.getAttribute("data-brandid");
+
+						StampChartImage = radio.getAttribute("data-image");
+
+					}
 				// ✅ NON FILE TABLE
 				if ($("#nonfileDiv").is(":visible")) {
 
@@ -648,7 +684,7 @@
 		}
 		else {
 
-			alert("Please select a row.");
+			alert("Please select a radio option or choose 'No Stamping'.");
 
 		}
 	}
