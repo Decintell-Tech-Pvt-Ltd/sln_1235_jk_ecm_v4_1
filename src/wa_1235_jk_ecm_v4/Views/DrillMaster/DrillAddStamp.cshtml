@@ -446,7 +446,7 @@
             },
 
             success: async function (data) {
-                    alert(data.response);
+                  
                 if (data && (data.response === "Stamp details inserted successfully"
                     || data.response === "Stamp details updated successfully")) {
 
@@ -459,8 +459,9 @@
                         let targetPath = 'others\\ct\\stamps\\' + BrandCode.toLowerCase();
 
                         await copyFile(uploadedFile, targetPath, selectedImageName);
+                              await new Promise(resolve => setTimeout(resolve, 2000));
                     }
-
+                         alert(data.response);
 
                     var pageID = encodeURIComponent('@Context.Request.Query["PageID"]');
                     var parentID = encodeURIComponent('@Context.Request.Query["ParentID"]');

@@ -204,13 +204,13 @@ namespace wa_1235_jk_ecm_v4.Models
 
     public class Csvdata
     {
-        [JsonPropertyName("Sq. No.")]
+       
         public string SqNo { get; set; }
 
-        [JsonPropertyName("Process Name")]
+     
         public string ProcessName { get; set; }
 
-        [JsonPropertyName("Parameter Name")]
+
         public string ParameterName { get; set; }
         public string Value { get; set; }
         public string UOM { get; set; }
